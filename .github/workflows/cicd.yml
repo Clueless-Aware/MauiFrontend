@@ -47,3 +47,4 @@ jobs:
 
       - name: MauiCheck run
         run: maui-check --non-interactive --fix
+
