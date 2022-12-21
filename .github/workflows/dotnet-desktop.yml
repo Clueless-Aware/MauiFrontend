@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: bin/release/net7.0-windows10.0.19041.0/win10-x64
+          path: ProjectWork/bin/release/net7.0-windows10.0.19041.0/win10-x64 #path to release folder
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
   
       - name: Build aab
@@ -86,7 +86,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: android-bundle
-          path: bin/release/net7.0-android/*-Signed.*
+          path: ProjectWork/bin/release/net7.0-android/*-Signed.*
 
   build_blazor_hybrid_maccatalyst:
      name: build blazor hybrid (maccatalyst)
@@ -100,20 +100,20 @@ jobs:
      - name: Setup .NET
        uses: actions/setup-dotnet@v3
        with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
           
    
      - name: Restore workloads
-       run: dotnet workload restore test.csproj -p:BlazorMode=BlazorHybrid -f net7.0-maccatalyst
+       run: dotnet workload restore ProjectWork/ProjectWork.csproj -p:BlazorMode=BlazorHybrid -f net7.0-maccatalyst
    
      - name: Build (To generate CSS/JS files)
-       run: dotnet build test.csproj -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:CreatePackage=true -f net7.0-maccatalyst
+       run: dotnet build ProjectWork/ProjectWork.csproj -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:CreatePackage=true -f net7.0-maccatalyst
    
      - name: Build pkg
-       run: dotnet build test.csproj -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:CreatePackage=true -f net7.0-maccatalyst
+       run: dotnet build ProjectWork/ProjectWork.csproj -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:CreatePackage=true -f net7.0-maccatalyst
    
      - name: Upload artifact
        uses: actions/upload-artifact@v3
        with:
          name: mac-pkg-bundle
-         path: bin/release/net7.0-maccatalyst/*.pkg
+         path: ProjectWork/bin/release/net7.0-maccatalyst/*.pkg
