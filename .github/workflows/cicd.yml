@@ -1,0 +1,104 @@
+name: .Net Core Maui Build CD
+
+on: 
+  # push:
+  #   branches: ["master"]
+  pull_request:
+    branches: ["master"]
+env: 
+  # App_Packages_Archive: AppPackages.zip
+  # App_Packages_Directory: AppPackages
+  # SigningCertificate: GitHubActionsDemo.pfx
+  Solution_Path: test.csproj
+  DotNet_Version: net6.0
+  # Test_Project_Path: MyWpfApp.Tests\MyWpfApp.Tests.csproj
+  # Wpf_Project_Path: MyWpfApp\MyWpfApp.csproj
+  # Wap_Project_Directory: MyWpfApp.Package
+  # Wap_Project_Name: MyWpfApp.Package.wapproj
+  # Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
+
+
+jobs:
+    build_blazor_hybrid_maccatalyst:
+      name: build blazor hybrid (maccatalyst)
+      runs-on: macos-latest
+#   build_blazor_hybrid_windows:
+#     name: build blazor hybrid (Windows)
+#     runs-on: Windows-latest
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+    #.Net Core Workload
+      - name: Install .Net Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+    # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
+#       - name: Setup MSBuild.exe
+#         uses: microsoft/setup-msbuild@v1.1
+      #with:
+        #msbuild-architecture: x64
+
+
+    #Restore the application to populate the obj folder with RuntimeIdentifiers
+#       - name: Restore the application
+#         run: msbuild $env:Solution_Path /t:Restore 
+      - name: Restore workloads
+        run: dotnet workload restore test.csproj
+
+      - name: MauiCheck install
+        run: dotnet tool install -g Redth.Net.Maui.Check
+
+      - name: MauiCheck run
+        run: maui-check --non-interactive --fixname: .Net Core Maui Build CD
+
+on: 
+  # push:
+  #   branches: ["master"]
+  pull_request:
+    branches: ["master"]
+env: 
+  # App_Packages_Archive: AppPackages.zip
+  # App_Packages_Directory: AppPackages
+  # SigningCertificate: GitHubActionsDemo.pfx
+  Solution_Path: ProjectWork/ProjectWork.csproj
+  # Test_Project_Path: MyWpfApp.Tests\MyWpfApp.Tests.csproj
+  # Wpf_Project_Path: MyWpfApp\MyWpfApp.csproj
+  # Wap_Project_Directory: MyWpfApp.Package
+  # Wap_Project_Name: MyWpfApp.Package.wapproj
+  # Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
+
+
+jobs:
+  build_blazor_hybrid_windows:
+    name: build blazor hybrid (Windows)
+    runs-on: Windows-latest
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+    #.Net Core Workload
+      - name: Install .Net Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+    # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+        msbuild-architecture: x64
+
+
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Restore the application
+        run: msbuild $env:Solution_Path /t:Restore 
+
+      - name: MauiCheck install
+        run: dotnet tool install -g Redth.Net.Maui.Check
+
+      - name: MauiCheck run
+        run: maui-check --non-interactive --fix
+
