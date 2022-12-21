@@ -1,18 +1,20 @@
-name: Continuous Integration
-on:
-  push:
+name: Code format check
+on: 
   pull_request:
+  push:
 
+# This action only need a single permission in order to autoformat the code.
+permissions:
+  contents: read
+  
 jobs:
-  analysis:
-    name: Code format check
-    runs-on: Windows-latest
-    
+  autoformat-code:
+    name: code format check
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Run .NET Code Analysis
-        uses: dotnet/code-analysis@v1
-        id: code-analysis
-        with:
-          solution: MySolution.sln
-          build-breaking: true
-          all-categories: all
+    - name: 'Autoformat'
+      uses: rolfbjarne/autoformat@v0.2
+      with:
+        projects: "ProjectWork.sln"
+        onlyFilesModifiedInPullRequest: true
