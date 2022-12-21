@@ -1,115 +1,119 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+name: .Net Core Maui Build CD
 
-# This workflow will build, test, sign and package a WPF or Windows Forms desktop application
-# built on .NET Core.
-# To learn how to migrate your existing application to .NET Core,
-# refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
-#
-# To configure this workflow:
-#
-# 1. Configure environment variables
-# GitHub sets default environment variables for every workflow run.
-# Replace the variables relative to your project in the "env" section below.
-#
-# 2. Signing
-# Generate a signing certificate in the Windows Application
-# Packaging Project or add an existing signing certificate to the project.
-# Next, use PowerShell to encode the .pfx file using Base64 encoding
-# by running the following Powershell script to generate the output string:
-#
-# $pfx_cert = Get-Content '.\SigningCertificate.pfx' -Encoding Byte
-# [System.Convert]::ToBase64String($pfx_cert) | Out-File 'SigningCertificate_Encoded.txt'
-#
-# Open the output file, SigningCertificate_Encoded.txt, and copy the
-# string inside. Then, add the string to the repo as a GitHub secret
-# and name it "Base64_Encoded_Pfx."
-# For more information on how to configure your signing certificate for
-# this workflow, refer to https://github.com/microsoft/github-actions-for-desktop-apps#signing
-#
-# Finally, add the signing certificate password to the repo as a secret and name it "Pfx_Key".
-# See "Build the Windows Application Packaging project" below to see how the secret is used.
-#
-# For more information on GitHub Actions, refer to https://github.com/features/actions
-# For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
-# refer to https://github.com/microsoft/github-actions-for-desktop-apps
-
-name: .NET Core Desktop
-
-on:
-#  push:
-#    branches: [ "master" ]
+on: 
+  # push:
+  #   branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
+env: 
+  # App_Packages_Archive: AppPackages.zip
+  # App_Packages_Directory: AppPackages
+  # SigningCertificate: GitHubActionsDemo.pfx
+  Solution_Path: ProjectWork/ProjectWork.csproj
+  # Test_Project_Path: MyWpfApp.Tests\MyWpfApp.Tests.csproj
+  # Wpf_Project_Path: MyWpfApp\MyWpfApp.csproj
+  # Wap_Project_Directory: MyWpfApp.Package
+  # Wap_Project_Name: MyWpfApp.Package.wapproj
+  # Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
 
 jobs:
 
-  build:
+  build_blazor_hybrid_windows:
+    name: build blazor hybrid (Windows)
+    
+    runs-on: Windows-latest
 
-    strategy:
-      matrix:
-        configuration: [Release]
-
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-
-    env:
-      Solution_Name: ProjectWork/ProjectWork.csproj                         # Replace with your solution name, i.e. MyWpfApp.sln.
-#      Test_Project_Path: your-test-project-path                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-#      Wap_Project_Directory: your-wap-project-directory-name    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-#      Wap_Project_Path: your-wap-project-path                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      #.Net Core Workload
+      - name: Install .Net Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
 
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7.0.x
+      # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.1
+        #with:
+          #msbuild-architecture: x64
+        
+        
+      #Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Restore the application
+        run: msbuild $env:Solution_Path /t:Restore 
+        
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
+      
 
-    # Execute all unit tests in the solution
-#    - name: Execute unit tests
-#      run: dotnet test
+      
+      - name: Restore workloads
+        run: dotnet workload restore $env:Solution_Path -p:BlazorMode=BlazorHybrid -f net7.0-windows10.0.19041.0
+        
+      - name: Fix maui missing at list (maui packages)
+        run: dotnet workload install maui
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
+      - name: Extract Android signing key from env
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'myapp.keystore'
+          encodedString: ${{ secrets.ANDROID_RELEASE_KEYSTORE_FILE_BASE64 }}
 
-    # Decode the base 64 encoded pfx and save the Signing_Certificate
-#    - name: Decode the pfx
-#      run: |
-#        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-#        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
-#        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+      - name: Build (To generate CSS/JS files)
+        run: dotnet build $env:Solution_Path -p:BlazorMode=BlazorHybrid -p:Configuration=Release -f net7.0-windows10.0.19041.0
+    
+      #win64
+      - name: Build exe
+        run: dotnet build $env:Solution_Path -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:WindowsPackageType=None -p:SelfContained=true -p:WindowsAppSDKSelfContained=true -p:GenerateAppxPackageOnBuild=false -p:RuntimeIdentifier=win10-x64 -f net7.0-windows10.0.19041.0
+      
+        
+      - name: Upload artifact win64
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: bin/release/net7.0-windows10.0.19041.0/win10-x64
+          if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+  
+      - name: Build aab
+        run: dotnet build $env:Solution_Path -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:AndroidPackageFormat=aab -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="myapp.keystore" -p:AndroidSigningKeyAlias=mauikey -p:AndroidSigningKeyPass="${{ secrets.ANDROID_RELEASE_KEYSTORE_PASSWORD }}" -p:AndroidSigningStorePass="${{ secrets.ANDROID_RELEASE_SIGNING_PASSWORD }}" -f net7.0-android
+    
+      - name: Build apk
+        run: dotnet build $env:Solution_Path -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:AndroidKeyStore=true -p:AndroidSigningKeyStore="TodoTemplate.keystore" -p:AndroidSigningKeyAlias=TodoTemplate -p:AndroidSigningKeyPass="${{ secrets.ANDROID_RELEASE_KEYSTORE_PASSWORD }}" -p:AndroidSigningStorePass="${{ secrets.ANDROID_RELEASE_SIGNING_PASSWORD }}" -f net7.0-android
+    
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-bundle
+          path: bin/release/net7.0-android/*-Signed.*
 
-    # Create the app package by building and packaging the Windows Application Packaging project
- #   - name: Create the app package
- #     run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
- #     env:
- #       Appx_Bundle: Always
- #       Appx_Bundle_Platforms: x86|x64
- #       Appx_Package_Build_Mode: StoreUpload
- #       Configuration: ${{ matrix.configuration }}
-
-    # Remove the pfx
-    - name: Remove the pfx
-      run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
-
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\AppPackages
+  build_blazor_hybrid_maccatalyst:
+     name: build blazor hybrid (maccatalyst)
+     runs-on: macos-latest
+   
+     steps:
+      
+     - name: Checkout source code
+       uses: actions/checkout@v3
+      
+     - name: Setup .NET
+       uses: actions/setup-dotnet@v3
+       with:
+          dotnet-version: 6.0.x
+          
+   
+     - name: Restore workloads
+       run: dotnet workload restore test.csproj -p:BlazorMode=BlazorHybrid -f net7.0-maccatalyst
+   
+     - name: Build (To generate CSS/JS files)
+       run: dotnet build test.csproj -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:CreatePackage=true -f net7.0-maccatalyst
+   
+     - name: Build pkg
+       run: dotnet build test.csproj -p:BlazorMode=BlazorHybrid -p:Configuration=Release -p:CreatePackage=true -f net7.0-maccatalyst
+   
+     - name: Upload artifact
+       uses: actions/upload-artifact@v3
+       with:
+         name: mac-pkg-bundle
+         path: bin/release/net7.0-maccatalyst/*.pkg
