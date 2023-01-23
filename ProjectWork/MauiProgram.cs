@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using ProjectWork.Data;
+using ProjectWork.Data.ViewModels;
 
 namespace ProjectWork;
 
@@ -25,6 +26,7 @@ public static class MauiProgram
 #endif
 
 		builder.Services.AddSingleton<WeatherForecastService>();
+		builder.Services.AddSingleton<MovieViewModel>();
 
 		return builder.Build();
 	}
