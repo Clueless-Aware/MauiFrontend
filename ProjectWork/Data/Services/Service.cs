@@ -35,25 +35,9 @@ namespace ProjectWork.Data.Services
                 ValueTask<List<T>> resObjectTask = JsonSerializer.DeserializeAsync<List<T>>(stream);
                 items = await resObjectTask;
             }
-            catch (ArgumentNullException e)
-            {
-                Debug.WriteLine("(ArgumentNullException) " + e.Message);
-                Console.WriteLine("(ArgumentNullException) " + e.Message);
-            }
-            catch (HttpRequestException e)
-            {
-                Debug.WriteLine("(HttpRequestException) " + e.Message);
-                Console.WriteLine("(HttpRequestException) " + e.Message);
-            }
-            catch (TaskCanceledException e)
-            {
-                Debug.WriteLine("(TaskCanceledException) " + e.Message);
-                Console.WriteLine("(TaskCanceledException) " + e.Message);
-            }
             catch (Exception e)
             {
-                Debug.WriteLine("(Exception) " + e.Message);
-                Console.WriteLine("(Exception) " + e.Message);
+                Debug.WriteLine(e.GetType()+ " " + e.Message);
             }
             return items;
         }
@@ -69,25 +53,9 @@ namespace ProjectWork.Data.Services
                 //Task<Stream> streamTask = httpClient.GetStreamAsync("https://nonesiste.fr"); //HttpRequestException.
                 httpResponseMessage = await streamTask;
             }
-            catch (ArgumentNullException e)
-            {
-                Debug.WriteLine("(ArgumentNullException) " + e.Message);
-                Console.WriteLine("(ArgumentNullException) " + e.Message);
-            }
-            catch (HttpRequestException e)
-            {
-                Debug.WriteLine("(HttpRequestException) " + e.Message);
-                Console.WriteLine("(HttpRequestException) " + e.Message);
-            }
-            catch (TaskCanceledException e)
-            {
-                Debug.WriteLine("(TaskCanceledException) " + e.Message);
-                Console.WriteLine("(TaskCanceledException) " + e.Message);
-            }
             catch (Exception e)
             {
-                Debug.WriteLine("(Exception) " + e.Message);
-                Console.WriteLine("(Exception) " + e.Message);
+                Debug.WriteLine(e.GetType()+ " " + e.Message);
             }
             Debug.WriteLine(httpResponseMessage.ToString());
             if (httpResponseMessage.IsSuccessStatusCode)
@@ -114,25 +82,9 @@ namespace ProjectWork.Data.Services
                 httpResponseMessage = await streamTask;
 
             }
-            catch (ArgumentNullException e)
-            {
-                Debug.WriteLine("(ArgumentNullException) " + e.Message);
-                Console.WriteLine("(ArgumentNullException) " + e.Message);
-            }
-            catch (HttpRequestException e)
-            {
-                Debug.WriteLine("(HttpRequestException) " + e.Message);
-                Console.WriteLine("(HttpRequestException) " + e.Message);
-            }
-            catch (TaskCanceledException e)
-            {
-                Debug.WriteLine("(TaskCanceledException) " + e.Message);
-                Console.WriteLine("(TaskCanceledException) " + e.Message);
-            }
             catch (Exception e)
             {
-                Debug.WriteLine("(Exception) " + e.Message);
-                Console.WriteLine("(Exception) " + e.Message);
+                Debug.WriteLine(e.GetType()+ " " + e.Message);
             }
             Debug.WriteLine(httpResponseMessage.ToString());
             if (httpResponseMessage.IsSuccessStatusCode)

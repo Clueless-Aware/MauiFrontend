@@ -10,12 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
+//component.ts di angular
 namespace ProjectWork.Data.ViewModels
 {
     public class MovieViewModel : ObservableRecipient , IViewModel<Movie>
     {
-        private MovieService _movieService = new(url:"http://127.0.0.1:8000/api/v1/movies");
-        private List<Movie> _movies = new List<Movie>();
+        private readonly MovieService _movieService = new(url:"http://127.0.0.1:8000/api/v1/movies");
+        private List<Movie> _movies = new();
         private Movie _movie;
 
         public Movie Movie
