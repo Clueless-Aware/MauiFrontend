@@ -12,8 +12,8 @@ namespace ProjectWork.Data.Services
 {
     public class Service<T>
     {
-        public readonly string URL = "";
-        public HttpClient _httpClient = new HttpClient();
+        private readonly string URL = "";
+        private readonly HttpClient _httpClient = new HttpClient();
         public static MediaTypeWithQualityHeaderValue _mediaType = new("application/json");
         public Service(string url)
         {
@@ -81,7 +81,6 @@ namespace ProjectWork.Data.Services
             Debug.WriteLine("get item service");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(_mediaType);
-            T item;
             try
             {
                 Task<Stream> streamTask = _httpClient.GetStreamAsync(URL);

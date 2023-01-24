@@ -1,0 +1,85 @@
+﻿@page "/artwork"
+@*HTML DI ANGULAR VIEW *@
+<h3>Artworks</h3>
+@using ProjectWork.Data.ViewModels
+@using ProjectWork.Models
+@using System.ComponentModel
+@inject ArtworkViewModel Artwork
+@implements IDisposable
+
+
+@*<EditItem MovieViewModel=Movie></EditItem>*@
+<EditForm Model="@artwork" OnValidSubmit="@SaveTodoItem">
+    <div>
+        <label for="slug"><b>slug</b></label>
+        <input type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
+    </div>
+    <div>
+        <label for="title"><b>title</b></label>
+        <input type="text" @bind-value="artwork.Author" placeholder="Enter author" name="Title">
+    </div>
+    <div>
+        <label for="description"><b>description</b></label>
+        <input type="text" @bind-value="artwork.Description" placeholder="Enter Description" name="Description">
+    </div>
+    <div>
+        <label for="author"><b>author</b></label>
+        <input type="text" @bind-value="artwork.Image_url" placeholder="Enter image url" name="Author">
+    </div>
+    <button type="submit"> Save </button>
+
+</EditForm>
+
+
+<hr />
+
+<button @onclick="GetItems">ciao</button>
+@if (Artwork.Items != null)
+{
+    @foreach (var item in Artwork.Items)
+    {
+        <hr />
+        <p>@item.Id</p>
+        <p>@item.Title</p>
+        <p>@item.Description</p>
+        <p>@item.Author</p>
+        <img src="@item.Image_url">
+        <button @onclick="()=>Artwork.DeleteItem(item)">delete</button>
+    }
+}
+@code {
+
+    Artwork artwork = new();
+    protected override async Task OnInitializedAsync()
+    {
+        Artwork.PropertyChanged += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        };
+        await Artwork.ReadItems();
+        await base.OnInitializedAsync();
+    }
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+    public void Dispose()
+    {
+        Artwork.PropertyChanged -= OnPropertyChangedHandler;
+    }
+    async Task GetItems()
+    {
+        //await Artwork.ShowMovies();
+    }
+    async Task SaveTodoItem()
+    {
+        await Artwork.CreateItem(artwork);
+    }
+
+}

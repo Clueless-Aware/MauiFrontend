@@ -1,0 +1,56 @@
+﻿@page "/account"
+@*HTML DI ANGULAR VIEW *@
+<h3>Accounts</h3>
+@using ProjectWork.Data.ViewModels
+@using ProjectWork.Models
+@using System.ComponentModel
+@inject AccountViewModel Account
+@implements IDisposable
+
+
+<hr />
+
+<button @onclick="GetItems">ciao</button>
+@if (Account.Items != null)
+{
+    @foreach (var item in Account.Items)
+    {
+        <hr />
+        <p>@item.Owner</p>
+        <p>@item.OwnerId</p>
+        <p>@item.FirstName</p>
+        <p>@item.LastName</p>
+        <button @onclick="()=>Account.DeleteItem(item)">delete</button>
+    }
+}
+@code {
+    Account account = new();
+    protected override async Task OnInitializedAsync()
+    {
+        Account.PropertyChanged += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        };
+        await Account.ReadItems();
+        await base.OnInitializedAsync();
+    }
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+    public void Dispose()
+    {
+        Account.PropertyChanged -= OnPropertyChangedHandler;
+    }
+    async Task GetItems()
+    {
+        //await Movie.ShowMovies();
+    }
+
+}
