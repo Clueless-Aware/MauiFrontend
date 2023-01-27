@@ -29,6 +29,6 @@ public static class MauiProgram
 		builder.Services.AddSingleton<ArtworkViewModel>();
 		builder.Services.AddSingleton<AccountViewModel>();
 
-		return builder.Build();
+        return builder.Build();
 	}
 }

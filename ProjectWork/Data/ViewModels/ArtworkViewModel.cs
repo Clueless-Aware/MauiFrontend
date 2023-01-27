@@ -1,19 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ProjectWork.Data.Services;
 using ProjectWork.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectWork.Data.ViewModels
 {
-    public class ArtworkViewModel : ObservableRecipient, IViewModel<Artwork>
+    public class ArtworkViewModel : ObservableRecipient
     {
         private readonly ArtworkService _artworkService = new(url: "http://127.0.0.1:443/api/artworks/");
-        private List<Artwork> _artworks = new();
+        private List<ArtwokDownload> _artworks = new();
         private Artwork _movie;
 
         public Artwork Artwork
@@ -21,7 +16,7 @@ namespace ProjectWork.Data.ViewModels
             get => _movie;
             set => SetProperty(ref _movie, value);
         }
-        public List<Artwork> Items
+        public List<ArtwokDownload> Items
         {
             get => _artworks;
             set => SetProperty(ref _artworks, value);
@@ -33,10 +28,10 @@ namespace ProjectWork.Data.ViewModels
             Items = await _artworkService.GetItems();
         }
 
-        public async Task DeleteItem(Artwork artwork)
+        public async Task DeleteItem(int id)
         {
             Debug.WriteLine("DELETE");
-            var response = await _artworkService.DeleteItem(artwork.Id);
+            var response = await _artworkService.DeleteItem(id);
             Debug.WriteLine(response.message);
             if (response.status)
             {
@@ -44,7 +39,7 @@ namespace ProjectWork.Data.ViewModels
             }
 
         }
-        public async Task CreateItem(Artwork artwork)
+        public async Task CreateItem(ArtworkUpload artwork)
         {
             Debug.WriteLine("CREATE");
             var response = await _artworkService.AddItem(artwork);
@@ -57,10 +52,15 @@ namespace ProjectWork.Data.ViewModels
 
 
 
-        public Task UpdateItem(Artwork item)
+        public async Task UpdateItem(int id, ArtwokDownload item)
         {
             Debug.WriteLine("UPDATE");
-            throw new NotImplementedException();
+            var response = await _artworkService.PutItem(id, item);
+            Debug.WriteLine(response.message);
+            if (response.status)
+            {
+                await ReadItems();
+            }
         }
 
     }

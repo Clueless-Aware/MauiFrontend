@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 // Service of Angular
 namespace ProjectWork.Data.Services
 {
-    public class Service<T>
+    //U upload
+    //D download
+    public class Service<U,D>
     {
-        private readonly string URL = "";
-        private readonly HttpClient _httpClient = new HttpClient();
-        public static MediaTypeWithQualityHeaderValue _mediaType = new("application/json");
+        protected readonly string URL = "";
+        protected readonly HttpClient _httpClient = new HttpClient();
+        private static MediaTypeWithQualityHeaderValue _mediaType = new("application/json");
         public Service(string url)
         {
             URL = url;
@@ -23,17 +20,17 @@ namespace ProjectWork.Data.Services
         /// Get Items from api endpoint
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<List<T>> GetItems()
+        public virtual async Task<List<D>> GetItems()
         {
             Debug.WriteLine("get items service");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(_mediaType);
-            List<T> items = new();
+            List<D> items = new();
             try
             {
                 Task<Stream> streamTask = _httpClient.GetStreamAsync(URL);
                 Stream stream = await streamTask;
-                ValueTask<List<T>> resObjectTask = JsonSerializer.DeserializeAsync<List<T>>(stream);
+                ValueTask<List<D>> resObjectTask = JsonSerializer.DeserializeAsync<List<D>>(stream);
                 items = await resObjectTask;
             }
             catch (Exception e)
@@ -47,7 +44,7 @@ namespace ProjectWork.Data.Services
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public virtual async Task<(bool status, string message)> AddItem(T item)
+        public virtual async Task<(bool status, string message)> AddItem(U item)
         {
             Debug.WriteLine("Add item service");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -76,16 +73,17 @@ namespace ProjectWork.Data.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual async Task<T> GetItem(int id)
+        public virtual async Task<D> GetItem(int id)
         {
             Debug.WriteLine("get item service");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(_mediaType);
+            D item;
             try
             {
                 Task<Stream> streamTask = _httpClient.GetStreamAsync(URL);
                 Stream stream = await streamTask;
-                ValueTask<T> resObjectTask = JsonSerializer.DeserializeAsync<T>(stream);
+                ValueTask<D> resObjectTask = JsonSerializer.DeserializeAsync<D>(stream);
                 item = await resObjectTask;
             }
             catch (Exception e)
@@ -100,7 +98,7 @@ namespace ProjectWork.Data.Services
         /// <param name="id"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        public virtual async Task<(bool status, string message)> PutItem(int id, T item)
+        public virtual async Task<(bool status, string message)> PutItem(int id, D item)
         {
             Debug.WriteLine("put item service");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -130,7 +128,7 @@ namespace ProjectWork.Data.Services
         /// <param name="id"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        public virtual async Task<(bool status, string message)> PatchItem(int id, T item)
+        public virtual async Task<(bool status, string message)> PatchItem(int id, U item)
         {
             Debug.WriteLine("put item service");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
