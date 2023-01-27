@@ -19,7 +19,7 @@ namespace ProjectWork.Data.Services
         }
         public override async Task<(bool status, string message)> AddItem(ArtworkUpload item)
         {
-            var json = JsonSerializer.Serialize<IArtworkModel>(item);
+            var json = JsonSerializer.Serialize<ArtworkUpload>(item);
             var jparser = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
 
             var file = item.File;
@@ -95,9 +95,9 @@ namespace ProjectWork.Data.Services
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
 
         }
-        public override async Task<(bool status, string message)> PatchItem(int id, ArtworkUpload item)
+        public override async Task<(bool status, string message)> PatchItem(int id, ArtwokDownload item)
         {
-            var json = JsonSerializer.Serialize<ArtworkUpload>(item);
+            var json = JsonSerializer.Serialize<ArtwokDownload>(item);
             var jparser = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
             var file = item.File;
             using var content = new MultipartFormDataContent();
@@ -113,7 +113,7 @@ namespace ProjectWork.Data.Services
             }
             foreach (KeyValuePair<string, object> entry in jparser)
             {
-                if (!entry.Key.Equals("id"))
+                if (!entry.Key.Equals("id")|| !entry.Key.Equals("image_url"))
                     content.Add(new StringContent(entry.Value.ToString()), entry.Key);
             }
             HttpResponseMessage httpResponseMessage = new();

@@ -128,7 +128,7 @@ namespace ProjectWork.Data.Services
         /// <param name="id"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        public virtual async Task<(bool status, string message)> PatchItem(int id, U item)
+        public virtual async Task<(bool status, string message)> PatchItem(int id, D item)
         {
             Debug.WriteLine("put item service");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
