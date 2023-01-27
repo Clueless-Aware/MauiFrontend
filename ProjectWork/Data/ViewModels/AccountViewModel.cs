@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace ProjectWork.Data.ViewModels
 {
-    public class AccountViewModel : ObservableRecipient, IViewModel<Account>
+    public class AccountViewModel : ObservableRecipient  
     {
         private readonly AccountService _accountService = new(url: "http://localhost:8000/api/accounts/");
-        private List<Account> _items;
+        private List<AccountDownload> _items;
         private Account _account;
 
         public Account Account
@@ -21,7 +21,7 @@ namespace ProjectWork.Data.ViewModels
             get => _account;
             set => SetProperty(ref _account, value);
         }
-        public List<Account> Items
+        public List<AccountDownload> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -44,7 +44,7 @@ namespace ProjectWork.Data.ViewModels
             }
 
         }
-        public async Task CreateItem(Account account)
+        public async Task CreateItem(AccountUpload account)
         {
             Debug.WriteLine("CREATE");
             var response = await _accountService.AddItem(account);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectWork.Data.Services
 {
-    public class AccountService : Service<Account>
+    public class AccountService : Service<AccountUpload,AccountDownload>
     {
         public AccountService(string url) : base(url)
         {

@@ -15,12 +15,12 @@
 {
     @foreach (var item in Account.Items)
     {
-        <hr />
+        @*<hr />
         <p>@item.Owner</p>
         <p>@item.OwnerId</p>
         <p>@item.FirstName</p>
         <p>@item.LastName</p>
-        <button @onclick="()=>Account.DeleteItem(item)">delete</button>
+        <button @onclick="()=>Account.DeleteItem(item)">delete</button>*@
     }
 }
 @code {

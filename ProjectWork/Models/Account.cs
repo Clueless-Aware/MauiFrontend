@@ -18,4 +18,25 @@ namespace ProjectWork.Models
         [JsonPropertyName("last_name")]
         public string LastName { get; set; }
     }
+    public class AccountDownload  
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Author { get; set; }
+        [JsonPropertyName("image_url")]
+        public string Image_url { get; set; }
+    }
+    public class AccountUpload 
+    {
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Title { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Description { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Author { get; set; }
+    }
+
 }
