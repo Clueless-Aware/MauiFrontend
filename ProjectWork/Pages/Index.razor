@@ -1,7 +1,62 @@
 ﻿@page "/"
+@inject NavigationManager NavManager
+@layout LoginLayout
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<style>
+    body {
+        background-color: #3A0647;
+    }
+    #logo {
+        padding-top: 16px;
+        padding-right: 16px;
+        padding-bottom: 16px;
+        padding-left: 16px;
+    }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,200" />
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div class="w3-75 w3-center w3-card-4 w3-padding-large w3-margin-left w3-margin-right w3-margin w3-round-xlarge w3-container w3-white w3-display-middle">
+
+    <span class="material-symbols-outlined w3-margin-bottom w3-deep-purple w3-amber w3-margin-top w3-xxxlarge w3-circle" id="logo"> brush </span>
+        
+    <h3 class="w3-text-black w3-xlarge">Welcome to the login page</h3>
+
+
+    <label>Username:</label><br/>
+    <input class="w3-round w-100" type="text" id="username"><br><br>
+    <label>Password:</label><br />
+    <input class="w3-round w-100" type="password" id="password"><br><br>
+
+    <div class="d-inline-flex w3-center">
+        <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-blue" @onclick="@attemptLogin">Login</button>
+    </div>
+       
+
+        @if(hideAlert == false) 
+        {
+            <div>
+                <p class="w3-animate-right w3-round-xlarge w3-text-red">Login Failed</p>
+            </div>
+        }
+    </div>
+
+   
+
+@code {
+
+    bool hideAlert = true;
+
+    private void attemptLogin()
+    {
+        Models.LoginAgent loginAgent = new Models.LoginAgent();
+
+        if(loginAgent.validateLogin())
+        {
+            NavManager.NavigateTo("/Home");
+        } else
+        {
+            hideAlert = false;
+        }
+    }
+}

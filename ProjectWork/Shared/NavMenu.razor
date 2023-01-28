@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">ProjectWork</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -11,22 +12,27 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="material-symbols-outlined w3-padding-16">logout</span>  Logout
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="Home">
+                <span class="material-symbols-outlined w3-padding-16">search</span>  Main Page
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                <span class="material-symbols-outlined w3-padding-16">gallery_thumbnail</span>  Favourites Gallery
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="example">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                <span class="material-symbols-outlined w3-padding-16">settings_account_box</span>  Account settings
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="login">
+                <span class="oi oi-list-rich w3-padding-16" aria-hidden="true"></span>  Login page
             </NavLink>
         </div>
     </nav>
