@@ -2,12 +2,13 @@
 using ProjectWork.Data.Services;
 using ProjectWork.Models;
 using System.Diagnostics;
+using ProjectWork.Resources.Static;
 
 namespace ProjectWork.Data.ViewModels
 {
     public class ArtworkViewModel : ObservableRecipient
     {
-        private readonly ArtworkService _artworkService = new(url: "http://127.0.0.1:443/api/artworks/");
+        private readonly ArtworkService _artworkService = new(url: Endpoints.getArtworkEndpoint());
         private List<ArtwokDownload> _artworks = new();
         private Artwork _movie;
 

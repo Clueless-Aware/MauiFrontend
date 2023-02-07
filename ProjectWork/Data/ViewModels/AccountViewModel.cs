@@ -7,12 +7,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectWork.Resources.Static;
 
 namespace ProjectWork.Data.ViewModels
 {
     public class AccountViewModel : ObservableRecipient  
     {
-        private readonly AccountService _accountService = new(url: "http://localhost:8000/api/accounts/");
+        private readonly AccountService _accountService = new(url: Endpoints.getAccountEndpoint());
         private List<AccountDownload> _items;
         private Account _account;
 
