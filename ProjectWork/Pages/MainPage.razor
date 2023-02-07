@@ -1,36 +1,59 @@
 ﻿@page "/Home"
 
+<style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 700,
+  'GRAD' 200,
+  'opsz' 48
+}
+</style>
+
+<h1>Search</h1>
+
+<p>Here you can search for any art pieces you are interested in.</p>
+
 <div class="w3-bar w3-margin-bottom">
     <span>
-        <input id="searchBar" type="search" class=" w3-round w3-margin-right w-75"/> 
+        <input id="searchBar" type="search" class="w3-round w3-margin-right w-75"/> 
         <button class="btn w3-button w3-blue w3-round" @onclick="@AddElement">Add</button>
     </span>
 </div>
 
 
 <div>
-    <div class="w3-center w3-padding-24">
+    <div class="w3-center">
         @foreach (var e in elements)
         {
-            <div class="w3-card-4 w3-round-large w3-white w3-padding-24 w3-margin-bottom">
-                <h3>
+            <div class="w3-card-4 w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
+                    <p class="w3-xxlarge">
                     Lorem Ipsum
-                </h3>
+                    <button class="w3-round w3-center w3-text-black w3-hover-text-red w3-button">
+                        <span class="material-symbols-outlined">
+                            favorite
+                        </span>
+                    </button>
+                    
+                    </p>
+                
                 <div class="w3-row">
                     <div class="w3-col m6 w3-center w3-padding-large">
                         <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
-                        <img class="w3-round w3-image" src="https://i.warosu.org/data/lit/img/0111/64/1526591653854.jpg" width="500" height="333" />
+                        <img class="w3-round w3-image w3-margin-bottom" src="https://i.warosu.org/data/lit/img/0111/64/1526591653854.jpg" width="500" height="333" />
                     </div>
 
                     <div class="w3-col m6 w3-padding-large w3-left-align">
-                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                            Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper.
-                            Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
-                            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. 
-                            Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.
-                            Donec non enim in turpis pulvinar facilisis. Ut felis. 
-                            Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
-                            Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus
+                        <p>
+                            The mesmerizing artwork, entitled 'Wolf and Watermelon', is a true masterpiece that captivates the viewer from the moment they lay their eyes on it. 
+                            The painting features a magnificent wolf, with piercing eyes and a proud stature, indulging in a juicy slice of watermelon.
+                            The artist has perfectly captured the wolf's expression of pure enjoyment and satisfaction as it savors the sweetness of the fruit.<br>
+                            The intricate details of the wolf's fur, the textures of the watermelon, and the background elements all come together to create a vivid and lifelike image.
+                            The use of bright and contrasting colors, such as the deep blue sky and the lush green foliage, add to the playful nature of the piece and enhance its eye-catching appeal.<br><br>
+                            The combination of a fierce predator and a seemingly incongruous subject, such as the watermelon, creates a unique and thought-provoking piece that encourages the viewer to question their assumptions and embrace the unexpected.
+                            The playful and lighthearted nature of the artwork is a refreshing contrast to the often serious and somber depictions of wild animals, making it a great addition to any collection that seeks to add a touch of whimsy and playfulness.<br>
+                            Overall, 'Wolf and Watermelon' is a true work of art that showcases the artist's exceptional skills and creativity. 
+                            Its ability to captivate and engage the viewer, combined with its thought-provoking and playful nature, make it a must-see for anyone who appreciates the beauty and power of art.
                         </p>
                     </div>
                 </div>
