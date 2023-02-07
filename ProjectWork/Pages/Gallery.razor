@@ -1,0 +1,121 @@
+﻿@page "/gallery"
+
+@using ProjectWork.Data
+@inject WeatherForecastService ForecastService
+
+<style>
+    hr {
+  display: block;
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+  margin-left: auto;
+  height: 0px;
+  margin-right: auto;
+  border-style: none;
+  border-width: 1px;
+}
+</style>
+
+<h1>Gallery</h1>
+
+<p>Here are your favourites pieces of arts.</p>
+
+<hr/>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+ <div class="container">
+        <div class="row w3-margin-bottom w3-margin-top">
+    <div class="col-sm">
+                <div class="w3-card-4 w3-white w3-round-xlarge w3-padding">
+                    <p><b><i class="fa fa-user w3-center"></i>Wolf's Indulgence</b></p><br>
+                    <img class="w3-round w3-image" src="https://i.warosu.org/data/lit/img/0111/64/1526591653854.jpg" width="500" height="333" />
+                    <p class="w3-padding-16">
+                        The breathtaking piece, 'Wolf's Indulgence', captures the unexpected yet delightful moment of a wolf savoring a juicy slice of watermelon.
+                        The wolf's expression of pure joy and contentment is masterfully depicted, making the viewer feel as if they too are sharing in the moment.<br>
+                        The vibrant colors and lifelike textures used to paint the wolf and the watermelon add a stunning realism to the piece, drawing the viewer in even further.
+                        The intricate brushstrokes and play of light further enhance the realism, making this piece a true work of art and a must-see for any art lover.
+                    </p>
+                </div>
+    </div>
+    <div class="col-sm">
+                <div class="w3-card-4 w3-white w3-round-xlarge w3-padding">
+                    <p><b><i class="fa fa-user w3-center"></i>Wolf's Indulgence</b></p><br>
+                    <img class="w3-round w3-image" src="https://i.warosu.org/data/lit/img/0111/64/1526591653854.jpg" width="500" height="333" />
+                    <p class="w3-padding-16">
+                        The breathtaking piece, 'Wolf's Indulgence', captures the unexpected yet delightful moment of a wolf savoring a juicy slice of watermelon.
+                        The wolf's expression of pure joy and contentment is masterfully depicted, making the viewer feel as if they too are sharing in the moment.<br>
+                        The vibrant colors and lifelike textures used to paint the wolf and the watermelon add a stunning realism to the piece, drawing the viewer in even further.
+                        The intricate brushstrokes and play of light further enhance the realism, making this piece a true work of art and a must-see for any art lover.
+                    </p>
+                </div>
+    </div>
+    <div class="col-sm">
+                     <div class="w3-card-4 w3-white w3-round-xlarge w3-padding">
+                    <p><b><i class="fa fa-user w3-center"></i>Wolf's Indulgence</b></p><br>
+               <img class="w3-round w3-image" src="https://i.warosu.org/data/lit/img/0111/64/1526591653854.jpg" width="500" height="333" />
+             <p class="w3-padding-16">
+                  The breathtaking piece, 'Wolf's Indulgence', captures the unexpected yet delightful moment of a wolf savoring a juicy slice of watermelon. 
+                  The wolf's expression of pure joy and contentment is masterfully depicted, making the viewer feel as if they too are sharing in the moment.<br> 
+                  The vibrant colors and lifelike textures used to paint the wolf and the watermelon add a stunning realism to the piece, drawing the viewer in even further. 
+                  The intricate brushstrokes and play of light further enhance the realism, making this piece a true work of art and a must-see for any art lover.
+             </p>
+          </div>
+    </div>
+  </div>
+
+        <div class="row w3-margin-bottom w3-margin-bottom">
+            <div class="col-sm">
+                <div class="w3-card-4 w3-white w3-round-xlarge w3-padding">
+                    <p><b><i class="fa fa-user w3-center"></i>Wolf's Indulgence</b></p><br>
+                    <img class="w3-round w3-image" src="https://i.warosu.org/data/lit/img/0111/64/1526591653854.jpg" width="500" height="333" />
+                    <p class="w3-padding-16">
+                        The breathtaking piece, 'Wolf's Indulgence', captures the unexpected yet delightful moment of a wolf savoring a juicy slice of watermelon.
+                        The wolf's expression of pure joy and contentment is masterfully depicted, making the viewer feel as if they too are sharing in the moment.<br>
+                        The vibrant colors and lifelike textures used to paint the wolf and the watermelon add a stunning realism to the piece, drawing the viewer in even further.
+                        The intricate brushstrokes and play of light further enhance the realism, making this piece a true work of art and a must-see for any art lover.
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="w3-card-4 w3-white w3-round-xlarge w3-padding">
+                    <p><b><i class="fa fa-user w3-center"></i>Wolf's Indulgence</b></p><br>
+                    <img class="w3-round w3-image" src="https://i.warosu.org/data/lit/img/0111/64/1526591653854.jpg" width="500" height="333" />
+                    <p class="w3-padding-16">
+                        The breathtaking piece, 'Wolf's Indulgence', captures the unexpected yet delightful moment of a wolf savoring a juicy slice of watermelon.
+                        The wolf's expression of pure joy and contentment is masterfully depicted, making the viewer feel as if they too are sharing in the moment.<br>
+                        The vibrant colors and lifelike textures used to paint the wolf and the watermelon add a stunning realism to the piece, drawing the viewer in even further.
+                        The intricate brushstrokes and play of light further enhance the realism, making this piece a true work of art and a must-see for any art lover.
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="w3-card-4 w3-white w3-round-xlarge w3-padding">
+                    <p><b><i class="fa fa-user w3-center"></i>Wolf's Indulgence</b></p><br>
+                    <img class="w3-round w3-image" src="https://i.warosu.org/data/lit/img/0111/64/1526591653854.jpg" width="500" height="333" />
+                    <p class="w3-padding-16">
+                        The breathtaking piece, 'Wolf's Indulgence', captures the unexpected yet delightful moment of a wolf savoring a juicy slice of watermelon.
+                        The wolf's expression of pure joy and contentment is masterfully depicted, making the viewer feel as if they too are sharing in the moment.<br>
+                        The vibrant colors and lifelike textures used to paint the wolf and the watermelon add a stunning realism to the piece, drawing the viewer in even further.
+                        The intricate brushstrokes and play of light further enhance the realism, making this piece a true work of art and a must-see for any art lover.
+                    </p>
+                </div>
+            </div>
+        </div>
+</div>
+
+}
+
+@code {
+    private WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+}
