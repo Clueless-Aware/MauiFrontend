@@ -1,7 +1,48 @@
 ﻿@page "/"
+@inject NavigationManager NavManager
+@layout LoginLayout
 
-<h1>Hello, world!</h1>
+<div class="d-flex flex-column mb-3 position-absolute top-50 start-50 translate-middle">
+    <div>
+        <h1>Welcome to the login page</h1>
+    </div>
+        
 
-Welcome to your new app.
+    <label>Username:</label><br/>
+    <input type="text" id="username"><br><br>
+    <label>Password:</label><br />
+    <input type="password" id="password"><br><br>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <div class="d-inline-flex w3-center">
+        <button class="btn btn-primary" @onclick="@attemptLogin">Click me</button>
+    </div>
+       
+
+        @if(hideAlert == false) 
+        {
+            <div>
+                <h1>Login Failed</h1>
+            </div>
+        }
+
+    </div>
+</div>
+   
+
+@code {
+
+    bool hideAlert = true;
+
+    private void attemptLogin()
+    {
+        Models.LoginAgent loginAgent = new Models.LoginAgent();
+
+        if(loginAgent.validateLogin())
+        {
+            NavManager.NavigateTo("/counter");
+        } else
+        {
+            hideAlert = false;
+        }
+    }
+}
