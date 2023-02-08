@@ -1,0 +1,117 @@
+﻿@page "/accountEdit"
+@inject NavigationManager NavManager
+
+<style>
+
+    #logo {
+        padding-top: 16px;
+        padding-right: 16px;
+        padding-bottom: 16px;
+        padding-left: 16px;
+    }
+
+    .bold{
+        font-weight: bold;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+</style>
+
+<div class="w3-card-4 w3-padding w3-margin-left w3-round-xlarge w-75 w3-margin-bottom w3-margin-top">
+    <h3 class="w3-margin-left">User Profile</h3>
+
+    <span class="w3-margin-left w3-center material-symbols-outlined w3-margin-bottom w3-red w3-amber w3-margin-top w3-xxxlarge w3-circle" id="logo">
+        person
+    </span>
+
+    <hr />
+
+    <ul>
+        <li>
+            <p class="bold">Username:</p>
+        </li>
+        <li>
+            <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="username">
+        </li>
+        <li>
+            <p class="bold">E-mail:</p>
+        </li>
+        <li>
+            <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
+        </li>
+        <li>
+            <p class="bold">Bio:</p>
+        </li>
+        <li>
+            <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="info">
+        </li>
+
+        <li>
+            <span class="bold w3-large">Type of access: </span>
+            <span class="w3-text-green">Standard</span>
+        </li>
+        <li>
+            <span>
+                <button onclick="@editPassword" class="w3-large btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-right">
+                    Edit your Password
+                </button>
+            </span>
+        </li>
+
+        @if (showEditPassword)
+        {
+            <li>
+                <p class="bold">Old password:</p>
+            </li>
+            <li>
+                <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="password" id="oldpw">
+            </li>
+
+            <li>
+                <p class="bold">New password:</p>
+            </li>
+            <li>
+                <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="password" id="newpw">
+            </li>
+
+            <li>
+                <p class="bold">Repeat new password:</p>
+            </li>
+            <li>
+                <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="password" id="newpw1">
+            </li>
+        } 
+    </ul>
+
+    <hr/>
+
+    <span>
+        <button onclick="@save" class="w3-large w3-margin-bottom w3-padding-16 btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-left w3-margin-right">
+            Save
+        </button>
+    </span>
+
+</div>
+
+
+@code{
+    private bool showEditPassword = false;
+
+    private void save()
+    {
+        NavManager.NavigateTo("/accountDetails");
+    }
+
+
+    private void editPassword()
+    {
+        if (showEditPassword)
+            showEditPassword = false;
+        else
+            showEditPassword = true;
+    }
+
+}
+
