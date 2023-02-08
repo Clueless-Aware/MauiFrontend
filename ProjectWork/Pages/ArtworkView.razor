@@ -1,0 +1,111 @@
+﻿@page "/artwork"
+@*HTML DI ANGULAR VIEW *@
+<h3>Artworks</h3>
+@using ProjectWork.Data.ViewModels
+@using ProjectWork.Models
+@using System.ComponentModel
+@inject ArtworkViewModel Artwork
+@implements IDisposable
+
+
+@*<EditItem MovieViewModel=Movie></EditItem>*@
+<h1>New</h1>
+<EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.CreateItem(artwork)">
+    <div>
+        <label for="slug"><b>slug</b></label>
+        <input type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
+    </div>
+    <div>
+        <label for="title"><b>title</b></label>
+        <input type="text" @bind-value="artwork.Author" placeholder="Enter author" name="Title">
+    </div>
+    <div>
+        <label for="description"><b>description</b></label>
+        <input type="text" @bind-value="artwork.Description" placeholder="Enter Description" name="Description">
+    </div>
+    <div>
+        <label for="author"><b>author</b></label>
+        <InputFile OnChange="@OnInputFile" />
+    </div>
+    <button type="submit"> Save </button>
+
+</EditForm>
+
+
+<hr />
+
+@if (Artwork.Items != null)
+{
+    @foreach (var item in Artwork.Items)
+    {
+        <hr />
+        <p>@item.Id</p>
+        <p>@item.Title</p>
+        <p>@item.Description</p>
+        <p>@item.Author</p>
+        <img src="@item.Image_url">
+        <h4>Delete</h4>
+        <button @onclick="async ()=>await Artwork.DeleteItem(item.Id)">delete</button>
+        <hr />
+        <h4>Edit</h4>
+        <EditForm Model="@item" OnValidSubmit="async ()=>await Artwork.UpdateItem(item.Id,item)">
+            <div>
+                <label for="slug"><b>slug</b></label>
+                <input type="text" @bind-value="item.Title" placeholder="Enter Title" name="Slug">
+            </div>
+            <div>
+                <label for="title"><b>title</b></label>
+                <input type="text" @bind-value="item.Author" placeholder="Enter author" name="Title">
+            </div>
+            <div>
+                <label for="description"><b>description</b></label>
+                <input type="text" @bind-value="item.Description" placeholder="Enter Description" name="Description">
+            </div>
+            <div>
+                <label for="author"><b>author</b></label>
+                <InputFile OnChange="(e)=> OnInputFile(e,item)" />
+            </div>
+            <button type="submit"> Edit </button>
+
+        </EditForm>
+
+    }
+}
+@code {
+
+    ArtworkUpload artwork = new();
+    protected override async Task OnInitializedAsync()
+    {
+        Artwork.PropertyChanged += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        };
+        await Artwork.ReadItems();
+        await base.OnInitializedAsync();
+    }
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+    public void Dispose()
+    {
+        Artwork.PropertyChanged -= OnPropertyChangedHandler;
+    }
+    //Change the upload model
+    void OnInputFile(InputFileChangeEventArgs e)
+    {
+        artwork.File = e.File;
+    }
+    //Change the download model
+    void OnInputFile(InputFileChangeEventArgs e, ArtwokDownload item)
+    {
+        item.File = e.File;
+    }
+}
+
