@@ -61,11 +61,8 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
+            
             Debug.WriteLine(httpResponseMessage.ToString());
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-            }
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
         }
         /// <summary>
@@ -115,11 +112,8 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
+            
             Debug.WriteLine(httpResponseMessage.ToString());
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-            }
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
         }
         /// <summary>
@@ -145,11 +139,8 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
+            
             Debug.WriteLine(httpResponseMessage.ToString());
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-            }
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
         }
         /// <summary>
@@ -172,11 +163,8 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
+            
             Debug.WriteLine(httpResponseMessage.ToString());
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-            }
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
         }
 

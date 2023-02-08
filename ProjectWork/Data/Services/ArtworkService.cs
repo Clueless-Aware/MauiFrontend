@@ -49,10 +49,7 @@ namespace ProjectWork.Data.Services
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
             Debug.WriteLine(httpResponseMessage.ToString());
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-            }
+            
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
 
         }
@@ -87,14 +84,11 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
+            
             Debug.WriteLine(httpResponseMessage.ToString());
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-            }
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-
         }
+        
         public override async Task<(bool status, string message)> PatchItem(int id, ArtwokDownload item)
         {
             var json = JsonSerializer.Serialize<ArtwokDownload>(item);
@@ -126,13 +120,9 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
+            
             Debug.WriteLine(httpResponseMessage.ToString());
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-            }
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
-
         }
     }
 }
