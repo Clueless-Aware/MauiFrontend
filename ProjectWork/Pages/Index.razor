@@ -4,9 +4,6 @@
 
 
 <style>
-    body {
-        background-color: #3A0647;
-    }
 
     #logo {
         padding-top: 16px;
@@ -15,23 +12,33 @@
         padding-left: 16px;
     }
 
+body {
+        background-image: url("bg.jpg");
+        background-size: 50%;
+
+    }
+
 </style>
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,200" />
+<div class="main-gradient" style="width:max-content; height: max-content!important;">
+   
+    <div class="w3-center w3-card-4 w3-padding-large w3-margin w3-round-xxlarge w3-container w3-white w3-display-middle">
 
-<div class="w3-center w3-card-4 w3-padding-large w3-margin w3-round-xlarge w3-container w3-white w3-display-middle">
+    <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
+    <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow:8px; font-weight:bolder;">
+        ART SCOUT
+    </h1>
 
-    <span class="material-symbols-outlined w3-margin-bottom w3-deep-purple w3-amber w3-margin-top w3-xxxlarge w3-circle" id="logo"> brush </span>     
     <h3 class="w3-text-black w3-xlarge">Welcome to the login page</h3>
 
 
     <label>Username:</label><br/>
-    <input class="w3-round w-100" type="text" id="username"><br><br>
+    <input class="w3-round w3-margin-right w-100" type="text" id="username"><br><br>
     <label>Password:</label><br />
-    <input class="w3-round w-100" type="password" id="password"><br><br>
+    <input class="w3-round w3-margin-right w-100" type="password" id="password"><br><br>
 
     <div class="d-inline-flex w3-center">
-        <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-blue" @onclick="@attemptLogin">Login</button>
+        <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-red" @onclick="@attemptLogin">Login</button>
     </div>
        
 
@@ -42,7 +49,7 @@
             </div>
         }
     </div>
-
+</div>
    
 
 @code {

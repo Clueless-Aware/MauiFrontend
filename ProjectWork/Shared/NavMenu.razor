@@ -1,41 +1,43 @@
-﻿<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">ProjectWork</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+﻿
+<div class="navbar-color">
+    <div class="top-row ps-3 navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand w3-text-white w3-large" href="">ART SCOUT</a>
+            <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
     </div>
-</div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="material-symbols-outlined w3-padding-16">logout</span>  Logout
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <nav class="flex-column">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="Home">
+                    <span class="material-symbols-outlined w3-margin-right">ambient_screen</span>  Main Page
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+            <NavLink class="nav-link w3-padding-16" href="gallery">
+                <span class="material-symbols-outlined w3-margin-right"gr>gallery_thumbnail</span>  Favourites Gallery
             </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Home">
-                <span class="material-symbols-outlined w3-padding-16">search</span>  Main Page
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="material-symbols-outlined w3-padding-16">gallery_thumbnail</span>  Favourites Gallery
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="example">
-                <span class="material-symbols-outlined w3-padding-16">settings_account_box</span>  Account settings
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="login">
-                <span class="oi oi-list-rich w3-padding-16" aria-hidden="true"></span>  Login page
-            </NavLink>
-        </div>
-    </nav>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="dashboard">
+                  <span class="material-symbols-outlined w3-margin-right">design_services</span>  Administration
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span>  Account settings
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                    <span class="material-symbols-outlined w3-margin-right">logout</span>  Logout
+                </NavLink>
+            </div>
+        </nav>
+    </div>
 </div>
 
 @code {
