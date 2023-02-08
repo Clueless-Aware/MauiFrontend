@@ -14,6 +14,8 @@ namespace ProjectWork.Data.Services
 {
     public class ArtworkService : Service<ArtworkUpload,ArtwokDownload>
     {
+        private const long MaxSize = 223372036854775807L;
+
         public ArtworkService(string url) : base(url)
         {
         }
@@ -28,7 +30,7 @@ namespace ProjectWork.Data.Services
             {
 
                 var ms = new MemoryStream();
-                await file.OpenReadStream().CopyToAsync(ms);
+                await file.OpenReadStream(MaxSize).CopyToAsync(ms);
                 ms.Position = 0;
                 var fileStream = new StreamContent(ms);
                 fileStream.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
@@ -63,7 +65,7 @@ namespace ProjectWork.Data.Services
             {
 
                 var ms = new MemoryStream();
-                await file.OpenReadStream().CopyToAsync(ms);
+                await file.OpenReadStream(MaxSize).CopyToAsync(ms);
                 ms.Position = 0;
                 var fileStream = new StreamContent(ms);
                 fileStream.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
