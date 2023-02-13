@@ -1,54 +1,57 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">ProjectWork</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+﻿<div class="navbar-color">
+    <div class="top-row ps-3 navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand w3-text-white w3-large" href="">ART SCOUT</a>
+            <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <nav class="flex-column">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="Home">
+                    <span class="material-symbols-outlined w3-margin-right">ambient_screen</span> Main Page
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="gallery">
+                    <span class="material-symbols-outlined w3-margin-right"gr>gallery_thumbnail</span> Favourites Gallery
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="dashboard">
+                    <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> Account settings
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="artwork">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Artwork
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                    <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                </NavLink>
+            </div>
+        </nav>
     </div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="artwork">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Artwork
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="account">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Account
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="login">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Login page
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
 @code {
-    private bool collapseNavMenu = true;
+    private bool _collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
+
 }
