@@ -6,6 +6,9 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#800000",endColorstr="#dc143c",GradientType=1) !important;
 }
 
+.w3-bold {
+    font-weight: bold;
+}
 
 @font-face {
     font-family: 'Material Symbols Outlined';

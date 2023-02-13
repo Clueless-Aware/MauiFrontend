@@ -1,35 +1,51 @@
 ﻿@page "/artwork"
 @*HTML DI ANGULAR VIEW *@
-<h3>Artworks</h3>
+<h3>Add Artwork</h3>
+<hr />
 @using ProjectWork.Data.ViewModels
 @using ProjectWork.Models
 @using System.ComponentModel
 @inject ArtworkViewModel Artwork
 @implements IDisposable
-
+@layout AdminLayout
 
 @*<EditItem MovieViewModel=Movie></EditItem>*@
-<h1>New</h1>
-<EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.CreateItem(artwork)">
-    <div>
-        <label for="slug"><b>slug</b></label>
-        <input type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
-    </div>
-    <div>
-        <label for="title"><b>title</b></label>
-        <input type="text" @bind-value="artwork.Author" placeholder="Enter author" name="Title">
-    </div>
-    <div>
-        <label for="description"><b>description</b></label>
-        <input type="text" @bind-value="artwork.Description" placeholder="Enter Description" name="Description">
-    </div>
-    <div>
-        <label for="author"><b>author</b></label>
-        <InputFile OnChange="@OnInputFile" />
-    </div>
-    <button type="submit"> Save </button>
+<div class="w3-padding">
+    <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.CreateItem(artwork)">
+        <ul style ="list-style-type:none;" class="w3-margin">
+            <li class="w3-padding w3-large w3-bold ">
+                <label for="slug">Slug</label>  
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
+            </li>
+            <li class="w3-padding w3-large w3-bold ">
+                <label for="title">Title</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Author" placeholder="Enter author" name="Title">
+            </li>
 
-</EditForm>
+            <li class="w3-padding w3-large w3-bold ">
+                <label for="description">Description</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Description" placeholder="Enter Description" name="Description">
+            </li>
+            <li class="w3-padding w3-large w3-bold ">
+                <label for="author">Author</label>
+            </li>
+            <li class="w3-margin-bottom">
+                <InputFile class="w3-button w3-round" OnChange="@OnInputFile" />
+            </li>
+        </ul>
+
+
+
+        <button class="w3-button w3-round-large w3-red" type="submit"> Add </button>
+
+    </EditForm>
+</div>
 
 
 <hr />

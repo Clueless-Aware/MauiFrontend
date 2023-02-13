@@ -1,7 +1,6 @@
 ﻿@page "/gallery"
 
 @using ProjectWork.Data
-@inject WeatherForecastService ForecastService
 
 <style>
     hr {
@@ -21,13 +20,6 @@
 <p>Here are your favourites pieces of arts.</p>
 
 <hr/>
-
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
 
  <div class="container">
         <div class="row w3-margin-bottom w3-margin-top">
@@ -108,14 +100,3 @@ else
             </div>
         </div>
 </div>
-
-}
-
-@code {
-    private WeatherForecast[] forecasts;
-
-    protected override async Task OnInitializedAsync()
-    {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-    }
-}
