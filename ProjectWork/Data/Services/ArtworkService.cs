@@ -26,7 +26,7 @@ namespace ProjectWork.Data.Services
 
             var file = item.File;
             using var content = new MultipartFormDataContent();
-            if (!file.Equals(null))
+            if (file is not null)
             {
 
                 var ms = new MemoryStream();
@@ -36,6 +36,7 @@ namespace ProjectWork.Data.Services
                 fileStream.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
                 content.Add(fileStream, "image_url", file.Name);
             }
+
             foreach (KeyValuePair<string, string> entry in jparser)
             {
                 content.Add(new StringContent(entry.Value), entry.Key);
