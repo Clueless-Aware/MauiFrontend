@@ -12,14 +12,13 @@
 
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
         <nav class="flex-column">
+
             @if(!adminOptions){
-                <div class="nav-item px-3">
+                <div class="nav-item px-3 w3-margin-bottom">
                     <NavLink class="nav-link w3-padding-16" href="login">
                         <span class="material-symbols-outlined w3-margin-right">login</span> Login
                     </NavLink>
                 </div>
-
-                <hr />
             }
 
             <div class="nav-item px-3">
@@ -34,9 +33,7 @@
             </div>
             @if(adminOptions)
             {
-                <hr />
-
-                <div class="nav-item px-3">
+                <div class="nav-item px-3 w3-margin-top">
                     <NavLink class="nav-link w3-padding-16" href="dashboard">
                         <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
                     </NavLink>
@@ -46,12 +43,18 @@
                         <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> Account settings
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
+                <div class="nav-item px-3 w3-margin-bottom">
                     <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="logOut">
                         <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
                     </NavLink>
                 </div>
             }
+
+            <div class="nav-item px-3 w3-margin-top">
+                <NavLink class="nav-link" href="/info" Match="NavLinkMatch.All">
+                    <span class="material-symbols-outlined w3-margin-right">info</span> Info
+                </NavLink>
+            </div>
         </nav>
     </div>
 </div>
