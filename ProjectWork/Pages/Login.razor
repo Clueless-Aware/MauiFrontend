@@ -13,12 +13,16 @@
 
         body {
             background-image: url("bg.jpg");
-            background-size: 50%;
+            background-size: 100%;
         }
 
-    </style>
+    .full-height {
+        height: 100%;
+    }
 
-    <div class="w3-card-4 w3-center w3-padding-large w3-margin w3-round-xxlarge w3-container w3-white w3-display-middle my-100 mx-auto">
+    </style>
+<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+    <div class="w3-card-4 w3-center w3-padding-large w3-round-xxlarge w3-white mx-auto my-auto full-height w3-margin-bottom w3-margin-top">
 
             <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
             <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow:8px; font-weight:bolder;">
@@ -45,6 +49,7 @@
                 </div>
             }
         </div>
+</Animate>
 
 @code {
 

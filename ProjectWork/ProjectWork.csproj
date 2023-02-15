@@ -64,4 +64,6 @@
       <Folder Include="Components\" />
     </ItemGroup>
 
+    <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionProjectWorkHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>
