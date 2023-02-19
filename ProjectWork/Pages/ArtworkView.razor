@@ -44,6 +44,7 @@
         <p>@item.Description</p>
         <p>@item.Author</p>
         <img src="@item.Image_url">
+        @item.Image_url
         <h4>Delete</h4>
         <button @onclick="async ()=>await Artwork.DeleteItem(item.Id)">delete</button>
         <hr />
