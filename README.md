@@ -29,3 +29,26 @@ ProjectWork
     ├───Utilities # Utilities for the entire project
     └───wwwroot
 ```
+## Deployment with backend
+
+#### Running in local network
+- [Backend Docker](https://github.com/Clueless-Aware/BackendAPI)
+
+
+
+
+#### Usage
+
+- in wwwroot/index.html
+
+
+```html
+<!--set the local ip of your host, to avoid the https conversion-->
+<meta http-equiv="Content-Security-Policy" content="img-src https: http://192.168.1.1:80/" />
+```
+
+- in Resources/Static/Endpoints.cs
+```csharp
+//Set the ip of your local host
+private static readonly string _url = "http://192.168.1.1:80";
+```

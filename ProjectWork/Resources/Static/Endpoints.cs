@@ -2,7 +2,8 @@
 
 public static class Endpoints
 {
-    private static readonly string _url = "http://127.0.0.1:8000";
+    //Set the ip of your local host
+    private static readonly string _url = "http://192.168.30.120:80";
 
     public static string getArtworkEndpoint()
     {
