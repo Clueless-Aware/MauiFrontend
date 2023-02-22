@@ -3,27 +3,100 @@
 
 <style>
     hr {
-  display: block;
-  margin-top: 2.5em;
-  margin-bottom: 2.5em;
-  margin-left: auto;
-  height: 0px;
-  margin-right: auto;
-  border-style: none;
-  border-width: 1px;
-}
+        display: block;
+        margin-top: 2.5em;
+        margin-bottom: 2.5em;
+        margin-left: auto;
+        height: 0px;
+        margin-right: auto;
+        border-style: none;
+        border-width: 1px;
+    }
 
-p{
-    font-weight:600;
-}
+    p {
+        font-weight: 600;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 0px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
 </style>
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
-<h1>Dashboard</h1>
+    <h1>Dashboard</h1>
 
-<div class="w3-card-4 w3-yellow w3-text-red w3-padding-large w3-center w-100" style="height: 75%">
-    <p class="w3-xlarge">
-        Work in progress...
-    </p>
-</div>
+    <hr />
+
+    <Alert></Alert>
+    <Alert></Alert>
+
+    <div class="w3-text w3-padding-24 w3-large">
+        <p>
+            There are no new info.
+        </p>
+    </div>
+
+    <div class="w3-margin-top w3-card-2 w3-padding-16 w3-round-large">
+        <table class="w3-round-large w-100 w3-padding">
+
+            <tr>
+                <th>Data</th>
+                <th>Value</th>
+                <th>Options</th>
+            </tr>
+            <tr>
+                <td>Number of artworks managed</td>
+                <td>122</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Number of visits</td>
+                <td>50</td>
+                <td class="w3-center">
+                    <div class="w3-dropdown-hover">
+                        <button class="w3-button w3-black w3-round">Options</button>
+                        <div class="w3-dropdown-content w3-bar-block w3-border">
+                            <a href="#" class="w3-bar-item w3-button">Link 1</a>
+                            <a href="#" class="w3-bar-item w3-button">Link 2</a>
+                            <a href="#" class="w3-bar-item w3-button">Link 3</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Number of artworks managed</td>
+                <td>122</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Number of visits</td>
+                <td>50</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>Number of artworks managed</td>
+                <td>122</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Number of visits</td>
+                <td>50</td>
+                <td>50</td>
+            </tr>
+        </table>
+    </div>
+
 </Animate>

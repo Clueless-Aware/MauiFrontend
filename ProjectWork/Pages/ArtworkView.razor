@@ -14,9 +14,9 @@
     @*<EditItem MovieViewModel=Movie></EditItem>*@
     <div class="w3-padding">
         <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.CreateItem(artwork)">
-            <ul style ="list-style-type:none;" class="w3-margin">
+            <ul style="list-style-type:none;" class="w3-margin">
                 <li class="w3-padding w3-large w3-bold ">
-                    <label for="slug">Slug</label>  
+                    <label for="slug">Slug</label>
                 </li>
                 <li class="w3-padding w3-margin-bottom">
                     <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
@@ -91,97 +91,7 @@
 
     <hr />
 
-    @if (Artwork.Items != null)
-    {
-        @foreach (var item in Artwork.Items)
-        {
-            <hr />
-            <p>@item.Id</p>
-            <p>@item.Title</p>
-            <p>@item.Artist</p>
-            <p>@item.Resolution</p>
-            <p>@item.Color</p>
-            <p>@item.File_dimension</p>
-            <p>@item.Date</p>
-            <p>@item.Type</p>
-            <p>@item.Size</p>
-            <p>@item.Museum</p>
-            <img src="@item.Image_url">
-            <h4>Delete</h4>
-            <button @onclick="async ()=>await Artwork.DeleteItem(item.Id)">delete</button>
-            <hr />
-            <h4>Edit</h4>
-            <EditForm Model="@item" OnValidSubmit="async ()=>await Artwork.UpdateItem(item.Id,item)">
 
-                <li class="w3-padding w3-large w3-bold ">
-                    <label for="slug">Slug</label>  
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
-                </li>
-                <li class="w3-padding w3-large w3-bold \">
-                    <label for="title">Title</label>
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Artist" placeholder="Enter author" name="Title">
-                </li>
-
-                <li class="w3-padding w3-large w3-bold ">
-                    <label for="description">Description</label>
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Resolution" placeholder="Enter Description" name="Description">
-                </li>
-                <li class="w3-padding w3-large w3-bold \">
-                    <label for="title">Color</label>
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Color" placeholder="Enter Color" name="Color">
-                </li>
-
-                <li class="w3-padding w3-large w3-bold \">
-                    <label for="title">File_dimension</label>
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.File_dimension" placeholder="Enter File_dimension" name="Color">
-                </li>
-
-                <li class="w3-padding w3-large w3-bold \">
-                    <label for="title">Date</label>
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Date" placeholder="Enter Date" name="Color">
-                </li>
-
-                <li class="w3-padding w3-large w3-bold \">
-                    <label for="title">Type</label>
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Type" placeholder="Enter Type" name="Color">
-                </li>
-
-                <li class="w3-padding w3-large w3-bold \">
-                    <label for="title">Size</label>
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Size" placeholder="Enter Size" name="Color">
-                </li>
-
-                <li class="w3-padding w3-large w3-bold \">
-                    <label for="title">Museum</label>
-                </li>
-                <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Museum" placeholder="Enter Museum" name="Color">
-                </li>
-
-                <li class="w3-margin-bottom">
-                    <InputFile class="w3-button w3-round" OnChange="@OnInputFile" />
-                </li>
-            
-            </EditForm>
-
-        }
-    }
 </Animate>
 
 @code {

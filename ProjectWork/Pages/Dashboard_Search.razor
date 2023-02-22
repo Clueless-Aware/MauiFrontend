@@ -1,82 +1,171 @@
 ﻿@page "/dashboard_search"
+
+@using ProjectWork.Data.ViewModels
+@using ProjectWork.Models
+@using System.ComponentModel
+@inject ArtworkViewModel Artwork
+@implements IDisposable
 @layout AdminLayout
 
-
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
-<style>
+    <style>
 
-    #search {
-        padding-top: 10px;
-        padding-right: 20px;
-        padding-bottom: 5px;
-        padding-left: 20px;
-    }
-
-    .button-padding {
-        padding-top: 0px;
-        padding-right: 16px;
-        padding-bottom: 0px;
-        padding-left: 16px;
-    }
-</style>
-
-<h1>Search</h1>
-
-<p>Here you can search for any art pieces you are interested in.</p>
-
-<div class="w3-bar w3-margin-bottom w3-padding">
-    <span>
-        <input id="searchBar" type="search" class="w3-padding w3-round w3-margin-bottom w3-margin-right w-100" />
-        <button id="search" class="btn w3-button w3-red w3-round-large" @onclick="@AddElement">
-            <span class="material-symbols-outlined">search</span>
-        </button>
-    </span>
-    <hr />
-</div>
-
-
-<div>
-    <div class="w3-center">
-        @foreach (var e in elements)
-        {
-            <div class="w3-card-4 w3-round-large w3-white w3-margin-bottom w3-padding-top-24 w3-animate-right">
-                <div class="w3-text w3-padding-16">
-                    <p class="w3-xxlarge">
-                        Title
-                    </p>
-
-                    <ul>
-                        <li>
-                            <p>
-                                ID: #3486
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                Tags: [1600] [Painting] [Oil] [Canvas] [Belgium] [1655]
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                Info: ...
-                            </p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        #search {
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 5px;
+            padding-left: 20px;
         }
-    </div>
 
-</div>
+        .button-padding {
+            padding-top: 0px;
+            padding-right: 16px;
+            padding-bottom: 0px;
+            padding-left: 16px;
+        }
+    </style>
+
+    <h1>Search</h1>
+
+    <p>Here you can search for any art pieces you are interested in.</p>
+
+    <div class="w3-bar w3-margin-bottom w3-padding">
+        <span>
+            <input id="searchBar" type="search" class="w3-padding w3-round w3-margin-bottom w3-margin-right w-100" />
+            <button id="search" class="btn w3-button w3-red w3-round-large">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </span>
+        <hr />
+    </div>
 </Animate>
 
-@code {
-    private List<String> elements = new();
-
-    private void AddElement()
+@if (Artwork.Items != null)
+{
+    @foreach (var item in Artwork.Items)
     {
-        int number = 5;
-        for (int i = 0; i < number; i++)
-            elements.Add("Lorem Ipsum");
+        <hr />
+        <p>@item.Id</p>
+        <p>@item.Title</p>
+        <p>@item.Artist</p>
+        <p>@item.Resolution</p>
+        <p>@item.Color</p>
+        <p>@item.File_dimension</p>
+        <p>@item.Date</p>
+        <p>@item.Type</p>
+        <p>@item.Size</p>
+        <p>@item.Museum</p>
+        <img src="@item.Image_url">
+        <h4>Delete</h4>
+        <button @onclick="async ()=>await Artwork.DeleteItem(item.Id)">delete</button>
+        <hr />
+        <h4>Edit</h4>
+        <EditForm Model="@item" OnValidSubmit="async ()=>await Artwork.UpdateItem(item.Id,item)">
+
+            <li class="w3-padding w3-large w3-bold ">
+                <label for="slug">Slug</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
+            </li>
+            <li class="w3-padding w3-large w3-bold \">
+                <label for="title">Title</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Artist" placeholder="Enter author" name="Title">
+            </li>
+
+            <li class="w3-padding w3-large w3-bold ">
+                <label for="description">Description</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Resolution" placeholder="Enter Description" name="Description">
+            </li>
+            <li class="w3-padding w3-large w3-bold \">
+                <label for="title">Color</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Color" placeholder="Enter Color" name="Color">
+            </li>
+
+            <li class="w3-padding w3-large w3-bold \">
+                <label for="title">File_dimension</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.File_dimension" placeholder="Enter File_dimension" name="Color">
+            </li>
+
+            <li class="w3-padding w3-large w3-bold \">
+                <label for="title">Date</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Date" placeholder="Enter Date" name="Color">
+            </li>
+
+            <li class="w3-padding w3-large w3-bold \">
+                <label for="title">Type</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Type" placeholder="Enter Type" name="Color">
+            </li>
+
+            <li class="w3-padding w3-large w3-bold \">
+                <label for="title">Size</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Size" placeholder="Enter Size" name="Color">
+            </li>
+
+            <li class="w3-padding w3-large w3-bold \">
+                <label for="title">Museum</label>
+            </li>
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artwork.Museum" placeholder="Enter Museum" name="Color">
+            </li>
+
+            <li class="w3-margin-bottom">
+                <InputFile class="w3-button w3-round" OnChange="@OnInputFile" />
+            </li>
+
+        </EditForm>
+
+    }
+}
+
+@code {
+
+    ArtworkUpload artwork = new();
+    protected override async Task OnInitializedAsync()
+    {
+        Artwork.PropertyChanged += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        };
+        await Artwork.ReadItems();
+        await base.OnInitializedAsync();
+    }
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+    public void Dispose()
+    {
+        Artwork.PropertyChanged -= OnPropertyChangedHandler;
+    }
+    //Change the upload model
+    void OnInputFile(InputFileChangeEventArgs e)
+    {
+        artwork.File = e.File;
+    }
+    //Change the download model
+    void OnInputFile(InputFileChangeEventArgs e, ArtwokDownload item)
+    {
+        item.File = e.File;
     }
 }
