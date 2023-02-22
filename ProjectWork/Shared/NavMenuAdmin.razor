@@ -15,7 +15,7 @@
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
         <nav class="flex-column">
             <div class="nav-item px-3 w3-margin-bottom">
-                <NavLink class="nav-link w3-padding-16" href="/">
+                <NavLink class="nav-link w3-padding-16" href="/Home">
                     <span class="material-symbols-outlined w3-margin-right">undo</span> Back
                 </NavLink>
             </div>
@@ -41,7 +41,7 @@
             </div>
 
             <div class="nav-item px-3 w3-margin-top">
-                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="logOut">
+                <NavLink class="nav-link" href="/Home" Match="NavLinkMatch.All" @onclick="logOut">
                     <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
                 </NavLink>
             </div>

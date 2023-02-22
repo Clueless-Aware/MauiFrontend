@@ -5,6 +5,7 @@ using ProjectWork.Data.Services;
 using ProjectWork.Data.ViewModels;
 using Microsoft.Maui.LifecycleEvents;
 
+
 namespace ProjectWork;
 
 public static class MauiProgram
@@ -58,7 +59,6 @@ public static class MauiProgram
                     });
                 });
 #endif
-
         return builder.Build();
     }
 }
