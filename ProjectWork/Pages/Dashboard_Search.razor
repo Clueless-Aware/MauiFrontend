@@ -1,0 +1,82 @@
+﻿@page "/dashboard_search"
+@layout AdminLayout
+
+
+<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+<style>
+
+    #search {
+        padding-top: 10px;
+        padding-right: 20px;
+        padding-bottom: 5px;
+        padding-left: 20px;
+    }
+
+    .button-padding {
+        padding-top: 0px;
+        padding-right: 16px;
+        padding-bottom: 0px;
+        padding-left: 16px;
+    }
+</style>
+
+<h1>Search</h1>
+
+<p>Here you can search for any art pieces you are interested in.</p>
+
+<div class="w3-bar w3-margin-bottom w3-padding">
+    <span>
+        <input id="searchBar" type="search" class="w3-padding w3-round w3-margin-bottom w3-margin-right w-100" />
+        <button id="search" class="btn w3-button w3-red w3-round-large" @onclick="@AddElement">
+            <span class="material-symbols-outlined">search</span>
+        </button>
+    </span>
+    <hr />
+</div>
+
+
+<div>
+    <div class="w3-center">
+        @foreach (var e in elements)
+        {
+            <div class="w3-card-4 w3-round-large w3-white w3-margin-bottom w3-padding-top-24 w3-animate-right">
+                <div class="w3-text w3-padding-16">
+                    <p class="w3-xxlarge">
+                        Title
+                    </p>
+
+                    <ul>
+                        <li>
+                            <p>
+                                ID: #3486
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                Tags: [1600] [Painting] [Oil] [Canvas] [Belgium] [1655]
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                Info: ...
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+</Animate>
+
+@code {
+    private List<String> elements = new();
+
+    private void AddElement()
+    {
+        int number = 5;
+        for (int i = 0; i < number; i++)
+            elements.Add("Lorem Ipsum");
+    }
+}

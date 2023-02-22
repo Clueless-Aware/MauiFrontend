@@ -1,42 +1,47 @@
-﻿<div class="navbar-color">
+﻿@inject NavigationManager NavManager
+
+<div class="navbar-color">
     <div class="top-row ps-3 navbar">
         <div class="container-fluid">
-            <a class="navbar-brand w3-text-white w3-large" href="">ADMIN</a>
+            <a class="navbar-brand w3-text-white w3-large" href="">Admin Dashboard</a>
             <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-                <span class="navbar-toggler-icon"></span>
+                <span class="material-symbols-outlined w3-text-white">
+                    menu
+                </span>
             </button>
         </div>
     </div>
 
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
         <nav class="flex-column">
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="Home">
-                    <span class="material-symbols-outlined w3-margin-right">ambient_screen</span> Main Page
+            <div class="nav-item px-3 w3-margin-bottom">
+                <NavLink class="nav-link w3-padding-16" href="/Home">
+                    <span class="material-symbols-outlined w3-margin-right">undo</span> Back
                 </NavLink>
             </div>
+
             <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="gallery">
-                    <span class="material-symbols-outlined w3-margin-right"gr>gallery_thumbnail</span> Favourites Gallery
+                <NavLink class="nav-link w3-padding-16" href="/dashboard_search">
+                    <span class="material-symbols-outlined w3-margin-right"gr>image_search</span> Search and edit
                 </NavLink>
             </div>
+           <!-- <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="/null">
+                    <span class="material-symbols-outlined w3-margin-right">analytics</span> Artwork Data
+                </NavLink>
+            </div> -->
             <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="dashboard">
-                    <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                <NavLink class="nav-link w3-padding-16" href="artwork">
+                    <span class="material-symbols-outlined w3-margin-right">
+                        <span class="material-symbols-outlined">
+                            add_to_photos
+                        </span>
+                    </span> Add Artwork
                 </NavLink>
             </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> Account settings
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="artwork">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Artwork
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+
+            <div class="nav-item px-3 w3-margin-top">
+                <NavLink class="nav-link" href="/Home" Match="NavLinkMatch.All" @onclick="logOut">
                     <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
                 </NavLink>
             </div>
@@ -52,6 +57,13 @@
     private void ToggleNavMenu()
     {
         _collapseNavMenu = !_collapseNavMenu;
+    }
+
+    private void logOut()
+    {
+        ProjectWork.Data.Services.LoginAgent.setLoggedIn(false);
+        NavManager.NavigateTo("/");
+        StateHasChanged();
     }
 
 }

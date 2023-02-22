@@ -10,7 +10,7 @@
         padding-left: 16px;
     }
 
-    .bold{
+    .bold {
         font-weight: bold;
     }
 
@@ -18,8 +18,8 @@
         list-style-type: none;
     }
 </style>
-
-<div class="w3-card-4 w3-padding w3-margin-left w3-round-xlarge w-75">
+<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+<div class="w3-card-4 w3-padding w3-margin-left w3-round-xlarge">
     <h3 class="w3-margin-left">User Profile</h3>
 
     <span class="w3-margin-left w3-center material-symbols-outlined w3-margin-bottom w3-red w3-amber w3-margin-top w3-xxxlarge w3-circle" id="logo">
@@ -50,9 +50,9 @@
         </li>
         <li>
             <p>
-            Jaque LeFerl is a seasoned art critic with 13 years of experience. 
-            Specializing in Impressionism, he offers insightful and thought-provoking critiques, bringing a unique perspective to the masterpieces of the era. 
-            A must-read for those passionate about this captivating art movement.
+                Jaque LeFerl is a seasoned art critic with 13 years of experience.
+                Specializing in Impressionism, he offers insightful and thought-provoking critiques, bringing a unique perspective to the masterpieces of the era.
+                A must-read for those passionate about this captivating art movement.
             </p>
         </li>
         <li>
@@ -61,7 +61,7 @@
         </li>
     </ul>
 
-    <hr/>
+    <hr />
 
     <span>
         <button onclick="@edit_Account" class="w3-large btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-left w3-margin-right">
@@ -70,9 +70,9 @@
     </span>
 
 </div>
+</Animate>
 
-
-@code{
+@code {
     private void edit_Account() => NavManager.NavigateTo("/AccountEdit");
 
 }

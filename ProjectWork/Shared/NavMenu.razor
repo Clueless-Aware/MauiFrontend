@@ -1,17 +1,33 @@
-﻿<div class="navbar-color">
+﻿@inject NavigationManager NavManager
+
+<div class="navbar-color">
     <div class="top-row ps-3 navbar">
         <div class="container-fluid">
-            <a class="navbar-brand w3-text-white w3-large" href="">ART SCOUT</a>
+            <a class="navbar-brand w3-text-white w3-large" href="">
+                Art Scout
+                <span class="material-symbols-outlined w3-text-white" > brush </span>
+            </a>
             <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-                <span class="navbar-toggler-icon"></span>
+                <span class="material-symbols-outlined w3-text-white">
+                    menu
+                </span>
             </button>
         </div>
     </div>
 
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
         <nav class="flex-column">
+
+            @if(!adminOptions){
+                <div class="nav-item px-3 w3-margin-bottom">
+                    <NavLink class="nav-link w3-padding-16" href="login">
+                        <span class="material-symbols-outlined w3-margin-right">login</span> Login
+                    </NavLink>
+                </div>
+            }
+
             <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="Home">
+                <NavLink class="nav-link w3-padding-16" href="/Home">
                     <span class="material-symbols-outlined w3-margin-right">ambient_screen</span> Main Page
                 </NavLink>
             </div>
@@ -20,24 +36,28 @@
                     <span class="material-symbols-outlined w3-margin-right"gr>gallery_thumbnail</span> Favourites Gallery
                 </NavLink>
             </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="dashboard">
-                    <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> Account settings
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="artwork">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Artwork
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
-                    <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+            @if(adminOptions)
+            {
+                <div class="nav-item px-3 w3-margin-top">
+                    <NavLink class="nav-link w3-padding-16" href="dashboard">
+                        <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                        <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> Account settings
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3 w3-margin-bottom">
+                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="logOut">
+                        <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                    </NavLink>
+                </div>
+            }
+
+            <div class="nav-item px-3 w3-margin-top">
+                <NavLink class="nav-link" href="/info" Match="NavLinkMatch.All">
+                    <span class="material-symbols-outlined w3-margin-right">info</span> Info
                 </NavLink>
             </div>
         </nav>
@@ -45,6 +65,8 @@
 </div>
 
 @code {
+    private bool adminOptions = false;
+
     private bool _collapseNavMenu = true;
 
     private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
@@ -54,4 +76,27 @@
         _collapseNavMenu = !_collapseNavMenu;
     }
 
+    private void logOut()
+    {
+        ProjectWork.Data.Services.LoginAgent.setLoggedIn(false);
+        adminOptions = false;
+    }
+
+    void SomeStartupMethod()
+    {
+        adminOptions = ProjectWork.Data.Services.LoginAgent.isLoggedIn();
+    }
+
+    Task SomeStartupTask()
+    {
+        // Do some task based work
+        adminOptions = ProjectWork.Data.Services.LoginAgent.isLoggedIn();
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        SomeStartupMethod();
+        await SomeStartupTask();
+    }
 }

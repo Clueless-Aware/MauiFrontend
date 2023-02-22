@@ -1,77 +1,96 @@
 ﻿@page "/artwork"
 @*HTML DI ANGULAR VIEW *@
-<h3>Artworks</h3>
-@using ProjectWork.Data.ViewModels
-@using ProjectWork.Models
-@using System.ComponentModel
-@inject ArtworkViewModel Artwork
-@implements IDisposable
+
+<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+    <h3>Add Artwork</h3>
+    <hr />
+    @using ProjectWork.Data.ViewModels
+    @using ProjectWork.Models
+    @using System.ComponentModel
+    @inject ArtworkViewModel Artwork
+    @implements IDisposable
+    @layout AdminLayout
+
+    @*<EditItem MovieViewModel=Movie></EditItem>*@
+    <div class="w3-padding">
+        <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.CreateItem(artwork)">
+            <ul style ="list-style-type:none;" class="w3-margin">
+                <li class="w3-padding w3-large w3-bold ">
+                    <label for="slug">Slug</label>  
+                </li>
+                <li class="w3-padding w3-margin-bottom">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
+                </li>
+                <li class="w3-padding w3-large w3-bold \">
+                    <label for="title">Title</label>
+                </li>
+                <li class="w3-padding w3-margin-bottom">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Author" placeholder="Enter author" name="Title">
+                </li>
+
+                <li class="w3-padding w3-large w3-bold ">
+                    <label for="description">Description</label>
+                </li>
+                <li class="w3-padding w3-margin-bottom">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Description" placeholder="Enter Description" name="Description">
+                </li>
+                <li class="w3-padding w3-large w3-bold ">
+                    <label for="author">Author</label>
+                </li>
+                <li class="w3-margin-bottom">
+                    <InputFile class="w3-button w3-round" OnChange="@OnInputFile" />
+                </li>
+            </ul>
 
 
-@*<EditItem MovieViewModel=Movie></EditItem>*@
-<h1>New</h1>
-<EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.CreateItem(artwork)">
-    <div>
-        <label for="slug"><b>slug</b></label>
-        <input type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
-    </div>
-    <div>
-        <label for="title"><b>title</b></label>
-        <input type="text" @bind-value="artwork.Author" placeholder="Enter author" name="Title">
-    </div>
-    <div>
-        <label for="description"><b>description</b></label>
-        <input type="text" @bind-value="artwork.Description" placeholder="Enter Description" name="Description">
-    </div>
-    <div>
-        <label for="author"><b>author</b></label>
-        <InputFile OnChange="@OnInputFile" />
-    </div>
-    <button type="submit"> Save </button>
 
-</EditForm>
-
-
-<hr />
-
-@if (Artwork.Items != null)
-{
-    @foreach (var item in Artwork.Items)
-    {
-        <hr />
-        <p>@item.Id</p>
-        <p>@item.Title</p>
-        <p>@item.Description</p>
-        <p>@item.Author</p>
-        <img src="@item.Image_url">
-        @item.Image_url
-        <h4>Delete</h4>
-        <button @onclick="async ()=>await Artwork.DeleteItem(item.Id)">delete</button>
-        <hr />
-        <h4>Edit</h4>
-        <EditForm Model="@item" OnValidSubmit="async ()=>await Artwork.UpdateItem(item.Id,item)">
-            <div>
-                <label for="slug"><b>slug</b></label>
-                <input type="text" @bind-value="item.Title" placeholder="Enter Title" name="Slug">
-            </div>
-            <div>
-                <label for="title"><b>title</b></label>
-                <input type="text" @bind-value="item.Author" placeholder="Enter author" name="Title">
-            </div>
-            <div>
-                <label for="description"><b>description</b></label>
-                <input type="text" @bind-value="item.Description" placeholder="Enter Description" name="Description">
-            </div>
-            <div>
-                <label for="author"><b>author</b></label>
-                <InputFile OnChange="(e)=> OnInputFile(e,item)" />
-            </div>
-            <button type="submit"> Edit </button>
+            <button class="w3-button w3-round-large w3-red" type="submit"> Add </button>
 
         </EditForm>
+    </div>
 
+
+    <hr />
+
+    @if (Artwork.Items != null)
+    {
+        @foreach (var item in Artwork.Items)
+        {
+            <hr />
+            <p>@item.Id</p>
+            <p>@item.Title</p>
+            <p>@item.Description</p>
+            <p>@item.Author</p>
+            <img src="@item.Image_url">
+            <h4>Delete</h4>
+            <button @onclick="async ()=>await Artwork.DeleteItem(item.Id)">delete</button>
+            <hr />
+            <h4>Edit</h4>
+            <EditForm Model="@item" OnValidSubmit="async ()=>await Artwork.UpdateItem(item.Id,item)">
+                <div>
+                    <label for="slug"><b>slug</b></label>
+                    <input type="text" @bind-value="item.Title" placeholder="Enter Title" name="Slug">
+                </div>
+                <div>
+                    <label for="title"><b>title</b></label>
+                    <input type="text" @bind-value="item.Author" placeholder="Enter author" name="Title">
+                </div>
+                <div>
+                    <label for="description"><b>description</b></label>
+                    <input type="text" @bind-value="item.Description" placeholder="Enter Description" name="Description">
+                </div>
+                <div>
+                    <label for="author"><b>author</b></label>
+                    <InputFile OnChange="(e)=> OnInputFile(e,item)" />
+                </div>
+                <button type="submit"> Edit </button>
+
+            </EditForm>
+
+        }
     }
-}
+</Animate>
+
 @code {
 
     ArtworkUpload artwork = new();

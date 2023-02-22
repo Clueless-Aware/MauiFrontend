@@ -22,7 +22,7 @@ namespace ProjectWork.Data.Services
         /// <returns></returns>
         public virtual async Task<List<D>> GetItems()
         {
-            Debug.WriteLine("get items service");
+            //Debug.WriteLine("get items service");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(_mediaType);
             List<D> items = new();
