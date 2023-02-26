@@ -11,6 +11,7 @@ namespace ProjectWork.ViewModels
         private GenericData<BaseArtwork> _genericData = new();
         private int currentPage = 1;
 
+        
         public int CurrentPage { get => currentPage; set => currentPage = value; }
         private readonly ServiceAPI _artworkService = new ServiceAPI(Endpoints.getArtworkEndpoint());
         public GenericData<BaseArtwork> GenericData
