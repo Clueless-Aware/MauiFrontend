@@ -3,11 +3,11 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 
 // Service of Angular
-namespace ProjectWork.Data.Services
+namespace ProjectWork.Services
 {
     //U upload
     //D download
-    public class Service<U,D>
+    public class Service<U, D>
     {
         protected readonly string URL = "";
         protected readonly HttpClient _httpClient = new HttpClient();
@@ -61,7 +61,7 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
-            
+
             Debug.WriteLine(httpResponseMessage.ToString());
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
         }
@@ -112,7 +112,7 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
-            
+
             Debug.WriteLine(httpResponseMessage.ToString());
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
         }
@@ -139,7 +139,7 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
-            
+
             Debug.WriteLine(httpResponseMessage.ToString());
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
         }
@@ -163,7 +163,7 @@ namespace ProjectWork.Data.Services
             {
                 Debug.WriteLine(e.GetType() + " " + e.Message);
             }
-            
+
             Debug.WriteLine(httpResponseMessage.ToString());
             return (httpResponseMessage.IsSuccessStatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
         }

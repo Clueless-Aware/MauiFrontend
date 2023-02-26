@@ -50,6 +50,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AndroidResource Remove="Components\**" />
+      <Compile Remove="Components\**" />
+      <Content Remove="Components\**" />
+      <EmbeddedResource Remove="Components\**" />
+      <MauiXaml Remove="Components\**" />
+      <None Remove="Components\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Content Remove="Shared\SurveyPrompt.razor" />
     </ItemGroup>
 
@@ -61,7 +70,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\" />
+      <Folder Include="Data\" />
     </ItemGroup>
 
     <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionProjectWorkHideInfoBar="True" /></VisualStudio></ProjectExtensions>
