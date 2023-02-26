@@ -87,7 +87,14 @@
 
     private void attemptLogin()
     {
+
+/* Unmerged change from project 'ProjectWork (net7.0-android)'
+Before:
         ProjectWork.Data.Services.LoginAgent.setLoggedIn(true);
+After:
+        LoginAgent.setLoggedIn(true);
+*/
+        Services.LoginAgent.setLoggedIn(true);
         NavManager.NavigateTo("/dashboard");
     }
 }

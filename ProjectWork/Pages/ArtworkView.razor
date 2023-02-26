@@ -1,45 +1,85 @@
 ﻿@page "/artwork"
+@using ProjectWork.Models.Artwork;
+@using ProjectWork.ViewModels;
+@using System.ComponentModel;
 @*HTML DI ANGULAR VIEW *@
+@inject ArtworkViewModel Artwork
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
     <h3>Add Artwork</h3>
     <hr />
-    @using ProjectWork.Data.ViewModels
-    @using ProjectWork.Models
-    @using System.ComponentModel
-    @inject ArtworkViewModel Artwork
     @implements IDisposable
     @layout AdminLayout
 
-    @*<EditItem MovieViewModel=Movie></EditItem>*@
     <div class="w3-padding">
-        <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.CreateItem(artwork)">
+        <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
             <ul style ="list-style-type:none;" class="w3-margin">
+
                 <li class="w3-padding w3-large w3-bold ">
                     <label for="slug">Slug</label>  
                 </li>
                 <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Title" name="Slug">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Artist" placeholder="Enter Title" name="Slug">
                 </li>
+
                 <li class="w3-padding w3-large w3-bold \">
                     <label for="title">Title</label>
                 </li>
                 <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Author" placeholder="Enter author" name="Title">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter author" name="Title">
                 </li>
 
                 <li class="w3-padding w3-large w3-bold ">
                     <label for="description">Description</label>
                 </li>
                 <li class="w3-padding w3-margin-bottom">
-                    <input class=" w3-round" type="text" @bind-value="artwork.Description" placeholder="Enter Description" name="Description">
+                    <input class=" w3-round" type="text" @bind-value="artwork.PictureData" placeholder="Enter Description" name="Description">
                 </li>
+
+                <li class="w3-padding w3-large w3-bold ">
+                    <label for="description">Description</label>
+                </li>
+                <li class="w3-padding w3-margin-bottom">
+                    <input class=" w3-round" type="text" @bind-value="artwork.FileInfo" placeholder="Enter Description" name="Description">
+                </li>
+
+                <li class="w3-padding w3-large w3-bold ">
+                    <label for="description">Description</label>
+                </li>
+                <li class="w3-padding w3-margin-bottom">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Date" placeholder="Enter Description" name="Description">
+                </li>
+
+                <li class="w3-padding w3-large w3-bold ">
+                    <label for="description">Description</label>
+                </li>
+                <li class="w3-padding w3-margin-bottom">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Type" placeholder="Enter Description" name="Description">
+                </li>
+
+                <li class="w3-padding w3-large w3-bold ">
+                    <label for="description">Description</label>
+                </li>
+                <li class="w3-padding w3-margin-bottom">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Size" placeholder="Enter Description" name="Description">
+                </li>
+
+                <li class="w3-padding w3-large w3-bold ">
+                    <label for="description">Description</label>
+                </li>
+                <li class="w3-padding w3-margin-bottom">
+                    <input class=" w3-round" type="text" @bind-value="artwork.Museum" placeholder="Enter Description" name="Description">
+                </li>
+
+
+
                 <li class="w3-padding w3-large w3-bold ">
                     <label for="author">Author</label>
                 </li>
                 <li class="w3-margin-bottom">
                     <InputFile class="w3-button w3-round" OnChange="@OnInputFile" />
                 </li>
+
             </ul>
 
 
@@ -52,32 +92,57 @@
 
     <hr />
 
-    @if (Artwork.Items != null)
+    @if (Artwork.GenericData.Data != null)
     {
-        @foreach (var item in Artwork.Items)
+        @foreach (var item in Artwork.GenericData.Data)
         {
             <hr />
             <p>@item.Id</p>
+            <p>@item.Artist</p>
             <p>@item.Title</p>
-            <p>@item.Description</p>
-            <p>@item.Author</p>
-            <img src="@item.Image_url">
+            <p>@item.PictureData</p>
+            <p>@item.FileInfo</p>
+            <p>@item.Date</p>
+            <p>@item.Type</p>
+            <p>@item.Size</p>
+            <p>@item.Museum</p>
+            <img src="@item.ImageUrl">
             <h4>Delete</h4>
-            <button @onclick="async ()=>await Artwork.DeleteItem(item.Id)">delete</button>
+            <button @onclick="async ()=>await Artwork.DeleteItemAsync(item.Id)">delete</button>
             <hr />
             <h4>Edit</h4>
-            <EditForm Model="@item" OnValidSubmit="async ()=>await Artwork.UpdateItem(item.Id,item)">
+            <EditForm Model="@item" OnValidSubmit="async ()=>await Artwork.UpdateItemAsync(item)">
                 <div>
                     <label for="slug"><b>slug</b></label>
-                    <input type="text" @bind-value="item.Title" placeholder="Enter Title" name="Slug">
+                    <input type="text" @bind-value="item.Artist" placeholder="Enter Title" name="Slug">
                 </div>
                 <div>
                     <label for="title"><b>title</b></label>
-                    <input type="text" @bind-value="item.Author" placeholder="Enter author" name="Title">
+                    <input type="text" @bind-value="item.Title" placeholder="Enter author" name="Title">
                 </div>
                 <div>
                     <label for="description"><b>description</b></label>
-                    <input type="text" @bind-value="item.Description" placeholder="Enter Description" name="Description">
+                    <input type="text" @bind-value="item.PictureData" placeholder="Enter Description" name="Description">
+                </div>
+                <div>
+                    <label for="description"><b>description</b></label>
+                    <input type="text" @bind-value="item.FileInfo" placeholder="Enter Description" name="Description">
+                </div>
+                <div>
+                    <label for="description"><b>description</b></label>
+                    <input type="text" @bind-value="item.Date" placeholder="Enter Description" name="Description">
+                </div>
+                <div>
+                    <label for="description"><b>description</b></label>
+                    <input type="text" @bind-value="item.Type" placeholder="Enter Description" name="Description">
+                </div>
+                <div>
+                    <label for="description"><b>description</b></label>
+                    <input type="text" @bind-value="item.Size" placeholder="Enter Description" name="Description">
+                </div>
+                <div>
+                    <label for="description"><b>description</b></label>
+                    <input type="text" @bind-value="item.Museum" placeholder="Enter Description" name="Description">
                 </div>
                 <div>
                     <label for="author"><b>author</b></label>
@@ -93,7 +158,7 @@
 
 @code {
 
-    ArtworkUpload artwork = new();
+    BaseArtwork artwork = new BaseArtwork();
     protected override async Task OnInitializedAsync()
     {
         Artwork.PropertyChanged += async (sender, e) =>
@@ -103,7 +168,7 @@
                 StateHasChanged();
             });
         };
-        await Artwork.ReadItems();
+        await Artwork.GetDataAsync();
         await base.OnInitializedAsync();
     }
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
@@ -118,14 +183,13 @@
         Artwork.PropertyChanged -= OnPropertyChangedHandler;
     }
     //Change the upload model
+    void OnInputFile(InputFileChangeEventArgs e,BaseArtwork item)
+    {
+        item.File = e.File;
+    }
     void OnInputFile(InputFileChangeEventArgs e)
     {
         artwork.File = e.File;
-    }
-    //Change the download model
-    void OnInputFile(InputFileChangeEventArgs e, ArtwokDownload item)
-    {
-        item.File = e.File;
     }
 }
 
