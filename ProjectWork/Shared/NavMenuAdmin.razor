@@ -65,7 +65,14 @@
 
     private void logOut()
     {
+
+/* Unmerged change from project 'ProjectWork (net7.0-android)'
+Before:
         ProjectWork.Data.Services.LoginAgent.setLoggedIn(false);
+After:
+        LoginAgent.setLoggedIn(false);
+*/
+        Services.LoginAgent.setLoggedIn(false);
         NavManager.NavigateTo("/");
         StateHasChanged();
     }

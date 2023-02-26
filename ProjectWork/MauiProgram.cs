@@ -1,11 +1,9 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using ProjectWork.Data;
-using ProjectWork.Data.Services;
-using ProjectWork.Data.ViewModels;
+using ProjectWork.ViewModels;
+#if WINDOWS
 using Microsoft.Maui.LifecycleEvents;
-
-
+#endif
 namespace ProjectWork;
 
 public static class MauiProgram
@@ -32,9 +30,7 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-
         builder.Services.AddSingleton<ArtworkViewModel>();
-        builder.Services.AddSingleton<AccountViewModel>();
 
 #if WINDOWS
                 builder.ConfigureLifecycleEvents(events =>
