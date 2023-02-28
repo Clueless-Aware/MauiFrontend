@@ -10,7 +10,6 @@
     <hr />
     @implements IDisposable
     @layout AdminLayout
-
     <div class="w3-padding">
         <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
             <ul style ="list-style-type:none;" class="w3-margin">
@@ -91,17 +90,17 @@
 
 
     <hr />
-
-    @if (Artwork.GenericData.Data != null)
+    @if(Artwork.GenericData != null)
+    @*TODO: Create a var if data is empty*@
+    @if (Artwork.GenericData.Data != null && Artwork.GenericData.Data.Count > 0 )
     {
+    <PaginatorComponent Paginator="@Artwork.Paginator"> </PaginatorComponent>
         @foreach (var item in Artwork.GenericData.Data)
         {
             <hr />
             <p>@item.Id</p>
             <p>@item.Artist</p>
             <p>@item.Title</p>
-            <p>@item.PictureData</p>
-            <p>@item.FileInfo</p>
             <p>@item.Date</p>
             <p>@item.Type</p>
             <p>@item.Size</p>
@@ -157,7 +156,6 @@
 </Animate>
 
 @code {
-
     BaseArtwork artwork = new BaseArtwork();
     protected override async Task OnInitializedAsync()
     {
@@ -168,6 +166,7 @@
                 StateHasChanged();
             });
         };
+        //TODO: CLEAR PARAMETERS
         await Artwork.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }

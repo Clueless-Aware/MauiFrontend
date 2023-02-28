@@ -1,12 +1,13 @@
-﻿using ProjectWork.Models.Artwork;
-using ProjectWork.Models.Core;
-using ProjectWork.Resources.Static;
+﻿using ProjectWork.Models.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
+using ProjectWork.Models.Artwork;
 using ProjectWork.Services.Core;
+using ProjectWork.Resources.Static;
 using ProjectWork.Utilities;
 
 namespace ProjectWork.ViewModels
 {
-    public class ArtworkViewModel : BaseViewModel<BaseArtwork>
+    public class SearchArtworkVM : BaseViewModel<BaseArtwork>
     {
         //Declare a Service pass the url end point
         private readonly ServiceAPI _artworkService = new ServiceAPI(Endpoints.getArtworkEndpoint());
@@ -48,10 +49,7 @@ namespace ProjectWork.ViewModels
         {
             IsBusy = true;
             var newItem = await _artworkService.AddItemAsMultipartAsync(artwork, artwork.File);
-            if (newItem is not null)
-            {
-                await UtilyToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Title} ");
-            }
+            await UtilyToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Title} ");
             IsBusy = false;
         }
         /// <summary>
@@ -63,11 +61,8 @@ namespace ProjectWork.ViewModels
         {
             IsBusy = true;
             var updatedItem = await _artworkService.AddUpdateAsMultipartAsync(artwork.Id, artwork, artwork.File);
-            if (updatedItem is not null)
-            {
-                await UtilyToolkit.CreateToast($"Created new element: {updatedItem.Id} {updatedItem.Title} ");
-            }
-            IsBusy = false;
+            await UtilyToolkit.CreateToast($"Created new element: {updatedItem.Id} {updatedItem.Title} ");
+            IsBusy= false;
         }
     }
 }

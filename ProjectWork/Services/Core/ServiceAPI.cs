@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Web;
 
 namespace ProjectWork.Services.Core
 {
@@ -15,11 +16,23 @@ namespace ProjectWork.Services.Core
         private HeadersDirector _headersDirector = new();
         private HeadersBuilder _headersBuilder;
         private readonly string url;
+        private readonly ImageOptions imageOptions= new();
+        private readonly UriBuilder uriBuilder;
+
         public ServiceAPI(string url)
         {
             _headersBuilder = new HeadersBuilder(new HttpClient());
             _headersDirector.Builder = _headersBuilder;
             this.url = url;
+            this.uriBuilder = new UriBuilder(url);
+        }
+        public ServiceAPI(string url,ImageOptions imageOptions)
+        {
+            _headersBuilder = new HeadersBuilder(new HttpClient());
+            _headersDirector.Builder = _headersBuilder;
+            this.url = url;
+            this.imageOptions = imageOptions;
+            this.uriBuilder = new UriBuilder(url);
         }
 
         public async Task<K> GetDataPageAsync<K>(int currentPage)
@@ -27,7 +40,29 @@ namespace ProjectWork.Services.Core
             _headersDirector.BuildGenericGetHeader();
             return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>($"{url}?page={currentPage}"));
         }
+        public async Task<K> GetDataPageAsync<K>(Dictionary<string,string> parameters)
+        {
+            BuildUri(parameters);
+            return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>(uriBuilder.Uri));
 
+        }
+
+        private void BuildUri(Dictionary<string, string> parameters)
+        {
+            uriBuilder.Query = "";
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            foreach (var item in parameters)
+            {
+                query[item.Key] = item.Value;
+            }
+            uriBuilder.Query = query.ToString();
+        }
+
+        public async Task<K> GetDetailObject<K>(int id)
+        {
+            _headersDirector.BuildGenericGetHeader();
+            return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>($"{url}{id}/"));
+        }
         public async Task DeleteItemAsync(int page)
         {
             _headersDirector.AuthenticatedHeader();
@@ -44,7 +79,7 @@ namespace ProjectWork.Services.Core
         public async Task<K> AddItemAsMultipartAsync<K>(K item, IBrowserFile file)
         {
             _headersDirector.AuthenticatedHeader();
-            var content = await HandleMultipart.Build(item, file);
+            var content = await HandleMultipart.Build(item, file,imageOptions);
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(url, content));
             return await HandleResponse.Responded<K>(tempMessage);
         }
@@ -60,9 +95,10 @@ namespace ProjectWork.Services.Core
         public async Task<K> AddUpdateAsMultipartAsync<K>(int id,K item, IBrowserFile file)
         {
             _headersDirector.AuthenticatedHeader();
-            var content = await HandleMultipart.Build(item, file);
+            var content = await HandleMultipart.Build(item, file,imageOptions);
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PatchAsync($"{url}{id}/", content));
             return await HandleResponse.Responded<K>(tempMessage);
         }
+
     }
 }

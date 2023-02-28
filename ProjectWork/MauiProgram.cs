@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using ProjectWork.Models.Artwork;
 using ProjectWork.ViewModels;
 #if WINDOWS
 using Microsoft.Maui.LifecycleEvents;
@@ -30,7 +31,8 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddSingleton<ArtworkViewModel>();
+        builder.Services.AddScoped< ArtworkViewModel>();
+        builder.Services.AddScoped<SearchArtworkVM>();
 
 #if WINDOWS
                 builder.ConfigureLifecycleEvents(events =>

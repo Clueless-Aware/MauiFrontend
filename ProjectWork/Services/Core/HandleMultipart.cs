@@ -9,9 +9,8 @@ namespace ProjectWork.Services.Core
 {
     internal class HandleMultipart
     {
-        private const long MaxSize = 223372036854775807L;
         private static MultipartFormDataContent _multipartFormDataContent;
-        internal static async Task<MultipartFormDataContent> Build<K>(K item, IBrowserFile file)
+        internal static async Task<MultipartFormDataContent> Build<K>(K item, IBrowserFile file,ImageOptions imageOptions)
         {
             _multipartFormDataContent = new MultipartFormDataContent();
             try
@@ -21,12 +20,12 @@ namespace ProjectWork.Services.Core
                 if (file is not null)
                 {
                     var ms = new MemoryStream();
-                    await file.OpenReadStream(MaxSize).CopyToAsync(ms);
+                    await file.OpenReadStream(imageOptions.FileMaxSize).CopyToAsync(ms);
                     ms.Position = 0;
                     var fileStream = new StreamContent(ms);
                     fileStream.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                    _multipartFormDataContent.Add(fileStream, "image_url", file.Name);
-                    parameters.Remove("image_url");
+                    _multipartFormDataContent.Add(fileStream,imageOptions.FileName, file.Name);
+                    parameters.Remove(imageOptions.FileName);
                 }
                 foreach (KeyValuePair<string, object> entry in parameters)
                 {
