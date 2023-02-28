@@ -16,6 +16,7 @@ namespace ProjectWork.Services.Core
         private HeadersDirector _headersDirector = new();
         private HeadersBuilder _headersBuilder;
         private readonly string url;
+        private readonly ImageOptions imageOptions= new();
         private readonly UriBuilder uriBuilder;
 
         public ServiceAPI(string url)
@@ -23,6 +24,14 @@ namespace ProjectWork.Services.Core
             _headersBuilder = new HeadersBuilder(new HttpClient());
             _headersDirector.Builder = _headersBuilder;
             this.url = url;
+            this.uriBuilder = new UriBuilder(url);
+        }
+        public ServiceAPI(string url,ImageOptions imageOptions)
+        {
+            _headersBuilder = new HeadersBuilder(new HttpClient());
+            _headersDirector.Builder = _headersBuilder;
+            this.url = url;
+            this.imageOptions = imageOptions;
             this.uriBuilder = new UriBuilder(url);
         }
 
@@ -70,7 +79,7 @@ namespace ProjectWork.Services.Core
         public async Task<K> AddItemAsMultipartAsync<K>(K item, IBrowserFile file)
         {
             _headersDirector.AuthenticatedHeader();
-            var content = await HandleMultipart.Build(item, file);
+            var content = await HandleMultipart.Build(item, file,imageOptions);
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(url, content));
             return await HandleResponse.Responded<K>(tempMessage);
         }
@@ -86,7 +95,7 @@ namespace ProjectWork.Services.Core
         public async Task<K> AddUpdateAsMultipartAsync<K>(int id,K item, IBrowserFile file)
         {
             _headersDirector.AuthenticatedHeader();
-            var content = await HandleMultipart.Build(item, file);
+            var content = await HandleMultipart.Build(item, file,imageOptions);
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PatchAsync($"{url}{id}/", content));
             return await HandleResponse.Responded<K>(tempMessage);
         }
