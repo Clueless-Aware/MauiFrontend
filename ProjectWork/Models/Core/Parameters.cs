@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace ProjectWork.Models.Core
 {
+    /// <summary>
+    /// Set the Query Parameters for url page, ordering, search and specific to test
+    /// </summary>
     public class Parameters
     {
 

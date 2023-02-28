@@ -7,69 +7,62 @@ using ProjectWork.Utilities;
 
 namespace ProjectWork.ViewModels
 {
-    public class SearchArtworkVM: ObservableRecipient, IViewModel<BaseArtwork>
+    public class SearchArtworkVM : BaseViewModel<BaseArtwork>
     {
-        private bool isBusy = false;
-        //if Busy=true dont make request or disable button in razor
-        public bool IsBusy
-        {
-            get => isBusy;
-            set
-            {
-                SetProperty(ref isBusy, value);
-            }
-        }
-        private Parameters _parameters = new();
-        private GenericData<BaseArtwork> _genericData = new();
-        private Paginator _paginator = new();
-        public Parameters Parameters
-        {
-            get
-            {
-                return _parameters;
-            }
-            set => SetProperty(ref _parameters, value);
-        }
-        public Paginator Paginator
-        {
-            get
-            {
-                return _paginator;
-            }
-            set => SetProperty(ref _paginator, value);
-        }
-
-
+        //Declare a Service pass the url end point
         private readonly ServiceAPI _artworkService = new ServiceAPI(Endpoints.getArtworkEndpoint());
-        public GenericData<BaseArtwork> GenericData
+        /// <summary>
+        /// Get Generic data of T from api service and set the state of paginator if get some data
+        /// </summary>
+        /// <returns></returns>
+        public override async Task GetGenericDataFromPageAsync()
         {
-            get => _genericData;
-            set => SetProperty(ref _genericData, value);
-        }
-        public async Task GetGenericDataFromPageAsync()
-        {
-            GenericData = await _artworkService.GetDataPageAsync<GenericData<BaseArtwork>>(_parameters.dictionary);
-
-            if (GenericData != null && GenericData.Data.Count> 0)
+            IsBusy = true;
+            GenericData = await _artworkService.GetDataPageAsync<GenericData<BaseArtwork>>(Parameters.dictionary);
+            if (GenericData != null && GenericData.Data.Count > 0)
             {
-            _paginator.SetActualState( Parameters, this.GetGenericDataFromPageAsync,GenericData.Data.Count, GenericData.Count);
+                Paginator.SetActualState(Parameters, this.GetGenericDataFromPageAsync, GenericData.Data.Count, GenericData.Count);
             }
             else
             {
                 await UtilyToolkit.CreateToast("Not items found");
             }
+            IsBusy = false;
         }
-        public async Task DeleteItemAsync(int id)
+        /// <summary>
+        /// Delete Item T with id calling the service delete
+        /// </summary>
+        /// <param name="id">Item id</param>
+        /// <returns></returns>
+        public override async Task DeleteItemAsync(int id)
         {
+            IsBusy = true;
             await _artworkService.DeleteItemAsync(id);
+            IsBusy = false;
         }
-        public async Task AddItemAsync(BaseArtwork artwork)
+        /// <summary>
+        /// Add item with image
+        /// </summary>
+        /// <param name="artwork"></param>
+        /// <returns></returns>
+        public override async Task AddItemAsync(BaseArtwork artwork)
         {
+            IsBusy = true;
             var newItem = await _artworkService.AddItemAsMultipartAsync(artwork, artwork.File);
+            await UtilyToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Title} ");
+            IsBusy = false;
         }
-        public async Task UpdateItemAsync(BaseArtwork artwork)
+        /// <summary>
+        /// Update item from item input
+        /// </summary>
+        /// <param name="artwork"></param>
+        /// <returns></returns>
+        public override async Task UpdateItemAsync(BaseArtwork artwork)
         {
+            IsBusy = true;
             var updatedItem = await _artworkService.AddUpdateAsMultipartAsync(artwork.Id, artwork, artwork.File);
+            await UtilyToolkit.CreateToast($"Created new element: {updatedItem.Id} {updatedItem.Title} ");
+            IsBusy= false;
         }
     }
 }

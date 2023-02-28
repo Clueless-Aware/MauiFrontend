@@ -1,5 +1,8 @@
 ﻿namespace ProjectWork.Models.Core
 {
+    /// <summary>
+    /// Manage the pagination of generic data and make the new request
+    /// </summary>
     public class Paginator
     {
         Parameters _parametersP;
