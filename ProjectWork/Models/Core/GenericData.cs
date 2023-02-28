@@ -9,12 +9,12 @@ namespace ProjectWork.Models.Core
 {
     public class GenericData <T>
     {
+        [JsonPropertyName("count")]
+        public int Count { get; set; }
         [JsonPropertyName("next")]
         public string Next { get; set; }
         [JsonPropertyName("previous")]
         public string Previous { get; set; }
-        [JsonPropertyName("page")]
-        public int Page { get; set; }
         [JsonPropertyName("results")]
         public IList<T> Data { get; set; } = new List<T>();
     }

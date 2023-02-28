@@ -51,11 +51,17 @@
 
     <ItemGroup>
       <AndroidResource Remove="Components\**" />
+      <AndroidResource Remove="Data\**" />
       <Compile Remove="Components\**" />
+      <Compile Remove="Data\**" />
       <Content Remove="Components\**" />
+      <Content Remove="Data\**" />
       <EmbeddedResource Remove="Components\**" />
+      <EmbeddedResource Remove="Data\**" />
       <MauiXaml Remove="Components\**" />
+      <MauiXaml Remove="Data\**" />
       <None Remove="Components\**" />
+      <None Remove="Data\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -67,10 +73,6 @@
         <PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Data\" />
     </ItemGroup>
 
     <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionProjectWorkHideInfoBar="True" /></VisualStudio></ProjectExtensions>

@@ -6,7 +6,8 @@ namespace ProjectWork.ViewModels
     public interface IViewModel<T>
     {
         GenericData<T> GenericData { get; set; }
-        int CurrentPage { get; set; }
+        Parameters Parameters { get; set; }
+        Paginator Paginator { get; set; }
 
         Task GetGenericDataFromPageAsync();
         Task AddItemAsync(T artwork);

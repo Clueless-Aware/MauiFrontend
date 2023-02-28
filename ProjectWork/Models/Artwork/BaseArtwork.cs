@@ -5,8 +5,10 @@ namespace ProjectWork.Models.Artwork
 {
     public interface IArtWorkBase
     {
+        [JsonPropertyName("artist")]
         public string Artist { get; set; }
 
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
         public string PictureData { get; set; }
@@ -19,23 +21,24 @@ namespace ProjectWork.Models.Artwork
 
         public string Size { get; set; }
 
-        public string Museum { get; set; }
     }
     public interface IDownloadArtwork : IArtWorkBase
     {
+        [JsonPropertyName("id")]
         public int Id { get; set; }
+        [JsonPropertyName("image_url")]
         public string ImageUrl { get; set; }
     }
     public interface IUploadArtwork  : IArtWorkBase
     {
+        [JsonPropertyName("file")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public IBrowserFile File { get; set; }
     }
     public class BaseArtwork : IArtWorkBase, IUploadArtwork, IDownloadArtwork
     {
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonPropertyName("image_url")]
         public string ImageUrl { get; set; }
         [JsonPropertyName("artist")]
@@ -62,7 +65,6 @@ namespace ProjectWork.Models.Artwork
         [JsonPropertyName("museum")]
         public string Museum { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        [JsonPropertyName("file")]
         public IBrowserFile File { get; set; }
     }
 }

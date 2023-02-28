@@ -7,8 +7,18 @@ using ProjectWork.Utilities;
 
 namespace ProjectWork.ViewModels
 {
-    public class ArtworkViewModel : ObservableRecipient, IViewModel<BaseArtwork>
+    public class SearchArtworkVM: ObservableRecipient, IViewModel<BaseArtwork>
     {
+        private bool isBusy = false;
+        //if Busy=true dont make request or disable button in razor
+        public bool IsBusy
+        {
+            get => isBusy;
+            set
+            {
+                SetProperty(ref isBusy, value);
+            }
+        }
         private Parameters _parameters = new();
         private GenericData<BaseArtwork> _genericData = new();
         private Paginator _paginator = new();
@@ -40,7 +50,7 @@ namespace ProjectWork.ViewModels
         {
             GenericData = await _artworkService.GetDataPageAsync<GenericData<BaseArtwork>>(_parameters.dictionary);
 
-            if (GenericData != null && GenericData.Count> 0)
+            if (GenericData != null && GenericData.Data.Count> 0)
             {
             _paginator.SetActualState( Parameters, this.GetGenericDataFromPageAsync,GenericData.Data.Count, GenericData.Count);
             }
