@@ -23,7 +23,6 @@ namespace ProjectWork.Models.Core
             _parametersP = parameters;
             pageIndex = Convert.ToInt32(parameters.dictionary["page"]);
             GetData = getGenericDataFromPageAsync;
-            //TODO: page wrong when objects less of 50
             var temp = (double)totalObjects / pageSize;
             totalPages = (int)Math.Ceiling(temp);
         }

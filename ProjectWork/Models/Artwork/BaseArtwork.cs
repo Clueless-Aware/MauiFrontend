@@ -14,10 +14,10 @@ namespace ProjectWork.Models.Artwork
         [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonPropertyName("Date")]
+        [JsonPropertyName("date")]
         public string Date { get; set; }
 
-        [JsonPropertyName("tecnique")]
+        [JsonPropertyName("technique")]
         public string Technique { get; set; }
 
         [JsonPropertyName("location")]
