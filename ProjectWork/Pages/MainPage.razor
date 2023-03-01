@@ -1,5 +1,6 @@
 ﻿@page "/Home"
 @using ProjectWork.ViewModels;
+@using System.ComponentModel;
 @inject SearchArtworkVM Artwork
 
 
@@ -30,7 +31,7 @@
             @*TODO: Component*@
             <input id="searchBar" type="search"
                    class="w3-padding w3-round w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange="async(e ) =>{SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
+                   value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
             <button id="filterAsc" class="btn-info" @onclick='()=>Artwork.Parameters.SetOrdering("title")'>Title Asc</button>
             <button id="filterDesc" class="btn-info" @onclick='()=>Artwork.Parameters.SetOrdering("-title")'>Title Desc</button>
             @*Fine*@
@@ -49,6 +50,8 @@
         <div class="w3-center">
             @*TODO: ELSE SEE NO RESULTS*@
             @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
+            {
+
                 @foreach (var result in Artwork.GenericData.Data)
                 {
                     <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
@@ -69,21 +72,26 @@
                             </div>
 
                             <div class="w3-col m6 w3-padding-large w3-left-align">
-                                <p>
-                                    The mesmerizing artwork, entitled 'Wolf and Watermelon', is a true masterpiece that captivates the viewer from the moment they lay their eyes on it.
-                                    The painting features a magnificent wolf, with piercing eyes and a proud stature, indulging in a juicy slice of watermelon.
-                                    The artist has perfectly captured the wolf's expression of pure enjoyment and satisfaction as it savors the sweetness of the fruit.<br>
-                                    The intricate details of the wolf's fur, the textures of the watermelon, and the background elements all come together to create a vivid and lifelike image.
-                                    The use of bright and contrasting colors, such as the deep blue sky and the lush green foliage, add to the playful nature of the piece and enhance its eye-catching appeal.<br><br>
-                                    The combination of a fierce predator and a seemingly incongruous subject, such as the watermelon, creates a unique and thought-provoking piece that encourages the viewer to question their assumptions and embrace the unexpected.
-                                    The playful and lighthearted nature of the artwork is a refreshing contrast to the often serious and somber depictions of wild animals, making it a great addition to any collection that seeks to add a touch of whimsy and playfulness.<br>
-                                    Overall, 'Wolf and Watermelon' is a true work of art that showcases the artist's exceptional skills and creativity.
-                                    Its ability to captivate and engage the viewer, combined with its thought-provoking and playful nature, make it a must-see for anyone who appreciates the beauty and power of art.
-                                </p>
+                                    @if (result.Description.Length > 0)
+                                    {
+                                        <p>
+                                        @result.Description
+                                        </p>
+                                    }
+                                    else{
+                                        <p>
+                                        Nothing to see :(
+                                        </p>
+                                    }
                             </div>
                         </div>
                     </div>
                 }
+            }
+            else
+            {
+            <div>NOTHING TO SEE :(</div>
+            }
         </div>
     </div>
 </Animate>
@@ -97,5 +105,28 @@
         int number = 5;
         for (int i = 0; i < number; i++)
             elements.Add("Lorem Ipsum");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        Artwork.PropertyChanged += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        };
+        await Artwork.GetGenericDataFromPageAsync();
+        await base.OnInitializedAsync();
+    }
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+    public void Dispose()
+    {
+        Artwork.PropertyChanged -= OnPropertyChangedHandler;
     }
 }
