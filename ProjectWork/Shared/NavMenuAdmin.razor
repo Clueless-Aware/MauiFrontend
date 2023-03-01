@@ -39,9 +39,7 @@
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="artwork">
                     <span class="material-symbols-outlined w3-margin-right">
-                        <span class="material-symbols-outlined">
                             add_to_photos
-                        </span>
                     </span> Add Artwork
                 </NavLink>
             </div>
@@ -67,7 +65,14 @@
 
     private void logOut()
     {
+
+/* Unmerged change from project 'ProjectWork (net7.0-android)'
+Before:
         ProjectWork.Data.Services.LoginAgent.setLoggedIn(false);
+After:
+        LoginAgent.setLoggedIn(false);
+*/
+        Services.LoginAgent.setLoggedIn(false);
         NavManager.NavigateTo("/");
         StateHasChanged();
     }

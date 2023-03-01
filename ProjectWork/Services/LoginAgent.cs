@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectWork.Data.Services
+namespace ProjectWork.Services
 {
 
     public static class LoginAgent

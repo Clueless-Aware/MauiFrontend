@@ -1,0 +1,31 @@
+﻿@using ProjectWork.Models.Core;
+<table>
+    <tbody>
+        <tr>
+            <td>
+
+                <button @onclick="async() => await Paginator.JumpTo(1)">First</button>
+            </td>
+            <td>
+                <button @onclick="async() => await Paginator.PreviousData()">Previous</button>
+            </td>
+            <td>
+                <input class="form-control form-control-sm" type="number" step="any" value="@Paginator.PageIndex" @onchange="async (e)=> { Paginator.PageIndex = Convert.ToInt32((string)e.Value); await Paginator.JumpTo(Paginator.PageIndex);} " />
+            </td>
+            <td>
+                of @Paginator.TotalPages
+            </td>
+            <td>
+                <button @onclick="async() => await Paginator.NextData()">Next</button>
+            </td>
+            <td>
+                <button @onclick="async() => await Paginator.JumpTo(Paginator.TotalPages)">Last</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+@code {
+    [Parameter]
+    public Paginator Paginator { get; set; }
+
+}

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ProjectWork.Data.Services;
 using ProjectWork.Models;
 using System;
 using System.Collections.Generic;
@@ -8,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectWork.Resources.Static;
+using ProjectWork.Services;
 
-namespace ProjectWork.Data.ViewModels
+namespace ProjectWork.ViewModels
 {
-    public class AccountViewModel : ObservableRecipient  
+    public class AccountViewModel : ObservableRecipient
     {
         private readonly AccountService _accountService = new(url: Endpoints.getAccountEndpoint());
         private List<AccountDownload> _items;

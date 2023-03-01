@@ -79,19 +79,40 @@
 
     private void logOut()
     {
+
+/* Unmerged change from project 'ProjectWork (net7.0-android)'
+Before:
         ProjectWork.Data.Services.LoginAgent.setLoggedIn(false);
+After:
+        LoginAgent.setLoggedIn(false);
+*/
+        Services.LoginAgent.setLoggedIn(false);
         adminOptions = false;
     }
 
     void SomeStartupMethod()
     {
+
+/* Unmerged change from project 'ProjectWork (net7.0-android)'
+Before:
         adminOptions = ProjectWork.Data.Services.LoginAgent.isLoggedIn();
+After:
+        adminOptions = LoginAgent.isLoggedIn();
+*/
+        adminOptions = Services.LoginAgent.isLoggedIn();
     }
 
     Task SomeStartupTask()
     {
         // Do some task based work
+
+/* Unmerged change from project 'ProjectWork (net7.0-android)'
+Before:
         adminOptions = ProjectWork.Data.Services.LoginAgent.isLoggedIn();
+After:
+        adminOptions = LoginAgent.isLoggedIn();
+*/
+        adminOptions = Services.LoginAgent.isLoggedIn();
         return Task.CompletedTask;
     }
 

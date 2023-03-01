@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectWork.Data.Services
+namespace ProjectWork.Services
 {
-    public class AccountService : Service<AccountUpload,AccountDownload>
+    public class AccountService : Service<AccountUpload, AccountDownload>
     {
         public AccountService(string url) : base(url)
         {
