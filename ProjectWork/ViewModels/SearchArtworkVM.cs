@@ -10,7 +10,7 @@ namespace ProjectWork.ViewModels
     public class SearchArtworkVM : BaseViewModel<BaseArtwork>
     {
         //Declare a Service pass the url end point
-        private readonly ServiceAPI _artworkService = new ServiceAPI(Endpoints.getArtworkEndpoint());
+        private readonly ServiceAPI _artworkService = new(Endpoints.getArtworkEndpoint());
         /// <summary>
         /// Get Generic data of T from api service and set the state of paginator if get some data
         /// </summary>
@@ -21,7 +21,7 @@ namespace ProjectWork.ViewModels
             GenericData = await _artworkService.GetDataPageAsync<GenericData<BaseArtwork>>(Parameters.dictionary);
             if (GenericData != null && GenericData.Data.Count > 0)
             {
-                Paginator.SetActualState(Parameters, this.GetGenericDataFromPageAsync, GenericData.Data.Count, GenericData.Count);
+                Paginator.SetActualState(Parameters, this.GetGenericDataFromPageAsync, GenericData.Count);
             }
             else
             {

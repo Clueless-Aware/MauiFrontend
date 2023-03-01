@@ -20,7 +20,7 @@ namespace ProjectWork.ViewModels
             GenericData = await _artworkService.GetDataPageAsync<GenericData<BaseArtwork>>(Parameters.dictionary);
             if (GenericData != null && GenericData.Data.Count > 0)
             {
-                Paginator.SetActualState(Parameters, this.GetGenericDataFromPageAsync, GenericData.Data.Count, GenericData.Count);
+                Paginator.SetActualState(Parameters, this.GetGenericDataFromPageAsync, GenericData.Count);
             }
             else
             {

@@ -10,7 +10,7 @@
     <hr />
     @implements IDisposable
     @layout AdminLayout
-    <div class="w3-padding">
+    <div class="w3-padding">@*
         <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
             <ul style ="list-style-type:none;" class="w3-margin">
 
@@ -86,7 +86,7 @@
             <button class="w3-button w3-round-large w3-red" type="submit"> Add </button>
 
         </EditForm>
-    </div>
+    *@</div>
 
 
     <hr />
@@ -95,7 +95,7 @@
     @if (Artwork.GenericData.Data != null && Artwork.GenericData.Data.Count > 0 )
     {
     <PaginatorComponent Paginator="@Artwork.Paginator"> </PaginatorComponent>
-        @foreach (var item in Artwork.GenericData.Data)
+@*        @foreach (var item in Artwork.GenericData.Data)
         {
             <hr />
             <p>@item.Id</p>
@@ -152,7 +152,7 @@
             </EditForm>
 
         }
-    }
+*@    }
 </Animate>
 
 @code {
