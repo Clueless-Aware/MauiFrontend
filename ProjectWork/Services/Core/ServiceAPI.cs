@@ -43,6 +43,7 @@ namespace ProjectWork.Services.Core
         public async Task<K> GetDataPageAsync<K>(Dictionary<string,string> parameters)
         {
             BuildUri(parameters);
+            _headersDirector.BuildGenericGetHeader();
             return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>(uriBuilder.Uri));
 
         }

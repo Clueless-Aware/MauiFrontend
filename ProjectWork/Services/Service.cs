@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using ProjectWork.Models;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -30,8 +31,9 @@ namespace ProjectWork.Services
             {
                 Task<Stream> streamTask = _httpClient.GetStreamAsync(URL);
                 Stream stream = await streamTask;
-                ValueTask<List<D>> resObjectTask = JsonSerializer.DeserializeAsync<List<D>>(stream);
-                items = await resObjectTask;
+                ValueTask<DataSource<D>> resObjectTask = JsonSerializer.DeserializeAsync<DataSource<D>>(stream);
+                var data = await resObjectTask;
+                items = data.Results;
             }
             catch (Exception e)
             {

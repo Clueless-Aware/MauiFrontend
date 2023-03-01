@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <a class="navbar-brand w3-text-white w3-large" href="">
                 Art Scout
-                <span class="material-symbols-outlined w3-text-white" > brush </span>
+                <span class="material-symbols-outlined w3-text-white"> brush </span>
             </a>
             <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
                 <span class="material-symbols-outlined w3-text-white">
@@ -18,7 +18,8 @@
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
         <nav class="flex-column">
 
-            @if(!adminOptions){
+            @if (!adminOptions)
+            {
                 <div class="nav-item px-3 w3-margin-bottom">
                     <NavLink class="nav-link w3-padding-16" href="login">
                         <span class="material-symbols-outlined w3-margin-right">login</span> Login
@@ -33,10 +34,10 @@
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="gallery">
-                    <span class="material-symbols-outlined w3-margin-right"gr>gallery_thumbnail</span> Favourites Gallery
+                    <span class="material-symbols-outlined w3-margin-right" gr>gallery_thumbnail</span> Favourites Gallery
                 </NavLink>
             </div>
-            @if(adminOptions)
+            @if (adminOptions)
             {
                 <div class="nav-item px-3 w3-margin-top">
                     <NavLink class="nav-link w3-padding-16" href="dashboard">
