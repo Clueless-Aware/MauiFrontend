@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace ProjectWork.Models.Artwork
@@ -49,36 +50,46 @@ namespace ProjectWork.Models.Artwork
     public class BaseArtwork : IArtWorkBase, IUploadArtwork, IDownloadArtwork
     {
         [JsonPropertyName("id")]
+        [Required]
         public int Id { get; set; }
         [JsonPropertyName("image_url")]
         public string ImageUrl { get; set; }
 
 
         [JsonPropertyName("author")]
+        [Required]
         public string Author { get; set; }
 
         [JsonPropertyName("author_id")]
+        [Required]
         public int AuthorId { get; set; }
 
         [JsonPropertyName("title")]
+        [Required]
         public string Title { get; set; }
 
         [JsonPropertyName("Date")]
+        [Required]
         public string Date { get; set; }
 
-        [JsonPropertyName("tecnique")]
+        [JsonPropertyName("technique")]
+        [Required]
         public string Technique { get; set; }
 
         [JsonPropertyName("location")]
+        [Required]
         public string Location { get; set; }
 
         [JsonPropertyName("form")]
+        [Required]
         public string Form { get; set; }
         [JsonPropertyName("type")]
+        [Required]
         public string Type { get; set; }
         [JsonPropertyName("timeframe")]
         public string TimeFrame { get; set; }
         [JsonPropertyName("description")]
+        [Required]
         public string Description { get; set; }
 
         [JsonPropertyName("file")]

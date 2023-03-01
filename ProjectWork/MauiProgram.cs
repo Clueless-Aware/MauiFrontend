@@ -31,8 +31,9 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddScoped< ArtworkViewModel>();
+        builder.Services.AddScoped<ArtworkViewModel>();
         builder.Services.AddScoped<SearchArtworkVM>();
+        builder.Services.AddScoped<DashboardAdminVM>();
 
 #if WINDOWS
                 builder.ConfigureLifecycleEvents(events =>

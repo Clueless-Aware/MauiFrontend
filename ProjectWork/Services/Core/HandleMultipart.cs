@@ -12,9 +12,9 @@ namespace ProjectWork.Services.Core
         private static MultipartFormDataContent _multipartFormDataContent;
         internal static async Task<MultipartFormDataContent> Build<K>(K item, IBrowserFile file,ImageOptions imageOptions)
         {
-            _multipartFormDataContent = new MultipartFormDataContent();
             try
             {
+            _multipartFormDataContent = new MultipartFormDataContent();
             var parameters = JsonSerializer.Deserialize<Dictionary<string,object>>(JsonSerializer.Serialize(item));
 
                 if (file is not null)
@@ -31,13 +31,13 @@ namespace ProjectWork.Services.Core
                 {
                     _multipartFormDataContent.Add(new StringContent(entry.Value.ToString()), entry.Key);
                 }
+                return _multipartFormDataContent;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                throw;
             }
-            return _multipartFormDataContent;
+            return default;
         }
     }
 }
