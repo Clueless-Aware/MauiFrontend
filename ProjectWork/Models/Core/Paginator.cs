@@ -7,7 +7,7 @@ namespace ProjectWork.Models.Core
     /// </summary>
     public class Paginator
     {
-        Parameters _parametersP;
+        private Parameters _parametersP;
 
         private Func<Task> GetData;
 
@@ -52,7 +52,10 @@ namespace ProjectWork.Models.Core
                 _parametersP.dictionary["page"] = page.ToString();
                 await GetData();
             }
-            await UtilyToolkit.CreateToast("Warning page number out of bounds");
+            else
+            {
+                await UtilyToolkit.CreateToast("Warning page number out of bounds");
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace ProjectWork.Services.Core
     public class ServiceAPI : IServiceAPI
     {
         private HeadersDirector _headersDirector = new();
-        private HeadersBuilder _headersBuilder;
+        private readonly HeadersBuilder _headersBuilder;
         private readonly string url;
         private readonly ImageOptions imageOptions= new();
         private readonly UriBuilder uriBuilder;

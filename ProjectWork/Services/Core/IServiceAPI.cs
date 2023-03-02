@@ -11,6 +11,8 @@ namespace ProjectWork.Services.Core
         Task<K> AddUpdateAsMultipartAsync<K>(int id, K item, IBrowserFile file);
         Task DeleteItemAsync(int page);
         Task<K> GetDataPageAsync<K>(int currentPage);
+        Task<K> GetDataPageAsync<K>(Dictionary<string, string> parameters);
+        Task<K> GetDetailObject<K>(int id);
         Task<K> UpdateItemAsJsonAsync<K>(int id, K item);
     }
 }

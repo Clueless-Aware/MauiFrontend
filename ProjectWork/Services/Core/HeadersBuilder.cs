@@ -22,7 +22,7 @@ namespace ProjectWork.Services.Core
 
         public void ClearRequestHeaders()
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Clear();
         }
         public HttpClient GetHttpClient()
         {
