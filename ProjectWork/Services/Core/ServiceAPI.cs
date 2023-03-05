@@ -74,7 +74,7 @@ namespace ProjectWork.Services.Core
         }
         public async Task DeleteItemAsync(int page)
         {
-            _headersDirector.AuthenticatedHeader();
+            await _headersDirector.AuthenticatedHeader();
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().DeleteAsync($"{url}{page}/"));
             await HandleResponse.Responded(tempMessage);
         }
@@ -87,7 +87,7 @@ namespace ProjectWork.Services.Core
         }
         public async Task<K> AddItemAsMultipartAsync<K>(K item, IBrowserFile file)
         {
-            _headersDirector.AuthenticatedHeader();
+            await _headersDirector.AuthenticatedHeader();
             var content = await HandleMultipart.Build(item, file,imageOptions);
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(url, content));
             return await HandleResponse.Responded<K>(tempMessage);
@@ -96,14 +96,14 @@ namespace ProjectWork.Services.Core
 
         public async Task<K> UpdateItemAsJsonAsync<K>(int id,K item)
         {
-            _headersDirector.AuthenticatedHeader();
+            await _headersDirector.AuthenticatedHeader();
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PutAsJsonAsync($"{url}{id}/", item));
             return await HandleResponse.Responded<K>(tempMessage);
         }
 
         public async Task<K> AddUpdateAsMultipartAsync<K>(int id,K item, IBrowserFile file)
         {
-            _headersDirector.AuthenticatedHeader();
+            await _headersDirector.AuthenticatedHeader();
             var content = await HandleMultipart.Build(item, file,imageOptions);
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PatchAsync($"{url}{id}/", content));
             return await HandleResponse.Responded<K>(tempMessage);
