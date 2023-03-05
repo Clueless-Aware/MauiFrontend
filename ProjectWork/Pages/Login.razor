@@ -42,6 +42,10 @@
             <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-red" @onclick="@attemptLogin">Login</button>
         </div>
 
+        <div class="d-inline-flex w3-center">
+            <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button" @onclick="createAccount">Create an Account</button>
+        </div>
+
 
         @if (hideAlert == false)
         {
@@ -71,11 +75,15 @@
             <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-red" @onclick="@attemptLogin">Login</button>
         </div>
 
+        <div class="d-inline-flex w3-center">
+            <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-red" @onclick="@createAccount">Create an Account</button>
+        </div>
+
 
         @if (hideAlert == false)
         {
             <div>
-                <p class="w3-animate-right w3-round-xlarge w3-text-red">Login Failed</p>
+                <p class="w3-animate-right w3-round-xlarge w3-text-red">Login Failed, try again.</p>
             </div>
         }
     </div>
@@ -87,16 +95,12 @@
 
     private void attemptLogin()
     {
-
-/* Unmerged change from project 'ProjectWork (net7.0-android)'
-Before:
-        ProjectWork.Data.Services.LoginAgent.setLoggedIn(true);
-After:
-        LoginAgent.setLoggedIn(true);
-*/
         Services.LoginAgent.setLoggedIn(true);
-        NavManager.NavigateTo("/dashboard");
+        NavManager.NavigateTo("/");
+    }
 
-
+    private void createAccount()
+    {
+        NavManager.NavigateTo("/");
     }
 }
