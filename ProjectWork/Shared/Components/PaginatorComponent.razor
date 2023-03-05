@@ -1,31 +1,59 @@
 ﻿@using ProjectWork.Models.Core;
-<table>
-    <tbody>
-        <tr>
-            <td>
 
-                <button @onclick="async() => await Paginator.JumpTo(1)">First</button>
-            </td>
-            <td>
-                <button @onclick="async() => await Paginator.PreviousData()">Previous</button>
-            </td>
-            <td>
-                <input class="form-control form-control-sm" type="number" step="any" value="@Paginator.PageIndex" @onchange="async (e)=> { Paginator.PageIndex = Convert.ToInt32((string)e.Value); await Paginator.JumpTo(Paginator.PageIndex);} " />
-            </td>
-            <td>
+<div class="w3-center  ">
+    <div class="w3-margin-top w3-margin-bottom">
+        <button class="w3-button w3-round-xlarge w3-red" @onclick="async() => await Paginator.JumpTo(1)">
+            <span class="material-symbols-outlined">
+                keyboard_double_arrow_left
+            </span>
+        </button>
+
+        <button class="w3-button w3-round-xlarge w3-red" @onclick="async() => await Paginator.PreviousData()">
+            <span class="material-symbols-outlined">
+                navigate_before
+            </span>
+        </button>
+
+        <button class="w3-button w3-round-xlarge w3-red" @onclick="async() => await Paginator.NextData()">
+            <span class="material-symbols-outlined">
+                navigate_next
+            </span>
+        </button>
+
+        <button class="w3-button w3-margin-right w3-round-xlarge w3-red" @onclick="async() => await Paginator.JumpTo(Paginator.TotalPages)">
+            <span class="material-symbols-outlined">
+                keyboard_double_arrow_right
+            </span>
+        </button>
+
+    </div>
+
+    <div>
+        <span class="w3-margin-left">
+            <input class="w3-round w3-padding w-25"
+                   type="number" min="0" max="@Paginator.TotalPages"
+                   step="any"
+                   value="@Paginator.PageIndex" @onchange="goto_page" />
+
+            <label>
                 of @Paginator.TotalPages
-            </td>
-            <td>
-                <button @onclick="async() => await Paginator.NextData()">Next</button>
-            </td>
-            <td>
-                <button @onclick="async() => await Paginator.JumpTo(Paginator.TotalPages)">Last</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            </label>
+        </span>
+    </div>
+
+
+    <hr />
+</div>
+
+
+
 @code {
     [Parameter]
     public Paginator Paginator { get; set; }
 
+    async public void goto_page(ChangeEventArgs e)
+    {
+        Paginator.PageIndex = Convert.ToInt32((string)e.Value);
+        await Paginator.JumpTo(Paginator.PageIndex);
+    }
 }
