@@ -25,27 +25,61 @@
 <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)">
     <div class="w3-card-4 w3-hide-small w3-content w3-container-display w3-center w3-padding-large w3-round-xxlarge w3-white w3-margin-bottom w3-margin-top w-50 tall">
 
-        <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
-        <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow:8px; font-weight:bolder;">
-            ART SCOUT
-        </h1>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <span class="material-symbols-outlined w3-text-white w3-margin-bottom
+                        w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo">
+                        brush
+                    </span>
+                </div>
+            </div>
 
-        <h3 class="w3-text-black w3-xlarge">Welcome to the login page</h3>
+            <div class="row">
+                <div class="col">
+                    <h1 class="w3-card-4 w3-red main-gradient w3-text-white w3-round-xlarge
+                        w3-xxlarge w3-margin-bottom fw-w3-bolder" style="text-shadow:8px">
+                        ART SCOUT
+                    </h1>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col">
+                    <h3 class="w3-text-black w3-xlarge">Welcome to the login page</h3>
+                </div>
+            </div>
 
-        <label>Username:</label><br />
-        <input class="w3-round w3-margin-right w-100" type="text" id="username"><br><br>
-        <label>Password:</label><br />
-        <input class="w3-round w3-margin-right w-100" type="password" id="password"><br><br>
+            <div class="row">
+                <div class="col">
+                    <label>Password:</label><br />
+                    <input class="w3-round w3-margin-right w-75" type="password" id="password"><br><br>
+                </div>
+            </div>
 
-        <div class="d-inline-flex w3-center">
-            <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-red" @onclick="@attemptLogin">Login</button>
+            <div class="row">
+                <div class="col">
+                    <label>Username:</label><br />
+                    <input class="w3-round w3-margin-right w-75" type="text" id="username"><br><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-red"
+                            @onclick="@attemptLogin">
+                        Login
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-text-red"
+                            @onclick="createAccount">
+                        Create an Account
+                    </button>
+                </div>
+            </div>
         </div>
-
-        <div class="d-inline-flex w3-center">
-            <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button" @onclick="createAccount">Create an Account</button>
-        </div>
-
 
         @if (hideAlert == false)
         {
@@ -59,7 +93,7 @@
     <div class="w3-card-4 w3-hide-large w3-hide-medium w3-content w3-container-display w3-center w3-padding-large w3-round-xxlarge w3-white w3-margin-bottom w3-margin-top w-100 tall">
 
         <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
-        <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow:8px; font-weight:bolder;">
+        <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow:8px; font-weight:w3-bolder;">
             ART SCOUT
         </h1>
 
@@ -74,9 +108,12 @@
         <div class="d-inline-flex w3-center">
             <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-red" @onclick="@attemptLogin">Login</button>
         </div>
-
+        <br />
         <div class="d-inline-flex w3-center">
-            <button class="btn w3-margin-bottom w3-margin-top w3-padding w3-button w3-round-large w3-padding-16 w3-red" @onclick="@createAccount">Create an Account</button>
+            <button class="w3-margin-bottom w3-margin-top w3-padding-16 w3-text-red"
+                    @onclick="@createAccount">
+                Create an Account
+            </button>
         </div>
 
 
@@ -101,6 +138,6 @@
 
     private void createAccount()
     {
-        NavManager.NavigateTo("/");
+        NavManager.NavigateTo("/AccountCreation");
     }
 }

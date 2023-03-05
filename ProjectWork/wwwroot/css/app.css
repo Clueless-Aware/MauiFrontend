@@ -1,5 +1,7 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
+.w3-bold {
+    font-weight: bold;
+}
 .middle {
     vertical-align: middle;
 }
