@@ -4,101 +4,82 @@
 @using System.ComponentModel;
 @*HTML DI ANGULAR VIEW *@
 @inject DashboardAdminVM Artwork
+@implements IDisposable
+@layout AdminLayout
+
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+
     <h3>Add Artwork</h3>
     <hr />
-    @implements IDisposable
-    @layout AdminLayout
-    <div class="w3-padding">
-<h4> Add   - @artwork.Title</h4>
-        <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            @*TODO SET for and label*@
-            <li class="w3-padding w3-large w3-bold ">
-                <label for="slug">Slug</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Author" placeholder="Enter Title" name="Slug">
-            </li>
-            <li class="w3-padding w3-large w3-bold \">
-                <label for="title">Title</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.AuthorId" placeholder="Enter author" name="Title">
-            </li>
 
-            <li class="w3-padding w3-large w3-bold ">
-                <label for="description">Description</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Description" name="Description">
-            </li>
-            <li class="w3-padding w3-large w3-bold \">
-                <label for="title">Color</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Date" placeholder="Enter Color" name="Color">
-            </li>
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Data</th>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-bold">
+                    Something
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.Author"
+                       placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-bold">
+                    Something
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.Author"
+                       placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td>
+                Something
+            </td>
+            <td>
+                <InputFile class="w3-button w3-round" OnChange="(e)=> artwork.File = e.File" />
+            </td>
+        </tr>
+    </table>
 
-            <li class="w3-padding w3-large w3-bold \">
-                <label for="title">File_dimension</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Technique" placeholder="Enter File_dimension" name="Color">
-            </li>
+    <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-            <li class="w3-padding w3-large w3-bold \">
-                <label for="title">Date</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Location" placeholder="Enter Date" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-bold \">
-                <label for="title">Type</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Form" placeholder="Enter Type" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-bold \">
-                <label for="title">Size</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Type" placeholder="Enter Size" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-bold \">
-                <label for="title">Museum</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.TimeFrame" placeholder="Enter Museum" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-bold \">
-                <label for="title">Museum</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Description" placeholder="Enter Museum" name="Color">
-            </li>
-
-                @*Todo: show image or url image*@
-            <li class="w3-margin-bottom">
-                @*Todo: just one field and only images*@
-                <InputFile  class="w3-button w3-round" OnChange="(e)=> artwork.File = e.File" />
-            </li>
-
-            @*TODO: disable if Artwork.IsBusy*@
-            <button type="submit">Add</button>
-        </EditForm>
-
-
-        </div>
-
-
-    <hr />
+        @*TODO: disable if Artwork.IsBusy*@
+        <button type="submit" class="w3-red w3-button w3-margin-right w3-margin-left w3-margin-top w3-round-large">Add</button>
+    </EditForm>
 </Animate>
 
 @code {

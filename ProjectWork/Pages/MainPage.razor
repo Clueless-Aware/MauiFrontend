@@ -20,6 +20,64 @@
             padding-bottom: 0px;
             padding-left: 16px;
         }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #f44336;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: #f44336;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #ccc;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .reverse {
+            display: inline-block;
+            -webkit-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
     </style>
 
     <h1>Search</h1>
@@ -28,17 +86,28 @@
 
     <div class="w3-bar w3-margin-bottom w3-padding">
         <span>
-            @*TODO: Component*@
+
             <input id="searchBar" type="search"
-                   class="w3-padding w3-round w3-margin-bottom w3-margin-right w-100" step="any"
+                   class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
                    value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
-            <button id="filterAsc" class="btn-info" @onclick='()=>Artwork.Parameters.SetOrdering("title")'>Title Asc</button>
-            <button id="filterDesc" class="btn-info" @onclick='()=>Artwork.Parameters.SetOrdering("-title")'>Title Desc</button>
-            @*Fine*@
-            <button id="search" class="btn w3-button w3-red w3-round-large" @onclick="async () => await Artwork.GetGenericDataFromPageAsync()">
+
+            <span class="material-symbols-outlined middle w3-xxlarge">
+                low_priority
+            </span>
+            <label class="switch middle w3-margin-left w3-margin-right">
+                <input type="checkbox" checked @onchange="CheckboxChanged">
+                <span class="slider round"></span>
+            </label>
+            <span class="material-symbols-outlined reverse middle w3-xxlarge">
+                low_priority
+            </span>
+
+            <button id="search" class="btn w3-button middle w3-red w3-round-xlarge" @onclick="async () => await Artwork.GetGenericDataFromPageAsync()">
                 <span class="material-symbols-outlined">search</span>
             </button>
         </span>
+
+
         <hr />
     </div>
 
@@ -48,7 +117,6 @@
 
     <div>
         <div class="w3-center">
-            @*TODO: ELSE SEE NO RESULTS*@
             @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
             {
 
@@ -63,7 +131,7 @@
                                 </span>
                             </button>
 
-                    </p>
+                        </p>
 
                         <div class="w3-row">
                             <div class="w3-col m6 w3-center w3-padding-large">
@@ -72,17 +140,18 @@
                             </div>
 
                             <div class="w3-col m6 w3-padding-large w3-left-align">
-                                    @if (result.Description.Length > 0)
-                                    {
-                                        <p>
+                                @if (result.Description.Length > 0)
+                                {
+                                    <p>
                                         @result.Description
-                                        </p>
-                                    }
-                                    else{
-                                        <p>
-                                        Nothing to see :(
-                                        </p>
-                                    }
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        Nothing to see 
+                                    </p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -90,7 +159,9 @@
             }
             else
             {
-            <div>NOTHING TO SEE :(</div>
+                <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+                    <p class="middle">Could not connect to the Database, try again later.</p>
+                </div>
             }
         </div>
     </div>
@@ -98,14 +169,7 @@
 
 @code {
     private string SearchField { get; set; }
-    private List<String> elements = new();
 
-    private void AddElement()
-    {
-        int number = 5;
-        for (int i = 0; i < number; i++)
-            elements.Add("Lorem Ipsum");
-    }
     protected override async Task OnInitializedAsync()
     {
         Artwork.PropertyChanged += async (sender, e) =>
@@ -128,5 +192,19 @@
     public void Dispose()
     {
         Artwork.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+    private void CheckboxChanged(ChangeEventArgs e)
+    {
+        bool b = (bool)e.Value;
+
+        if (b)
+        {
+            Artwork.Parameters.SetOrdering("title");
+        }
+        else
+        {
+            Artwork.Parameters.SetOrdering("-title");
+        }
     }
 }
