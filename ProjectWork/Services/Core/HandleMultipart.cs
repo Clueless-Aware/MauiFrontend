@@ -10,12 +10,12 @@ namespace ProjectWork.Services.Core
     internal class HandleMultipart
     {
         private static MultipartFormDataContent _multipartFormDataContent;
-        internal static async Task<MultipartFormDataContent> Build<K>(K item, IBrowserFile file,ImageOptions imageOptions)
+        internal static async Task<MultipartFormDataContent> Build<K>(K item, IBrowserFile file, ImageOptions imageOptions)
         {
             try
             {
-            _multipartFormDataContent = new MultipartFormDataContent();
-            var parameters = JsonSerializer.Deserialize<Dictionary<string,object>>(JsonSerializer.Serialize(item));
+                _multipartFormDataContent = new MultipartFormDataContent();
+                var parameters = JsonSerializer.Deserialize<Dictionary<string, object>>(JsonSerializer.Serialize(item));
 
                 if (file is not null)
                 {
@@ -24,9 +24,9 @@ namespace ProjectWork.Services.Core
                     ms.Position = 0;
                     var fileStream = new StreamContent(ms);
                     fileStream.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                    _multipartFormDataContent.Add(fileStream,imageOptions.FileName, file.Name);
-                    parameters.Remove(imageOptions.FileName);
+                    _multipartFormDataContent.Add(fileStream, imageOptions.FileName, file.Name);
                 }
+                parameters.Remove(imageOptions.FileName);
                 foreach (KeyValuePair<string, object> entry in parameters)
                 {
                     _multipartFormDataContent.Add(new StringContent(entry.Value.ToString()), entry.Key);

@@ -1,0 +1,65 @@
+﻿@page "/login"
+@using ProjectWork.Models.Core.Authentication
+@using ProjectWork.Utilities
+@layout MainLayout
+
+@inject NavigationManager NavManager
+<style>
+    #content-container{
+        background-image: url("bg-login.jpg");
+        background-size: cover;
+    }
+</style>
+<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center"  style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;">
+    <div id="login-card" class="card">
+        <main class="form-signin">
+            <EditForm
+                Model="@loginModel" OnValidSubmit="async ()=> await AttemptLogin(loginModel)"
+            >
+
+                <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
+
+                <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: 8px; font-weight: bolder;" tabindex="-1">
+                    ART SCOUT
+                </h1>
+
+                <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingInput" @bind-value="loginModel.UserName" placeholder="name@example.com">
+                    <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" @bind-value="loginModel.Password" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                </div>
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me" @onclick="()=> App.Authentication.SaveSession = !App.Authentication.SaveSession"> Remember me
+                    </label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+            </EditForm>
+        </main>
+    </div>
+</Animate>
+
+@code {
+    readonly LoginModel loginModel = new();
+
+    private async Task AttemptLogin(LoginModel loginModel)
+    {
+        var attempt = await App.Authentication.AuthenticateUser(loginModel);
+        if (attempt)
+        {
+            NavManager.NavigateTo("/dashboard");
+        }
+        else
+        {
+            await UtilityToolkit.CreateToast("Login Failed");
+        }
+
+    }
+}

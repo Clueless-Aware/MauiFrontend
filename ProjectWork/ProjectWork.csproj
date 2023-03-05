@@ -69,10 +69,23 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Pages\Authentication\Login.razor.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Pages\Authentication\Login.razor.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\bg-login.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="BlazorAnimate" Version="3.0.0" />
         <PackageReference Include="CommunityToolkit.Maui" Version="5.0.0" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
     </ItemGroup>
 
     <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionProjectWorkHideInfoBar="True" /></VisualStudio></ProjectExtensions>

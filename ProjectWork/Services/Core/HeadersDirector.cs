@@ -5,7 +5,7 @@
         private IHeadersBuilder _builder;
         public IHeadersBuilder Builder
         {
-            set { _builder = value; }
+            set => _builder = value;
         }
         public void BuildGenericGetHeader()
         {
@@ -13,10 +13,10 @@
             _builder.AddMediaType();
         }
 
-        internal void AuthenticatedHeader()
+        internal async Task AuthenticatedHeader()
         {
             BuildGenericGetHeader();
-            _builder.AddAuthenticationToken();
+            await _builder.AddAuthenticationToken();
         }
     }
 }

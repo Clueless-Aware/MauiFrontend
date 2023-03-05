@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectWork.Models.Artwork;
+using ProjectWork.Services.Core;
 using ProjectWork.ViewModels;
+using ProjectWork.ViewModels.Core;
 #if WINDOWS
 using Microsoft.Maui.LifecycleEvents;
 #endif
@@ -31,7 +34,9 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddScoped<ArtworkViewModel>();
+        builder.Services.AddSingleton<DRFAuthentication>(x => new DRFAuthentication(new ServiceAPI("http://localhost:80/api/auth/")));
+
+
         builder.Services.AddScoped<SearchArtworkVM>();
         builder.Services.AddScoped<DashboardAdminVM>();
 

@@ -17,7 +17,7 @@ namespace ProjectWork.Services.Core
             }
             catch (Exception e)
             {
-                await UtilyToolkit.CreateToast(e.Message);
+                await UtilityToolkit.CreateToast(e.Message);
                 return default;
             }
         }
@@ -33,7 +33,7 @@ namespace ProjectWork.Services.Core
             }
             catch (Exception e)
             {
-                await UtilyToolkit.CreateToast(e.Message);
+                await UtilityToolkit.CreateToast(e.Message);
             }
         }
     }

@@ -71,5 +71,7 @@ main {
     .top-row, article {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
+        height: 100% !important;
+        width: 100% !important;
     }
 }

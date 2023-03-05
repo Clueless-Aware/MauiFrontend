@@ -2,7 +2,7 @@
 {
     public interface IHeadersBuilder
     {
-        void AddAuthenticationToken();
+        Task AddAuthenticationToken();
         void AddMediaType();
         void ClearRequestHeaders();
     }

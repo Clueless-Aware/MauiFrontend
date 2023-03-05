@@ -6,7 +6,8 @@ namespace ProjectWork.Services.Core
 {
     public interface IServiceAPI
     {
-        Task<K> AddItemAsJsonAsync<K>(K item);
+        public UriBuilder Uri { get; set; }   
+        Task<TR> PostItemAsJsonAsync<TS,TR>(TS item);
         Task<K> AddItemAsMultipartAsync<K>(K item, IBrowserFile file);
         Task<K> AddUpdateAsMultipartAsync<K>(int id, K item, IBrowserFile file);
         Task DeleteItemAsync(int page);
