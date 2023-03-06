@@ -1,4 +1,19 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+.w3-bold {
+    font-weight: bold;
+}
+.middle {
+    vertical-align: middle;
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
 
 .middle {
     vertical-align: middle;
