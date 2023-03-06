@@ -40,7 +40,7 @@
         <tr>
             <td class="w3-padding-16">
                 <p class="w3-w3-bold">
-                    Something
+                    Author
                 </p>
             </td>
             <td>
@@ -53,19 +53,97 @@
         <tr>
             <td class="w3-padding-16">
                 <p class="w3-w3-bold">
-                    Something
+                    Title
                 </p>
             </td>
             <td>
                 <input class="w3-round w-50" type="text"
-                       @bind-value="artwork.Author"
+                       @bind-value="artwork.Title"
+                       placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-w3-bold">
+                    Date
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.Date"
+                       placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-w3-bold">
+                    Technique
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.Technique"
+                       placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-w3-bold">
+                    Location
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.Location"
+                       placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-w3-bold">
+                    Form
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.Form"
+                       placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-w3-bold">
+                    Type
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.Type"
+                       placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-w3-bold">
+                    Description
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.Description"
                        placeholder="Enter Title">
             </td>
         </tr>
         <!---------------------------------------------------->
         <tr>
             <td>
-                Something
+                Image
             </td>
             <td>
                 <InputFile class="w3-button w3-round" OnChange="(e)=> artwork.File = e.File" />
