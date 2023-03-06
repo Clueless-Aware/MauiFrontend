@@ -45,5 +45,6 @@ namespace ProjectWork.ViewModels.Core
 
         public abstract Task ChecKIsLogged();
 
+        public abstract Task<bool> RegistrationUser(RegistrationModel registrationModel);
     }
 }

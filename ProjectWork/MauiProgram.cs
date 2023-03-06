@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectWork.Models.Artwork;
+using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.ViewModels;
 using ProjectWork.ViewModels.Core;
@@ -34,7 +35,7 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddSingleton<DRFAuthentication>(x => new DRFAuthentication(new ServiceAPI("http://localhost:80/api/auth/")));
+        builder.Services.AddSingleton<DRFAuthentication>(x => new DRFAuthentication(new ServiceAPI(Endpoints.getAccountEndpoint())));
 
 
         builder.Services.AddScoped<SearchArtworkVM>();

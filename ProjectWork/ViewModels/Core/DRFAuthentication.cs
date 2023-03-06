@@ -1,8 +1,10 @@
 ﻿using System.Text;
 using System.Text.Json;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Services.Core;
+using ProjectWork.Utilities;
 
 namespace ProjectWork.ViewModels.Core
 {
@@ -12,8 +14,6 @@ namespace ProjectWork.ViewModels.Core
         {
         }
 
-
-
         public override async Task<bool> AuthenticateUser(LoginModel loginModel)
         {
             Service.Uri.Path = "api/auth/login/";
@@ -21,10 +21,25 @@ namespace ProjectWork.ViewModels.Core
             if (result is null) return false;
             UserSession = result;
             if (!SaveSession) return true;
-            string userBasicInfo = JsonSerializer.Serialize(result);
+            var userBasicInfo = JsonSerializer.Serialize(result);
             await SecureStorage.SetAsync(nameof(LoginResponse), userBasicInfo);
             return true;
 
+        }
+
+        public override async Task<bool> RegistrationUser(RegistrationModel registrationModel)
+        {
+            Service.Uri.Path = "api/auth/registration/";
+
+            
+
+            var result = await Service.PostItemAsJsonAsync<RegistrationModel, LoginResponse>(registrationModel);
+            if (result is null) return false;
+            UserSession = result;
+            if (!SaveSession) return true;
+            var userBasicInfo = JsonSerializer.Serialize(result);
+            await SecureStorage.SetAsync(nameof(LoginResponse), userBasicInfo);
+            return true;
         }
 
         public override void LogOut()
@@ -32,7 +47,7 @@ namespace ProjectWork.ViewModels.Core
             SecureStorage.Default.RemoveAll();
             UserSession = null;
         }
-
+        
         public override async Task ChecKIsLogged()
         {
             var userStored = await SecureStorage.GetAsync(nameof(LoginResponse));

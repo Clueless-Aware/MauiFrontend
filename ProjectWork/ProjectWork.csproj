@@ -70,10 +70,12 @@
 
     <ItemGroup>
       <None Remove="Pages\Authentication\Login.razor.css" />
+      <None Remove="Pages\Authentication\Registration.razor.css" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="Pages\Authentication\Login.razor.css" />
+      <Content Include="Pages\Authentication\Registration.razor.css" />
     </ItemGroup>
 
     <ItemGroup>
