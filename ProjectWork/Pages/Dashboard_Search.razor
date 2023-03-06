@@ -87,7 +87,7 @@
                 low_priority
             </span>
             <label class="switch middle w3-margin-left w3-margin-right">
-                <input type="checkbox" checked @onchange="CheckboxChanged">
+                <input type="checkbox" checked @onchange="e => { CheckboxChanged(e); }">
                 <span class="slider round"></span>
             </label>
             <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
@@ -134,16 +134,18 @@
             <DataAnnotationsValidator/>
             <ValidationSummary/>
 
-            @*TODO SET for and label*@
-            <li class="w3-padding w3-large w3-w3-bold ">
-                <label>Slug</label>
+            <li class="w3-padding w3-large w3-bold ">
+                <label>Author</label>
             </li>
+
             <li class="w3-padding w3-margin-bottom">
                 <input class=" w3-round" type="text" @bind-value="artwork.Author" placeholder="Enter Title" name="Slug">
             </li>
+
             <li class="w3-padding w3-large w3-w3-bold \">
                 <label>Title</label>
             </li>
+
             <li class="w3-padding w3-margin-bottom">
                 <input class=" w3-round" type="text" @bind-value="artwork.AuthorId" placeholder="Enter author" name="Title">
             </li>
@@ -151,12 +153,15 @@
             <li class="w3-padding w3-large w3-w3-bold ">
                 <label>Description</label>
             </li>
+
             <li class="w3-padding w3-margin-bottom">
                 <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Description" name="Description">
             </li>
-            <li class="w3-padding w3-large w3-w3-bold \">
+
+            <li class="w3-padding w3-large w3-bold \">
                 <label>Color</label>
             </li>
+
             <li class="w3-padding w3-margin-bottom">
                 <input class=" w3-round" type="text" @bind-value="artwork.Date" placeholder="Enter Color" name="Color">
             </li>
@@ -164,6 +169,7 @@
             <li class="w3-padding w3-large w3-w3-bold \">
                 <label>File_dimension</label>
             </li>
+
             <li class="w3-padding w3-margin-bottom">
                 <input class=" w3-round" type="text" @bind-value="artwork.Technique" placeholder="Enter File_dimension" name="Color">
             </li>
