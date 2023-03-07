@@ -9,31 +9,39 @@
     #content-container {
         background-image: url("bg-login.jpg");
         background-size: cover;
-        background-position: inherit;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100%!important;
     }
 </style>
 <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
-    <div id="register-card" class="card">
-        <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
-
-        <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: 8px; font-weight: bolder;" tabindex="-1">
-            ART SCOUT
-        </h1>
-        <h2 class="text-uppercase text-center mb-5">Create an account</h2>
-        <main class="form-registration">
+    <div id="registration-card" class="card">
+        <figure class="text-center">
+            <blockquote class="blockquote">
+                <p>Create an account</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                The Best App <cite title="Source Title">Ciro</cite>
+            </figcaption>
+        </figure>
+        <main class="form-signin">
 
             @if (state)
             {
                 <EditForm Model="@registrationModel" OnValidSubmit="NextSlide">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
+                    <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
+
+                    <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
+                        ART SCOUT
+                    </h1>
 
                     <div class="form-floating">
                         <input type="text" class="form-control" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
                         <label for="floatingInput">UserName</label>
                     </div>
                     <div class="form-floating">
-                        <input type="email" class="form-control" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
+                        <input type="email" class="form-control" id="floatingInput" @bind-value="registrationModel.Email" placeholder="Username">
                         <label for="floatingInput">Email</label>
                     </div>
                     <div class="form-floating">
@@ -44,7 +52,9 @@
                         <input type="password" class="form-control" id="floatingPassword2" @bind-value="registrationModel.Password2" placeholder="Repeat Password">
                         <label for="floatingPassword2">Repeat password</label>
                     </div>
-
+                    <br />
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Next </button>
                 </EditForm>
             }
@@ -55,7 +65,7 @@
                     <ValidationSummary />
 
                     <div class="form-floating">
-                        <textarea id="idBio" rows="4" cols="50" @oninput="HandleOnChange"></textarea>
+                        <input type="text" class="form-control" id="idBio" @bind-value="registrationModel.Biography" placeholder="Short Biography">
                         <label for="idBio">Biography</label>
                     </div>
 

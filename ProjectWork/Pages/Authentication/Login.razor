@@ -5,21 +5,26 @@
 
 @inject NavigationManager NavManager
 <style>
-    #content-container{
-        
+    #content-container {
         background-image: url("bg-login.jpg");
         background-size: cover;
-        background-position: inherit;
+        background-repeat: no-repeat;
+        background-attachment: local;
+        min-height: 100% !important;
     }
+    
 </style>
-<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center"  style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
+<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
     <div id="login-card" class="card">
+        <figure class="text-center">
+            <blockquote class="blockquote">
+                <p>Please sign in</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                Thanks for use our app            </figcaption>
+        </figure>
         <main class="form-signin">
-            <EditForm
-                Model="@loginModel" OnValidSubmit="async ()=> await AttemptLogin(loginModel)"
-            >
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+            <EditForm Model="@_loginModel" OnValidSubmit="async ()=> await AttemptLogin(_loginModel)">
 
                 <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
 
@@ -27,10 +32,9 @@
                     ART SCOUT
                 </h1>
 
-                <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingInput" @bind-value="loginModel.UserName" placeholder="Username">
+                    <input type="text" class="form-control" id="floatingInput" @bind-value="_loginModel.UserName" placeholder="Username">
                     <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating">
@@ -43,6 +47,8 @@
                         <input type="checkbox" value="remember-me" @onclick="() => App.Authentication.SaveSession = !App.Authentication.SaveSession"> Remember me
                     </label>
                 </div>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
                 <p class="mt-auto">
                     Not a member?

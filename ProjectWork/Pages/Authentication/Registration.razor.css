@@ -12,12 +12,12 @@
         font-size: 3.5rem;
     }
 }
-#login-card {
+#registration-card {
     position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
-    width: 350px;
+    width: 380px;
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
@@ -26,8 +26,8 @@
 }
 .form-signin {
     width: 100%;
-    max-width: 350px;
-    padding: 15px;
+    max-width: 380px;
+    padding: 10px;
     margin: auto;
 }
 
@@ -39,6 +39,9 @@
     z-index: 2;
 }
 
+.form-floating > label > #idBio {
+    position: absolute
+}
 .form-signin input[type="email"] {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
@@ -46,7 +49,6 @@
 }
 
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
