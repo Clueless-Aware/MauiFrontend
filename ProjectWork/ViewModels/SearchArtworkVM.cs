@@ -25,7 +25,7 @@ namespace ProjectWork.ViewModels
             }
             else
             {
-                await UtilyToolkit.CreateToast("Not items found");
+                await UtilityToolkit.CreateToast("Not items found");
             }
             IsBusy = false;
         }
@@ -48,8 +48,8 @@ namespace ProjectWork.ViewModels
         public override async Task AddItemAsync(BaseArtwork artwork)
         {
             IsBusy = true;
-            var newItem = await _artworkService.AddItemAsMultipartAsync(artwork, artwork.File);
-            await UtilyToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Title} ");
+            var newItem = await _artworkService.AddItemAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork, artwork.File);
+            await UtilityToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Title} ");
             IsBusy = false;
         }
         /// <summary>
@@ -61,7 +61,7 @@ namespace ProjectWork.ViewModels
         {
             IsBusy = true;
             var updatedItem = await _artworkService.AddUpdateAsMultipartAsync(artwork.Id, artwork, artwork.File);
-            await UtilyToolkit.CreateToast($"Created new element: {updatedItem.Id} {updatedItem.Title} ");
+            await UtilityToolkit.CreateToast($"Created new element: {updatedItem.Id} {updatedItem.Title} ");
             IsBusy= false;
         }
     }

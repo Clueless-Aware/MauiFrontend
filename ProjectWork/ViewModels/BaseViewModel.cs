@@ -5,7 +5,7 @@ namespace ProjectWork.ViewModels
     public abstract class BaseViewModel<T> : ObservableRecipient, IViewModel<T>
     {
 
-        private bool isBusy = false;
+        private bool isBusy ;
         public bool IsBusy
         {
             get => isBusy;

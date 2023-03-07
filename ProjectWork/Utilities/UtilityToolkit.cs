@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjectWork.Utilities
 {
-    public class UtilyToolkit
+    public class UtilityToolkit
     {
         public static async Task CreateToast(string text,
             ToastDuration duration = ToastDuration.Short, 

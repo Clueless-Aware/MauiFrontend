@@ -54,7 +54,7 @@ public class Paginator
         }
         else
         {
-            await UtilyToolkit.CreateToast("Warning page number out of bounds");
+            await UtilityToolkit.CreateToast("Warning page number out of bounds");
         }
     }
 }
