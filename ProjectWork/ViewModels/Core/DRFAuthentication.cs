@@ -33,7 +33,7 @@ namespace ProjectWork.ViewModels.Core
 
             
 
-            var result = await Service.PostItemAsJsonAsync<RegistrationModel, LoginResponse>(registrationModel);
+            var result = await Service.AddItemAsMultipartAsync<RegistrationModel,LoginResponse>(registrationModel,registrationModel.ProfilePicture);
             if (result is null) return false;
             UserSession = result;
             if (!SaveSession) return true;

@@ -6,17 +6,20 @@
 @inject NavigationManager NavManager
 <style>
     #content-container{
+        
         background-image: url("bg-login.jpg");
         background-size: cover;
-        background-position: center;
+        background-position: inherit;
     }
 </style>
-<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center"  style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;">
+<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center"  style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
     <div id="login-card" class="card">
         <main class="form-signin">
             <EditForm
                 Model="@loginModel" OnValidSubmit="async ()=> await AttemptLogin(loginModel)"
             >
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
                 <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
 
@@ -27,8 +30,8 @@
                 <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingInput" @bind-value="loginModel.UserName" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
+                    <input type="text" class="form-control" id="floatingInput" @bind-value="loginModel.UserName" placeholder="Username">
+                    <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating">
                     <input type="password" class="form-control" id="floatingPassword" @bind-value="loginModel.Password" placeholder="Password">

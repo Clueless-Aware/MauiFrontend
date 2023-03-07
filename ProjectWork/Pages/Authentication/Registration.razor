@@ -1,6 +1,7 @@
 ﻿@page "/registration"
 @using ProjectWork.Models.Core.Authentication
 @using ProjectWork.Utilities
+@using Microsoft.Maui.Controls.Xaml.Diagnostics
 @layout MainLayout
 
 @inject NavigationManager NavManager
@@ -8,67 +9,79 @@
     #content-container {
         background-image: url("bg-login.jpg");
         background-size: cover;
+        background-position: inherit;
     }
 </style>
-<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;">
+<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
     <div id="register-card" class="card">
-        <div class="card-body p-5">
-            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+        <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
 
-            <EditForm 
-                Model="@registrationModel" OnValidSubmit="async ()=> await AttemptRegistration(registrationModel)"
-                >
+        <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: 8px; font-weight: bolder;" tabindex="-1">
+            ART SCOUT
+        </h1>
+        <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+        <main class="form-registration">
 
-                <div class="form-outline mb-4">
-                    <input type="text" id="form3Example1cg" @bind-value="registrationModel.Username" class="form-control form-control-lg" />
-                    <label class="form-label" for="form3Example1cg">Your Username</label>
-                </div>
+            @if (state)
+            {
+                <EditForm Model="@registrationModel" OnValidSubmit="NextSlide">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
 
-                <div class="form-outline mb-4">
-                    <input type="email" id="form3Example3cg" @bind-value="registrationModel.Email" class="form-control form-control-lg" />
-                    <label class="form-label" for="form3Example3cg">Your Email</label>
-                </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
+                        <label for="floatingInput">UserName</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="email" class="form-control" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
+                        <label for="floatingInput">Email</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingPassword1" @bind-value="registrationModel.Password1" placeholder="Password">
+                        <label for="floatingPassword1">Password</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingPassword2" @bind-value="registrationModel.Password2" placeholder="Repeat Password">
+                        <label for="floatingPassword2">Repeat password</label>
+                    </div>
 
-                <div class="form-outline mb-4">
-                    <input type="password" id="form3Example4cg" @bind-value="registrationModel.Password1" class="form-control form-control-lg" />
-                    <label class="form-label" for="form3Example4cg">Password</label>
-                </div>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Next </button>
+                </EditForm>
+            }
+            else
+            {
+                <EditForm Model="@registrationModel" OnValidSubmit="async ()=> await AttemptRegistration(registrationModel)">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
 
-                <div class="form-outline mb-4">
-                    <input type="password" id="form3Example4cdg" @bind-value="registrationModel.Password2" class="form-control form-control-lg" />
-                    <label class="form-label" for="form3Example4cdg">Repeat your password</label>
-                </div>
+                    <div class="form-floating">
+                        <textarea id="idBio" rows="4" cols="50" @oninput="HandleOnChange"></textarea>
+                        <label for="idBio">Biography</label>
+                    </div>
 
-                <div class="form-check d-flex justify-content-center mb-5">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-                    <label class="form-check-label" for="form2Example3g">
-                        I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
-                    </label>
-                </div>
+                    <div class="form-floating">
+                        <InputFile id="idProfilePicture" class="form-control" OnChange="(e)=> registrationModel.ProfilePicture = e.File" />
+                        <label for="idProfilePicture">Profile Picture</label>
+                    </div>
 
-                <div class="d-flex justify-content-center">
-                    <button type="submit"
-                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
-                        Register
-                    </button>
-                </div>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                </EditForm>
+            }
+            <p class="text-center text-muted mt-5 mb-0">
+                Have already an account?
+                <NavLink href="login">
+                    <a class="fw-bold text-body">Login here</a>
+                </NavLink>
+            </p>
 
-                <p class="text-center text-muted mt-5 mb-0">
-                    Have already an account? 
-                    <NavLink href="registration">
-                        <a class="fw-bold text-body">Login here</a>
-                    </NavLink>
-                </p>
 
-            </EditForm>
-
-        </div>
+        </main>
     </div>
 </Animate>
 
 @code {
     readonly RegistrationModel registrationModel = new();
-
+    bool state = true;
     private async Task AttemptRegistration(RegistrationModel registrationModel)
     {
         var attempt = await App.Authentication.RegistrationUser(registrationModel);
@@ -81,5 +94,14 @@
             await UtilityToolkit.CreateToast("Registration Failed");
         }
 
+    }
+
+    private async Task HandleOnChange(ChangeEventArgs args)
+    {
+        registrationModel.Biography = args.Value.ToString();
+    }
+    private void NextSlide()
+    {
+        state = !state;
     }
 }
