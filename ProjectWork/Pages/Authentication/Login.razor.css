@@ -56,3 +56,11 @@
 #logo {
     padding: 16px;
 }
+@media (max-width: 641px) {
+    #hideLogo {
+        display: none;
+    }
+    #login-card {
+        margin-bottom: 35%;
+    }
+}

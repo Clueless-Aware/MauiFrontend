@@ -22,7 +22,7 @@
                 <p>Create an account</p>
             </blockquote>
             <figcaption class="blockquote-footer">
-                The Best App <cite title="Source Title">Ciro</cite>
+                Thanks for choose us<cite title="Source Title"></cite>
             </figcaption>
         </figure>
         <main class="form-signin">
@@ -30,15 +30,18 @@
             @if (state)
             {
                 <EditForm Model="@registrationModel" OnValidSubmit="NextSlide">
+                    <div id="hideLogo">
+
                     <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
 
                     <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
                         ART SCOUT
                     </h1>
+                    </div>
 
                     <div class="form-floating">
                         <input type="text" class="form-control" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
-                        <label for="floatingInput">UserName</label>
+                        <label for="floatingInput">UserName *</label>
                     </div>
                     <div class="form-floating">
                         <input type="email" class="form-control" id="floatingInput" @bind-value="registrationModel.Email" placeholder="Username">
@@ -46,11 +49,11 @@
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" id="floatingPassword1" @bind-value="registrationModel.Password1" placeholder="Password">
-                        <label for="floatingPassword1">Password</label>
+                        <label for="floatingPassword1">Password *</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" id="floatingPassword2" @bind-value="registrationModel.Password2" placeholder="Repeat Password">
-                        <label for="floatingPassword2">Repeat password</label>
+                        <label for="floatingPassword2">Repeat password *</label>
                     </div>
                     <br />
                     <DataAnnotationsValidator />
@@ -75,6 +78,8 @@
                     </div>
 
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+                    <button class="w-100 btn btn-lg btn-outline-warning" type="">Back</button>
                 </EditForm>
             }
             <p class="text-center text-muted mt-5 mb-0">
@@ -94,6 +99,11 @@
     bool state = true;
     private async Task AttemptRegistration(RegistrationModel registrationModel)
     {
+        if (registrationModel.Password1 == registrationModel.Password2)
+        {
+                await UtilityToolkit.CreateToast("The two password fields didn't match.");
+            return;
+        }
         var attempt = await App.Authentication.RegistrationUser(registrationModel);
         if (attempt)
         {
@@ -104,11 +114,6 @@
             await UtilityToolkit.CreateToast("Registration Failed");
         }
 
-    }
-
-    private async Task HandleOnChange(ChangeEventArgs args)
-    {
-        registrationModel.Biography = args.Value.ToString();
     }
     private void NextSlide()
     {

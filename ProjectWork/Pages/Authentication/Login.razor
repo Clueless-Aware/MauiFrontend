@@ -8,11 +8,11 @@
     #content-container {
         background-image: url("bg-login.jpg");
         background-size: cover;
+        background-position: center center;
         background-repeat: no-repeat;
-        background-attachment: local;
+        background-attachment: fixed;
         min-height: 100% !important;
     }
-    
 </style>
 <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
     <div id="login-card" class="card">
@@ -21,16 +21,19 @@
                 <p>Please sign in</p>
             </blockquote>
             <figcaption class="blockquote-footer">
-                Thanks for use our app            </figcaption>
+                Thanks for use our app
+            </figcaption>
         </figure>
         <main class="form-signin">
             <EditForm Model="@_loginModel" OnValidSubmit="async ()=> await AttemptLogin(_loginModel)">
+                <div id="hideLogo">
 
-                <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
+                    <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
 
-                <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
-                    ART SCOUT
-                </h1>
+                    <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
+                        ART SCOUT
+                    </h1>
+                </div>
 
 
                 <div class="form-floating">

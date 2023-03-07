@@ -14,7 +14,6 @@
             </button>
         </div>
     </div>
-    <hr />
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenuDiv">
         <div class="nav nav-pills flex-column mb-auto">
 
@@ -50,20 +49,26 @@
             }
             else
             {
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
-                    </NavLink>
-                </div>
-                @*TODO: iF ADMIN SEE THIS*@
+                if (App.Authentication.UserSession.User is {IsStaff: true })
+                {
                 <div class="nav-item px-3 ">
                     <NavLink class="nav-link w3-padding-16" href="dashboard">
                         <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
                     </NavLink>
                 </div>
+                }
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
                         <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none" id="dropdownUser1">
+                        <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <strong>xd</strong>
+                    </a>
+                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                        <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User!.Username
                     </NavLink>
                 </div>
 
@@ -75,7 +80,6 @@
 </div>
 
 @code {
-    private bool adminOptions = false;
 
     private bool _collapseNavMenu = true;
 

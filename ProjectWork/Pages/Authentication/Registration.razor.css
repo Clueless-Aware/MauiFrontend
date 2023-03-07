@@ -58,3 +58,12 @@
 #logo {
     padding: 16px;
 }
+
+@media (max-width: 641px) {
+    #hideLogo {
+        display: none;
+    }
+    #registration-card {
+        margin-bottom: 35%;
+    }
+}
