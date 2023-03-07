@@ -1,50 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Services.Core;
 
-namespace ProjectWork.ViewModels.Core
+namespace ProjectWork.ViewModels.Core;
+
+public abstract class AuthenticationBase : ObservableRecipient, IAuthenticationAPI
 {
-    public abstract class AuthenticationBase : ObservableRecipient,IAuthenticationAPI
+    private bool _saveSession;
+    private LoginResponse _userSession;
+
+    protected AuthenticationBase(IServiceAPI service)
     {
-        public IServiceAPI Service { get; }
-        private bool _isAuthenticated;
-        private LoginResponse _userSession;
-        private bool _saveSession;
-
-        protected AuthenticationBase(IServiceAPI service)
-        {
-            this.Service = service;
-        }
-
-        public LoginResponse UserSession
-        {
-            get => _userSession;
-            set => SetProperty(ref _userSession, value);
-        }
-
-        LoginResponse IAuthenticationAPI.UserSession
-        {
-            get => UserSession;
-            set => UserSession = value;
-        }
-
-        public bool SaveSession
-        {
-            get => _saveSession;
-            set => SetProperty(ref _saveSession, value);
-        }
-
-        public abstract Task<bool> AuthenticateUser(LoginModel loginModel);
-
-        public abstract void LogOut();
-
-        public abstract Task ChecKIsLogged();
-
-        public abstract Task<bool> RegistrationUser(RegistrationModel registrationModel);
+        Service = service;
     }
+
+    protected IServiceAPI Service { get; }
+
+    public LoginResponse UserSession
+    {
+        get => _userSession;
+        set => SetProperty(ref _userSession, value);
+    }
+
+    LoginResponse IAuthenticationAPI.UserSession
+    {
+        get => UserSession;
+        set => UserSession = value;
+    }
+
+    public bool SaveSession
+    {
+        get => _saveSession;
+        set => SetProperty(ref _saveSession, value);
+    }
+
+    public abstract Task<bool> AuthenticateUser(LoginModel loginModel);
+
+    public abstract void LogOut();
+
+    public abstract Task CheckIsLogged();
+
+    public abstract Task<bool> RegistrationUser(RegistrationModel registrationModel);
 }

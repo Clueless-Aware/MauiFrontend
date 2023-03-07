@@ -23,7 +23,7 @@
 
                 <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
 
-                <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: 8px; font-weight: bolder;" tabindex="-1">
+                <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
                     ART SCOUT
                 </h1>
 
@@ -34,20 +34,21 @@
                     <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" @bind-value="loginModel.Password" placeholder="Password">
+                    <input type="password" class="form-control" id="floatingPassword" @bind-value="_loginModel.Password" placeholder="Password">
                     <label for="floatingPassword">Password</label>
                 </div>
 
                 <div class="checkbox mb-3">
                     <label>
-                        <input type="checkbox" value="remember-me" @onclick="()=> App.Authentication.SaveSession = !App.Authentication.SaveSession"> Remember me
+                        <input type="checkbox" value="remember-me" @onclick="() => App.Authentication.SaveSession = !App.Authentication.SaveSession"> Remember me
                     </label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-                <p class="mt-auto">Not a member?
-                <NavLink href="registration">
-                    <a>Register</a>
-                </NavLink>
+                <p class="mt-auto">
+                    Not a member?
+                    <NavLink href="registration">
+                        <a>Register</a>
+                    </NavLink>
                 </p>
             </EditForm>
         </main>
@@ -55,7 +56,7 @@
 </Animate>
 
 @code {
-    readonly LoginModel loginModel = new();
+    readonly LoginModel _loginModel = new();
 
     private async Task AttemptLogin(LoginModel loginModel)
     {
@@ -68,6 +69,6 @@
         {
             await UtilityToolkit.CreateToast("Login Failed");
         }
-
     }
+
 }
