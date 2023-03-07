@@ -13,7 +13,7 @@ namespace ProjectWork.Services.Core
 {
     public class ServiceAPI : IServiceAPI
     {
-        private HeadersDirector _headersDirector = new();
+        private readonly HeadersDirector _headersDirector = new();
         private readonly HeadersBuilder _headersBuilder;
         private readonly string url;
         private readonly ImageOptions imageOptions= new();
@@ -64,7 +64,7 @@ namespace ProjectWork.Services.Core
             {
                 query[item.Key] = item.Value;
             }
-            _uriBuilder.Query = query.ToString();
+            _uriBuilder.Query = query.ToString() ?? string.Empty;
         }
 
         public async Task<K> GetDetailObject<K>(int id)
@@ -85,12 +85,12 @@ namespace ProjectWork.Services.Core
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsJsonAsync(_uriBuilder.Uri, item));
             return await HandleResponse.Responded<TR>(tempMessage);
         }
-        public async Task<K> AddItemAsMultipartAsync<K>(K item, IBrowserFile file)
+        public async Task<TR> AddItemAsMultipartAsync<TS,TR>(TS item, IBrowserFile file)
         {
             await _headersDirector.AuthenticatedHeader();
             var content = await HandleMultipart.Build(item, file,imageOptions);
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(url, content));
-            return await HandleResponse.Responded<K>(tempMessage);
+            return await HandleResponse.Responded<TR>(tempMessage);
         }
         
 

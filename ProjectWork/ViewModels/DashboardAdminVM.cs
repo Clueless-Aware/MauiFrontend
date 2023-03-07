@@ -47,7 +47,7 @@ namespace ProjectWork.ViewModels
         public override async Task AddItemAsync(BaseArtwork artwork)
         {
             IsBusy = true;
-            var newItem = await _artworkService.AddItemAsMultipartAsync(artwork, artwork.File);
+            var newItem = await _artworkService.AddItemAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork, artwork.File);
             if (newItem is not null)
             {
                 await UtilityToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Title} ");
