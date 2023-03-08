@@ -99,7 +99,7 @@
     bool state = true;
     private async Task AttemptRegistration(RegistrationModel registrationModel)
     {
-        if (registrationModel.Password1 == registrationModel.Password2)
+        if (registrationModel.Password1 != registrationModel.Password2)
         {
                 await UtilityToolkit.CreateToast("The two password fields didn't match.");
             return;
