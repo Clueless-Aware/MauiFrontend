@@ -1,0 +1,108 @@
+﻿@page "/send-request"
+@using ProjectWork.Models.Core.Authentication
+@using System.Text.Json.Serialization
+@using System.ComponentModel.DataAnnotations
+@using ProjectWork.Resources.Static
+<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
+    <div id="login-card" class="card">
+        <div class="card-body">
+
+            <div class="container">
+                <EditForm Model="_emailRequest" id="contact-form" role="form" OnValidSubmit="async ()=> await SendEmail(_emailRequest)">
+
+                    <div>
+
+                        <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo" style="padding: 20px"> brush </span>
+
+                        <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
+                            ART SCOUT
+                        </h1>
+                    </div>
+
+
+
+                    <div class="controls">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="form_need">Subject*</label>
+
+                                    <InputSelect id="form_need" @bind-Value="_emailRequest.Subject">
+                                        <option>Request New Artwork</option>
+                                        <option>Request New Artist</option>
+                                        <option>Request Admin Account</option>
+                                    </InputSelect>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="form_critical">Critical </label>
+                                    <InputCheckbox id="form_critical" @bind-Value="_emailRequest.Critical" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_message">Message *</label>
+                                        <InputTextArea id="form_message" name="message" class="form-control" placeholder="Write your message here." rows="4" @bind-Value="_emailRequest.Content" />
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <br />
+                        <div class="col-md-12">
+
+                            <input type="submit" class="btn btn-success btn-send  pt-2 btn-block
+                            " value="Send Message">
+
+                        </div>
+
+
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+
+    </div>
+
+</Animate>
+
+@code {
+    EmailInput _emailRequest = new();
+
+    private async Task SendEmail(EmailInput emailRequest)
+    {
+        
+        var result = await App.Authentication.SendGenericRequest(new EmailRequest()
+        {
+            Content = emailRequest.Content,
+            Critical = emailRequest.Critical,
+            FromUser = App.Authentication.UserSession.User.Id,
+            Subject = emailRequest.Subject
+        },Endpoints.GetRequestsEndpoint()
+            
+            );
+    }
+
+    public class EmailInput
+    {
+        [Required]
+        [JsonPropertyName("subject")]
+        public string Subject { get; set; }
+        [Required]
+        [JsonPropertyName("content")]
+        public string Content { get; set; }
+        [Required]
+        [JsonPropertyName("critical")]
+        public bool Critical { get; set; }
+    }
+}
