@@ -5,7 +5,7 @@ namespace ProjectWork.Models.Core.Authentication
     public class User
     {
         [JsonPropertyName("id")]
-        public int? Id { get; set; }
+        public int Id { get; set; }
         [JsonPropertyName("favorite_artist")]
         public string? FavoriteArtist { get; set; }
         [JsonPropertyName("profile_picture")]

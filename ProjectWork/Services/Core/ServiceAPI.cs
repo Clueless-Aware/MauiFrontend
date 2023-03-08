@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
-using ProjectWork.Models;
-using ProjectWork.Models.Artwork;
-using ProjectWork.Models.Core;
-using ProjectWork.Services;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text.Json;
 using System.Web;
 
 namespace ProjectWork.Services.Core
@@ -16,7 +10,7 @@ namespace ProjectWork.Services.Core
         private readonly HeadersDirector _headersDirector = new();
         private readonly HeadersBuilder _headersBuilder;
         private readonly string url;
-        private readonly ImageOptions imageOptions= new();
+        private readonly ImageOptions _imageOptions= new();
         private UriBuilder _uriBuilder;
 
         public UriBuilder Uri
@@ -39,16 +33,16 @@ namespace ProjectWork.Services.Core
             _headersBuilder = new HeadersBuilder(new HttpClient(handler));
             _headersDirector.Builder = _headersBuilder;
             this.url = url;
-            this.imageOptions = imageOptions;
+            this._imageOptions = imageOptions;
             Uri= new UriBuilder(url);
         }
 
-        public async Task<K> GetDataPageAsync<K>(int currentPage)
+        public async Task<K> GetDataWithPageAsync<K>(int currentPage)
         {
             _headersDirector.BuildGenericGetHeader();
             return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>($"{url}?page={currentPage}"));
         }
-        public async Task<K> GetDataPageAsync<K>(Dictionary<string,string> parameters)
+        public async Task<K> GetDataWithParamAsync<K>(Dictionary<string,string> parameters)
         {
             BuildUri(parameters);
             await _headersDirector.AuthenticatedHeader();
@@ -72,11 +66,11 @@ namespace ProjectWork.Services.Core
             _headersDirector.BuildGenericGetHeader();
             return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>($"{url}{id}/"));
         }
-        public async Task DeleteItemAsync(int page)
+        public async Task<HttpStatusCode> DeleteItemAsync(int page)
         {
             await _headersDirector.AuthenticatedHeader();
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().DeleteAsync($"{url}{page}/"));
-            await HandleResponse.Responded(tempMessage);
+            return await HandleResponse.Responded(tempMessage);
         }
 
         public async Task<TR> PostItemAsJsonAsync<TS,TR>(TS item)
@@ -88,25 +82,25 @@ namespace ProjectWork.Services.Core
         public async Task<TR> AddItemAsMultipartAsync<TS,TR>(TS item, IBrowserFile file)
         {
             await _headersDirector.AuthenticatedHeader();
-            var content = await HandleMultipart.Build(item, file,imageOptions);
-            var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(url, content));
+            var content = await HandleMultipart.Build(item, file,_imageOptions);
+            var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(_uriBuilder.Uri, content));
             return await HandleResponse.Responded<TR>(tempMessage);
         }
         
 
-        public async Task<K> UpdateItemAsJsonAsync<K>(int id,K item)
+        public async Task<TR> UpdateItemAsJsonAsync<TS,TR>(int id,TS item)
         {
             await _headersDirector.AuthenticatedHeader();
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PutAsJsonAsync($"{url}{id}/", item));
-            return await HandleResponse.Responded<K>(tempMessage);
+            return await HandleResponse.Responded<TR>(tempMessage);
         }
 
-        public async Task<K> AddUpdateAsMultipartAsync<K>(int id,K item, IBrowserFile file)
+        public async Task<TR> UpdateAsMultipartAsync<TS,TR>(int id,TS item, IBrowserFile file)
         {
             await _headersDirector.AuthenticatedHeader();
-            var content = await HandleMultipart.Build(item, file,imageOptions);
+            var content = await HandleMultipart.Build(item, file,_imageOptions);
             var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PatchAsync($"{url}{id}/", content));
-            return await HandleResponse.Responded<K>(tempMessage);
+            return await HandleResponse.Responded<TR>(tempMessage);
         }
 
     }

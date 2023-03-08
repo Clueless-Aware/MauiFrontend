@@ -10,12 +10,12 @@
         public void BuildGenericGetHeader()
         {
             _builder.ClearRequestHeaders();
-            _builder.AddMediaType();
+            _builder.AddMediaTypeJson();
         }
 
         internal async Task AuthenticatedHeader()
         {
-            BuildGenericGetHeader();
+            _builder.ClearRequestHeaders();
             await _builder.AddAuthenticationToken();
         }
     }

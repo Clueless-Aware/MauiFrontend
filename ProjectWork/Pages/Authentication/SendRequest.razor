@@ -3,6 +3,7 @@
 @using System.Text.Json.Serialization
 @using System.ComponentModel.DataAnnotations
 @using ProjectWork.Resources.Static
+@using ProjectWork.Utilities
 <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
     <div id="login-card" class="card">
         <div class="card-body">
@@ -30,7 +31,7 @@
                                     <label for="form_need">Subject*</label>
 
                                     <InputSelect id="form_need" @bind-Value="_emailRequest.Subject">
-                                        <option>Request New Artwork</option>
+                                        <option selected="selected">Request New Artwork</option>
                                         <option>Request New Artist</option>
                                         <option>Request Admin Account</option>
                                     </InputSelect>
@@ -81,16 +82,24 @@
 
     private async Task SendEmail(EmailInput emailRequest)
     {
-        
-        var result = await App.Authentication.SendGenericRequest(new EmailRequest()
+
+        var attempt = await App.Authentication.SendRequest(new EmailRequest()
         {
             Content = emailRequest.Content,
             Critical = emailRequest.Critical,
             FromUser = App.Authentication.UserSession.User.Id,
             Subject = emailRequest.Subject
         },Endpoints.GetRequestsEndpoint()
-            
             );
+        if (attempt.status)
+        {
+            await UtilityToolkit.CreateToast("A email was sent");
+        }
+        else
+        {
+            await UtilityToolkit.CreateToast(attempt.message);
+        }
+
     }
 
     public class EmailInput
