@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100% !important;
 }
 
 main {
@@ -47,6 +48,10 @@ main {
 
     .top-row ::deep a, .top-row ::deep .btn-link {
         margin-left: 0;
+    }
+    .top-row, article {
+        height: 100% !important;
+        width: 100% !important;
     }
 }
 

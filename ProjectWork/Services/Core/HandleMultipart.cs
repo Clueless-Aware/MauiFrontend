@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
-using System.Diagnostics;
 using System.Net.Http.Headers;
-using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
+using ProjectWork.Utilities;
 
 namespace ProjectWork.Services.Core
 {
@@ -27,7 +25,7 @@ namespace ProjectWork.Services.Core
                     _multipartFormDataContent.Add(fileStream, imageOptions.FileName, file.Name);
                 }
                 parameters.Remove(imageOptions.FileName);
-                foreach (KeyValuePair<string, object> entry in parameters)
+                foreach (var entry in parameters)
                 {
                     _multipartFormDataContent.Add(new StringContent(entry.Value.ToString()), entry.Key);
                 }
@@ -35,9 +33,9 @@ namespace ProjectWork.Services.Core
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                await UtilityToolkit.CreateToast(e.Message);
+                throw;
             }
-            return default;
         }
     }
 }

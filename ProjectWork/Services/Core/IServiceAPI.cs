@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-using ProjectWork.Models;
-using ProjectWork.Models.Core;
+﻿using System.Net;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace ProjectWork.Services.Core
 {
@@ -9,11 +8,11 @@ namespace ProjectWork.Services.Core
         public UriBuilder Uri { get; set; }   
         Task<TR> PostItemAsJsonAsync<TS,TR>(TS item);
         Task<TR> AddItemAsMultipartAsync<TS,TR>(TS item, IBrowserFile file);
-        Task<K> AddUpdateAsMultipartAsync<K>(int id, K item, IBrowserFile file);
-        Task DeleteItemAsync(int page);
-        Task<K> GetDataPageAsync<K>(int currentPage);
-        Task<K> GetDataPageAsync<K>(Dictionary<string, string> parameters);
+        Task<TR> UpdateAsMultipartAsync<TS,TR>(int id, TS item, IBrowserFile file);
+        Task<HttpStatusCode> DeleteItemAsync(int page);
+        Task<K> GetDataWithPageAsync<K>(int currentPage);
+        Task<K> GetDataWithParamAsync<K>(Dictionary<string, string> parameters);
         Task<K> GetDetailObject<K>(int id);
-        Task<K> UpdateItemAsJsonAsync<K>(int id, K item);
+        Task<TR> UpdateItemAsJsonAsync<TS,TR>(int id, TS item);
     }
 }

@@ -20,10 +20,13 @@ public class RegistrationModel
     public string Password2 { get; set; }
 
     [JsonPropertyName("biography")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string Biography { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     [JsonPropertyName("profile_picture")]
     public IBrowserFile ProfilePicture { get; set; }
     [JsonPropertyName("favorite_artist")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int FavoriteArtistId { get; set; }
 
 }

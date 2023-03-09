@@ -36,7 +36,7 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
         builder.Services.AddSingleton<DRFAuthentication>(x => new DRFAuthentication(new ServiceAPI(
-            Endpoints.getAccountEndpoint(), new ImageOptions()
+            Endpoints.GetArtworkEndpoint(), new ImageOptions()
         {
                 FileName = "profile_picture"
         })));

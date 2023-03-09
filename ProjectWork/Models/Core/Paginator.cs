@@ -19,7 +19,7 @@ public class Paginator
     internal void SetActualState(Parameters parameters, Func<Task> getGenericDataFromPageAsync, int totalObjects)
     {
         _parametersP = parameters;
-        PageIndex = Convert.ToInt32(parameters.dictionary["page"]);
+        PageIndex = Convert.ToInt32(parameters.Dictionary["page"]);
         GetData = getGenericDataFromPageAsync;
         var temp = (double)totalObjects / pageSize;
         TotalPages = (int)Math.Ceiling(temp);
@@ -30,7 +30,7 @@ public class Paginator
         if (PageIndex < TotalPages)
         {
             PageIndex++;
-            _parametersP.dictionary["page"] = PageIndex.ToString();
+            _parametersP.Dictionary["page"] = PageIndex.ToString();
             await GetData();
         }
     }
@@ -40,7 +40,7 @@ public class Paginator
         if (PageIndex > 1)
         {
             PageIndex--;
-            _parametersP.dictionary["page"] = PageIndex.ToString();
+            _parametersP.Dictionary["page"] = PageIndex.ToString();
             await GetData();
         }
     }
@@ -49,7 +49,7 @@ public class Paginator
     {
         if (page <= TotalPages && page > 0)
         {
-            _parametersP.dictionary["page"] = page.ToString();
+            _parametersP.Dictionary["page"] = page.ToString();
             await GetData();
         }
         else
