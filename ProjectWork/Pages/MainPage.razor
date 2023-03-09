@@ -1,7 +1,9 @@
 ﻿@page "/Home"
 @using ProjectWork.ViewModels;
 @using System.ComponentModel;
+@using System.Diagnostics
 @using Microsoft.Maui.Handlers
+@using ProjectWork.Models.Artwork
 @inject SearchArtworkVM Artwork
 
 
@@ -139,10 +141,18 @@
                                 <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
                                 <div class="my-main" style="border-style: solid;">
                                     <Panzoom WheelMode="WheelMode.ZoomWithWheel">
-                                <img @ref="@context.ElementReference" class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" />
+                                        <img @ref="@context.ElementReference" class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" />
                                     </Panzoom>
                                 </div>
                             </div>
+                            @{
+                                ListModals.Add(new Modal(result));
+                            }
+                            ;
+@*                            <Modal Artwork="result" @ref="Modal"></Modal>
+*@
+                            <button @onclick="()=>:w
+                                ListModals[0].Open()">Open Modal</button>
 
                             <div class="w3-col m6 w3-padding-large w3-left-align">
                                 @if (result.Description.Length > 0)
@@ -154,7 +164,7 @@
                                 else
                                 {
                                     <p>
-                                        Nothing to see 
+                                        Nothing to see
                                     </p>
                                 }
                             </div>
@@ -174,8 +184,11 @@
 
 @code {
     private string SearchField { get; set; }
+    private Modal Modal { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    private List<Modal> ListModals { get; set; } = new();
+
+       protected override async Task OnInitializedAsync()
     {
         Artwork.PropertyChanged += async (sender, e) =>
         {
