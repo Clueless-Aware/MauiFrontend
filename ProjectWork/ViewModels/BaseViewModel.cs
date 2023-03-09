@@ -39,10 +39,10 @@ namespace ProjectWork.ViewModels
             get => _genericData;
             set => SetProperty(ref _genericData, value);
         }
-        public abstract Task GetGenericDataFromPageAsync();
-        public abstract Task DeleteItemAsync(int idItem);
+        public abstract Task<(bool status, string message)> GetGenericDataFromPageAsync();
+        public abstract Task<(bool status, string message)> DeleteItemAsync(int idItem);
 
-        public abstract Task AddItemAsync(T item);
-        public abstract Task UpdateItemAsync(T item);
+        public abstract Task<(bool status, string message)> AddItemAsync(T item);
+        public abstract Task<(bool status, string message)> UpdateItemAsync(T item);
     }
 }

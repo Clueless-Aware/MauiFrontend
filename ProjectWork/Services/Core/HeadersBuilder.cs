@@ -6,13 +6,14 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 using ProjectWork.Models.Core.Authentication;
+using ProjectWork.Resources.Static;
 using ProjectWork.Utilities;
 
 namespace ProjectWork.Services.Core
 {
     public class HeadersBuilder : IHeadersBuilder
     {
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
         public HeadersBuilder(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -41,11 +42,11 @@ namespace ProjectWork.Services.Core
             }
             else//se risposta negativa non aggiorna
             {
-                await UtilityToolkit.CreateToast("Session timeout - reburn(out) it");
+                throw new Exception("Session timeout - reburn(out) it");
             }
         }
 
-        private async Task UpdateNewToken(LoginResponse loginResponse, bool inMemory)
+        private static async Task UpdateNewToken(LoginResponse loginResponse, bool inMemory)
         {
             if (inMemory)
             {
@@ -64,12 +65,12 @@ namespace ProjectWork.Services.Core
             }
             else
             {
-                var response = await _httpClient.PostAsJsonAsync("http://localhost/api/auth/token/refresh/",
+                var response = await _httpClient.PostAsJsonAsync(Endpoints.GetRefreshTokenEndpoint(),
                     new { refresh = loginResponse.RefreshToken });
                 var refreshResult = await response.Content.ReadFromJsonAsync<RefreshResponse>();
                 if (refreshResult.AccessToken is null) return false;
                 ClearRequestHeaders();
-                AddMediaType();
+                AddMediaTypeJson();
                 _httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", refreshResult.AccessToken);
                 loginResponse.AccessToken = refreshResult.AccessToken;
@@ -77,7 +78,7 @@ namespace ProjectWork.Services.Core
             }
         }
 
-        private bool IsValid(string token)
+        private static bool IsValid(string token)
         {
             JwtSecurityToken jwtSecurityToken;
             try
@@ -88,11 +89,10 @@ namespace ProjectWork.Services.Core
             {
                 return false;
             }
-
             return jwtSecurityToken.ValidTo > DateTime.UtcNow;
         }
 
-        public void AddMediaType()
+        public void AddMediaTypeJson()
         {
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }

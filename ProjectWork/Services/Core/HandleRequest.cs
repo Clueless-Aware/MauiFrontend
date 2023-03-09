@@ -17,9 +17,8 @@ namespace ProjectWork.Services.Core
             }
             catch (Exception e)
             {
-
                 await UtilityToolkit.CreateToast(e.Message);
-                return default;
+                throw;
             }
         }
     }

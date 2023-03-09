@@ -14,7 +14,6 @@
             </button>
         </div>
     </div>
-    <hr />
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenuDiv">
         <div class="nav nav-pills flex-column mb-auto">
 
@@ -47,18 +46,42 @@
                         <span class="material-symbols-outlined w3-margin-right">login</span> Login
                     </NavLink>
                 </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link w3-padding-16" href="registration">
+                        <span class="material-symbols-outlined w3-margin-right">
+                            app_registration
+                        </span> Registration
+                    </NavLink>
+                </div>
             }
             else
             {
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
+                if (App.Authentication.UserSession.User is { IsStaff: true })
+                {
+                    <div class="nav-item px-3 ">
+                        <NavLink class="nav-link w3-padding-16" href="dashboard">
+                            <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                        </NavLink>
+                    </div>
+                }
+                <div class="nav-item px-3 w3-margin-top">
+                    <NavLink class="nav-link" href="/send-request">
+                        <span class="material-symbols-outlined w3-margin-right">email</span> Email to the staff
                     </NavLink>
                 </div>
-                @*TODO: iF ADMIN SEE THIS*@
-                <div class="nav-item px-3 ">
-                    <NavLink class="nav-link w3-padding-16" href="dashboard">
-                        <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                        @if (App.Authentication.UserSession.User.ProfilePicture is not null)
+                        {
+                        <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
+                        }
+                        else
+                        {
+                            <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
+                        }
+                        <strong>
+                            @App.Authentication.UserSession.User!.Username
+                        </strong>
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
@@ -75,7 +98,6 @@
 </div>
 
 @code {
-    private bool adminOptions = false;
 
     private bool _collapseNavMenu = true;
 

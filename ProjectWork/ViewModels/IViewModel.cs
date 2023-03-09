@@ -9,15 +9,15 @@ namespace ProjectWork.ViewModels
         GenericData<T> GenericData { get; set; }
         Parameters Parameters { get; set; }
         Paginator Paginator { get; set; }
-        Task GetGenericDataFromPageAsync();
+        Task<(bool status, string message)> GetGenericDataFromPageAsync();
         //For Anti-Spam
         bool IsBusy { get; set; }
 
         //For AddItem
-        Task AddItemAsync(T artwork);
+        Task<(bool status,string message)> AddItemAsync(T artwork);
         //For deleteItem
-        Task DeleteItemAsync(int id);
+        Task<(bool status,string message)> DeleteItemAsync(int id);
         //For UpdateItem
-        Task UpdateItemAsync(T artwork);
+        Task<(bool status,string message)> UpdateItemAsync(T artwork);
     }
 }

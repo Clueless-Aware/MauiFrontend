@@ -11,21 +11,21 @@ namespace ProjectWork.Models.Core
     public class Parameters
     {
 
-        public Dictionary<string, string> dictionary = new Dictionary<string, string>()
+        public Dictionary<string, string> Dictionary = new Dictionary<string, string>()
         {
             ["page"]="1"
         };
         public void SetPage(int page)
         {
-            dictionary["page"] = page.ToString();
+            Dictionary["page"] = page.ToString();
         }
         public void SetOrdering(string orderingFilter)
         {
-            dictionary["ordering"] = orderingFilter;
+            Dictionary["ordering"] = orderingFilter;
         }
         public void SetSearch(string searchFilter)
         {
-            dictionary["search"] = searchFilter;
+            Dictionary["search"] = searchFilter;
         }
         //TODO: To test
         public void SetSpecific<T>(T @base)
@@ -37,7 +37,7 @@ namespace ProjectWork.Models.Core
             var specificParemeters = JsonSerializer.Deserialize<Dictionary<string, object>>(JsonSerializer.Serialize(@base), options);
             foreach (var specific in specificParemeters)
             {
-                dictionary[specific.Key] = specific.Value.ToString();
+                Dictionary[specific.Key] = specific.Value.ToString();
             }
         }
     }

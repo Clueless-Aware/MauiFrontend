@@ -12,7 +12,7 @@
         background-position: center center;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        min-height: 100%!important;
+        min-height: 100% !important;
     }
 </style>
 <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
@@ -22,7 +22,7 @@
                 <p>Create an account</p>
             </blockquote>
             <figcaption class="blockquote-footer">
-                The Best App <cite title="Source Title">Ciro</cite>
+                Thanks for choose us<cite title="Source Title"></cite>
             </figcaption>
         </figure>
         <main class="form-signin">
@@ -30,15 +30,18 @@
             @if (state)
             {
                 <EditForm Model="@registrationModel" OnValidSubmit="NextSlide">
-                    <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
+                    <div id="hideLogo">
 
-                    <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
-                        ART SCOUT
-                    </h1>
+                        <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
+
+                        <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
+                            ART SCOUT
+                        </h1>
+                    </div>
 
                     <div class="form-floating">
                         <input type="text" class="form-control" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
-                        <label for="floatingInput">UserName</label>
+                        <label for="floatingInput">UserName *</label>
                     </div>
                     <div class="form-floating">
                         <input type="email" class="form-control" id="floatingInput" @bind-value="registrationModel.Email" placeholder="Username">
@@ -46,11 +49,11 @@
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" id="floatingPassword1" @bind-value="registrationModel.Password1" placeholder="Password">
-                        <label for="floatingPassword1">Password</label>
+                        <label for="floatingPassword1">Password *</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" class="form-control" id="floatingPassword2" @bind-value="registrationModel.Password2" placeholder="Repeat Password">
-                        <label for="floatingPassword2">Repeat password</label>
+                        <label for="floatingPassword2">Repeat password *</label>
                     </div>
                     <br />
                     <DataAnnotationsValidator />
@@ -65,16 +68,18 @@
                     <ValidationSummary />
 
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="idBio" @bind-value="registrationModel.Biography" placeholder="Short Biography">
+                        <InputTextArea id="idBio" name="message" class="form-control" placeholder="Write your biography here." rows="6" @bind-Value="registrationModel.Biography" />
                         <label for="idBio">Biography</label>
                     </div>
-
+                    <br/>
                     <div class="form-floating">
                         <InputFile id="idProfilePicture" class="form-control" OnChange="(e)=> registrationModel.ProfilePicture = e.File" />
                         <label for="idProfilePicture">Profile Picture</label>
                     </div>
-
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                    <br/>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+                    <br/>
+                    <input type="button" class="w-100 btn btn-lg btn-outline-warning" @onclick="NextSlide" value="Back">
                 </EditForm>
             }
             <p class="text-center text-muted mt-5 mb-0">
@@ -83,8 +88,6 @@
                     <a class="fw-bold text-body">Login here</a>
                 </NavLink>
             </p>
-
-
         </main>
     </div>
 </Animate>
@@ -94,21 +97,21 @@
     bool state = true;
     private async Task AttemptRegistration(RegistrationModel registrationModel)
     {
-        var attempt = await App.Authentication.RegistrationUser(registrationModel);
-        if (attempt)
+        if (registrationModel.Password1 != registrationModel.Password2)
         {
-            NavManager.NavigateTo("/dashboard");
+            await UtilityToolkit.CreateToast("The two password fields didn't match.");
+            return;
+        }
+        var attempt = await App.Authentication.RegistrationUser(registrationModel);
+        if (attempt.status)
+        {
+            NavManager.NavigateTo("/email-verify");
         }
         else
         {
-            await UtilityToolkit.CreateToast("Registration Failed");
+            await UtilityToolkit.CreateToast(attempt.message);
         }
 
-    }
-
-    private async Task HandleOnChange(ChangeEventArgs args)
-    {
-        registrationModel.Biography = args.Value.ToString();
     }
     private void NextSlide()
     {

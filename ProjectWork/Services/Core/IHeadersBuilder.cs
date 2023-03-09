@@ -3,7 +3,7 @@
     public interface IHeadersBuilder
     {
         Task AddAuthenticationToken();
-        void AddMediaType();
+        void AddMediaTypeJson();
         void ClearRequestHeaders();
     }
 }

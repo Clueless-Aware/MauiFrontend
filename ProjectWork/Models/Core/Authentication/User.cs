@@ -5,7 +5,7 @@ namespace ProjectWork.Models.Core.Authentication
     public class User
     {
         [JsonPropertyName("id")]
-        public int? Id { get; set; }
+        public int Id { get; set; }
         [JsonPropertyName("favorite_artist")]
         public string? FavoriteArtist { get; set; }
         [JsonPropertyName("profile_picture")]
@@ -21,7 +21,7 @@ namespace ProjectWork.Models.Core.Authentication
         [JsonPropertyName("email")]
         public string? Email { get; set; }
         [JsonPropertyName("is_staff")]
-        public bool? IsStaff { get; set; }
+        public bool IsStaff { get; set; }
         [JsonPropertyName("date_joined")]
         public DateTime? DateJoined { get; set; }
         [JsonPropertyName("biography")]
