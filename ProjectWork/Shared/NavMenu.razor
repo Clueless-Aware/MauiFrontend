@@ -46,9 +46,12 @@
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> Account settings
-                    </NavLink>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                            <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> 
+                            @App.Authentication.UserSession.User.Username
+                        </NavLink>
+                    </div>
                 </div>
                 <div class="nav-item px-3 w3-margin-bottom">
                     <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
@@ -64,42 +67,6 @@
             </div>
         </nav>
     </div>
-</div>
-
-@*MANAGE ACCOUNT USER/ADMIN*@
-<div class="nav nav-pills flex-column mt-auto">
-
-    @if (App.Authentication.UserSession is null)
-    {
-        <div class="nav-item px-3">
-            <NavLink class="nav-link w3-padding-16" href="login">
-                <span class="material-symbols-outlined w3-margin-right">login</span> Login
-            </NavLink>
-        </div>
-    }
-    else if ((bool)App.Authentication.UserSession.User.IsStaff)
-    {
-        @*TODO: iF ADMIN SEE THIS*@
-        <div class="nav-item px-3 ">
-            <NavLink class="nav-link w3-padding-16" href="dashboard">
-                <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
-                <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
-            </NavLink>
-        </div>
-
-    }
-    else
-    {
-        <div class="nav-item px-3">
-            <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
-            </NavLink>
-        </div>
-    }
 </div>
 
 @code {

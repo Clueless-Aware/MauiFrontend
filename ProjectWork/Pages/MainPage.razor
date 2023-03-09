@@ -94,7 +94,6 @@
 
     <div class="w3-bar w3-margin-bottom w3-padding">
         <span>
-
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
                    value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
@@ -123,55 +122,22 @@
         <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
     </div>
 
-    <div>
-        <div class="w3-center">
-            @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
+
+    <div class="w3-center">
+        @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
+        {
+
+            @foreach (var result in Artwork.GenericData.Data)
             {
-
-                @foreach (var result in Artwork.GenericData.Data)
-                {
-                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
-                        <p class="w3-xxlarge">
-                            @result.Title
-                            <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
-                                <span class="material-symbols-outlined">
-                                    bookmark
-                                </span>
-                            </button>
-
-                        </p>
-
-                        <div class="w3-row">
-                            <div class="w3-col m6 w3-center w3-padding-large">
-                                <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
-                                <img src="@result.ImageUrl" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Quiet ocean">
-                            </div>
-
-                            <div class="w3-col m6 w3-padding-large w3-left-align">
-                                @if (result.Description.Length > 0)
-                                {
-                                    <p>
-                                        @result.Description
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p>
-                                        Nothing to see
-                                    </p>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                }
+                <Result artwork="result"></Result>
             }
-            else
-            {
-                <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
-                    <p class="middle">Could not connect to the Database, try again later.</p>
-                </div>
-            }
-        </div>
+        }
+        else
+        {
+            <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+                <p class="middle">Could not connect to the Database, try again later.</p>
+            </div>
+        }
     </div>
 </Animate>
 
