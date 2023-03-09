@@ -145,15 +145,7 @@
                                     </Panzoom>
                                 </div>
                             </div>
-                            @{
-                                ListModals.Add(new Modal(result));
-                            }
-                            ;
-@*                            <Modal Artwork="result" @ref="Modal"></Modal>
-*@
-                            <button @onclick="()=>:w
-                                ListModals[0].Open()">Open Modal</button>
-
+                            <ContainerModalArtwork Artwork="result"></ContainerModalArtwork>
                             <div class="w3-col m6 w3-padding-large w3-left-align">
                                 @if (result.Description.Length > 0)
                                 {
@@ -184,9 +176,7 @@
 
 @code {
     private string SearchField { get; set; }
-    private Modal Modal { get; set; }
 
-    private List<Modal> ListModals { get; set; } = new();
 
        protected override async Task OnInitializedAsync()
     {

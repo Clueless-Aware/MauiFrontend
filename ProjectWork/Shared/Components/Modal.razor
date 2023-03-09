@@ -34,19 +34,8 @@
 
 @code {
 
-    public Modal()
-    {
-        Debug.WriteLine("your mom is pog");
-    }
-    public Modal(BaseArtwork artwork)
-    {
-        Debug.WriteLine("your mom is batchest");
-        Artwork = artwork;
-    }
-
+    [Parameter]
     public BaseArtwork Artwork { get; set; }
-
-
     public Guid Guid = Guid.NewGuid();
     public string ModalDisplay = "none;";
     public string ModalClass = "";

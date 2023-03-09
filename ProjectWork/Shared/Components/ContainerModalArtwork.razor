@@ -1,0 +1,13 @@
+﻿@using ProjectWork.Models.Artwork
+<Modal Artwork="Artwork" @ref="Modal"></Modal>
+<button @onclick="()=>Modal.Open()">
+    Open Modal
+</button>
+
+
+@code {
+    [Parameter]
+    public BaseArtwork Artwork { get; set; }
+    
+    private Modal Modal { get; set; }
+}
