@@ -1,6 +1,7 @@
 ﻿@using System.ComponentModel
 @inject NavigationManager NavManager
-<div class="d-flex flex-column flex-shrink-0 p-3" style="height: 100%">
+
+<div class="navbar-color">
     <div class="top-row ps-3 navbar">
         <div class="container-fluid">
             <a class="navbar-brand w3-text-white w3-large" href="">
@@ -14,9 +15,18 @@
             </button>
         </div>
     </div>
-    <hr />
-    <div class="@NavMenuCssClass" @onclick="ToggleNavMenuDiv">
-        <div class="nav nav-pills flex-column mb-auto">
+
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <nav class="flex-column">
+
+            @if (App.Authentication.UserSession is null)
+            {
+                <div class="nav-item px-3 w3-margin-bottom">
+                    <NavLink class="nav-link w3-padding-16" href="login">
+                        <span class="material-symbols-outlined w3-margin-right">login</span> Login
+                    </NavLink>
+                </div>
+            }
 
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="/Home">
@@ -25,57 +35,74 @@
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="gallery">
-                    <span class="material-symbols-outlined w3-margin-right" gr>gallery_thumbnail</span> Favorites Gallery
+                    <span class="material-symbols-outlined w3-margin-right" gr>gallery_thumbnail</span> Favourites Gallery
                 </NavLink>
             </div>
+            @if (true) //(bool)App.Authentication.UserSession.User.IsStaff      
+            {
+                <div class="nav-item px-3 w3-margin-top">
+                    <NavLink class="nav-link w3-padding-16" href="dashboard">
+                        <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                        <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> Account settings
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3 w3-margin-bottom">
+                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
+                        <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                    </NavLink>
+                </div>
+            }
 
             <div class="nav-item px-3 w3-margin-top">
                 <NavLink class="nav-link" href="/info" Match="NavLinkMatch.All">
                     <span class="material-symbols-outlined w3-margin-right">info</span> Info
                 </NavLink>
             </div>
-        </div>
-
-
-        @*MANAGE ACCOUNT USER/ADMIN*@
-        <div class="nav nav-pills flex-column mt-auto">
-
-            @if (App.Authentication.UserSession is null)
-            {
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="login">
-                        <span class="material-symbols-outlined w3-margin-right">login</span> Login
-                    </NavLink>
-                </div>
-            }
-            else
-            {
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
-                    </NavLink>
-                </div>
-                @*TODO: iF ADMIN SEE THIS*@
-                <div class="nav-item px-3 ">
-                    <NavLink class="nav-link w3-padding-16" href="dashboard">
-                        <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
-                        <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
-                    </NavLink>
-                </div>
-
-            }
-        </div>
-
+        </nav>
     </div>
+</div>
 
+@*MANAGE ACCOUNT USER/ADMIN*@
+<div class="nav nav-pills flex-column mt-auto">
+
+    @if (App.Authentication.UserSession is null)
+    {
+        <div class="nav-item px-3">
+            <NavLink class="nav-link w3-padding-16" href="login">
+                <span class="material-symbols-outlined w3-margin-right">login</span> Login
+            </NavLink>
+        </div>
+    }
+    else if ((bool)App.Authentication.UserSession.User.IsStaff)
+    {
+        @*TODO: iF ADMIN SEE THIS*@
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link w3-padding-16" href="dashboard">
+                <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
+                <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+            </NavLink>
+        </div>
+
+    }
+    else
+    {
+        <div class="nav-item px-3">
+            <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
+            </NavLink>
+        </div>
+    }
 </div>
 
 @code {
-    private bool adminOptions = false;
 
     private bool _collapseNavMenu = true;
 
