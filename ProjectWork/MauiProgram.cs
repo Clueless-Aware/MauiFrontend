@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectWork.Models.Artwork;
 using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.ViewModels;
 using ProjectWork.ViewModels.Core;
+//panzone
+using BlazorPanzoom;
 #if WINDOWS
 using Microsoft.Maui.LifecycleEvents;
 #endif
@@ -26,8 +26,8 @@ public static class MauiProgram
         //To disable the default conversion to https
         Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--disable-features=AutoupgradeMixedContent");
 
-
-
+        //panzone
+        builder.Services.AddBlazorPanzoomServices();
 
         builder.Services.AddMauiBlazorWebView();
 
