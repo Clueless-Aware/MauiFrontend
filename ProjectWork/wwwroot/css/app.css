@@ -92,6 +92,7 @@ a, .btn-link {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    margin-top:16px !important;
     margin-bottom: 16px !important;
     cursor: pointer;
 }
@@ -107,8 +108,9 @@ a, .btn-link {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    margin-top: 16px !important;
     margin-bottom: 16px !important;
-    cursor: pointer;
+    cursor: pointer; 
 }
 
 

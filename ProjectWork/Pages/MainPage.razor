@@ -96,7 +96,8 @@
         <span>
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
+                   value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;
+                    SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
 
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
