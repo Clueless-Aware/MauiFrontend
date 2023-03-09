@@ -2,6 +2,7 @@
 @using ProjectWork.ViewModels;
 @using System.ComponentModel;
 @inject SearchArtworkVM Artwork
+@inject IJSRuntime JsRuntime
 
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
@@ -114,7 +115,6 @@
     <div>
         <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
     </div>
-
     <div>
         <div class="w3-center">
             @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
@@ -136,7 +136,11 @@
                         <div class="w3-row">
                             <div class="w3-col m6 w3-center w3-padding-large">
                                 <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
-                                <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" />
+                                @*<img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" />*@
+                                @*call the images like this*@
+                                <a href="@result.ImageUrl" data-fancybox="gallery" data-caption="@result.Title" >
+                                    <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" style="width: 400px;height: 500px"/>
+                                </a>
                             </div>
 
                             <div class="w3-col m6 w3-padding-large w3-left-align">
@@ -149,7 +153,7 @@
                                 else
                                 {
                                     <p>
-                                        Nothing to see 
+                                        Nothing to see
                                     </p>
                                 }
                             </div>
@@ -194,7 +198,13 @@
         Artwork.PropertyChanged -= OnPropertyChangedHandler;
     }
 
-    private void CheckboxChanged(ChangeEventArgs e)
+    //Call my js
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("Main.start");
+    }
+
+    private async Task CheckboxChanged(ChangeEventArgs e)
     {
         bool b = (bool)e.Value;
 
