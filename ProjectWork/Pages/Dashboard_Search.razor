@@ -1,15 +1,23 @@
 ﻿@page "/search_and_edit"
 @inject DashboardAdminVM Artwork
-@using ProjectWork.ViewModels
-@using System.ComponentModel
-@implements IDisposable
-@layout AdminLayout
+@using ProjectWork.ViewModels;
+@using System.ComponentModel;
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
     <style>
 
         #search {
-            padding: 10px 20px 5px;
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 5px;
+            padding-left: 20px;
+        }
+
+        .button-padding {
+            padding-top: 0px;
+            padding-right: 16px;
+            padding-bottom: 0px;
+            padding-left: 16px;
         }
 
         .switch {
@@ -69,183 +77,114 @@
             -ms-transform: rotate(180deg);
             transform: rotate(180deg);
         }
+
+        img {
+            display: block;
+            max-width: 560px;
+            max-height: auto;
+            width: auto;
+            height: auto;
+        }
     </style>
 
     <h1>Search</h1>
 
-    <p>Here you can search for any art pieces you are interested in.</p>
+    <p>Here you can search for any art pieces you need to edit.</p>
 
     <div class="w3-bar w3-margin-bottom w3-padding">
         <span>
-
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange=
-                                        "e =>{ Artwork.Parameters.SetPage(1);SearchField = (string)e.Value; Artwork.Parameters.SetSearch(SearchField);}"/>
+                   value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
 
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
             </span>
             <label class="switch middle w3-margin-left w3-margin-right">
-                <input type="checkbox" checked @onchange="e => { CheckboxChanged(e); }">
+                <input type="checkbox" checked @onchange="CheckboxChanged">
                 <span class="slider round"></span>
             </label>
-            <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
+            <span class="material-symbols-outlined reverse middle w3-xxlarge">
                 low_priority
             </span>
 
-            <button id="search" class="btn w3-button w3-red w3-round-large" @onclick="async () => await Artwork.GetGenericDataFromPageAsync()">
+            <button id="search" class="general-button" @onclick="doSearch">
                 <span class="material-symbols-outlined">search</span>
             </button>
         </span>
 
-        <hr/>
+
+        <hr />
+    </div>
+
+    <div>
+        <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
+    </div>
+
+
+    <div class="w3-center">
+        @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
+        {
+
+            @foreach (var result in Artwork.GenericData.Data)
+            {
+                <AdminResult></AdminResult>
+            }
+        }
+        else
+        {
+            <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+                <p class="middle">Could not connect to the Database, try again later.</p>
+            </div>
+        }
     </div>
 </Animate>
 
-@*TODO: if null show message*@
-@if (Artwork.GenericData != null)
-{
-    <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
-    @foreach (var artwork in Artwork.GenericData.Data)
-    {
-        <AdminResult Artwork="artwork"></AdminResult>
-
-        <hr/>
-
-        <p>@artwork.Id</p>
-        <p>@artwork.Author</p>
-        <p>@artwork.AuthorId</p>
-        <p>@artwork.Title</p>
-        <p>@artwork.Date</p>
-        <p>@artwork.Technique</p>
-        <p>@artwork.Location</p>
-        <p>@artwork.Form</p>
-        <p>@artwork.Type</p>
-        <p>@artwork.TimeFrame</p>
-        <p>@artwork.Description</p>
-        <img src="@artwork.ImageUrl" alt="">
-        <h4>Delete</h4>
-        <button @onclick="async () => await Artwork.DeleteItemAsync(artwork.Id)">delete</button>
-        <hr/>
-        <h4>Edit @artwork.Id - @artwork.Title</h4>
-        <EditForm Model="@artwork" OnValidSubmit="async () => await Artwork.UpdateItemAsync(artwork)">
-            @*Added to validate the data controlled in the model class*@
-            <DataAnnotationsValidator/>
-            <ValidationSummary/>
-
-            <li class="w3-padding w3-large w3-bold ">
-                <label>Author</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Author" placeholder="Enter Title" name="Slug">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Title</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.AuthorId" placeholder="Enter author" name="Title">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold ">
-                <label>Description</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Title" placeholder="Enter Description" name="Description">
-            </li>
-
-            <li class="w3-padding w3-large w3-bold \">
-                <label>Color</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Date" placeholder="Enter Color" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>File_dimension</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Technique" placeholder="Enter File_dimension" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Date</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Location" placeholder="Enter Date" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Type</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Form" placeholder="Enter Type" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Size</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Type" placeholder="Enter Size" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Museum</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.TimeFrame" placeholder="Enter Museum" name="Color">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Museum</label>
-            </li>
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artwork.Description" placeholder="Enter Museum" name="Color">
-            </li>
-
-            @*Todo: show image or url image*@
-            <li class="w3-margin-bottom">
-                @*Todo: just one image and only images*@
-                <InputFile class="w3-button w3-round" OnChange="e => artwork.File = e.File"/>
-            </li>
-
-            @*TODO: disable if Artwork.IsBusy*@
-            <button type="submit">edit</button>
-        </EditForm>
-    }
-}
-
 @code {
-    private string SearchField;
+    private string SearchField { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Artwork.PropertyChanged += async (sender, e) => { await InvokeAsync(StateHasChanged); };
+        Artwork.PropertyChanged += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        };
         await Artwork.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
-
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(StateHasChanged);
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
     }
-
     public void Dispose()
     {
         Artwork.PropertyChanged -= OnPropertyChangedHandler;
     }
 
-    private void CheckboxChanged(ChangeEventArgs e)
+    async void doSearch()
     {
-        var b = (bool)e.Value;
-
-        Artwork.Parameters.SetOrdering(b ? "title" : "-title");
+        await Artwork.GetGenericDataFromPageAsync();
     }
 
+    private void CheckboxChanged(ChangeEventArgs e)
+    {
+        bool b = (bool)e.Value;
+
+        if (b)
+        {
+            Artwork.Parameters.SetOrdering("title");
+            doSearch();
+        }
+        else
+        {
+            Artwork.Parameters.SetOrdering("-title");
+            doSearch();
+        }
+    }
 }

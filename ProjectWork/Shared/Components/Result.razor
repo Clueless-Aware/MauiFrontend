@@ -1,7 +1,7 @@
 ﻿<style>
     .modal {
         display: block;
-        position: fixed;
+        position:center;
         z-index: 1;
         left: 0;
         top: 0;
@@ -47,7 +47,7 @@
                 <div class="modal">
                     <img src="@ImageSource" alt="@CaptionText" />
                     <div class="caption">@CaptionText</div>
-                    <button @onclick="Close"></button>
+                    <button @onclick="Close">x</button>
                 </div>
             }
         </div>
