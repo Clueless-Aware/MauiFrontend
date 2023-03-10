@@ -2,7 +2,6 @@
 @using ProjectWork.Utilities
 @using System.ComponentModel.DataAnnotations
 @using System.Text.Json.Serialization
-@using ProjectWork.Resources.Static
 @inject NavigationManager NavManager
 @layout MainLayout
 <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
@@ -13,7 +12,7 @@
         </div>
         <main class="form-signin">
 
-            <EditForm Model="_keyVerify" id="register-form" role="form" autocomplete="off" class="form" OnValidSubmit="async ()=>await SendEmail(_keyVerify)">
+            <EditForm Model="_keyVerify" id="register-form" role="form" autocomplete="off" class="form" OnValidSubmit="async () => await SendEmail(_keyVerify)">
                 <div class="form-group">
                     <div class="input-group">
                         <p>Verify your email</p>
@@ -21,13 +20,15 @@
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-envelope color-blue"></i>
+                        </span>
                         <input id="forgetEmail" name="forgetEmail" placeholder="Email" class="form-control" @bind-value="_keyVerify.Key" type="text">
                     </div>
                 </div>
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                <br />
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
+                <br/>
                 <div class="form-group">
                     <input name="btnForget" class="btn btn-lg btn-primary btn-block btnForget" value="Verify your email" type="submit">
                 </div>
@@ -41,6 +42,7 @@
 @code {
 
     readonly KeyVerify _keyVerify = new();
+
     private async Task SendEmail(KeyVerify keyVerify)
     {
         var attempt = await App.Authentication.SendRequest(keyVerify, Endpoints.GetPasswordResetEndpoint());
