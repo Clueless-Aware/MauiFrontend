@@ -22,7 +22,7 @@
 
                     <div class="nav-item px-3">
                         <NavLink class="nav-link w3-padding-16" href="/Home">
-                            <span class="material-symbols-outlined w3-margin-right w3-margin-bottom">ambient_screen</span> Main Page
+                            <span class="material-symbols-outlined w3-margin-right">ambient_screen</span> Main Page
                         </NavLink>
                     </div>
 
@@ -47,17 +47,15 @@
 
                         <div class="nav-item px-3">
                             <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                                @if (App.Authentication.UserSession.User.ProfilePicture is not null)
+                                @if (App.Authentication.UserSession.User.ProfilePicture is not null && App.Authentication.UserSession.User.ProfilePicture != "http://localhost/images/users/default/unknown.jpg")
                                 {
                                     <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
                                 }
                                 else
                                 {
-                                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
+                                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span>
                                 }
-                                <strong>
-                                    @App.Authentication.UserSession.User!.Username
-                                </strong>
+                                My Account
                             </NavLink>
                         </div>
 
