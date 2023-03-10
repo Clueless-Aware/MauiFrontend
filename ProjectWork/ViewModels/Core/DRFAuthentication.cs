@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Microsoft.AspNetCore.Components.Forms;
 using ProjectWork.Models.Core;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Services.Core;
@@ -50,6 +51,24 @@ public class DRFAuthentication : AuthenticationBase
             return (false, e.Message);
         }
     }
+    public async Task<(bool status, string message)> UdpateUserAccount(UserEditModel userEdit, IBrowserFile file)
+    {
+        Service.Uri.Path = "api/auth/user/";
+        try
+        {
+            var result = await Service.UpdateAsMultipartAsync<UserEditModel,LoginResponse>(userEdit, file);
+            UserSession = result ?? throw new Exception("None Result");
+            if (result is null)
+            {
+                throw new Exception("Update error");
+            }
+            return (true, "Updated Account Successfully");
+        }
+        catch (Exception e)
+        {
+            return (false, e.Message);
+        }
+    }
 
     public override void LogOut()
     {
@@ -84,4 +103,6 @@ public class DRFAuthentication : AuthenticationBase
         }
 
     }
+
+    
 }
