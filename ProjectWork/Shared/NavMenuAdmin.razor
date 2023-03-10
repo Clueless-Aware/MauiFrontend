@@ -1,13 +1,5 @@
 ﻿@inject NavigationManager NavManager
 
-<style>
-    hr {
-        border: 0px;
-        margin-top: 8px;
-        margin-bottom: 8px;
-    }
-</style>
-
 <div class="navbar-color">
     <div class="top-row ps-3 navbar">
         <div class="container-fluid">
@@ -31,8 +23,6 @@
                 </NavLink>
             </div>
 
-            <hr />
-
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="/dashboard">
                     <span class="material-symbols-outlined">
@@ -54,14 +44,6 @@
                 </NavLink>
             </div>
 
-            <div class="nav-item px-3 ">
-                <NavLink class="nav-link w3-padding-16" href="dashboard">
-                    <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
-                </NavLink>
-            </div>
-
-            <hr />
-
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
                     <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
@@ -73,7 +55,7 @@
         @*Account/admin*@
         <div class="nav nav-pills flex-column mt-auto">
 
-            @if (App.Authentication.UserSession is not null)
+            @if (App.Authentication.UserSession is null)
             {
                 <!--
                 <div class="nav-item px-3 w3-margin-bottom">
@@ -89,9 +71,6 @@
                         <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
                     </NavLink>
                 </div>
-                @*TODO: iF ADMIN SEE THIS*@
-
-
             }
         </div>
     </div>
