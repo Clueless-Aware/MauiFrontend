@@ -1,14 +1,6 @@
 ﻿@using System.ComponentModel
 @inject NavigationManager NavManager
 
-<style>
-    hr {
-        border: 0px;
-        margin-top: 8px;
-        margin-bottom: 8px;
-    }
-</style>
-
 <div class="navbar-color">
     <div class="top-row ps-3 navbar">
         <div class="container-fluid">
@@ -95,8 +87,6 @@
                                 </NavLink>
                             </div>
                         }
-
-                        <hr />
 
                         <div class="nav-item px-3 w3-margin-bottom">
                             <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">

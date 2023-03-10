@@ -103,7 +103,7 @@
         var attempt = await App.Authentication.RegistrationUser(registrationModel);
         if (attempt.status)
         {
-            NavManager.NavigateTo("/email-verify");
+            NavManager.NavigateTo("/login");
         }
         else
         {
