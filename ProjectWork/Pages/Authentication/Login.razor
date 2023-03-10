@@ -15,13 +15,10 @@
         min-height: 100% !important;
     }
 
-    input {
-
-    }
 </style>
 
 <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-image: url('');">
-    <div id="login-card" class="card w3-card-4 w3-round-xlarge w3-white">
+    <div id="login-card" class="card w3-card-4 w3-round-xlarge w3-white w3-padding-large">
         <div class="form-signin">
             <EditForm Model="@_loginModel" OnValidSubmit="async ()=> await AttemptLogin(_loginModel)">
                 <div id="hideLogo">
@@ -34,12 +31,12 @@
                 </div>
 
 
-                <div class="form-floating">
+                <div class="form-floating w3-margin-top">
                     <input type="text" class="form-control w3-round w3-margin-bottom" id="floatingInput" @bind-value="_loginModel.UserName" placeholder="Username">
                     <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control w3-round" id="floatingPassword" @bind-value="_loginModel.Password" placeholder="Password">
+                    <input type="password" class="form-control w3-round w3-margin-top" id="floatingPassword" @bind-value="_loginModel.Password" placeholder="Password">
                     <label for="floatingPassword">Password</label>
                 </div>
 
@@ -50,7 +47,7 @@
                 </div>
                 <DataAnnotationsValidator />
                 <ValidationSummary />
-                <button class="general-button w3-margin-top w3-margin-bottom" type="submit">Sign in</button>
+                <button class="general-button w3-margin-top w3-margin-bottom w-100" type="submit">Sign in</button>
                 <p class="mt-auto">
                     Not a member?
                     <NavLink href="registration">
