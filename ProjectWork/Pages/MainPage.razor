@@ -4,6 +4,7 @@
 @using ProjectWork.Utilities
 @using CommunityToolkit.Maui.Core
 @inject SearchArtworkVM Artwork
+@inject IJSRuntime JsRuntime
 
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
@@ -116,7 +117,6 @@
     <div>
         <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
     </div>
-
     <div>
         <div class="w3-center">
             @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
@@ -142,7 +142,10 @@
                                 <p>
                                     <b><i class="fa fa-user w3-margin-right"></i>Photo</b>
                                 </p><br>
-                                <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333"/>
+                                <a href="@result.ImageUrl" data-fancybox="gallery" data-caption="@result.Title">
+                                    <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" style="width: 400px;height: 500px"/>
+                                </a>
+                                <a href="/detail-artwork/@result.Id">Detail Artwork @result.Title</a>
                             </div>
 
                             <div class="w3-col m6 w3-padding-large w3-left-align">
@@ -193,7 +196,13 @@
         Artwork.PropertyChanged -= OnPropertyChangedHandler;
     }
 
-    private void CheckboxChanged(ChangeEventArgs e)
+    //Call my js
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("Main.start");
+    }
+
+    private async Task CheckboxChanged(ChangeEventArgs e)
     {
         var b = (bool)e.Value;
 

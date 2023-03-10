@@ -11,16 +11,20 @@
     <title>ProjectWork</title>
     <base href="/index"/>
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
-    <script src="_content/BlazorAnimate/blazorAnimateInterop.js"></script>
     <link href="css/app.css" rel="stylesheet"/>
     <link href="ProjectWork.styles.css" rel="stylesheet"/>
+
+    <link href="dist/css/fancybox.css"
+          rel="stylesheet"/>
+
+
 </head>
 
 <body>
 
 <div class="status-bar-safe-area"></div>
 
-<div class="h-100" id="app">Loading...</div>
+<div id="app">Loading...</div>
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
@@ -30,6 +34,11 @@
 
 <script autostart="false" src="_framework/blazor.webview.js"></script>
 
+<script src="_content/BlazorAnimate/blazorAnimateInterop.js"></script>
+<!--Module to call my script from c#-->
+<script src="/js/Main.js" type="module"></script>
+
+<script src="/dist/js/fancybox.umd.js"></script>
 </body>
 
 </html>
