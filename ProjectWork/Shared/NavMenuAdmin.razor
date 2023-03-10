@@ -1,11 +1,19 @@
 ﻿@inject NavigationManager NavManager
 
-<div class="d-flex flex-column flex-shrink-0 p-3" style="height: 100%">
+<style>
+    hr {
+        border: 0px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+</style>
+
+<div class="navbar-color">
     <div class="top-row ps-3 navbar">
         <div class="container-fluid">
             <a class="navbar-brand w3-text-white w3-large" href="">
-                Art Scout
-                <span class="material-symbols-outlined w3-text-white"> brush </span>
+                Admin Tools
+                <span class="material-symbols-outlined w3-text-white"> handyman </span>
             </a>
             <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
                 <span class="material-symbols-outlined w3-text-white">
@@ -14,6 +22,7 @@
             </button>
         </div>
     </div>
+
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenuDiv">
         <div class="nav nav-pills flex-column mb-auto">
             <div class="nav-item px-3">
@@ -21,9 +30,14 @@
                     <span class="material-symbols-outlined w3-margin-right">undo</span> Back
                 </NavLink>
             </div>
+
+            <hr />
+
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="/dashboard">
-                    <span class="material-symbols-outlined w3-margin-right">Table</span> Dashboard
+                    <span class="material-symbols-outlined">
+                        breaking_news_alt_1
+                    </span> Notifications
                 </NavLink>
             </div>
 
@@ -39,17 +53,34 @@
                     </span> Add Artwork
                 </NavLink>
             </div>
+
+            <div class="nav-item px-3 ">
+                <NavLink class="nav-link w3-padding-16" href="dashboard">
+                    <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                </NavLink>
+            </div>
+
+            <hr />
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
+                    <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                </NavLink>
+            </div>
+
         </div>
+
         @*Account/admin*@
         <div class="nav nav-pills flex-column mt-auto">
 
-            @if (App.Authentication.UserSession is null)
+            @if (App.Authentication.UserSession is not null)
             {
+                <!--
                 <div class="nav-item px-3 w3-margin-bottom">
                     <NavLink class="nav-link w3-padding-16" href="login">
                         <span class="material-symbols-outlined w3-margin-right">login</span> Login
                     </NavLink>
-                </div>
+                </div> -->
             }
             else
             {
@@ -59,16 +90,7 @@
                     </NavLink>
                 </div>
                 @*TODO: iF ADMIN SEE THIS*@
-                <div class="nav-item px-3 ">
-                    <NavLink class="nav-link w3-padding-16" href="dashboard">
-                        <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
-                        <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
-                    </NavLink>
-                </div>
+
 
             }
         </div>
