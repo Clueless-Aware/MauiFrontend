@@ -17,92 +17,89 @@
     </div>
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenuDiv">
         <div class="nav nav-pills flex-column mb-auto">
+            <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+                <div class="flex-column">
 
-    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-        <nav class="flex-column">
-
-            @if (App.Authentication.UserSession is null)
-            {
-                <div class="nav-item px-3 w3-margin-bottom">
-                    <NavLink class="nav-link w3-padding-16" href="login">
-                        <span class="material-symbols-outlined w3-margin-right">login</span> Login
-                    </NavLink>
-                </div>
-            }
-
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="/Home">
-                    <span class="material-symbols-outlined w3-margin-right">ambient_screen</span> Main Page
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="gallery">
-                    <span class="material-symbols-outlined w3-margin-right" gr>gallery_thumbnail</span> Favourites Gallery
-                </NavLink>
-            </div>
-            @if (true) //(bool)App.Authentication.UserSession.User.IsStaff      
-            {
-                <div class="nav-item px-3 w3-margin-top">
-                    <NavLink class="nav-link w3-padding-16" href="dashboard">
-                        <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="login">
-                        <span class="material-symbols-outlined w3-margin-right">login</span> Login
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="registration">
-                        <span class="material-symbols-outlined w3-margin-right">
-                            app_registration
-                        </span> Registration
-                    </NavLink>
-                </div>
-            }
-            else
-            {
-                if (App.Authentication.UserSession.User is { IsStaff: true })
-                {
-                    <div class="nav-item px-3 ">
-                        <NavLink class="nav-link w3-padding-16" href="dashboard">
-                            <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link w3-padding-16" href="/Home">
+                            <span class="material-symbols-outlined w3-margin-right w3-margin-bottom">ambient_screen</span> Main Page
                         </NavLink>
                     </div>
-                }
-                <div class="nav-item px-3 w3-margin-top">
-                    <NavLink class="nav-link" href="/send-request">
-                        <span class="material-symbols-outlined w3-margin-right">email</span> Email to the staff
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        @if (App.Authentication.UserSession.User.ProfilePicture is not null)
-                        {
-                        <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
-                        }
-                        else
-                        {
-                            <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
-                        }
-                        <strong>
-                            @App.Authentication.UserSession.User!.Username
-                        </strong>
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3 w3-margin-bottom">
-                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
-                        <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
-                    </NavLink>
-                </div>
-            }
 
-            <div class="nav-item px-3 w3-margin-top">
-                <NavLink class="nav-link" href="/info" Match="NavLinkMatch.All">
-                    <span class="material-symbols-outlined w3-margin-right">info</span> Info
-                </NavLink>
+                    @if (App.Authentication.UserSession is null) //non autenticato
+                    {
+                        <div class="nav-item px-3 w3-margin-bottom">
+                            <NavLink class="nav-link w3-padding-16" href="login">
+                                <span class="material-symbols-outlined w3-margin-right">login</span> Login
+                            </NavLink>
+                        </div>
+
+                       <!-- <div class="nav-item px-3">
+                            <NavLink class="nav-link w3-padding-16" href="registration">
+                                <span class="material-symbols-outlined w3-margin-right">
+                                    app_registration
+                                </span> Registration
+                            </NavLink>
+                        </div> -->
+                    }
+                    else //autenticato
+                    {
+
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                                @if (App.Authentication.UserSession.User.ProfilePicture is not null)
+                                {
+                                    <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
+                                }
+                                else
+                                {
+                                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
+                                }
+                                <strong>
+                                    @App.Authentication.UserSession.User!.Username
+                                </strong>
+                            </NavLink>
+                        </div>
+
+                        <div class="nav-item px-3 w3-margin-top">
+                            <NavLink class="nav-link" href="/send-request">
+                                <span class="material-symbols-outlined w3-margin-right">email</span> Email to the staff
+                            </NavLink>
+                        </div>
+
+
+                        if ((bool)App.Authentication.UserSession.User.IsStaff) //auth + admin
+                        {
+                            <div class="nav-item px-3 w3-margin-top">
+                                <NavLink class="nav-link w3-padding-16" href="dashboard">
+                                    <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                                </NavLink>
+                            </div>
+                        } else
+                        { //normal user
+
+                            <div class="nav-item px-3">
+                                <NavLink class="nav-link w3-padding-16" href="gallery">
+                                    <span class="material-symbols-outlined w3-margin-right" gr>gallery_thumbnail</span> Favourites Gallery
+                                </NavLink>
+                            </div>
+                        }
+
+                        <div class="nav-item px-3 w3-margin-bottom">
+                            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
+                                <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                            </NavLink>
+                        </div>
+                    }
+
+                    <div class="nav-item px-3 w3-margin-top">
+                        <NavLink class="nav-link" href="/info" Match="NavLinkMatch.All">
+                            <span class="material-symbols-outlined w3-margin-right">info</span> Info
+                        </NavLink>
+                    </div>
+                </div>
             </div>
-        </nav>
+        </div>
     </div>
 </div>
 
@@ -133,9 +130,9 @@
         App.Authentication.PropertyChanged += async (sender, e) =>
         {
             await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
+    {
+        StateHasChanged();
+    });
         };
         await base.OnInitializedAsync();
     }
