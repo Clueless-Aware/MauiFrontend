@@ -13,13 +13,16 @@
             </span>
         </button>
         <p class="w3-xlarge">
-            You have no Notifications
+            @message
         </p>
 
         <hr />
     </div>
 </div>
 @code {
+    [Parameter]
+    public string message { get; set; }
+
     private string _delete = "";
 
 
