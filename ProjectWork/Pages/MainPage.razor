@@ -1,7 +1,11 @@
 ﻿@page "/Home"
 @using ProjectWork.ViewModels;
 @using System.ComponentModel;
+@using System.Diagnostics
+@using Microsoft.Maui.Handlers
+@using ProjectWork.Models.Artwork
 @inject SearchArtworkVM Artwork
+@inject IJSRuntime JsRuntime
 
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
@@ -123,27 +127,64 @@
         <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
     </div>
 
-
-    <div class="w3-center">
-        @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
-        {
-
-            @foreach (var result in Artwork.GenericData.Data)
+    <div>
+        <div class="w3-center">
+            @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
             {
-                <Result artwork="result"></Result>
+
+                @foreach (var result in Artwork.GenericData.Data)
+                {
+                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
+                        <p class="w3-xxlarge">
+                            @result.Title
+                            <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
+                                <span class="material-symbols-outlined">
+                                    bookmark
+                                </span>
+                            </button>
+
+                        </p>
+
+                        <div class="w3-row">
+                            <div class="w3-col m6 w3-center w3-padding-large">
+                                <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
+                                <a href="@result.ImageUrl" data-fancybox="gallery" data-caption="@result.Title">
+                                    <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" style="width: 400px;height: 500px" />
+                                </a>
+                                <a href="/detail-artwork/@result.Id">Detail Artwork @result.Title</a>
+                            </div>
+
+                            <div class="w3-col m6 w3-padding-large w3-left-align">
+                                @if (result.Description.Length > 0)
+                                {
+                                    <p>
+                                        @result.Description
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        Nothing to see
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
             }
-        }
-        else
-        {
-            <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
-                <p class="middle">Could not connect to the Database, try again later.</p>
-            </div>
-        }
+            else
+            {
+                <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+                    <p class="middle">Could not connect to the Database, try again later.</p>
+                </div>
+            }
+        </div>
     </div>
 </Animate>
 
 @code {
     private string SearchField { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -175,6 +216,13 @@
     }
 
     private void CheckboxChanged(ChangeEventArgs e)
+    //Call my js
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("Main.start");
+    }
+
+    private async Task CheckboxChanged(ChangeEventArgs e)
     {
         bool b = (bool)e.Value;
 

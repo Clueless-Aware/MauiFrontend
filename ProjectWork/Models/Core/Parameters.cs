@@ -13,7 +13,7 @@ namespace ProjectWork.Models.Core
 
         public Dictionary<string, string> Dictionary = new Dictionary<string, string>()
         {
-            ["page"]="1"
+            ["page"] = "1"
         };
         public void SetPage(int page)
         {
@@ -34,9 +34,11 @@ namespace ProjectWork.Models.Core
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
-            var specificParemeters = JsonSerializer.Deserialize<Dictionary<string, object>>(JsonSerializer.Serialize(@base), options);
-            foreach (var specific in specificParemeters)
+            var specificParameters = JsonSerializer.Deserialize<Dictionary<string, object>>(JsonSerializer.Serialize(@base), options);
+            foreach (var specific in specificParameters)
             {
+                if (specific.Value is null) continue;
+                if (specific.Value.ToString() == "0") continue;
                 Dictionary[specific.Key] = specific.Value.ToString();
             }
         }

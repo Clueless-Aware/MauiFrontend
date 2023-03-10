@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectWork.Models.Artwork;
 using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.ViewModels;
@@ -25,8 +23,6 @@ public static class MauiProgram
 
         //To disable the default conversion to https
         Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--disable-features=AutoupgradeMixedContent");
-
-
 
 
         builder.Services.AddMauiBlazorWebView();
