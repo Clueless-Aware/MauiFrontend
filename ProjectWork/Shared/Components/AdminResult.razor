@@ -175,7 +175,7 @@
                     Image
                 </td>
                 <td>
-                    <InputFile class="general-button" OnChange="(e)=> artwork.File = e.File" />
+                    <InputFile OnChange="(e)=> artwork.File = e.File" />
                 </td>
             </tr>
         </table>
@@ -185,7 +185,7 @@
             <ValidationSummary />
 
             @*TODO: disable if Artwork.IsBusy*@
-            <button type="submit" class="w3-red w3-button w3-margin-right w3-margin-left w3-margin-top w3-round-large">Save</button>
+            <button type="submit" class="general-button">Save</button>
         </EditForm>
     }
 </div>

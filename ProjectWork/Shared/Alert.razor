@@ -12,6 +12,9 @@
                 close
             </span>
         </button>
+        <span class="material-symbols-outlined">
+                @icon
+        </span>
         <p class="w3-xlarge">
             @message
         </p>
@@ -22,9 +25,10 @@
 @code {
     [Parameter]
     public string message { get; set; }
+    [Parameter]
+    public string icon { get; set;}
 
     private string _delete = "";
-
 
     async private void hide()
     {
