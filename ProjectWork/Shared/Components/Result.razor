@@ -6,10 +6,22 @@
             width: auto;
             height: auto;
         }
+
+    a:link, a:visited {
+        color: black;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    a:hover, a:active {
+        color: red;
+    }
 </style>
- <a href="/detail-artwork/@artwork.Id">Detail Artwork @artwork.Title</a>
 <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
         <p class="w3-xxlarge">
+        <a class="w3-bold w3-xlarge w3-hover-border-red w3-margin-top w3-margin-bottom w3-text" href="/detail-artwork/@artwork.Id">@artwork.Title</a>
         <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
             <span class="material-symbols-outlined">
                 bookmark
