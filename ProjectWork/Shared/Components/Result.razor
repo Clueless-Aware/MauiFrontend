@@ -27,7 +27,7 @@
 </style>
 <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
     <p class="w3-xxlarge">
-        <a class="w3-bold w3-xlarge w3-hover-border-red  w3-text" href="/detail-artwork/@artwork.Id">@artwork.Title</a>
+       <h1>@artwork.Title</h1>
         <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
             <span class="material-symbols-outlined">
                 bookmark
@@ -38,13 +38,9 @@
     <div class="w3-row">
         <div class="w3-col m6 w3-center w3-padding-large">
             <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
-            <div class="swiper-wrapper align-items-center">
-
-                <div class="swiper-slide">
                     <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title">
                         <img class="w3-round w3-image w3-margin-bottom" src="@artwork.ImageUrl" alt="@artwork.Title" />
                     </a>
-                </div>
 
                 @if (ModalVisible)
                 {
@@ -72,7 +68,6 @@
             </div>
         </div>
     </div>
-</div>
 
 @code {
     [Parameter]
