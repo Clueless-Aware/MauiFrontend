@@ -41,15 +41,6 @@
                     <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title">
                         <img class="w3-round w3-image w3-margin-bottom" src="@artwork.ImageUrl" alt="@artwork.Title" />
                     </a>
-
-                @if (ModalVisible)
-                {
-                    <div class="modal">
-                        <img src="@ImageSource" alt="@CaptionText" />
-                        <div class="caption">@CaptionText</div>
-                        <button @onclick="Close">x</button>
-                    </div>
-                }
             </div>
 
             <div class="w3-col m6 w3-padding-large w3-left-align">
@@ -65,6 +56,20 @@
                         Nothing to see
                     </p>
                 }
+            <div class="col-lg-3">
+                <div class="portfolio-info">
+                    <h3>Artwork information</h3>
+                    <ul>
+                        <li><strong>Author</strong> <span>@artwork.Author</span></li>
+                        <li><strong>Date</strong> <span>@artwork.Date</span></li>
+                        <li><strong>Technique</strong> <span>@artwork.Technique</span></li>
+                        <li><strong>Location</strong> <span>@artwork.Location</span></li>
+                        <li><strong>Form</strong> <span>@artwork.Form</span></li>
+                        <li><strong>Type</strong> <span>@artwork.Type</span></li>
+                        <li><strong>Time Frame</strong> <span>@artwork.TimeFrame</span></li>
+                    </ul>
+                </div>
+            </div>
             </div>
         </div>
     </div>
