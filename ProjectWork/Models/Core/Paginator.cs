@@ -7,7 +7,7 @@ namespace ProjectWork.Models.Core;
 /// </summary>
 public class Paginator
 {
-    private readonly int pageSize = 50;
+    private readonly int pageSize = 25;
     private Parameters _parametersP;
 
     private Func<Task> GetData;
