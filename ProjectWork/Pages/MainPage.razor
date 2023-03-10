@@ -1,6 +1,9 @@
 ﻿@page "/Home"
 @using ProjectWork.ViewModels;
 @using System.ComponentModel;
+@using System.Diagnostics
+@using Microsoft.Maui.Handlers
+@using ProjectWork.Models.Artwork
 @inject SearchArtworkVM Artwork
 @inject IJSRuntime JsRuntime
 
@@ -136,11 +139,10 @@
                         <div class="w3-row">
                             <div class="w3-col m6 w3-center w3-padding-large">
                                 <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
-                                @*<img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" />*@
-                                @*call the images like this*@
-                                <a href="@result.ImageUrl" data-fancybox="gallery" data-caption="@result.Title" >
-                                    <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" style="width: 400px;height: 500px"/>
+                                <a href="@result.ImageUrl" data-fancybox="gallery" data-caption="@result.Title">
+                                    <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" style="width: 400px;height: 500px" />
                                 </a>
+                                <a href="/detail-artwork/@result.Id">Detail Artwork @result.Title</a>
                             </div>
 
                             <div class="w3-col m6 w3-padding-large w3-left-align">
@@ -173,6 +175,7 @@
 
 @code {
     private string SearchField { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {

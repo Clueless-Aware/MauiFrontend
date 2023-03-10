@@ -102,5 +102,22 @@ namespace ProjectWork.ViewModels
                 return (true, e.Message);
             }
         }
+        //public async Task<(bool status, string message)> GetGenericDataFromParam(Parameters parameters)
+        //{
+        //    IsBusy = true;
+        //    try
+        //    {
+        //        GenericData = await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(parameters.Dictionary);
+        //        Paginator.SetActualState(Parameters, this.GetGenericDataFromParam(parameters), GenericData.Count);
+        //        IsBusy = false;
+        //        return (true, "Success fetch");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        await UtilityToolkit.CreateToast(e.Message);
+        //        IsBusy = false;
+        //        return (false, e.Message);
+        //    }
+        //}
     }
 }
