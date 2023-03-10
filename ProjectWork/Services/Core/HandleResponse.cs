@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using ProjectWork.Utilities;
 using System.Text.Json;
 
 namespace ProjectWork.Services.Core
@@ -16,13 +15,16 @@ namespace ProjectWork.Services.Core
                 }
 
                 var msg = await tempMessage.Content.ReadAsStringAsync();
-                var temp = JsonSerializer.Deserialize<Dictionary<string,object>>(msg);
-                var msgString = temp.Aggregate(string.Empty, (current, key) => current + key.Key + " " + key.Value.ToString() + "\n");
+                var temp = JsonSerializer.Deserialize<Dictionary<string, object>>(msg);
+                var msgString = temp.Aggregate(string.Empty,
+                    (current, key) => current + key.Key + " " +
+                                      new string((key.Value.ToString() ?? "something goes wrong")
+                                          .Where((x) => char.IsWhiteSpace(x) || char.IsLetterOrDigit(x)).ToArray()) +
+                                      "\n");
                 throw new Exception("Error: " + msgString);
             }
             catch (Exception e)
             {
-                await UtilityToolkit.CreateToast(e.Message);
                 throw;
             }
         }
@@ -35,13 +37,16 @@ namespace ProjectWork.Services.Core
                     return tempMessage.StatusCode;
                 }
                 var msg = await tempMessage.Content.ReadAsStringAsync();
-                var temp = JsonSerializer.Deserialize<Dictionary<string,object>>(msg);
-                var msgString = temp.Aggregate(string.Empty, (current, key) => current + key.Key + " " + key.Value + "\n");
+                var temp = JsonSerializer.Deserialize<Dictionary<string, object>>(msg);
+                var msgString = temp.Aggregate(string.Empty,
+                    (current, key) => current + key.Key + " " +
+                                      new string((key.Value.ToString() ?? "something goes wrong")
+                                          .Where((x) => char.IsWhiteSpace(x) || char.IsLetterOrDigit(x)).ToArray()) +
+                                      "\n");
                 throw new Exception("Error: " + msgString);
             }
             catch (Exception e)
             {
-                await UtilityToolkit.CreateToast(e.Message);
                 throw;
             }
         }
