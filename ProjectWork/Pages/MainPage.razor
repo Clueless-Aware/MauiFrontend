@@ -1,6 +1,8 @@
 ﻿@page "/Home"
-@using ProjectWork.ViewModels;
-@using System.ComponentModel;
+@using ProjectWork.ViewModels
+@using System.ComponentModel
+@using ProjectWork.Utilities
+@using CommunityToolkit.Maui.Core
 @inject SearchArtworkVM Artwork
 
 
@@ -89,7 +91,7 @@
 
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
+                   value="@SearchField" @onchange="async e =>{ Artwork.Parameters.SetPage(1);SearchField = (string)e.Value; Artwork.Parameters.SetSearch(SearchField);}"/>
 
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
@@ -108,7 +110,7 @@
         </span>
 
 
-        <hr />
+        <hr/>
     </div>
 
     <div>
@@ -119,24 +121,28 @@
         <div class="w3-center">
             @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
             {
-
                 @foreach (var result in Artwork.GenericData.Data)
                 {
                     <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
-                        <p class="w3-xxlarge">
-                            @result.Title
-                            <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
-                                <span class="material-symbols-outlined">
-                                    bookmark
-                                </span>
-                            </button>
-
-                        </p>
+                        @if (App.Authentication.UserSession is not null)
+                        {
+                            <p class="w3-xxlarge">
+                                @result.Title
+                                <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button"
+                                        @onclick="async () => await AddToFavorites(result.Id, result.Title)">
+                                    <span class="material-symbols-outlined">
+                                        Bookmark
+                                    </span>
+                                </button>
+                            </p>
+                        }
 
                         <div class="w3-row">
                             <div class="w3-col m6 w3-center w3-padding-large">
-                                <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
-                                <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" />
+                                <p>
+                                    <b><i class="fa fa-user w3-margin-right"></i>Photo</b>
+                                </p><br>
+                                <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333"/>
                             </div>
 
                             <div class="w3-col m6 w3-padding-large w3-left-align">
@@ -149,7 +155,7 @@
                                 else
                                 {
                                     <p>
-                                        Nothing to see 
+                                        Nothing to see
                                     </p>
                                 }
                             </div>
@@ -172,23 +178,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Artwork.PropertyChanged += async (sender, e) =>
-        {
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
-        };
+        Artwork.PropertyChanged += async (sender, e) => { await InvokeAsync(() => { StateHasChanged(); }); };
         await Artwork.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
+
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() =>
-        {
-            StateHasChanged();
-        });
+        await InvokeAsync(() => { StateHasChanged(); });
     }
+
     public void Dispose()
     {
         Artwork.PropertyChanged -= OnPropertyChangedHandler;
@@ -196,7 +195,7 @@
 
     private void CheckboxChanged(ChangeEventArgs e)
     {
-        bool b = (bool)e.Value;
+        var b = (bool)e.Value;
 
         if (b)
         {
@@ -207,4 +206,26 @@
             Artwork.Parameters.SetOrdering("-title");
         }
     }
+
+    private static async Task AddToFavorites(int artworkId, string artworkTitle)
+    {
+        var result = await App.Authentication.AddFavorite(artworkId);
+        if (result.status)
+        {
+            if (App.Authentication.UserSession.User != null)
+                await UtilityToolkit.CreateToast(
+                    $"Added {artworkTitle} as a favorite for {App.Authentication.UserSession.User.Username}",
+                    ToastDuration.Long);
+            return;
+        }
+
+        await UtilityToolkit.CreateToast(
+            $"There was an error in adding artwork {artworkTitle} to your account...",
+            ToastDuration.Long);
+    }
+
+    private static async Task DeleteFavorite(int artworkID, string artworkTitle)
+    {
+    }
+
 }

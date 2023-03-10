@@ -26,6 +26,4 @@ public class UserModel
     [JsonPropertyName("date_joined")] public DateTime? DateJoined { get; set; }
 
     [JsonPropertyName("biography")] public string? Biography { get; set; }
-
-    [JsonPropertyName("user_favorites")] public List<string> Favourites { get; set; } = new();
 }
