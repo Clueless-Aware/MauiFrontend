@@ -51,13 +51,13 @@ public class DRFAuthentication : AuthenticationBase
             return (false, e.Message);
         }
     }
-    public async Task<(bool status, string message)> UdpateUserAccount(UserEditModel userEdit, IBrowserFile file)
+    public async Task<(bool status, string message)> UpdateUserAccount(UserEditModel userEdit, IBrowserFile file)
     {
         Service.Uri.Path = "api/auth/user/";
         try
         {
-            var result = await Service.UpdateAsMultipartAsync<UserEditModel,LoginResponse>(userEdit, file);
-            UserSession = result ?? throw new Exception("None Result");
+            var result = await Service.UpdateAsMultipartAsync<UserEditModel,User>(userEdit, file);
+            UserSession.User = result ?? throw new Exception("None Result");
             if (result is null)
             {
                 throw new Exception("Update error");

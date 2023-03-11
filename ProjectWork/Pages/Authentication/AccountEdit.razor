@@ -86,7 +86,7 @@
     }
     private async Task AttempEdit(UserEditModel editUser)
     {
-        var attempt = await App.Authentication.UdpateUserAccount(_editUser, _editUser.ProfilePicture);
+        var attempt = await App.Authentication.UpdateUserAccount(_editUser, _editUser.ProfilePicture);
         if (attempt.status)
         {
             await UtilityToolkit.CreateToast("Account Changed");
