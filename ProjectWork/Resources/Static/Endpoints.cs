@@ -3,9 +3,9 @@
 public static class Endpoints
 {
     //Set the ip of your local host
-    //private static readonly string _url = "http://localhost:80";
+    private static readonly string _url = "http://localhost:80";
     //private static readonly string _url = "http://192.168.30.184:80";
-    private static readonly string _url = "http://192.168.1.182:80";
+    //private static readonly string _url = "http://192.168.1.182:80";
 
     public static string GetArtworkEndpoint()
     {
@@ -16,12 +16,16 @@ public static class Endpoints
     {
         return "/api/requests/";
     }
+
     public static string GetPasswordResetEndpoint()
     {
         return "api/auth/password/reset/";
     }
 
-    public static string GetRefreshTokenEndpoint() => _url+"/api/auth/token/refresh/";
+    public static string GetRefreshTokenEndpoint()
+    {
+        return _url + "/api/auth/token/refresh/";
+    }
 
     public static string GetResetPasswordConfirm()
     {
