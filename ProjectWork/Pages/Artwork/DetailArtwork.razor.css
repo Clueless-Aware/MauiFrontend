@@ -47,14 +47,14 @@ h6 {
     position: relative;
 }
 
-    .page-header h2 {
+    .page-header h1 {
         font-size: 56px;
         font-weight: 500;
         color: #79021c;
     }
 
 @media (max-width: 768px) {
-    .page-header h2 {
+    .page-header h1 {
         font-size: 36px;
     }
 }
