@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using ProjectWork.Models.Core;
 using ProjectWork.Models.Core.Authentication;
+using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
@@ -15,7 +16,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public override async Task<(bool status, string message)> AuthenticateUser(LoginModel loginModel)
     {
-        Service.Uri.Path = "api/auth/login/";
+        Service.Uri.Path = Endpoints.GetLoginPath();
         try
         {
             var result = await Service.PostItemAsJsonAsync<LoginModel, LoginResponse>(loginModel);
@@ -35,7 +36,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public override async Task<(bool status, string message)> RegistrationUser(RegistrationModel registrationModel)
     {
-        Service.Uri.Path = "api/auth/registration/";
+        Service.Uri.Path = Endpoints.GetRegisterPath();
         try
         {
             var result = await Service.AddItemAsMultipartAsync<RegistrationModel, LoginResponse>(registrationModel, registrationModel.ProfilePicture);
@@ -53,7 +54,7 @@ public class DRFAuthentication : AuthenticationBase
     }
     public async Task<(bool status, string message)> UpdateUserAccount(UserEditModel userEdit, IBrowserFile file)
     {
-        Service.Uri.Path = "api/auth/user/";
+        Service.Uri.Path = Endpoints.GetUserPath();
         try
         {
             var result = await Service.UpdateAsMultipartAsync<UserEditModel,User>(userEdit, file);

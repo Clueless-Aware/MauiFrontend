@@ -1,0 +1,220 @@
+﻿@page "/Home"
+@using ProjectWork.ViewModels.Artwork
+@using System.ComponentModel
+@inject SearchArtworkVM Artwork
+@inject IJSRuntime JsRuntime
+
+
+<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+    <style>
+
+        #search {
+            padding-top: 10px;
+            padding-right: 20px;
+            padding-bottom: 5px;
+            padding-left: 20px;
+        }
+
+        .button-padding {
+            padding-top: 0px;
+            padding-right: 16px;
+            padding-bottom: 0px;
+            padding-left: 16px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #f44336;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: #f44336;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #ccc;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .reverse {
+            display: inline-block;
+            -webkit-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+    </style>
+
+    <h1>Search</h1>
+
+    <p>Here you can search for any art pieces you are interested in.</p>
+
+    <div class="w3-bar w3-margin-bottom w3-padding">
+        <span>
+
+            <input id="searchBar" type="search"
+                   class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
+                   value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
+
+            <span class="material-symbols-outlined middle w3-xxlarge">
+                low_priority
+            </span>
+            <label class="switch middle w3-margin-left w3-margin-right">
+                <input type="checkbox" checked @onchange="CheckboxChanged">
+                <span class="slider round"></span>
+            </label>
+            <span class="material-symbols-outlined reverse middle w3-xxlarge">
+                low_priority
+            </span>
+
+            <button id="search" class="btn w3-button middle w3-red w3-round-xlarge" @onclick="async () => await Artwork.GetGenericDataFromPageAsync()">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </span>
+
+
+        <hr />
+    </div>
+
+    <div>
+        <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
+    </div>
+    <div>
+        <div class="w3-center">
+            @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
+            {
+
+                @foreach (var result in Artwork.GenericData.Data)
+                {
+                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
+                        <p class="w3-xxlarge">
+                            @result.Title
+                            <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
+                                <span class="material-symbols-outlined">
+                                    bookmark
+                                </span>
+                            </button>
+
+                        </p>
+
+                        <div class="w3-row">
+                            <div class="w3-col m6 w3-center w3-padding-large">
+                                <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
+                                <a href="@result.ImageUrl" data-fancybox="gallery" data-caption="@result.Title">
+                                    <img class="w3-round w3-image w3-margin-bottom" src="@result.ImageUrl" width="500" height="333" style="width: 400px;height: 500px" />
+                                </a>
+                                <a href="/detail-artwork/@result.Id">Detail Artwork @result.Title</a>
+                            </div>
+
+                            <div class="w3-col m6 w3-padding-large w3-left-align">
+                                @if (result.Description.Length > 0)
+                                {
+                                    <p>
+                                        @result.Description
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        Nothing to see
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+                    <p class="middle">Could not connect to the Database, try again later.</p>
+                </div>
+            }
+        </div>
+    </div>
+</Animate>
+
+@code {
+    private string SearchField { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Artwork.PropertyChanged += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        };
+        await Artwork.GetGenericDataFromPageAsync();
+        await base.OnInitializedAsync();
+    }
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+    public void Dispose()
+    {
+        Artwork.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+    //Call my js
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("Main.start");
+    }
+
+    private async Task CheckboxChanged(ChangeEventArgs e)
+    {
+        bool b = (bool)e.Value;
+
+        if (b)
+        {
+            Artwork.Parameters.SetOrdering("title");
+        }
+        else
+        {
+            Artwork.Parameters.SetOrdering("-title");
+        }
+    }
+}

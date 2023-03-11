@@ -1,6 +1,6 @@
-﻿@page "/search_and_edit"
-@inject DashboardAdminVM Artwork
-@using ProjectWork.ViewModels
+﻿@page "/dashboard-artwork"
+@inject DashboardAdminArtworkVM Artwork
+@using ProjectWork.ViewModels.Artwork
 @using System.ComponentModel
 @implements IDisposable
 @layout AdminLayout
@@ -109,7 +109,7 @@
     <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
     @foreach (var artwork in Artwork.GenericData.Data)
     {
-        <AdminResult Artwork="artwork"></AdminResult>
+        <AdminArtwork Artwork="artwork"></AdminArtwork>
 
         <hr/>
 

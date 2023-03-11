@@ -1,23 +1,25 @@
-﻿using ProjectWork.Models.Artwork;
-using ProjectWork.Models.Core;
+﻿using ProjectWork.Models.Core;
 
-namespace ProjectWork.ViewModels
+namespace ProjectWork.ViewModels;
+
+public interface IViewModel<T>
 {
-    public interface IViewModel<T>
-    {
-        //For ListView
-        GenericData<T> GenericData { get; set; }
-        Parameters Parameters { get; set; }
-        Paginator Paginator { get; set; }
-        Task<(bool status, string message)> GetGenericDataFromPageAsync();
-        //For Anti-Spam
-        bool IsBusy { get; set; }
+    //For ListView
+    GenericData<T> GenericData { get; set; }
+    Parameters Parameters { get; set; }
 
-        //For AddItem
-        Task<(bool status,string message)> AddItemAsync(T artwork);
-        //For deleteItem
-        Task<(bool status,string message)> DeleteItemAsync(int id);
-        //For UpdateItem
-        Task<(bool status,string message)> UpdateItemAsync(T artwork);
-    }
+    Paginator Paginator { get; set; }
+
+    //For Anti-Spam
+    bool IsBusy { get; set; }
+    Task<(bool status, string message)> GetGenericDataFromPageAsync();
+
+    //For AddItem
+    Task<(bool status, string message)> AddItemAsync(T artist);
+
+    //For deleteItem
+    Task<(bool status, string message)> DeleteItemAsync(int id);
+
+    //For UpdateItem
+    Task<(bool status, string message)> UpdateItemAsync(T artist);
 }

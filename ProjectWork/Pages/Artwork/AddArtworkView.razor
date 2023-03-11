@@ -1,9 +1,9 @@
-﻿@page "/artwork"
-@using ProjectWork.Models.Artwork;
-@using ProjectWork.ViewModels;
-@using System.ComponentModel;
-@*HTML DI ANGULAR VIEW *@
-@inject DashboardAdminVM Artwork
+﻿@page "/add-artwork"
+@inject DashboardAdminArtworkVM Artwork
+@using ProjectWork.ViewModels.Artwork
+@using Microsoft.AspNetCore.Components
+@using ProjectWork.Models.Artwork
+@using System.ComponentModel
 @implements IDisposable
 @layout AdminLayout
 
