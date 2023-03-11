@@ -71,14 +71,7 @@
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        @if (App.Authentication.UserSession.User.ProfilePicture is not null)
-                        {
                         <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
-                        }
-                        else
-                        {
-                            <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
-                        }
                         <strong>
                             @App.Authentication.UserSession.User!.Username
                         </strong>

@@ -90,7 +90,10 @@ namespace ProjectWork.ViewModels
             IsBusy = true;
             try
             {
-                var newItem = await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork.Id,artwork, artwork.File);
+                _artworkService.Uri.Path = Endpoints.GetArtworkPath() + artwork.Id;
+                var newItem =
+                    await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork,
+                        artwork.File);
                 await UtilityToolkit.CreateToast($"Updated element: {newItem.Id} {newItem.Title} ");
                 IsBusy = false;
                 return (true, "Updated success");

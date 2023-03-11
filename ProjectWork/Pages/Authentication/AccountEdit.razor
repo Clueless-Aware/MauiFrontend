@@ -1,4 +1,7 @@
 ﻿@page "/accountEdit"
+@using ProjectWork.Models.Core.Authentication
+@using ProjectWork.Resources.Static
+@using ProjectWork.Utilities
 @inject NavigationManager NavManager
 
 <style>
@@ -13,91 +16,83 @@
         <h3 class="w3-margin-left">User Profile</h3>
 
         <hr />
+        <EditForm Model="_editUser" OnValidSubmit="async ()=>await AttemptEdit(_editUser)">
 
-        <ul>
-            <li>
-                <p class="w3-bold">Username:</p>
-            </li>
-            <li>
-                <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="username">
-            </li>
-            <li>
-                <p class="w3-bold">E-mail:</p>
-            </li>
-            <li>
-                <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
-            </li>
-            <li>
-                <p class="w3-bold">Bio:</p>
-            </li>
-            <li>
-                <textarea id="w3review" name="w3review" rows="4" cols="50">
-                </textarea>
-            </li>
-
-            <li>
-                <span class="w3-bold w3-large">Type of access: </span>
-                <span class="w3-text-green">Standard</span>
-            </li>
-            <li>
-                <span>
-                    <button onclick="@editPassword" class="w3-large btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-right">
-                        Edit your Password
-                    </button>
-                </span>
-            </li>
-
-            @if (showEditPassword)
-            {
+            <ul>
                 <li>
-                    <p class="w3-bold">Old password:</p>
+                    <p class="w3-bold">Username:</p>
                 </li>
                 <li>
-                    <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="password" id="oldpw">
+                    <input @bind-value="_editUser.UserName" placeholder="@App.Authentication.UserSession.User.Username"
+                           class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="username">
+                </li>
+                <li>
+                    <p class="w3-bold">E-mail:</p>
+                </li>
+                <li>
+                    <input @bind-value="_editUser.Email" placeholder="@App.Authentication.UserSession.User.Email"
+                           class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
+                </li>
+                <li>
+                    <p class="w3-bold">Bio:</p>
+                </li>
+                <li>
+                    <InputTextArea id="w3review" name="w3review" rows="4" cols="50" @bind-Value="_editUser.Biography" />
                 </li>
 
                 <li>
-                    <p class="w3-bold">New password:</p>
+                    <p class="w3-bold">First Name:</p>
                 </li>
                 <li>
-                    <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="password" id="newpw">
+                    <input @bind-value="_editUser.FirstName" placeholder="@App.Authentication.UserSession.User.FirstName"
+                           class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
                 </li>
 
                 <li>
-                    <p class="w3-bold">Repeat new password:</p>
+                    <p class="w3-bold">Last Name:</p>
                 </li>
                 <li>
-                    <input class="w3-round w3-margin-right w-50 w3-margin-bottom" type="password" id="newpw1">
+                    <input @bind-value="_editUser.LastName" placeholder="@App.Authentication.UserSession.User.LastName"
+                           class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
                 </li>
-            }
-        </ul>
 
-        <hr />
+                <li>
+                    <p class="w3-bold">Profile Picture:</p>
+                </li>
+                <li>
+                    <img src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture" height="200px" width="350px" />
+                    <InputFile id="idProfilePicture" class="form-control" OnChange="(e)=> _editUser.ProfilePicture = e.File" />
+                </li>
 
-        <span>
-            <button onclick="@save" class="w3-large w3-margin-bottom w3-padding-16 btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-left w3-margin-right">
-                Save
-            </button>
-        </span>
+            </ul>
+
+            <hr />
+
+            <span>
+                <button type="submit" class="w3-large w3-margin-bottom w3-padding-16 btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-left w3-margin-right">
+                    Change
+                </button>
+            </span>
+        </EditForm>
 
     </div>
 </Animate>
 
 @code {
-    private bool showEditPassword = false;
+    private readonly UserEditModel _editUser = new();
 
-    private void save()
+    private async Task AttemptEdit(UserEditModel editUser)
     {
-        NavManager.NavigateTo("/accountDetails");
-    }
-
-
-    private void editPassword()
-    {
-        if (showEditPassword)
-            showEditPassword = false;
+        var attempt = await App.Authentication.UpdateUserAccount(_editUser, _editUser.ProfilePicture);
+        if (attempt.status)
+        {
+            await UtilityToolkit.CreateToast("Account Changed");
+            NavManager.NavigateTo("/accountDetails");
+        }
         else
-            showEditPassword = true;
+        {
+            await UtilityToolkit.CreateToast(attempt.message);
+        }
     }
 
 }

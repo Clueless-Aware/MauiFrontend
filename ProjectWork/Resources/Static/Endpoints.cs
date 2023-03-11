@@ -11,6 +11,10 @@ public static class Endpoints
     {
         return _url + "/api/artworks/";
     }
+    public static string GetArtworkPath()
+    {
+        return _url + "/api/artworks/";
+    }
 
     public static string GetRequestsEndpoint()
     {
@@ -26,5 +30,10 @@ public static class Endpoints
     public static string GetResetPasswordConfirm()
     {
         return "api/auth/password/reset/confirm/";
+    }
+
+    public static string GetEditAccuntEndpoint()
+    {
+        return "api/auth/user/";
     }
 }
