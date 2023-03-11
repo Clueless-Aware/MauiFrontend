@@ -27,4 +27,9 @@ public static class Endpoints
     {
         return "api/auth/password/reset/confirm/";
     }
+
+    public static string GetArtistEndpoint()
+    {
+        return _url + "/api/artists/";
+    }
 }

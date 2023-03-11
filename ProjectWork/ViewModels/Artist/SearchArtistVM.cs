@@ -10,7 +10,7 @@ namespace ProjectWork.ViewModels.Artist
     public class SearchArtistVM : BaseViewModel<BaseArtist>
     {
         //Declare a Service pass the url end point
-        private readonly ServiceAPI _artistService = new(Endpoints.GetArtworkEndpoint(),new ImageOptions(){FileName = "portrait"});
+        private readonly ServiceAPI _artistService = new(Endpoints.GetArtistEndpoint(),new ImageOptions(){FileName = "portrait"});
         /// <summary>
         /// Get Generic data of T from api service and set the state of paginator if get some data
         /// </summary>
