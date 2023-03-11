@@ -14,7 +14,7 @@ namespace ProjectWork.ViewModels
         bool IsBusy { get; set; }
 
         //For AddItem
-        Task<(bool status,string message)> AddItemAsync(T artwork);
+        Task<(bool status,string message)> AddItemAsync(T artist);
         //For deleteItem
         Task<(bool status,string message)> DeleteItemAsync(int id);
         //For UpdateItem

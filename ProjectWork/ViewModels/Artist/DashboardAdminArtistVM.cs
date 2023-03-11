@@ -1,16 +1,15 @@
 ﻿using System.Net;
+using ProjectWork.Models.Artist;
 using ProjectWork.Models.Core;
-using ProjectWork.Models.Artwork;
-using ProjectWork.Services.Core;
 using ProjectWork.Resources.Static;
+using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
-namespace ProjectWork.ViewModels
+namespace ProjectWork.ViewModels.Artist
 {
-    public class SearchArtworkVM : BaseViewModel<BaseArtwork>
-    {
-        //Declare a Service pass the url end point
-        private readonly ServiceAPI _artworkService = new(Endpoints.GetArtworkEndpoint());
+    public class DashboardAdminArtistVM : BaseViewModel<BaseArtist>
+    {        //Declare a Service pass the url end point
+        private readonly ServiceAPI _artistService = new(Endpoints.GetArtworkEndpoint());
         /// <summary>
         /// Get Generic data of T from api service and set the state of paginator if get some data
         /// </summary>
@@ -20,8 +19,8 @@ namespace ProjectWork.ViewModels
             IsBusy = true;
             try
             {
-                GenericData = await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(Parameters.Dictionary);
-                Paginator.SetActualState(Parameters, this.GetGenericDataFromPageAsync, GenericData.Count);
+                GenericData = await _artistService.GetDataWithParamAsync<GenericData<BaseArtist>>(Parameters.Dictionary);
+                Paginator.SetActualState(Parameters, GetGenericDataFromPageAsync, GenericData.Count);
                 IsBusy = false;
                 return (true, "Success fetch");
             }
@@ -43,7 +42,7 @@ namespace ProjectWork.ViewModels
             IsBusy = true;
             try
             {
-                var statusCode = await _artworkService.DeleteItemAsync(id);
+                var statusCode = await _artistService.DeleteItemAsync(id);
                 if (statusCode != HttpStatusCode.NoContent) throw new Exception("Delete Failed");
                 await UtilityToolkit.CreateToast("Delete success");
                 IsBusy = false;
@@ -60,15 +59,15 @@ namespace ProjectWork.ViewModels
         /// <summary>
         /// Add item with image
         /// </summary>
-        /// <param name="artwork"></param>
+        /// <param name="artist"></param>
         /// <returns></returns>
-        public override async Task<(bool status, string message)> AddItemAsync(BaseArtwork artwork)
+        public override async Task<(bool status, string message)> AddItemAsync(BaseArtist artist)
         {
             IsBusy = true;
             try
             {
-                var newItem = await _artworkService.AddItemAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork, artwork.File);
-                await UtilityToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Title} ");
+                var newItem = await _artistService.AddItemAsMultipartAsync<BaseArtist, BaseArtist>(artist, artist.File);
+                await UtilityToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Name} ");
                 IsBusy = false;
                 return (true, "Add success");
             }
@@ -85,13 +84,13 @@ namespace ProjectWork.ViewModels
         /// </summary>
         /// <param name="artwork"></param>
         /// <returns></returns>
-        public override async Task<(bool status, string message)> UpdateItemAsync(BaseArtwork artwork)
+        public override async Task<(bool status, string message)> UpdateItemAsync(BaseArtist artwork)
         {
             IsBusy = true;
             try
             {
-                var newItem = await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork.Id,artwork, artwork.File);
-                await UtilityToolkit.CreateToast($"Updated element: {newItem.Id} {newItem.Title} ");
+                var newItem = await _artistService.UpdateAsMultipartAsync<BaseArtist, BaseArtist>(artwork.Id, artwork, artwork.File);
+                await UtilityToolkit.CreateToast($"Updated element: {newItem.Id} {newItem.Name} ");
                 IsBusy = false;
                 return (true, "Updated success");
             }
@@ -107,7 +106,7 @@ namespace ProjectWork.ViewModels
         //    IsBusy = true;
         //    try
         //    {
-        //        GenericData = await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(parameters.Dictionary);
+        //        GenericData = await _artistService.GetDataWithParamAsync<GenericData<BaseArtwork>>(parameters.Dictionary);
         //        Paginator.SetActualState(Parameters, this.GetGenericDataFromParam(parameters), GenericData.Count);
         //        IsBusy = false;
         //        return (true, "Success fetch");
@@ -119,5 +118,6 @@ namespace ProjectWork.ViewModels
         //        return (false, e.Message);
         //    }
         //}
+
     }
 }

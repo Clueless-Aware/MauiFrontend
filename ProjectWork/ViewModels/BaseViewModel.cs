@@ -42,7 +42,7 @@ namespace ProjectWork.ViewModels
         public abstract Task<(bool status, string message)> GetGenericDataFromPageAsync();
         public abstract Task<(bool status, string message)> DeleteItemAsync(int idItem);
 
-        public abstract Task<(bool status, string message)> AddItemAsync(T item);
+        public abstract Task<(bool status, string message)> AddItemAsync(T artist);
         public abstract Task<(bool status, string message)> UpdateItemAsync(T item);
     }
 }

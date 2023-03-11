@@ -5,7 +5,7 @@ using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
-namespace ProjectWork.ViewModels
+namespace ProjectWork.ViewModels.Artwork
 {
     //Did not use
     public class ArtworkViewModel : BaseViewModel<BaseArtwork>
@@ -19,7 +19,7 @@ namespace ProjectWork.ViewModels
             {
                 GenericData =
                     await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(Parameters.Dictionary);
-                Paginator.SetActualState(Parameters, this.GetGenericDataFromPageAsync, GenericData.Count);
+                Paginator.SetActualState(Parameters, GetGenericDataFromPageAsync, GenericData.Count);
                 IsBusy = false;
                 return (true, "Success fetch");
             }
@@ -56,17 +56,17 @@ namespace ProjectWork.ViewModels
         }
 
         /// <summary>
-        /// Add item with image
+        /// Add artist with image
         /// </summary>
-        /// <param name="artwork"></param>
+        /// <param name="artist"></param>
         /// <returns></returns>
-        public override async Task<(bool status, string message)> AddItemAsync(BaseArtwork artwork)
+        public override async Task<(bool status, string message)> AddItemAsync(BaseArtwork artist)
         {
             IsBusy = true;
             try
             {
                 var newItem =
-                    await _artworkService.AddItemAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork, artwork.File);
+                    await _artworkService.AddItemAsMultipartAsync<BaseArtwork, BaseArtwork>(artist, artist.File);
                 await UtilityToolkit.CreateToast($"Created new element: {newItem.Id} {newItem.Title} ");
                 IsBusy = false;
                 return (true, "Add success");
@@ -80,7 +80,7 @@ namespace ProjectWork.ViewModels
         }
 
         /// <summary>
-        /// Update item from item input
+        /// Update artist from artist input
         /// </summary>
         /// <param name="artwork"></param>
         /// <returns></returns>

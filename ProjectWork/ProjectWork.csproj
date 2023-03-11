@@ -90,6 +90,10 @@
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Pages\Artist\" />
+    </ItemGroup>
+
     <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionProjectWorkHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>
