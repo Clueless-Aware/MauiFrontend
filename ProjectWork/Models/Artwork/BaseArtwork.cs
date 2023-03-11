@@ -50,7 +50,6 @@ namespace ProjectWork.Models.Artwork
     public class BaseArtwork : IArtWorkBase, IUploadArtwork, IDownloadArtwork
     {
         [JsonPropertyName("id")]
-        [Required]
         public int Id { get; set; }
         [JsonPropertyName("image_url")]
         public string ImageUrl { get; set; }
@@ -68,7 +67,7 @@ namespace ProjectWork.Models.Artwork
         [Required]
         public string Title { get; set; }
 
-        [JsonPropertyName("Date")]
+        [JsonPropertyName("date")]
         [Required]
         public string Date { get; set; }
 
