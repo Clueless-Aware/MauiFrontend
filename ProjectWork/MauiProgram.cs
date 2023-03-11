@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Logging;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
-using ProjectWork.ViewModels;
+using ProjectWork.ViewModels.Artist;
+using ProjectWork.ViewModels.Artwork;
 using ProjectWork.ViewModels.Core;
 #if WINDOWS
 using Microsoft.Maui.LifecycleEvents;
@@ -39,7 +40,10 @@ public static class MauiProgram
 
 
         builder.Services.AddScoped<SearchArtworkVM>();
-        builder.Services.AddScoped<DashboardAdminVM>();
+        builder.Services.AddScoped<DashboardAdminArtworkVM>();
+
+        builder.Services.AddScoped<SearchArtistVM>();
+        builder.Services.AddScoped<DashboardAdminArtistVM>();
 
 #if WINDOWS
         builder.ConfigureLifecycleEvents(events =>

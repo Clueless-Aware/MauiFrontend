@@ -40,6 +40,39 @@
                 </p>
             </li>
             <li>
+                <p class="w3-bold">First Name:</p>
+            </li>
+
+            <li>
+                <p>
+                    @user.FirstName
+                </p>
+            </li>
+            <li>
+                <p class="w3-bold">Last Name:</p>
+            </li>
+            <li>
+                <p>
+                    @user.LastName
+                </p>
+            </li>
+            <li>
+                <p class="w3-bold">Joined:</p>
+            </li>
+            <li>
+                <p>
+                    @user.DateJoined
+                </p>
+            </li>
+            <li>
+                <p class="w3-bold">Photo:</p>
+            </li>
+            <li>
+                <p>
+                    <img src="@user.ProfilePicture"/>
+                </p>
+            </li>
+            <li>
                 <span class="w3-bold w3-large">Type of access: </span>
                 @if (user.IsStaff)
                 {

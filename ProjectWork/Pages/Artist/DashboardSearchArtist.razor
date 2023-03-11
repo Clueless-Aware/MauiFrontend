@@ -1,0 +1,220 @@
+﻿@page "/dashboard-artist"
+@inject DashboardAdminArtistVM DirectorArtistAdmin
+@using System.ComponentModel
+@using ProjectWork.ViewModels.Artist
+@implements IDisposable
+@layout AdminLayout
+
+<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+    <style>
+
+        #search {
+            padding: 10px 20px 5px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #f44336;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: #f44336;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #ccc;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .reverse {
+            display: inline-block;
+            -webkit-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+    </style>
+
+    <h1>Search</h1>
+
+    <p>Here you can search for any art pieces you are interested in.</p>
+
+    <div class="w3-bar w3-margin-bottom w3-padding">
+        <span>
+
+            <input id="searchBar" type="search"
+                   class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
+                   value="@SearchField" @onchange=
+                                        "e =>{ DirectorArtistAdmin.Parameters.SetPage(1);SearchField = (string)e.Value; DirectorArtistAdmin.Parameters.SetSearch(SearchField);}"/>
+
+            <span class="material-symbols-outlined middle w3-xxlarge">
+                low_priority
+            </span>
+            <label class="switch middle w3-margin-left w3-margin-right">
+                <input type="checkbox" checked @onchange="e => { CheckboxChanged(e); }">
+                <span class="slider round"></span>
+            </label>
+            <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
+                low_priority
+            </span>
+
+            <button id="search" class="btn w3-button w3-red w3-round-large" @onclick="async () => await DirectorArtistAdmin.GetGenericDataFromPageAsync()">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </span>
+
+        <hr/>
+    </div>
+</Animate>
+
+@*TODO: if null show message*@
+@if (DirectorArtistAdmin.GenericData != null)
+{
+    <PaginatorComponent Paginator="DirectorArtistAdmin.Paginator"></PaginatorComponent>
+    @foreach (var artist in DirectorArtistAdmin.GenericData.Data)
+    {
+        <AdminArtist Artist="artist"></AdminArtist>
+
+        <hr/>
+
+        <p>@artist.Id</p>
+        <p>@artist.Name</p>
+        <p>@artist.BirthData</p>
+        <p>@artist.Profession</p>
+        <p>@artist.School</p>
+        <p>@artist.Biography</p>
+        <p>@artist.Portrait</p>
+        <img src="@artist.Portrait" alt="">
+        <h4>Delete</h4>
+        <button @onclick="async () => await DirectorArtistAdmin.DeleteItemAsync(artist.Id)">delete</button>
+        <hr/>
+        <h4>Edit @artist.Id - @artist.Name</h4>
+        <EditForm Model="@artist" OnValidSubmit="async () => await DirectorArtistAdmin.UpdateItemAsync(artist)">
+            @*Added to validate the data controlled in the model class*@
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+
+            <li class="w3-padding w3-large w3-bold ">
+                <label>Name</label>
+            </li>
+
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artist.Name" placeholder="Enter Name" >
+            </li>
+
+            <li class="w3-padding w3-large w3-w3-bold \">
+                <label>Birth Data</label>
+            </li>
+
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artist.BirthData" placeholder="Enter Birth data" name="birth-data">
+            </li>
+
+            <li class="w3-padding w3-large w3-w3-bold ">
+                <label>Profession</label>
+            </li>
+
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artist.Profession" placeholder="Enter profession" name="Profession">
+            </li>
+
+            <li class="w3-padding w3-large w3-bold \">
+                <label>School</label>
+            </li>
+
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artist.School" placeholder="Enter School" name="School">
+            </li>
+
+            <li class="w3-padding w3-large w3-w3-bold \">
+                <label>Biography</label>
+            </li>
+
+            <li class="w3-padding w3-margin-bottom">
+                <input class=" w3-round" type="text" @bind-value="artist.Biography" placeholder="Enter Biography" name="Biography">
+            </li>
+
+
+            @*Todo: show image or url image*@
+            <li class="w3-padding w3-large w3-w3-bold \">
+                <label>Image url</label>
+            </li>
+
+            <li class="w3-padding w3-margin-bottom">
+                @artist.Portrait
+            </li>
+            <li class="w3-margin-bottom">
+                @*Todo: just one image and only images*@
+                <InputFile class="w3-button w3-round" OnChange="e => artist.File = e.File"/>
+            </li>
+
+            @*TODO: disable if DirectorArtistAdmin.IsBusy*@
+            <button type="submit">edit</button>
+        </EditForm>
+    }
+}
+
+@code {
+    private string SearchField;
+
+    protected override async Task OnInitializedAsync()
+    {
+        DirectorArtistAdmin.PropertyChanged += async (sender, e) => { await InvokeAsync(StateHasChanged); };
+        await DirectorArtistAdmin.GetGenericDataFromPageAsync();
+        await base.OnInitializedAsync();
+    }
+
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        DirectorArtistAdmin.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+    private void CheckboxChanged(ChangeEventArgs e)
+    {
+        var b = (bool)e.Value;
+
+        DirectorArtistAdmin.Parameters.SetOrdering(b ? "title" : "-title");
+    }
+
+}

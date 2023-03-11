@@ -28,8 +28,14 @@
             </div>
 
             <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="/search_and_edit">
-                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Search and edit
+                <NavLink class="nav-link w3-padding-16" href="/dashboard-artwork">
+                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Search and edit Artwork
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="/dashboard-artist">
+                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Search and edit Artist
                 </NavLink>
             </div>
             <!-- <div class="nav-item px-3">
@@ -38,12 +44,20 @@
                 </NavLink>
             </div> -->
             <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="artwork">
+                <NavLink class="nav-link w3-padding-16" href="add-artwork">
                     <span class="material-symbols-outlined w3-margin-right">
                         add_to_photos
                     </span> Add Artwork
                 </NavLink>
             </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="add-artist">
+                    <span class="material-symbols-outlined w3-margin-right">
+                        add_to_photos
+                    </span> Add Artist
+                </NavLink>
+            </div>
+
         </div>
         @*Account/admin*@
         <div class="nav nav-pills flex-column mt-auto">
@@ -60,7 +74,10 @@
             {
                 <div class="nav-item px-3">
                     <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
+                        <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <strong>
+                            @App.Authentication.UserSession.User!.Username
+                        </strong>
                     </NavLink>
                 </div>
                 @*TODO: iF ADMIN SEE THIS*@

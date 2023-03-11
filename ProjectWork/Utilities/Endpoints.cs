@@ -13,6 +13,11 @@ public static class Endpoints
         return SiteUrl + "/api/artworks/";
     }
 
+    public static string GetArtworkPath()
+    {
+        return "/api/artworks/";
+    }
+
     public static string GetRequestsEndpoint()
     {
         return "/api/requests/";
@@ -36,5 +41,30 @@ public static class Endpoints
     public static string GetFavoritesEndpoint()
     {
         return "/api/favorites/";
+    }
+
+    public static string GetArtistEndpoint()
+    {
+        return SiteUrl + "/api/artists/";
+    }
+
+    public static string GetArtistPath()
+    {
+        return "api/artists/";
+    }
+
+    public static string GetLoginPath()
+    {
+        return "api/auth/login/";
+    }
+
+    public static string GetRegisterPath()
+    {
+        return "api/auth/registration/";
+    }
+
+    public static string GetUserPath()
+    {
+        return "api/auth/user/";
     }
 }

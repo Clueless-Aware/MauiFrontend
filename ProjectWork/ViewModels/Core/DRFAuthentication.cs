@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text.Json;
+using Microsoft.AspNetCore.Components.Forms;
 using ProjectWork.Models.Core;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Models.Core.User;
@@ -16,7 +17,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public override async Task<(bool status, string message)> AuthenticateUser(LoginModel loginModel)
     {
-        Service.Uri.Path = "api/auth/login/";
+        Service.Uri.Path = Endpoints.GetLoginPath();
         try
         {
             var result = await Service.PostItemAsJsonAsync<LoginModel, LoginResponse>(loginModel);
@@ -35,7 +36,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public override async Task<(bool status, string message)> RegistrationUser(RegistrationModel registrationModel)
     {
-        Service.Uri.Path = "api/auth/registration/";
+        Service.Uri.Path = Endpoints.GetRegisterPath();
         try
         {
             var result =
@@ -50,6 +51,22 @@ public class DRFAuthentication : AuthenticationBase
         catch (Exception e)
         {
             Console.WriteLine(e);
+            return (false, e.Message);
+        }
+    }
+
+    public async Task<(bool status, string message)> UpdateUserAccount(UserEditModel userEdit, IBrowserFile file)
+    {
+        Service.Uri.Path = Endpoints.GetUserPath();
+        try
+        {
+            var result = await Service.UpdateAsMultipartAsync<UserEditModel, UserModel>(userEdit, file);
+            UserSession.User = result ?? throw new Exception("None Result");
+            if (result is null) throw new Exception("Update error");
+            return (true, "Updated Account Successfully");
+        }
+        catch (Exception e)
+        {
             return (false, e.Message);
         }
     }

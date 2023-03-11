@@ -11,6 +11,7 @@ public class ServiceAPI : IServiceAPI
     private readonly HeadersDirector _headersDirector = new();
     private readonly ImageOptions _imageOptions = new();
     private readonly string url;
+    private UriBuilder _uriBuilder;
 
     public ServiceAPI(string url)
     {
@@ -75,21 +76,21 @@ public class ServiceAPI : IServiceAPI
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 
-
-    public async Task<TR> UpdateItemAsJsonAsync<TS, TR>(int id, TS item)
+    public async Task<TR> UpdateItemAsJsonAsync<TS, TR>(TS item)
     {
         await _headersDirector.AuthenticatedHeader();
         var tempMessage =
-            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PutAsJsonAsync($"{url}{id}/", item));
+            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PutAsJsonAsync(_uriBuilder.Uri, item));
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 
-    public async Task<TR> UpdateAsMultipartAsync<TS, TR>(int id, TS item, IBrowserFile file)
+
+    public async Task<TR> UpdateAsMultipartAsync<TS, TR>(TS item, IBrowserFile file)
     {
         await _headersDirector.AuthenticatedHeader();
         var content = await HandleMultipart.Build(item, file, _imageOptions);
         var tempMessage =
-            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PatchAsync($"{url}{id}/", content));
+            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PatchAsync(_uriBuilder.Uri, content));
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 
