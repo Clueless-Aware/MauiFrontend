@@ -53,6 +53,19 @@
         <tr>
             <td class="w3-padding-16">
                 <p class="w3-w3-bold">
+                    Author id
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.AuthorId"
+                       placeholder="Enter Author id">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-w3-bold">
                     Title
                 </p>
             </td>
@@ -138,6 +151,19 @@
                 <input class="w3-round w-50" type="text"
                        @bind-value="artwork.Description"
                        placeholder="Enter Title">
+            </td>
+        </tr>
+        <!---------------------------------------------------->
+        <tr>
+            <td class="w3-padding-16">
+                <p class="w3-w3-bold">
+                    Time Frame
+                </p>
+            </td>
+            <td>
+                <input class="w3-round w-50" type="text"
+                       @bind-value="artwork.TimeFrame"
+                       placeholder="Enter Time Frame">
             </td>
         </tr>
         <!---------------------------------------------------->
