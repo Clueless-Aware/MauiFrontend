@@ -86,17 +86,21 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
     /// </summary>
     /// <param name="artist"></param>
     /// <returns></returns>
-    public override async Task<(bool status, string message)> UpdateItemAsync(BaseArtwork artist)
+    public override async Task<(bool status, string message)> UpdateItemAsync(BaseArtwork artwork)
     {
         IsBusy = true;
         try
         {
-            _artworkService.Uri.Path = Endpoints.GetArtworkPath() + artist.Id + '/';
+            //save the original path
+            var tempPath = _artworkService.Uri.Path; 
+            _artworkService.Uri.Path = Endpoints.GetArtworkPath() + artwork.Id + '/';
             var newItem =
-                await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artist,
-                    artist.File);
+                await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork,
+                    artwork.File);
             await UtilityToolkit.CreateToast($"Updated element: {newItem.Id} {newItem.Title} ");
             IsBusy = false;
+            //reset to the original path
+            _artworkService.Uri.Path = tempPath;
             return (true, "Updated success");
         }
         catch (Exception e)

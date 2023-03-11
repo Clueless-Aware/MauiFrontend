@@ -14,7 +14,7 @@ public static class Endpoints
 
     public static string GetArtworkPath()
     {
-        return _url + "/api/artworks/";
+        return "/api/artworks/";
     }
 
     public static string GetRequestsEndpoint()
@@ -47,7 +47,17 @@ public static class Endpoints
         return "api/artists/";
     }
 
-    public static string GetEditAccountPath()
+    public static string GetLoginPath()
+    {
+        return "api/auth/login/";
+    }
+
+    public static string GetRegisterPath()
+    {
+        return "api/auth/registration/";
+    }
+
+    public static string GetUserPath()
     {
         return "api/auth/user/";
     }
