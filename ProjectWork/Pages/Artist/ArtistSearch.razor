@@ -53,7 +53,7 @@
 
                 @foreach (var artist in ArtistDirector.GenericData.Data)
                 {
-                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
+                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white m-sm-2 m-lg-5 p-lg-3 p-sm-2">
                         <h1>
                             @artist.Name <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
                                 <span class="material-symbols-outlined">
@@ -61,10 +61,10 @@
                                 </span>
                             </button>
                         </h1>
-                        <div class="d-flex row-cols-2">
+                        <div class="d-flex flex-column flex-xl-row flex-lg-row flex-md-column flex-sm-column">
                             <div class="w3-col m6 w3-center w3-padding">
                                 <a href="@artist.Portrait" data-fancybox="gallery" data-caption="@artist.Name">
-                                    <img class="w3-round w3-image w3-margin-bottom" src="@artist.Portrait" alt="@artist.Name" />
+                                    <img class="w3-round w3-image w3-margin-bottom img-thumbnail" src="@artist.Portrait" alt="@artist.Name" />
                                 </a>
                                 <p>
                                     <span class="material-symbols-outlined">
@@ -73,9 +73,9 @@
                                 </p>
                             </div>
 
-                            <div class="portfolio-info">
+                            <div class="portfolio-info w-100">
                                 <h3>Artist information</h3>
-                                <table class="w-100 w3-margin-top">
+                                <table class="w-100 w3-margin-top px-lg-5 px-4">
                                     <tr>
                                         <td>
                                             <span class="material-symbols-outlined">
