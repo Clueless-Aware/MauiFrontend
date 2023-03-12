@@ -1,8 +1,6 @@
 ﻿@page "/Home"
 @using ProjectWork.ViewModels.Artwork
 @using System.ComponentModel
-@using ProjectWork.Utilities
-@using CommunityToolkit.Maui.Core
 @inject SearchArtworkVM DirectorArtworkSearch
 @inject IJSRuntime JsRuntime
 
@@ -136,27 +134,6 @@
         {
             DirectorArtworkSearch.Parameters.SetOrdering("-title");
         }
-    }
-
-    private static async Task AddToFavorites(int artworkId, string artworkTitle)
-    {
-        var result = await App.Authentication.AddFavorite(artworkId);
-        if (result.status)
-        {
-            if (App.Authentication.UserSession.User != null)
-                await UtilityToolkit.CreateToast(
-                    $"Added {artworkTitle} as a favorite for {App.Authentication.UserSession.User.Username}",
-                    ToastDuration.Long);
-            return;
-        }
-
-        await UtilityToolkit.CreateToast(
-            $"There was an error in adding artwork {artworkTitle} to your account...",
-            ToastDuration.Long);
-    }
-
-    private static async Task DeleteFavorite(int artworkID, string artworkTitle)
-    {
     }
 
 }

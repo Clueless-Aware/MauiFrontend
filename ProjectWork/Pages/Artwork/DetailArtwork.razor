@@ -1,6 +1,8 @@
 ﻿@page "/detail-artwork/{Id:int}"
 @using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Artwork
+@using ProjectWork.Utilities
+@using CommunityToolkit.Maui.Core
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
 
@@ -59,7 +61,7 @@
                     </div>
                 }
 
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="portfolio-info">
                         <h3>Artwork information</h3>
                         <ul>
@@ -76,18 +78,48 @@
                                 <strong>Location</strong> <span>@_artwork.Location</span>
                             </li>
                             <li>
-                                <strong>Form</strong> <span>@_artwork.Form</span>
+                                <strong>Form of art</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Form)</span>
                             </li>
                             <li>
-                                <strong>Type</strong> <span>@_artwork.Type</span>
+                                <strong>Type</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Type)</span>
                             </li>
                             <li>
                                 <strong>Time Frame</strong> <span>@_artwork.TimeFrame</span>
                             </li>
                         </ul>
                     </div>
+                    @if (App.Authentication.UserSession is not null)
+                    {
+                        if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
+                        {
+                            <button type="button" class="btn btn-outline-default waves-effect"
+                                    @onclick="() => RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
+                                <span class="material-symbols-outlined">
+                                    bookmark_remove
+                                </span>
+                                Remove from bookmarks
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-outline-default waves-effect"
+                                    @onclick="() => AddToBookmarks(_artwork.Id, _artwork.Title)">
+                                <span class="material-symbols-outlined">
+                                    bookmark_add
+                                </span>
+                                Add to bookmarks
+                            </button>
+                        }
+                    }
+                    else
+                    {
+                        <h5>
+                            Would you like to bookmark <b>this artwork</b>?<br/>
+                            Then please <a href="registration">create an account</a><br/>
+                            Or <a href="login">sign in</a> to an existing one
+                        </h5>
+                    }
                 </div>
-
             </div>
         </div>
     </section>
@@ -161,6 +193,41 @@
         {
     // No map application available to open or place mark can not be located
         }
+    }
+
+    private static async Task AddToBookmarks(int artworkId, string artworkTitle)
+    {
+        var result = await App.Authentication.AddBookMark(artworkId);
+        if (!result.status || App.Authentication.UserSession.User is null)
+        {
+            await UtilityToolkit.CreateToast(
+                $"There was an error in adding artwork {artworkTitle} to your account bookmarks... Please try again later",
+                ToastDuration.Long);
+            return;
+        }
+
+        await UtilityToolkit.CreateToast(
+            $"Added {artworkTitle} as a bookmarked artwork in {App.Authentication.UserSession.User.Username} list",
+            ToastDuration.Long);
+    }
+
+    private static async Task RemoveFromBookmarks(int artworkId, string artworkTitle)
+    {
+        var bookmarkId = (int)App.Authentication.UserSession.User.BookmarksIds
+            [App.Authentication.UserSession.User.BookmarkedArtworks
+                .FindIndex(artwork => artwork.Id == artworkId)];
+        var result = await App.Authentication.RemoveBookmark(bookmarkId);
+        if (!result.status || App.Authentication.UserSession.User is null)
+        {
+            await UtilityToolkit.CreateToast(
+                $"There was an error in removing artwork {artworkTitle} to your account bookmarks... Please try again later",
+                ToastDuration.Long);
+            return;
+        }
+
+        await UtilityToolkit.CreateToast(
+            $"Removed {artworkTitle} as a bookmarked artwork from {App.Authentication.UserSession.User.Username} list",
+            ToastDuration.Long);
     }
 
 }
