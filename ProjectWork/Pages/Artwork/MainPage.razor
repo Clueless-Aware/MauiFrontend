@@ -5,8 +5,8 @@
 @inject IJSRuntime JsRuntime
 
 
-<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
-    <section id="hero" class="hero d-flex flex-column justify-content-center align-items-center">
+
+    <div class="hero d-flex flex-column justify-content-center align-items-center">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
@@ -40,8 +40,8 @@
                 <hr/>
             </div>
         </div>
-    </section><!-- End Hero Section -->
-    <main id="main">
+    </div>
+    <div>
         <!-- Search Section -->
 
         @if (DirectorArtworkSearch.GenericData.Data.Any())
@@ -87,9 +87,9 @@
                 <p class="middle">Could not connect to the Database, try again later.</p>
             </div>
         }
-    </main>
+    </div>
 
-</Animate>
+
 
 @code {
     private string SearchField { get; set; }
