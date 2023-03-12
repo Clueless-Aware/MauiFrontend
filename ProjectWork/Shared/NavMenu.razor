@@ -29,12 +29,6 @@
                     <span class="material-symbols-outlined w3-margin-right">palette</span> Artist Search
                 </NavLink>
             </div>
-
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="gallery">
-                    <span class="material-symbols-outlined w3-margin-right" gr>gallery_thumbnail</span> Favorites Gallery
-                </NavLink>
-            </div>
         </div>
 
 
@@ -49,7 +43,7 @@
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="registration">
+                    <NavLink class="nav-link px-3" href="registration">
                         <span class="material-symbols-outlined w3-margin-right">
                             app_registration
                         </span> Registration
@@ -60,7 +54,7 @@
             {
                 if (App.Authentication.UserSession.User is { IsStaff: true })
                 {
-                    <div class="nav-item px-3 ">
+                    <div class="nav-item px-3">
                         <NavLink class="nav-link w3-padding-16" href="dashboard">
                             <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
                         </NavLink>
@@ -75,7 +69,7 @@
                     </NavLink>
                 </div>
 
-                <div class="nav-item px-3 w3-margin-top">
+                <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/send-request">
                         <span class="material-symbols-outlined w3-margin-right">email</span> Email to the staff
                     </NavLink>
@@ -94,12 +88,11 @@
                 </div>
             }
 
-            <div class="nav-item px-3 w3-margin-top">
+            <div class="nav-item px-3">
                 <NavLink class="nav-link" href="/info" Match="NavLinkMatch.All">
                     <span class="material-symbols-outlined w3-margin-right">info</span> Info
                 </NavLink>
             </div>
->
         </div>
 
     </div>
