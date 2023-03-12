@@ -193,3 +193,12 @@ h6 {
         margin: 0 0 15px 0 0 0;
         padding: 0;
     }
+.img-artwork {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
