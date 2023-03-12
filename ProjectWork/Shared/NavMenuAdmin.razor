@@ -1,7 +1,7 @@
 ﻿@inject NavigationManager NavManager
 
-<div class="d-flex flex-column flex-shrink-0 p-3" style="height: 97%">
-    <div class="top-row ps-3 navbar">
+<div class="d-flex flex-column flex-shrink-0" style="height: 97%">
+    <div class="top-row ps-3 navbar w-100">
         <div class="container-fluid">
             <a class="navbar-brand w3-text-white w3-large" href="">
                 Admin Tools
@@ -23,7 +23,7 @@
                 </NavLink>
             </div>
 
-            <div class="nav-item px-3">
+            <div class="nav-item px-3 w3-margin-top">
                 <NavLink class="nav-link w3-padding-16" href="/dashboard">
                     <span class="material-symbols-outlined w3-margin-right">
                         breaking_news_alt_1
@@ -31,18 +31,18 @@
                 </NavLink>
             </div>
 
-            <div class="nav-item px-3">
+            <div class="nav-item px-3 w3-margin-top">
                 <NavLink class="nav-link w3-padding-16" href="/search_and_edit_artwork">
-                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Edit Artworks
+                    <span class="material-symbols-outlined w3-margin-right" gr>edit_square</span> Edit Artworks
                 </NavLink>
             </div>
 
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="/search_and_edit_artist">
-                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Edit Artists
+                    <span class="material-symbols-outlined w3-margin-right" gr>edit_note</span> Edit Artists
                 </NavLink>
             </div>
-            <div class="nav-item px-3">
+            <div class="nav-item px-3 w3-margin-top">
                 <NavLink class="nav-link w3-padding-16" href="add-artwork">
                     <span class="material-symbols-outlined w3-margin-right">
                         add_to_photos
@@ -52,39 +52,15 @@
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="add-artist">
                     <span class="material-symbols-outlined w3-margin-right">
-                        add_to_photos
+                        person_add
                     </span> Add Artist
                 </NavLink>
             </div>
 
         </div>
+
         @*Account/admin*@
-        <div class="nav nav-pills flex-column mt-auto">
-            @*TODO: iF ADMIN SEE THIS*@
-            <div class="nav-item px-3 ">
-                <NavLink class="nav-link w3-padding-16" href="dashboard">
-                    <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
-                    <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
-                </NavLink>
-            </div>
 
-
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
-                </NavLink>
-            </div>
-
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
-                    <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
-                </NavLink>
-            </div>
-        </div>
     </div>
 </div>
 
