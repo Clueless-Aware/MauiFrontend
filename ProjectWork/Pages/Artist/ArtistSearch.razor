@@ -165,6 +165,12 @@
         else
         {
             ArtistDirector.Parameters.SetOrdering("-title");
+            doSearch();
+        }
+
+        async void doSearch()
+        {
+            await ArtistDirector.GetGenericDataFromPageAsync();
         }
     }
 }
