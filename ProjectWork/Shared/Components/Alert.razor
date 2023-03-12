@@ -6,22 +6,29 @@
 </style>
 
 <div class="@_delete">
-    <div class="w3-card-4 w3-text-black w3-padding-large w3-center w-100 w3-round-large w3-margin-bottom">
+    <div class="w3-card-2 w3-text-black w3-padding-large w3-center w-100 w3-round-large w3-margin-bottom">
         <button class="w3-right w3-button w3-hover-shadow w3-round" @onclick="hide">
             <span class="material-symbols-outlined">
                 close
             </span>
         </button>
+        <span class="material-symbols-outlined">
+                @icon
+        </span>
         <p class="w3-xlarge">
-            You have no Notifications
+            @message
         </p>
 
         <hr />
     </div>
 </div>
 @code {
-    private string _delete = "";
+    [Parameter]
+    public string message { get; set; }
+    [Parameter]
+    public string icon { get; set;}
 
+    private string _delete = "";
 
     async private void hide()
     {

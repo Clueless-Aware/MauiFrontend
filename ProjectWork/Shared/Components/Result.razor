@@ -1,0 +1,174 @@
+﻿@using ProjectWork.ViewModels.Artwork
+@using ProjectWork.Models.Artwork
+@inject SearchArtworkVM ArtworkDirector
+@inject IJSRuntime JsRuntime
+
+<style>
+    img {
+        display: block;
+        max-width: 560px;
+        width: auto;
+        height: auto;
+    }
+
+    a:link, a:visited {
+        color: black;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    a:hover, a:active {
+        color: red;
+    }
+
+    td {
+        padding-left: 32px;
+        padding-right: 32px;
+        padding-bottom: 8px;
+    }
+
+    p {
+        vertical-align: middle;
+    }
+</style>
+
+<div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
+    <NavLink class="nav-link w3-padding-16" id="@artwork.Id" href="/detail-artwork/{Id:int}">
+        @artwork.Title
+    </NavLink>
+
+    <h1>
+        @artwork.Title
+        <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
+            <span class="material-symbols-outlined">
+                bookmark
+            </span>
+        </button>
+    </h1>
+
+
+    <div class="w3-row">
+        <div class="w3-col m6 w3-center w3-padding">
+            <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title">
+                <img class="w3-round w3-image w3-margin-bottom" src="@artwork.ImageUrl" alt="@artwork.Title"/>
+            </a>
+            <p>
+                <span class="material-symbols-outlined">
+                    history_edu
+                </span>@artwork.Author
+            </p>
+        </div>
+
+        <div class="w3-col m6 w3-padding-large w3-left-align">
+            @if (artwork.Description.Length > 0)
+            {
+                <p>
+                    @artwork.Description
+                </p>
+            }
+            else
+            {
+                <p class="w3-opacity w3-padding-16 w3-margin-top">
+                    No description aviable.
+                </p>
+            }
+            <div class="portfolio-info">
+                <h3>Artwork information</h3>
+                <table class="w-100 w3-margin-top">
+                    <tr>
+                        <td>
+                            <span class="material-symbols-outlined">
+                                palette
+                            </span>
+                        </td>
+                        <td>
+                            <span class="material-symbols-outlined">
+                                calendar_month
+                            </span>
+                        </td>
+                        <td>
+                            <span class="material-symbols-outlined">
+                                location_city
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @artwork.Technique
+                        </td>
+                        <td>
+                            @artwork.Date
+                        </td>
+                        <td>
+                            @artwork.Location
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="material-symbols-outlined">
+                                image
+                            </span>
+                        </td>
+                        <td>
+                            <span class="material-symbols-outlined">
+                                view_timeline
+                            </span>
+                        </td>
+                        <td>
+                            <span class="material-symbols-outlined">
+                                deceased
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @artwork.Form
+                        </td>
+                        <td>
+                            @artwork.TimeFrame
+                        </td>
+                        <td>
+                            @artwork.Type
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public BaseArtwork artwork { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private BaseArtwork _artwork;
+    private IList<BaseArtwork> _otherArtworks;
+
+
+    protected override async void OnParametersSet()
+    {
+        _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
+        var baseArtwork = _artwork;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("Main.start");
+    }
+
+    private string ImageSource { get; set; }
+    private string CaptionText { get; set; }
+    private bool ModalVisible { get; set; }
+
+    private void Close()
+    {
+        ModalVisible = false;
+    }
+
+}

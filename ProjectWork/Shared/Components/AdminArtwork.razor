@@ -1,10 +1,38 @@
+@using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Artwork
+@inject DashboardAdminArtworkVM Artwork
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    
+    .imageResult {
+        display: block;
+        max-width: 560px;
+        width: auto;
+        height: auto;
+    }
+</style>
+
 <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
     <p class="w3-xxlarge">
-        FSEFSFA
+        @artwork.Title
         <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
             <span class="material-symbols-outlined">
-                favorite
+                bookmark
             </span>
         </button>
 
@@ -13,31 +41,175 @@
     <div class="w3-row">
         <div class="w3-col m6 w3-center w3-padding-large">
             <p>
-                <b><i class="fa fa-user w3-margin-right"></i>Image</b>
+                <b><i class="fa fa-user w3-margin-right"></i>Photo</b>
             </p><br>
-            <img class="w3-round w3-image w3-margin-bottom" src="@Artwork.ImageUrl" width="500" height="333"/>
+            <img src="@artwork.ImageUrl" class="imageResult" alt="@artwork.Title"/>
         </div>
 
         <div class="w3-col m6 w3-padding-large w3-left-align">
-            @if (true)
+            @if (artwork.Description.Length > 0)
             {
                 <p>
-                    sDAFSGH
+                    @artwork.Description
                 </p>
             }
             else
             {
                 <p>
-                    Nothing to see :(
+                    [The description is missing. Consider adding it.]
                 </p>
             }
         </div>
     </div>
+
+    <button class="general-button" @onclick="toggle">Edit</button>
+
+    @if (showEdit)
+    {
+        <hr/>
+        <hr/>
+        <EditForm Model="@artwork" OnValidSubmit="async () => await Artwork.UpdateItemAsync(artwork)">
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>Data</th>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td class="w3-padding-16">
+                        <p class="w3-w3-bold">
+                            Author
+                        </p>
+                    </td>
+                    <td>
+                        <input class="w3-round w-50" type="text"
+                               @bind-value="artwork.Author"
+                               placeholder="Enter Title">
+                    </td>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td class="w3-padding-16">
+                        <p class="w3-w3-bold">
+                            Title
+                        </p>
+                    </td>
+                    <td>
+                        <input class="w3-round w-50" type="text"
+                               @bind-value="artwork.Title"
+                               placeholder="Enter Title">
+                    </td>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td class="w3-padding-16">
+                        <p class="w3-w3-bold">
+                            Date
+                        </p>
+                    </td>
+                    <td>
+                        <input class="w3-round w-50" type="text"
+                               @bind-value="artwork.Date"
+                               placeholder="Enter Title">
+                    </td>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td class="w3-padding-16">
+                        <p class="w3-w3-bold">
+                            Technique
+                        </p>
+                    </td>
+                    <td>
+                        <input class="w3-round w-50" type="text"
+                               @bind-value="artwork.Technique"
+                               placeholder="Enter Title">
+                    </td>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td class="w3-padding-16">
+                        <p class="w3-w3-bold">
+                            Location
+                        </p>
+                    </td>
+                    <td>
+                        <input class="w3-round w-50" type="text"
+                               @bind-value="artwork.Location"
+                               placeholder="Enter Title">
+                    </td>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td class="w3-padding-16">
+                        <p class="w3-w3-bold">
+                            Form
+                        </p>
+                    </td>
+                    <td>
+                        <input class="w3-round w-50" type="text"
+                               @bind-value="artwork.Form"
+                               placeholder="Enter Title">
+                    </td>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td class="w3-padding-16">
+                        <p class="w3-w3-bold">
+                            Type
+                        </p>
+                    </td>
+                    <td>
+                        <input class="w3-round w-50" type="text"
+                               @bind-value="artwork.Type"
+                               placeholder="Enter Title">
+                    </td>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td class="w3-padding-16">
+                        <p class="w3-w3-bold">
+                            Description
+                        </p>
+                    </td>
+                    <td>
+                        <input class="w3-round w-50" type="text"
+                               @bind-value="artwork.Description"
+                               placeholder="Enter Title">
+                    </td>
+                </tr>
+                <!---------------------------------------------------->
+                <tr>
+                    <td>
+                        Image
+                    </td>
+                    <td>
+                        <InputFile OnChange="e => artwork.File = e.File"/>
+                    </td>
+                </tr>
+            </table>
+
+
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+
+            @*TODO: disable if Artwork.IsBusy*@
+            <button type="submit" class="general-button">Update</button>
+        </EditForm>
+    }
 </div>
+
 
 @code {
 
     [Parameter]
-    public BaseArtwork Artwork { get; set; }
+    public BaseArtwork artwork { get; set; }
+
+    private bool showEdit;
+
+    private void toggle()
+    {
+        showEdit = !showEdit;
+    }
 
 }

@@ -19,7 +19,7 @@
 
                     <input id="searchBar" type="search"
                            class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                           value="@SearchField" @onchange="async(e ) =>{ DirectorArtworkSearch.Parameters.SetPage(1) ;SearchField=(string)e.Value; DirectorArtworkSearch.Parameters.SetSearch(SearchField);}" />
+                           value="@SearchField" @onchange="async e =>{ DirectorArtworkSearch.Parameters.SetPage(1);SearchField = (string)e.Value; DirectorArtworkSearch.Parameters.SetSearch(SearchField);}"/>
 
                     <span class="material-symbols-outlined middle w3-xxlarge">
                         low_priority
@@ -28,17 +28,16 @@
                         <input type="checkbox" checked @onchange="CheckboxChanged">
                         <span class="slider round"></span>
                     </label>
-                    <span class="material-symbols-outlined reverse middle w3-xxlarge">
+                    <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
                         low_priority
                     </span>
-
-                    <button id="search" class="btn w3-button middle w3-red w3-round-xlarge" @onclick="async () => await DirectorArtworkSearch.GetGenericDataFromPageAsync()">
+                    <button id="search" class="general-button" @onclick="doSearch">
                         <span class="material-symbols-outlined">search</span>
                     </button>
                 </span>
 
 
-                <hr />
+                <hr/>
             </div>
         </div>
     </section><!-- End Hero Section -->
@@ -47,7 +46,6 @@
 
         @if (DirectorArtworkSearch.GenericData.Data.Any())
         {
-
             <div>
                 <PaginatorComponent Paginator="DirectorArtworkSearch.Paginator"></PaginatorComponent>
             </div>
@@ -57,19 +55,19 @@
                 <div class="container-fluid">
 
                     <div class="row gy-4 justify-content-center">
-                        @foreach (var artowork in DirectorArtworkSearch.GenericData.Data)
+                        @foreach (var artwork in DirectorArtworkSearch.GenericData.Data)
                         {
                             <!-- Start Gallery Item -->
                             <div class="col-xl-4 col-lg-6 col-md-9" style="height: 600px">
                                 <div class="gallery-item h-100">
-                                    <img class="img-thumbnail" src="@artowork.ImageUrl" alt="@artowork.Title" style="height: 100%; width: 100%;object-fit: cover;">
+                                    <img class="img-thumbnail" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover;">
                                     <div class="gallery-links d-flex align-items-center justify-content-center">
-                                        <a href="@artowork.ImageUrl" data-fancybox="gallery" data-caption="@artowork.Title" class="preview-link">
+                                        <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
                                             <span class="material-symbols-outlined">
                                                 zoom_out_map
                                             </span>
                                         </a>
-                                        <a href="/detail-artwork/@artowork.Id" class="details-link">
+                                        <a href="/detail-artwork/@artwork.Id" class="details-link">
                                             <span class="material-symbols-outlined">
                                                 info
                                             </span>
@@ -92,32 +90,31 @@
     </main>
 
 </Animate>
+
 @code {
     private string SearchField { get; set; }
 
 
     protected override async Task OnInitializedAsync()
     {
-        DirectorArtworkSearch.PropertyChanged += async (sender, e) =>
-        {
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
-        };
+        DirectorArtworkSearch.PropertyChanged += async (sender, e) => { await InvokeAsync(() => { StateHasChanged(); }); };
         await DirectorArtworkSearch.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
+
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() =>
-        {
-            StateHasChanged();
-        });
+        await InvokeAsync(() => { StateHasChanged(); });
     }
+
     public void Dispose()
     {
         DirectorArtworkSearch.PropertyChanged -= OnPropertyChangedHandler;
+    }
+
+    async void doSearch()
+    {
+        await DirectorArtworkSearch.GetGenericDataFromPageAsync();
     }
 
     //Call my js
@@ -128,7 +125,7 @@
 
     private async Task CheckboxChanged(ChangeEventArgs e)
     {
-        bool b = (bool)e.Value;
+        var b = (bool)e.Value;
 
         if (b)
         {
@@ -139,4 +136,5 @@
             DirectorArtworkSearch.Parameters.SetOrdering("-title");
         }
     }
+
 }

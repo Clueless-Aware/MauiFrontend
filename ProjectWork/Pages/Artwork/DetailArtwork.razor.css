@@ -28,10 +28,10 @@ a {
     text-decoration: none;
 }
 
-    a:hover {
-        color: #79021c;
-        text-decoration: none;
-    }
+a:hover {
+    color: #79021c;
+    text-decoration: none;
+}
 
 /*h1,
 h2,
@@ -48,11 +48,11 @@ h6 {
     position: relative;
 }
 
-    .page-header h1 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #79021c;
-    }
+.page-header h1 {
+    font-size: 56px;
+    font-weight: 500;
+    color: #79021c;
+}
 
 @media (max-width: 768px) {
     .page-header h1 {
@@ -81,7 +81,6 @@ h6 {
 }
 
 
-
 .gallery-single .portfolio-info h3 {
     font-size: 22px;
     font-weight: 700;
@@ -91,16 +90,16 @@ h6 {
     color: #f50538;
 }
 
-    .gallery-single .portfolio-info h3:after {
-        content: "";
-        position: absolute;
-        display: block;
-        width: 50px;
-        height: 3px;
-        background: #79021c;
-        left: 0;
-        bottom: 0;
-    }
+.gallery-single .portfolio-info h3:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #79021c;
+    left: 0;
+    bottom: 0;
+}
 
 .gallery-single .portfolio-info ul {
     list-style: none;
@@ -108,24 +107,22 @@ h6 {
     font-size: 15px;
 }
 
-    .gallery-single .portfolio-info ul li {
-        display: flex;
-        flex-direction: column;
-        padding-bottom: 15px;
-    }
+.gallery-single .portfolio-info ul li {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15px;
+}
 
-    .gallery-single .portfolio-info ul strong {
-        text-transform: uppercase;
-        font-weight: 400;
-        color: #6b7075;
-        font-size: 14px;
-    }
+.gallery-single .portfolio-info ul strong {
+    text-transform: uppercase;
+    font-weight: 400;
+    color: #6b7075;
+    font-size: 14px;
+}
 
-    .gallery-single .portfolio-info ul span {
-        color: #000000;
-    }
-
-
+.gallery-single .portfolio-info ul span {
+    color: #000000;
+}
 
 
 .gallery-single .portfolio-description h2 {
@@ -147,53 +144,53 @@ h6 {
     margin-bottom: 50px;
 }
 
-    .gallery-single .portfolio-description .testimonial-item .testimonial-img {
-        width: 90px;
-        border-radius: 50px;
-        border: 6px solid #2e3133;
-        float: left;
-        margin: 0 10px 0 0;
-    }
+.gallery-single .portfolio-description .testimonial-item .testimonial-img {
+    width: 90px;
+    border-radius: 50px;
+    border: 6px solid #2e3133;
+    float: left;
+    margin: 0 10px 0 0;
+}
 
-    .gallery-single .portfolio-description .testimonial-item h3 {
-        font-size: 18px;
-        font-weight: bold;
-        margin: 15px 0 5px 0;
-        padding-top: 20px;
-    }
+.gallery-single .portfolio-description .testimonial-item h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 15px 0 5px 0;
+    padding-top: 20px;
+}
 
-    .gallery-single .portfolio-description .testimonial-item h4 {
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.6);
-        margin: 0;
-    }
+.gallery-single .portfolio-description .testimonial-item h4 {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
 
-    .gallery-single .portfolio-description .testimonial-item .quote-icon-left,
-    .gallery-single .portfolio-description .testimonial-item .quote-icon-right {
-        color: #5bd9a9;
-        font-size: 26px;
-        line-height: 0;
-    }
+.gallery-single .portfolio-description .testimonial-item .quote-icon-left,
+.gallery-single .portfolio-description .testimonial-item .quote-icon-right {
+    color: #5bd9a9;
+    font-size: 26px;
+    line-height: 0;
+}
 
-    .gallery-single .portfolio-description .testimonial-item .quote-icon-left {
-        display: inline-block;
-        left: -5px;
-        position: relative;
-    }
+.gallery-single .portfolio-description .testimonial-item .quote-icon-left {
+    display: inline-block;
+    left: -5px;
+    position: relative;
+}
 
-    .gallery-single .portfolio-description .testimonial-item .quote-icon-right {
-        display: inline-block;
-        right: -5px;
-        position: relative;
-        top: 10px;
-        transform: scale(-1, -1);
-    }
+.gallery-single .portfolio-description .testimonial-item .quote-icon-right {
+    display: inline-block;
+    right: -5px;
+    position: relative;
+    top: 10px;
+    transform: scale(-1, -1);
+}
 
-    .gallery-single .portfolio-description .testimonial-item p {
-        font-style: italic;
-        margin: 0 0 15px 0 0 0;
-        padding: 0;
-    }
+.gallery-single .portfolio-description .testimonial-item p {
+    font-style: italic;
+    margin: 0 0 15px 0;
+    padding: 0;
+}
 
 .img-artwork {
     padding: .25rem;

@@ -1,6 +1,6 @@
 ﻿@using System.ComponentModel
 @inject NavigationManager NavManager
-<div class="d-flex flex-column flex-shrink-0 p-3" style="height: 100%">
+<div class="d-flex flex-column flex-shrink-0 p-3" style="height: 97%">
     <div class="top-row ps-3 navbar">
         <div class="container-fluid">
             <a class="navbar-brand w3-text-white w3-large" href="">
@@ -89,7 +89,6 @@
                         <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
                     </NavLink>
                 </div>
-
             }
         </div>
 
@@ -107,6 +106,7 @@
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
+
     private void ToggleNavMenuDiv()
     {
         if (!_collapseNavMenu)
@@ -119,26 +119,21 @@
     {
         App.Authentication.LogOut();
     }
+
     protected override async Task OnInitializedAsync()
     {
-        App.Authentication.PropertyChanged += async (sender, e) =>
-        {
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
-        };
+        App.Authentication.PropertyChanged += async (sender, e) => { await InvokeAsync(() => { StateHasChanged(); }); };
         await base.OnInitializedAsync();
     }
+
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() =>
-        {
-            StateHasChanged();
-        });
+        await InvokeAsync(() => { StateHasChanged(); });
     }
+
     public void Dispose()
     {
         App.Authentication.PropertyChanged -= OnPropertyChangedHandler;
     }
+
 }
