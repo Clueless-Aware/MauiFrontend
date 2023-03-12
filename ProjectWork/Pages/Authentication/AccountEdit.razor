@@ -1,6 +1,5 @@
 ﻿@page "/accountEdit"
 @using ProjectWork.Models.Core.Authentication
-@using ProjectWork.Resources.Static
 @using ProjectWork.Utilities
 @inject NavigationManager NavManager
 
@@ -15,8 +14,8 @@
     <div class="w3-card-4 w3-padding w3-margin-left w3-round-xlarge w3-margin-bottom w3-margin-top">
         <h3 class="w3-margin-left">User Profile</h3>
 
-        <hr />
-        <EditForm Model="_editUser" OnValidSubmit="async ()=>await AttemptEdit(_editUser)">
+        <hr/>
+        <EditForm Model="_editUser" OnValidSubmit="async () => await AttemptEdit(_editUser)">
 
             <ul>
                 <li>
@@ -37,7 +36,7 @@
                     <p class="w3-bold">Bio:</p>
                 </li>
                 <li>
-                    <InputTextArea id="w3review" name="w3review" rows="4" cols="50" @bind-Value="_editUser.Biography" />
+                    <InputTextArea id="w3review" name="w3review" rows="4" cols="50" @bind-Value="_editUser.Biography"/>
                 </li>
 
                 <li>
@@ -60,13 +59,13 @@
                     <p class="w3-bold">Profile Picture:</p>
                 </li>
                 <li>
-                    <img src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture" height="200px" width="350px" />
-                    <InputFile id="idProfilePicture" class="form-control" OnChange="(e)=> _editUser.ProfilePicture = e.File" />
+                    <img src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture" height="200px" width="350px"/>
+                    <InputFile id="idProfilePicture" class="form-control" OnChange="e => _editUser.ProfilePicture = e.File"/>
                 </li>
 
             </ul>
 
-            <hr />
+            <hr/>
 
             <span>
                 <button type="submit" class="w3-large w3-margin-bottom w3-padding-16 btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-left w3-margin-right">
@@ -96,4 +95,3 @@
     }
 
 }
-

@@ -3,62 +3,60 @@
 @using ProjectWork.Utilities
 @using Microsoft.Maui.Controls.Xaml.Diagnostics
 @layout MainLayout
-
 @inject NavigationManager NavManager
+
 <style>
-    #content-container {
-        background-image: url("bg-login.jpg");
+
+    main {
+        background-image: url("bg-3.jpg");
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
         background-attachment: fixed;
         min-height: 100% !important;
     }
+
 </style>
-<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;background-color:rgba(0, 0, 0, 0.5);">
-    <div id="registration-card" class="card">
+
+<Animate Animation="Animations.FlipRight" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;">
+    <div id="registration-card" class="card w3-card-4 w3-round-xlarge w3-white w3-padding-large">
         <figure class="text-center">
+            <span class="material-symbols-outlined w3-xxxlarge">
+                app_registration
+            </span>
             <blockquote class="blockquote">
                 <p>Create an account</p>
             </blockquote>
-            <figcaption class="blockquote-footer">
-                Thanks for choose us<cite title="Source Title"></cite>
-            </figcaption>
+
         </figure>
-        <main class="form-signin">
+        <div class="form-signin">
 
             @if (state)
             {
                 <EditForm Model="@registrationModel" OnValidSubmit="NextSlide">
                     <div id="hideLogo">
-
-                        <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
-
-                        <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
-                            ART SCOUT
-                        </h1>
                     </div>
 
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
-                        <label for="floatingInput">UserName *</label>
+                        <input type="text" class="form-control w3-round w3-margin-bottom" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
+                        <label for="floatingInput">Username *</label>
                     </div>
                     <div class="form-floating">
-                        <input type="email" class="form-control" id="floatingInput" @bind-value="registrationModel.Email" placeholder="Username">
-                        <label for="floatingInput">Email</label>
+                        <input type="email" class="form-control w3-round w3-margin-bottom" id="floatingInput" @bind-value="registrationModel.Email" placeholder="Username">
+                        <label for="floatingInput">Email *</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword1" @bind-value="registrationModel.Password1" placeholder="Password">
+                        <input type="password" class="form-control w3-round w3-margin-bottom" id="floatingPassword1" @bind-value="registrationModel.Password1" placeholder="Password">
                         <label for="floatingPassword1">Password *</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword2" @bind-value="registrationModel.Password2" placeholder="Repeat Password">
+                        <input type="password" class="form-control w3-round w3-margin-bottom" id="floatingPassword2" @bind-value="registrationModel.Password2" placeholder="Repeat Password">
                         <label for="floatingPassword2">Repeat password *</label>
                     </div>
                     <br />
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Next </button>
+                    <button class="w-100 btn btn-lg btn-primary general-button" type="submit">Next </button>
                 </EditForm>
             }
             else
@@ -85,10 +83,10 @@
             <p class="text-center text-muted mt-5 mb-0">
                 Have already an account?
                 <NavLink href="login">
-                    <a class="fw-bold text-body">Login here</a>
+                    <a class="fw-bold text-body w3-text-red">Login here</a>
                 </NavLink>
             </p>
-        </main>
+        </div>
     </div>
 </Animate>
 
@@ -105,7 +103,7 @@
         var attempt = await App.Authentication.RegistrationUser(registrationModel);
         if (attempt.status)
         {
-            NavManager.NavigateTo("/email-verify");
+            NavManager.NavigateTo("/login");
         }
         else
         {
