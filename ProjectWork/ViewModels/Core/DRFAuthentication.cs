@@ -100,9 +100,9 @@ public class DRFAuthentication : AuthenticationBase
         }
     }
 
-    public async Task<(bool status, string messge)> AddFavorite(int artworkId)
+    public async Task<(bool status, string messge)> AddBookMark(int artworkId)
     {
-        Service.Uri.Path = Endpoints.GetFavoritesEndpoint();
+        Service.Uri.Path = Endpoints.GetBookmarkEndpoint();
         try
         {
             if (App.Authentication.UserSession.User == null)
@@ -122,14 +122,12 @@ public class DRFAuthentication : AuthenticationBase
         }
     }
 
-    public async Task<(bool status, string message)> RemoveFavorite(int favoriteId)
+    public async Task<(bool status, string message)> RemoveBookmark(int bookmarkId)
     {
-        Service.Uri.Path = Endpoints.GetFavoritesEndpoint();
+        Service.Uri.Path = Endpoints.GetBookmarkEndpoint() + bookmarkId + '/';
         try
         {
-            if (UserSession.User == null)
-                throw new Exception("Couldn't find user details please make sure to be logged in");
-            await Service.DeleteItemAsync(favoriteId);
+            await Service.DeleteItemAsyncAiuola(bookmarkId);
 
             return (true, "Deletion successful");
         }
@@ -141,7 +139,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<bool> IsAFavorite(int artworkId)
     {
-        Service.Uri.Path = Endpoints.GetFavoritesEndpoint();
+        Service.Uri.Path = Endpoints.GetBookmarkEndpoint();
 
         if (UserSession.User == null)
             throw new Exception("Couldn't find user details please make sure to be logged in");

@@ -38,9 +38,9 @@ public static class Endpoints
         return "api/auth/password/reset/confirm/";
     }
 
-    public static string GetFavoritesEndpoint()
+    public static string GetBookmarkEndpoint()
     {
-        return "/api/favorites/";
+        return "/api/bookmarks/";
     }
 
     public static string GetArtistEndpoint()

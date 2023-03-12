@@ -61,6 +61,13 @@ public class ServiceAPI : IServiceAPI
         return await HandleResponse.Responded(tempMessage);
     }
 
+    public async Task<HttpStatusCode> DeleteItemAsyncAiuola(int id)
+    {
+        await _headersDirector.AuthenticatedHeader();
+        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().DeleteAsync(Uri.Uri));
+        return await HandleResponse.Responded(tempMessage);
+    }
+
     public async Task<TR> PostItemAsJsonAsync<TS, TR>(TS item)
     {
         await _headersDirector.AuthenticatedHeader();
