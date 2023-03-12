@@ -138,6 +138,13 @@
         var b = (bool)e.Value;
 
         DirectorArtistAdmin.Parameters.SetOrdering(b ? "title" : "-title");
+        doSearch();
+
+    }
+
+    async void doSearch()
+    {
+        await DirectorArtistAdmin.GetGenericDataFromPageAsync();
     }
 
 }
