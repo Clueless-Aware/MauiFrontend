@@ -18,6 +18,13 @@
     tr:nth-child(even) {
         background-color: #dddddd;
     }
+    
+    .imageResult {
+        display: block;
+        max-width: 560px;
+        width: auto;
+        height: auto;
+    }
 </style>
 
 <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
@@ -36,7 +43,7 @@
             <p>
                 <b><i class="fa fa-user w3-margin-right"></i>Photo</b>
             </p><br>
-            <img src="@artwork.ImageUrl" alt="@artwork.Title"/>
+            <img src="@artwork.ImageUrl" class="imageResult" alt="@artwork.Title"/>
         </div>
 
         <div class="w3-col m6 w3-padding-large w3-left-align">
@@ -61,7 +68,7 @@
     {
         <hr/>
         <hr/>
-        <EditForm Model="@artwork" OnValidSubmit="async () => await Artwork.AddItemAsync(artwork)">
+        <EditForm Model="@artwork" OnValidSubmit="async () => await Artwork.UpdateItemAsync(artwork)">
             <table>
                 <tr>
                     <th>Field</th>
@@ -187,7 +194,7 @@
             <ValidationSummary/>
 
             @*TODO: disable if Artwork.IsBusy*@
-            <button type="submit" class="general-button">Save</button>
+            <button type="submit" class="general-button">Update</button>
         </EditForm>
     }
 </div>

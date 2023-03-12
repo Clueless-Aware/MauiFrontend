@@ -69,13 +69,6 @@
             -ms-transform: rotate(180deg);
             transform: rotate(180deg);
         }
-
-        .imageResult {
-            display: block;
-            max-width: 560px;
-            width: auto;
-            height: auto;
-        }
     </style>
 
     <h1>Search</h1>
@@ -118,7 +111,7 @@
         {
             @foreach (var result in Artwork.GenericData.Data)
             {
-                <AdminResult artwork="result"></AdminResult>
+                <AdminArtwork artwork="result"></AdminArtwork>
             }
         }
         else

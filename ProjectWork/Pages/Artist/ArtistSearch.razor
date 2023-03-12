@@ -6,112 +6,43 @@
 
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
-    <style>
 
-        #search {
-            padding-top: 10px;
-            padding-right: 20px;
-            padding-bottom: 5px;
-            padding-left: 20px;
-        }
+    <section id="hero" class="hero d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h1>Search</h1>
+                    <p>Here you can search for any artist you are interested in.</p>
+                </div>
+            </div>
+            <div class="w3-bar w3-margin-bottom w3-padding">
+                <span>
 
-        .button-padding {
-            padding-top: 0px;
-            padding-right: 16px;
-            padding-bottom: 0px;
-            padding-left: 16px;
-        }
+                    <input id="searchBar" type="search"
+                           class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
+                           value="@SearchField" @onchange="async(e ) =>{ ArtistDirector.Parameters.SetPage(1) ;SearchField=(string)e.Value; ArtistDirector.Parameters.SetSearch(SearchField);}" />
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
+                    <span class="material-symbols-outlined middle w3-xxlarge">
+                        low_priority
+                    </span>
+                    <label class="switch middle w3-margin-left w3-margin-right">
+                        <input type="checkbox" checked @onchange="CheckboxChanged">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="material-symbols-outlined reverse middle w3-xxlarge">
+                        low_priority
+                    </span>
 
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #f44336;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 26px;
-                width: 26px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-        input:checked + .slider {
-            background-color: #f44336;
-        }
-
-        input:focus + .slider {
-            box-shadow: 0 0 1px #ccc;
-        }
-
-        input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
-
-        .reverse {
-            display: inline-block;
-            -webkit-transform: rotate(180deg);
-            -ms-transform: rotate(180deg);
-            transform: rotate(180deg);
-        }
-    </style>
-
-    <h1>Search</h1>
-
-    <p>Here you can search for any art pieces you are interested in.</p>
-
-    <div class="w3-bar w3-margin-bottom w3-padding">
-        <span>
-
-            <input id="searchBar" type="search"
-                   class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange="async(e ) =>{ ArtistDirector.Parameters.SetPage(1) ;SearchField=(string)e.Value; ArtistDirector.Parameters.SetSearch(SearchField);}" />
-
-            <span class="material-symbols-outlined middle w3-xxlarge">
-                low_priority
-            </span>
-            <label class="switch middle w3-margin-left w3-margin-right">
-                <input type="checkbox" checked @onchange="CheckboxChanged">
-                <span class="slider round"></span>
-            </label>
-            <span class="material-symbols-outlined reverse middle w3-xxlarge">
-                low_priority
-            </span>
-
-            <button id="search" class="btn w3-button middle w3-red w3-round-xlarge" @onclick="async () => await ArtistDirector.GetGenericDataFromPageAsync()">
-                <span class="material-symbols-outlined">search</span>
-            </button>
-        </span>
+                    <button id="search" class="btn w3-button middle w3-red w3-round-xlarge" @onclick="async () => await ArtistDirector.GetGenericDataFromPageAsync()">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                </span>
 
 
-        <hr />
-    </div>
-
+                <hr />
+            </div>
+        </div>
+    </section><!-- End Hero Section -->
     <div>
         <PaginatorComponent Paginator="ArtistDirector.Paginator"></PaginatorComponent>
     </div>
@@ -122,39 +53,58 @@
 
                 @foreach (var artist in ArtistDirector.GenericData.Data)
                 {
-                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
-                        <p class="w3-xxlarge">
-                            @artist.Name
-                            <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
+                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white m-sm-2 m-lg-5 p-lg-3 p-sm-2">
+                        <h1>
+                            @artist.Name <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
                                 <span class="material-symbols-outlined">
                                     bookmark
                                 </span>
                             </button>
-
-                        </p>
-
-                        <div class="w3-row">
-                            <div class="w3-col m6 w3-center w3-padding-large">
-                                <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
+                        </h1>
+                        <div class="d-flex flex-column flex-xl-row flex-lg-row flex-md-column flex-sm-column">
+                            <div class="w3-col m6 w3-center w3-padding">
                                 <a href="@artist.Portrait" data-fancybox="gallery" data-caption="@artist.Name">
-                                    <img class="w3-round w3-image w3-margin-bottom" src="@artist.Portrait" width="500" height="333" style="width: 400px;height: 500px" />
+                                    <img class="w3-round w3-image w3-margin-bottom img-thumbnail" src="@artist.Portrait" alt="@artist.Name" />
                                 </a>
-                                <a href="/detail-artist/@artist.Id">Detail Artwork @artist.Name</a>
+                                <p>
+                                    <span class="material-symbols-outlined">
+                                        history_edu
+                                    </span> <a href="/detail-artist/@artist.Id">About @artist.Name</a>
+                                </p>
                             </div>
 
-                            <div class="w3-col m6 w3-padding-large w3-left-align">
-                                @if (artist.Biography.Length > 0)
-                                {
-                                    <p>
-                                        @artist.Biography
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p>
-                                        Nothing to see
-                                    </p>
-                                }
+                            <div class="portfolio-info w-100">
+                                <h3>Artist information</h3>
+                                <table class="w-100 w3-margin-top px-lg-5 px-4">
+                                    <tr>
+                                        <td>
+                                            <span class="material-symbols-outlined">
+                                                palette
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="material-symbols-outlined">
+                                                calendar_month
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="material-symbols-outlined">
+                                                location_city
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @artist.Profession
+                                        </td>
+                                        <td>
+                                            @artist.BirthData
+                                        </td>
+                                        <td>
+                                            @artist.School
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
