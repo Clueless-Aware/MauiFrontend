@@ -21,6 +21,7 @@
 # General
 --------------------------------------------------------------*/
 #page-content {
+    border-radius: 2.25rem !important;
 }
 
 a {

@@ -4,13 +4,13 @@
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
 
-<div id="page-content">
+<div id="page-content" class="card m-4 shadow-lg p-3 bg-white">
 
     <!-- ======= End Page Header ======= -->
-    <div class="page-header d-flex align-items-center">
+    <div class="page-header d-flex align-items-center card-header">
         <div class="container position-relative">
             <div class="row d-flex justify-content-center">
-                <div class="col-lg-6 text-center">
+                <div class="col-lg-6 text-center card-title">
                     <h1>@_artwork.Title</h1>
                 </div>
             </div>
@@ -19,13 +19,13 @@
     <!-- End Page Header -->
 
 
-    <section id="gallery-single" class="gallery-single">
+    <section id="gallery-single" class="gallery-single card-body">
         <div class="container">
 
             <div class="position-relative " style="height: 600px">
                 <div class="h-100">
                     <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
-                        <img class="w3-round w3-margin-bottom" src="@_artwork.ImageUrl" alt="@_artwork.Title" style="height: 100%; width: 100%;object-fit: cover;" />
+                        <img class="img-thumbnail" src="@_artwork.ImageUrl" alt="@_artwork.Title" style="height: 100%; width: 100%;object-fit: cover;" />
                     </a>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                             <li><strong>Author</strong> <span>@_artwork.Author</span></li>
                             <li><strong>Date</strong> <span>@_artwork.Date</span></li>
                             <li><strong>Technique</strong> <span>@_artwork.Technique</span></li>
-                            <li><strong>Location</strong> <span>@_artwork.Location</span></li>
+                            <li @onclick="DriveToMuseum"><strong>Location</strong> <span>@_artwork.Location</span></li>
                             <li><strong>Form</strong> <span>@_artwork.Form</span></li>
                             <li><strong>Type</strong> <span>@_artwork.Type</span></li>
                             <li><strong>Time Frame</strong> <span>@_artwork.TimeFrame</span></li>
@@ -127,5 +127,22 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JsRuntime.InvokeVoidAsync("Main.start");
+    }
+    public async Task DriveToMuseum()
+    {
+        //var geoData = _artwork.Location.Split(',');
+        var placemark = new Placemark
+        {
+            CountryName = _artwork.Location
+        };
+        var options = new MapLaunchOptions { Name = "Microsoft Building 25" };
+        try
+        {
+            await Map.Default.OpenAsync(placemark, options);
+        }
+        catch (Exception ex)
+        {
+    // No map application available to open or placemark can not be located
+        }
     }
 }

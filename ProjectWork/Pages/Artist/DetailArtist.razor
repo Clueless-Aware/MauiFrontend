@@ -4,25 +4,25 @@
 @using ProjectWork.Models.Artist
 @inject SearchArtistVM ArtistDirector
 @inject IJSRuntime JsRuntime
-<main id="main">
+<main id="main" class="card m-4 shadow-lg p-3 bg-white">
 
     <!-- ======= End Page Header ======= -->
-    <div class="page-header d-flex align-items-center">
+    <div class="page-header d-flex align-items-center card-header">
         <div class="container position-relative">
             <div class="row d-flex justify-content-center">
-                <div class="col-lg-6 text-center">
+                <div class="col-lg-6 text-center card-title">
                     <h1>@_artist.Name</h1>
                 </div>
             </div>
         </div>
     </div><!-- End Page Header -->
     <!-- ======= About Section ======= -->
-    <section id="about" class="about">
+    <section id="about" class="about card-body">
         <div class="container">
 
             <div class="row gy-4 justify-content-center">
                 <div class="col-lg-4">
-                    <img src="@_artist.Portrait" class="img-fluid" alt="@_artist.Name">
+                    <img src="@_artist.Portrait" class="img-thumbnail" alt="@_artist.Name">
                 </div>
                 <div class="col-lg-5 content">
                     <div class="row">
