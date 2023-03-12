@@ -4,14 +4,14 @@
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
 
-<div id="page-content">
+<div id="page-content" class="card m-4 shadow-lg p-3 bg-white">
 
     <!-- ======= End Page Header ======= -->
-    <div class="page-header d-flex align-items-center">
+    <div class="page-header d-flex align-items-center card-header">
         <div class="container position-relative">
             <div class="row d-flex justify-content-center">
-                <div class="col-lg-6 text-center">
-                    <h2>@_artwork.Title</h2>
+                <div class="col-lg-6 text-center card-title">
+                    <h1>@_artwork.Title</h1>
                 </div>
             </div>
         </div>
@@ -19,19 +19,14 @@
     <!-- End Page Header -->
 
 
-    <section id="gallery-single" class="gallery-single">
+    <section id="gallery-single" class="gallery-single card-body">
         <div class="container">
 
-            <div class="position-relative h-100">
-                <div class="slides-1 portfolio-details-slider swiper">
-                    <div class="swiper-wrapper align-items-center">
-
-                        <div class="swiper-slide">
-                            <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
-                                <img class="w3-round w3-image w3-margin-bottom" src="@_artwork.ImageUrl" alt="@_artwork.Title" />
-                            </a>
-                        </div>
-                    </div>
+            <div class="position-relative d-flex justify-content-center img-container">
+                <div class="h-100">
+                    <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
+                        <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title"/>
+                    </a>
                 </div>
             </div>
 
@@ -68,13 +63,27 @@
                     <div class="portfolio-info">
                         <h3>Artwork information</h3>
                         <ul>
-                            <li><strong>Author</strong> <span>@_artwork.Author</span></li>
-                            <li><strong>Date</strong> <span>@_artwork.Date</span></li>
-                            <li><strong>Technique</strong> <span>@_artwork.Technique</span></li>
-                            <li><strong>Location</strong> <span>@_artwork.Location</span></li>
-                            <li><strong>Form</strong> <span>@_artwork.Form</span></li>
-                            <li><strong>Type</strong> <span>@_artwork.Type</span></li>
-                            <li><strong>Time Frame</strong> <span>@_artwork.TimeFrame</span></li>
+                            <li>
+                                <strong>Author</strong> <span>@_artwork.Author</span>
+                            </li>
+                            <li>
+                                <strong>Date</strong> <span>@_artwork.Date</span>
+                            </li>
+                            <li>
+                                <strong>Technique</strong> <span>@_artwork.Technique</span>
+                            </li>
+                            <li @onclick="DriveToMuseum">
+                                <strong>Location</strong> <span>@_artwork.Location</span>
+                            </li>
+                            <li>
+                                <strong>Form</strong> <span>@_artwork.Form</span>
+                            </li>
+                            <li>
+                                <strong>Type</strong> <span>@_artwork.Type</span>
+                            </li>
+                            <li>
+                                <strong>Time Frame</strong> <span>@_artwork.TimeFrame</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -83,54 +92,75 @@
         </div>
     </section>
     @*<section id="gallery" class="gallery">
-        <div class="container-fluid">
-            @if (_otherArtworks is not null)
-            {
-                @foreach (var other in _otherArtworks)
-                {
-                    <div class="row gy-4 justify-content-center">
-                        <!-- Start Gallery Item -->
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="gallery-item h-100">
-                                <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="">
-                                <div class="gallery-links d-flex align-items-center justify-content-center">
-                                    <a href="assets/img/gallery/gallery-1.jpg" title="Gallery 1" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                                    <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                                    <p>
-                                        @other.Title
-                                    </p>
-                                </div>
-                            </div>
-                        </div><!-- End Gallery Item -->
-                    </div>
-                }
-            }
-        </div>
+    <div class="container-fluid">
+    @if (_otherArtworks is not null)
+    {
+    @foreach (var other in _otherArtworks)
+    {
+    <div class="row gy-4 justify-content-center">
+    <!-- Start Gallery Item -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
+    <div class="gallery-item h-100">
+    <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="">
+    <div class="gallery-links d-flex align-items-center justify-content-center">
+    <a href="assets/img/gallery/gallery-1.jpg" title="Gallery 1" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+    <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
+    <p>
+    @other.Title
+    </p>
+    </div>
+    </div>
+    </div><!-- End Gallery Item -->
+    </div>
+    }
+    }
+    </div>
     </section>*@
     <!-- End Gallery Section -->
 </div>
 
 
-
-
 @code {
+
     [Parameter]
     public int Id { get; set; }
+
     private BaseArtwork _artwork;
     private IList<BaseArtwork> _otherArtworks;
+
     protected override async void OnParametersSet()
     {
-        this._artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
-        var baseArtwork = this._artwork;
-        //var paremeteN = new Parameters();
-        //paremeteN.SetSpecific(new BaseArtwork() { AuthorId = baseArtwork.AuthorId });
-        //if (baseArtwork != null) ArtworkDirector.Parameters = paremeteN;
-        //var result = await ArtworkDirector.GetGenericDataFromPageAsync();
-        //_otherArtworks = ArtworkDirector.GenericData.Data;
-        //this.StateHasChanged();
+        _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
+        var baseArtwork = _artwork;
+    //var paremeteN = new Parameters();
+    //paremeteN.SetSpecific(new BaseArtwork() { AuthorId = baseArtwork.AuthorId });
+    //if (baseArtwork != null) ArtworkDirector.Parameters = paremeteN;
+    //var result = await ArtworkDirector.GetGenericDataFromPageAsync();
+    //_otherArtworks = ArtworkDirector.GenericData.Data;
+    //this.StateHasChanged();
     }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
+
+    private async Task DriveToMuseum()
+    {
+    //var geoData = _artwork.Location.Split(',');
+        var placeMark = new Placemark
+        {
+            CountryName = _artwork.Location
+        };
+        var options = new MapLaunchOptions { Name = "Microsoft Building 25" };
+        try
+        {
+            await Map.Default.OpenAsync(placeMark, options);
+        }
+        catch (Exception ex)
+        {
+    // No map application available to open or place mark can not be located
+        }
+    }
+
 }

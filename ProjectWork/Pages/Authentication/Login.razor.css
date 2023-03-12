@@ -19,10 +19,7 @@
     min-width: 0;
     width: 350px;
     word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 2px solid rgba(0,0,0,.125);
-    border-radius: 2rem;
+    background-color: #ffff;
 }
 .form-signin {
     width: 100%;

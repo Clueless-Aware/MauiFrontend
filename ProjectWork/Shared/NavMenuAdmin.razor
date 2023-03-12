@@ -1,11 +1,11 @@
 ﻿@inject NavigationManager NavManager
 
-<div class="d-flex flex-column flex-shrink-0 p-3" style="height: 100%">
+<div class="d-flex flex-column flex-shrink-0 p-3" style="height: 97%">
     <div class="top-row ps-3 navbar">
         <div class="container-fluid">
             <a class="navbar-brand w3-text-white w3-large" href="">
-                Art Scout
-                <span class="material-symbols-outlined w3-text-white"> brush </span>
+                Admin Tools
+                <span class="material-symbols-outlined w3-text-white"> handyman </span>
             </a>
             <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
                 <span class="material-symbols-outlined w3-text-white">
@@ -14,6 +14,7 @@
             </button>
         </div>
     </div>
+
     <div class="@NavMenuCssClass" @onclick="ToggleNavMenuDiv">
         <div class="nav nav-pills flex-column mb-auto">
             <div class="nav-item px-3">
@@ -21,28 +22,26 @@
                     <span class="material-symbols-outlined w3-margin-right">undo</span> Back
                 </NavLink>
             </div>
+
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="/dashboard">
-                    <span class="material-symbols-outlined w3-margin-right">Table</span> Dashboard
+                    <span class="material-symbols-outlined w3-margin-left">
+                        breaking_news_alt_1
+                    </span>Notifications
                 </NavLink>
             </div>
 
             <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="/dashboard-artwork">
-                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Search and edit Artwork
+                <NavLink class="nav-link w3-padding-16" href="/search_and_edit_artwork">
+                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Edit Artworks
                 </NavLink>
             </div>
 
             <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="/dashboard-artist">
-                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Search and edit Artist
+                <NavLink class="nav-link w3-padding-16" href="/search_and_edit_artist">
+                    <span class="material-symbols-outlined w3-margin-right" gr>image_search</span> Edit Artists
                 </NavLink>
             </div>
-            <!-- <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="/null">
-                    <span class="material-symbols-outlined w3-margin-right">analytics</span> Artwork Data
-                </NavLink>
-            </div> -->
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="add-artwork">
                     <span class="material-symbols-outlined w3-margin-right">
@@ -62,37 +61,39 @@
         @*Account/admin*@
         <div class="nav nav-pills flex-column mt-auto">
 
-            @if (App.Authentication.UserSession is null)
-            {
-                <div class="nav-item px-3 w3-margin-bottom">
-                    <NavLink class="nav-link w3-padding-16" href="login">
-                        <span class="material-symbols-outlined w3-margin-right">login</span> Login
-                    </NavLink>
-                </div>
-            }
-            else
-            {
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong>
-                            @App.Authentication.UserSession.User!.Username
-                        </strong>
-                    </NavLink>
-                </div>
-                @*TODO: iF ADMIN SEE THIS*@
-                <div class="nav-item px-3 ">
-                    <NavLink class="nav-link w3-padding-16" href="dashboard">
-                        <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
-                        <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
-                    </NavLink>
-                </div>
 
-            }
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                    <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>
+                        @App.Authentication.UserSession.User!.Username
+                    </strong>
+                </NavLink>
+            </div>
+            @*TODO: iF ADMIN SEE THIS*@
+            <div class="nav-item px-3 ">
+                <NavLink class="nav-link w3-padding-16" href="dashboard">
+                    <span class="material-symbols-outlined w3-margin-right">design_services</span> Administration
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
+                    <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                </NavLink>
+            </div>
+
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                    <span class="material-symbols-outlined w3-margin-right">settings_account_box</span> @App.Authentication.UserSession.User.Username
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
+                    <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                </NavLink>
+            </div>
         </div>
     </div>
 </div>
@@ -106,6 +107,7 @@
     {
         _collapseNavMenu = !_collapseNavMenu;
     }
+
     private void ToggleNavMenuDiv()
     {
         if (!_collapseNavMenu)

@@ -1,7 +1,7 @@
-﻿@page "/dashboard-artist"
+﻿@page "/search_and_edit_artist"
 @inject DashboardAdminArtistVM DirectorArtistAdmin
-@using System.ComponentModel
 @using ProjectWork.ViewModels.Artist
+@using System.ComponentModel
 @implements IDisposable
 @layout AdminLayout
 
@@ -110,83 +110,6 @@
     @foreach (var artist in DirectorArtistAdmin.GenericData.Data)
     {
         <AdminArtist Artist="artist"></AdminArtist>
-
-        <hr/>
-
-        <p>@artist.Id</p>
-        <p>@artist.Name</p>
-        <p>@artist.BirthData</p>
-        <p>@artist.Profession</p>
-        <p>@artist.School</p>
-        <p>@artist.Biography</p>
-        <p>@artist.Portrait</p>
-        <img src="@artist.Portrait" alt="">
-        <h4>Delete</h4>
-        <button @onclick="async () => await DirectorArtistAdmin.DeleteItemAsync(artist.Id)">delete</button>
-        <hr/>
-        <h4>Edit @artist.Id - @artist.Name</h4>
-        <EditForm Model="@artist" OnValidSubmit="async () => await DirectorArtistAdmin.UpdateItemAsync(artist)">
-            @*Added to validate the data controlled in the model class*@
-            <DataAnnotationsValidator/>
-            <ValidationSummary/>
-
-            <li class="w3-padding w3-large w3-bold ">
-                <label>Name</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artist.Name" placeholder="Enter Name" >
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Birth Data</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artist.BirthData" placeholder="Enter Birth data" name="birth-data">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold ">
-                <label>Profession</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artist.Profession" placeholder="Enter profession" name="Profession">
-            </li>
-
-            <li class="w3-padding w3-large w3-bold \">
-                <label>School</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artist.School" placeholder="Enter School" name="School">
-            </li>
-
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Biography</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                <input class=" w3-round" type="text" @bind-value="artist.Biography" placeholder="Enter Biography" name="Biography">
-            </li>
-
-
-            @*Todo: show image or url image*@
-            <li class="w3-padding w3-large w3-w3-bold \">
-                <label>Image url</label>
-            </li>
-
-            <li class="w3-padding w3-margin-bottom">
-                @artist.Portrait
-            </li>
-            <li class="w3-margin-bottom">
-                @*Todo: just one image and only images*@
-                <InputFile class="w3-button w3-round" OnChange="e => artist.File = e.File"/>
-            </li>
-
-            @*TODO: disable if DirectorArtistAdmin.IsBusy*@
-            <button type="submit">edit</button>
-        </EditForm>
     }
 }
 
