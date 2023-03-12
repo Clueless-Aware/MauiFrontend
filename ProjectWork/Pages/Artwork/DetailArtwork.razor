@@ -1,14 +1,24 @@
 ﻿@page "/detail-artwork/{Id:int}"
+
 @using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Artwork
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
+@inject NavigationManager NavManager
 
 <div id="page-content" class="card m-4 shadow-lg p-3 bg-white">
 
     <!-- ======= End Page Header ======= -->
     <div class="page-header d-flex align-items-center card-header">
         <div class="container position-relative">
+
+            <button class="w3-right w3-button w3-hover-shadow w3-round" @onclick="close">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-6 text-center card-title">
                     <h1>@_artwork.Title</h1>
@@ -25,7 +35,7 @@
             <div class="position-relative d-flex justify-content-center img-container">
                 <div class="h-100">
                     <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
-                        <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title"/>
+                        <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title" />
                     </a>
                 </div>
             </div>
@@ -132,12 +142,12 @@
     {
         _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
         var baseArtwork = _artwork;
-    //var paremeteN = new Parameters();
-    //paremeteN.SetSpecific(new BaseArtwork() { AuthorId = baseArtwork.AuthorId });
-    //if (baseArtwork != null) ArtworkDirector.Parameters = paremeteN;
-    //var result = await ArtworkDirector.GetGenericDataFromPageAsync();
-    //_otherArtworks = ArtworkDirector.GenericData.Data;
-    //this.StateHasChanged();
+        //var paremeteN = new Parameters();
+        //paremeteN.SetSpecific(new BaseArtwork() { AuthorId = baseArtwork.AuthorId });
+        //if (baseArtwork != null) ArtworkDirector.Parameters = paremeteN;
+        //var result = await ArtworkDirector.GetGenericDataFromPageAsync();
+        //_otherArtworks = ArtworkDirector.GenericData.Data;
+        //this.StateHasChanged();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -147,11 +157,11 @@
 
     private async Task DriveToMuseum()
     {
-    //var geoData = _artwork.Location.Split(',');
+        //var geoData = _artwork.Location.Split(',');
         var placeMark = new Placemark
-        {
-            CountryName = _artwork.Location
-        };
+            {
+                CountryName = _artwork.Location
+            };
         var options = new MapLaunchOptions { Name = "Microsoft Building 25" };
         try
         {
@@ -159,8 +169,13 @@
         }
         catch (Exception ex)
         {
-    // No map application available to open or place mark can not be located
+            // No map application available to open or place mark can not be located
         }
+    }
+
+    private void close()
+    {
+        NavManager.NavigateTo("/Home");
     }
 
 }
