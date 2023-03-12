@@ -1,0 +1,150 @@
+﻿@page "/add-artist"
+@inject DashboardAdminArtistVM DirectorArtistAdmin
+@using Microsoft.AspNetCore.Components
+@using System.ComponentModel
+@using ProjectWork.Models.Artist
+@using ProjectWork.ViewModels.Artist
+@implements IDisposable
+@layout AdminLayout
+
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+
+    <h3>Add Artist</h3>
+    <hr />
+    <EditForm Model="@artist" OnValidSubmit="async ()=>await DirectorArtistAdmin.AddItemAsync(artist)">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Data</th>
+            </tr>
+            <!---------------------------------------------------->
+            <tr>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Name
+                    </p>
+                </td>
+                <td>
+                    <input class="w3-round w-50" type="text"
+                           @bind-value="artist.Name"
+                           placeholder="Enter Name">
+                </td>
+            </tr>
+            <!---------------------------------------------------->
+            <tr>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Birth Data
+                    </p>
+                </td>
+                <td>
+                    <input class="w3-round w-50" type="text"
+                           @bind-value="artist.BirthData"
+                           placeholder="Enter Birth Data">
+                </td>
+            </tr>
+            <!---------------------------------------------------->
+            <tr>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Profession
+                    </p>
+                </td>
+                <td>
+                    <input class="w3-round w-50" type="text"
+                           @bind-value="artist.Profession"
+                           placeholder="Enter Profession">
+                </td>
+            </tr>
+            <!---------------------------------------------------->
+            <tr>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        School
+                    </p>
+                </td>
+                <td>
+                    <input class="w3-round w-50" type="text"
+                           @bind-value="artist.School"
+                           placeholder="Enter School">
+                </td>
+            </tr>
+            <!---------------------------------------------------->
+            <tr>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Biography
+                    </p>
+                </td>
+                <td>
+                    <input class="w3-round w-50" type="text"
+                           @bind-value="artist.Biography"
+                           placeholder="Enter Biography">
+                </td>
+            </tr>
+            <!---------------------------------------------------->
+<tr>
+                <td>
+                    Image
+                </td>
+                <td>
+                    <InputFile class="w3-button w3-round" OnChange="(e)=> artist.File = e.File" />
+                </td>
+            </tr>
+        </table>
+
+
+        @*TODO: disable if DirectorArtistAdmin.IsBusy*@
+        <button type="submit" class="w3-red w3-button w3-margin-right w3-margin-left w3-margin-top w3-round-large">Add</button>
+    </EditForm>
+</Animate>
+
+@code {
+    BaseArtist artist = new();
+    protected override async Task OnInitializedAsync()
+    {
+        DirectorArtistAdmin.PropertyChanged += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        };
+        //TODO: CLEAR PARAMETERS
+        await base.OnInitializedAsync();
+    }
+    async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+    public void Dispose()
+    {
+        DirectorArtistAdmin.PropertyChanged -= OnPropertyChangedHandler;
+    }
+}
+

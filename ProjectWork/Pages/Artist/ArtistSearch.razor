@@ -1,10 +1,7 @@
-﻿@page "/Home"
-@using ProjectWork.ViewModels;
-@using System.ComponentModel;
-@using System.Diagnostics
-@using Microsoft.Maui.Handlers
-@using ProjectWork.Models.Artwork
-@inject SearchArtworkVM Artwork
+﻿@page "/artist-search"
+@using System.ComponentModel
+@using ProjectWork.ViewModels.Artist
+@inject SearchArtistVM ArtistDirector
 @inject IJSRuntime JsRuntime
 
 
@@ -82,8 +79,6 @@
             -ms-transform: rotate(180deg);
             transform: rotate(180deg);
         }
-
-        
     </style>
 
     <h1>Search</h1>
@@ -92,10 +87,10 @@
 
     <div class="w3-bar w3-margin-bottom w3-padding">
         <span>
+
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;
-                    SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
+                   value="@SearchField" @onchange="async(e ) =>{ ArtistDirector.Parameters.SetPage(1) ;SearchField=(string)e.Value; ArtistDirector.Parameters.SetSearch(SearchField);}" />
 
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
@@ -104,11 +99,11 @@
                 <input type="checkbox" checked @onchange="CheckboxChanged">
                 <span class="slider round"></span>
             </label>
-            <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
+            <span class="material-symbols-outlined reverse middle w3-xxlarge">
                 low_priority
             </span>
 
-            <button id="search" class="general-button" @onclick="doSearch">
+            <button id="search" class="btn w3-button middle w3-red w3-round-xlarge" @onclick="async () => await ArtistDirector.GetGenericDataFromPageAsync()">
                 <span class="material-symbols-outlined">search</span>
             </button>
         </span>
@@ -118,17 +113,51 @@
     </div>
 
     <div>
-        <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
+        <PaginatorComponent Paginator="ArtistDirector.Paginator"></PaginatorComponent>
     </div>
-
     <div>
         <div class="w3-center">
-            @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
+            @if (ArtistDirector.GenericData != null && ArtistDirector.GenericData.Data != null)
             {
 
-                @foreach (var result in Artwork.GenericData.Data)
+                @foreach (var artist in ArtistDirector.GenericData.Data)
                 {
-                    <Result artwork="result"></Result>
+                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
+                        <p class="w3-xxlarge">
+                            @artist.Name
+                            <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
+                                <span class="material-symbols-outlined">
+                                    bookmark
+                                </span>
+                            </button>
+
+                        </p>
+
+                        <div class="w3-row">
+                            <div class="w3-col m6 w3-center w3-padding-large">
+                                <p><b><i class="fa fa-user w3-margin-right"></i>Photo</b></p><br>
+                                <a href="@artist.Portrait" data-fancybox="gallery" data-caption="@artist.Name">
+                                    <img class="w3-round w3-image w3-margin-bottom" src="@artist.Portrait" width="500" height="333" style="width: 400px;height: 500px" />
+                                </a>
+                                <a href="/detail-artist/@artist.Id">Detail Artwork @artist.Name</a>
+                            </div>
+
+                            <div class="w3-col m6 w3-padding-large w3-left-align">
+                                @if (artist.Biography.Length > 0)
+                                {
+                                    <p>
+                                        @artist.Biography
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        Nothing to see
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 }
             }
             else
@@ -147,14 +176,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Artwork.PropertyChanged += async (sender, e) =>
+        ArtistDirector.PropertyChanged += async (sender, e) =>
         {
             await InvokeAsync(() =>
             {
                 StateHasChanged();
             });
         };
-        await Artwork.GetGenericDataFromPageAsync();
+        await ArtistDirector.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
@@ -166,12 +195,7 @@
     }
     public void Dispose()
     {
-        Artwork.PropertyChanged -= OnPropertyChangedHandler;
-    }
-
-    async void doSearch()
-    {
-        await Artwork.GetGenericDataFromPageAsync();
+        ArtistDirector.PropertyChanged -= OnPropertyChangedHandler;
     }
 
     //Call my js
@@ -186,13 +210,11 @@
 
         if (b)
         {
-            Artwork.Parameters.SetOrdering("title");
-            doSearch();
+            ArtistDirector.Parameters.SetOrdering("title");
         }
         else
         {
-            Artwork.Parameters.SetOrdering("-title");
-            doSearch();
+            ArtistDirector.Parameters.SetOrdering("-title");
         }
     }
 }

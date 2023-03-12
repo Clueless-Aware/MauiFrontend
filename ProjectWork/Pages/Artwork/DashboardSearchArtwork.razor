@@ -1,24 +1,15 @@
-﻿@layout AdminLayout
-@page "/search_and_edit"
-@inject DashboardAdminVM Artwork
-@using ProjectWork.ViewModels;
-@using System.ComponentModel;
+@page "/search_and_edit_artwork"
+@inject DashboardAdminArtworkVM Artwork
+@using ProjectWork.ViewModels.Artwork
+@using System.ComponentModel
+@implements IDisposable
+@layout AdminLayout
 
 <Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
     <style>
 
         #search {
-            padding-top: 10px;
-            padding-right: 20px;
-            padding-bottom: 5px;
-            padding-left: 20px;
-        }
-
-        .button-padding {
-            padding-top: 0px;
-            padding-right: 16px;
-            padding-bottom: 0px;
-            padding-left: 16px;
+            padding: 10px 20px 5px;
         }
 
         .switch {
@@ -79,10 +70,9 @@
             transform: rotate(180deg);
         }
 
-        img {
+        .imageResult {
             display: block;
             max-width: 560px;
-            max-height: auto;
             width: auto;
             height: auto;
         }
@@ -96,13 +86,14 @@
         <span>
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange="async(e ) =>{ Artwork.Parameters.SetPage(1) ;SearchField=(string)e.Value; Artwork.Parameters.SetSearch(SearchField);}" />
+                   value="@SearchField" @onchange=
+                                        "e =>{ Artwork.Parameters.SetPage(1);SearchField = (string)e.Value; Artwork.Parameters.SetSearch(SearchField);}"/>
 
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
             </span>
             <label class="switch middle w3-margin-left w3-margin-right">
-                <input type="checkbox" checked @onchange="CheckboxChanged">
+                <input type="checkbox" checked @onchange="e => { CheckboxChanged(e); }">
                 <span class="slider round"></span>
             </label>
             <span class="material-symbols-outlined reverse middle w3-xxlarge">
@@ -114,8 +105,7 @@
             </button>
         </span>
 
-
-        <hr />
+        <hr/>
     </div>
 
     <div>
@@ -126,7 +116,6 @@
     <div class="w3-center">
         @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
         {
-
             @foreach (var result in Artwork.GenericData.Data)
             {
                 <AdminResult artwork="result"></AdminResult>
@@ -146,23 +135,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Artwork.PropertyChanged += async (sender, e) =>
-        {
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
-        };
+        Artwork.PropertyChanged += async (sender, e) => { await InvokeAsync(() => { StateHasChanged(); }); };
         await Artwork.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
+
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() =>
-        {
-            StateHasChanged();
-        });
+        await InvokeAsync(() => { StateHasChanged(); });
     }
+
     public void Dispose()
     {
         Artwork.PropertyChanged -= OnPropertyChangedHandler;
@@ -175,7 +157,7 @@
 
     private void CheckboxChanged(ChangeEventArgs e)
     {
-        bool b = (bool)e.Value;
+        var b = (bool)e.Value;
 
         if (b)
         {
@@ -188,4 +170,5 @@
             doSearch();
         }
     }
+
 }
