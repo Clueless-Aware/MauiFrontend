@@ -143,6 +143,7 @@
             StateHasChanged();
         });
     }
+
     public void Dispose()
     {
         ArtistDirector.PropertyChanged -= OnPropertyChangedHandler;
@@ -154,7 +155,7 @@
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
-    private async Task CheckboxChanged(ChangeEventArgs e)
+    private void CheckboxChanged(ChangeEventArgs e)
     {
         bool b = (bool)e.Value;
 
@@ -167,6 +168,7 @@
             ArtistDirector.Parameters.SetOrdering("-title");
 
         }
+
         doSearch();
     }
 
