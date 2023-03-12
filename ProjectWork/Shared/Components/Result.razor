@@ -37,7 +37,11 @@
 </style>
 
 <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
-        <h1>
+   <NavLink class="nav-link w3-padding-16" id="@artwork.Id" href="/detail-artwork/{Id:int}">
+                                @artwork.Title
+                            </NavLink>
+    
+    <h1>
             @artwork.Title <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
                 <span class="material-symbols-outlined">
                     bookmark

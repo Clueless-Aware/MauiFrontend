@@ -5,8 +5,6 @@
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
 
-
-@*
 <div id="page-content">
 
     <!-- ======= End Page Header ======= -->
@@ -27,7 +25,13 @@
 
             <div class="position-relative h-100">
                 <div class="slides-1 portfolio-details-slider swiper">
->
+                    <div class="swiper-wrapper align-items-center">
+
+                        <div class="swiper-slide">
+                            <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
+                                <img class="w3-round w3-image w3-margin-bottom" src="@_artwork.ImageUrl" alt="@_artwork.Title" />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,7 +59,7 @@
                         <h4>Designer</h4>
                         </div>
                         </div>
-                        
+                        *@
 
                         </div>
                     </div>
@@ -79,35 +83,55 @@
             </div>
         </div>
     </section>
-    <section id="gallery" class="gallery">
-        <div class="container-fluid">
-            @if (_otherArtworks is not null)
-            {
-                @foreach (var other in _otherArtworks)
-                {
-                    <div class="row gy-4 justify-content-center">
-                        <!-- Start Gallery Item -->
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="gallery-item h-100">
-                                <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="">
-                                <div class="gallery-links d-flex align-items-center justify-content-center">
-                                    <a href="assets/img/gallery/gallery-1.jpg" title="Gallery 1" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                                    <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-                                    <p>
-                                        @other.Title
-                                    </p>
-                                </div>
-                            </div>
-                        </div><!-- End Gallery Item -->
-                    </div>
-                }
-            }
-        </div>
-    </section>
+    @*<section id="gallery" class="gallery">
+    <div class="container-fluid">
+    @if (_otherArtworks is not null)
+    {
+    @foreach (var other in _otherArtworks)
+    {
+    <div class="row gy-4 justify-content-center">
+    <!-- Start Gallery Item -->
+    <div class="col-xl-3 col-lg-4 col-md-6">
+    <div class="gallery-item h-100">
+    <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="">
+    <div class="gallery-links d-flex align-items-center justify-content-center">
+    <a href="assets/img/gallery/gallery-1.jpg" title="Gallery 1" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
+    <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
+    <p>
+    @other.Title
+    </p>
+    </div>
+    </div>
+    </div><!-- End Gallery Item -->
+    </div>
+    }
+    }
+    </div>
+    </section>*@
     <!-- End Gallery Section -->
-</div>*@
+</div>
 
 
 
 
-
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private BaseArtwork _artwork;
+    private IList<BaseArtwork> _otherArtworks;
+    protected override async void OnParametersSet()
+    {
+        this._artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
+        var baseArtwork = this._artwork;
+        //var paremeteN = new Parameters();
+        //paremeteN.SetSpecific(new BaseArtwork() { AuthorId = baseArtwork.AuthorId });
+        //if (baseArtwork != null) ArtworkDirector.Parameters = paremeteN;
+        //var result = await ArtworkDirector.GetGenericDataFromPageAsync();
+        //_otherArtworks = ArtworkDirector.GenericData.Data;
+        //this.StateHasChanged();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("Main.start");
+    }
+}
