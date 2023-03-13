@@ -20,10 +20,11 @@ public class DRFAuthentication : AuthenticationBase
         {
             var result = await Service.PostItemAsJsonAsync<LoginModel, LoginResponse>(loginModel);
             UserSession = result ?? throw new Exception("None result");
-            if (!SaveSession) return (true, "Login success");
+            if (!SaveSession) return (true, "Login successful");
+
             var userBasicInfo = JsonSerializer.Serialize(result);
             await SecureStorage.SetAsync(nameof(LoginResponse), userBasicInfo);
-            return (true, "Login success");
+            return (true, "Login successful");
         }
         catch (Exception e)
         {
@@ -135,7 +136,7 @@ public class DRFAuthentication : AuthenticationBase
         }
     }
 
-    public async Task<(bool state, string message)> RefreshUserState()
+    private async Task<(bool state, string message)> RefreshUserState()
     {
         Service.UriBuilder.Path = Endpoints.GetUserPath();
         try

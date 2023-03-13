@@ -154,6 +154,10 @@
     protected override void OnInitialized()
     {
         _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(artwork => artwork.Id == Id);
+
+        if (_artwork is not null) return;
+    //TODO: Implement :)
+        throw new NotImplementedException("Make an http request to the backend for the artwork not in the director");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

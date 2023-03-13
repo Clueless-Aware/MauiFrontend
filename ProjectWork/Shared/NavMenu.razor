@@ -27,7 +27,6 @@
             <div class="nav-item px-3">
                 <NavLink class="nav-link w3-padding-16" href="/artist-search">
                     <span class="material-symbols-outlined w3-margin-right">palette</span> Artist Search
-                    <span class="material-symbols-outlined w3-margin-right">ambient_screen</span> Artist Search
                 </NavLink>
             </div>
         </div>
@@ -66,23 +65,18 @@
                         <span class="material-symbols-outlined w3-margin-right" gr>gallery_thumbnail</span> Bookmarks Gallery
                     </NavLink>
                 </div>
-                <div class="nav-item px-3 w3-margin-top">
-                    <NavLink class="nav-link" href="/send-request">
-                        <span class="material-symbols-outlined w3-margin-right">email</span> Email to the staff
-                    </NavLink>
-                </div>
+
                 <div class="nav-item px-3">
                     <NavLink class="nav-link w3-padding-16" href="accountDetails">
-                        <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="Profile Picture" width="32" height="32" class="rounded-circle me-2">
                         <strong>
                             @App.Authentication.UserSession.User!.Username
                         </strong>
                     </NavLink>
                 </div>
-
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/send-request">
-                        <span class="material-symbols-outlined w3-margin-right">email</span> Email to the staff
+                        <span class="material-symbols-outlined w3-margin-right">email</span> Email the staff
                     </NavLink>
                 </div>
             }
@@ -134,13 +128,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        App.Authentication.PropertyChanged += async (sender, e) => { await InvokeAsync(() => { StateHasChanged(); }); };
+        App.Authentication.PropertyChanged += async (_, _) => { await InvokeAsync(StateHasChanged); };
         await base.OnInitializedAsync();
     }
 
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() => { StateHasChanged(); });
+        await InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()

@@ -109,6 +109,8 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
             return (true, e.Message);
         }
     }
+
+
     //public async Task<(bool status, string message)> GetGenericDataFromParam(Parameters parameters)
     //{
     //    IsBusy = true;

@@ -41,11 +41,12 @@
 
                 <div class="checkbox mb-3">
                     <label>
+                        <!--TODO: User state is weird...-->
                         <input class="w3-check w3-margin-top w3-margin-bottom" type="checkbox" value="remember-me" @onclick="() => App.Authentication.SaveSession = !App.Authentication.SaveSession"> Remember me
                     </label>
                 </div>
-                <DataAnnotationsValidator />
-                <ValidationSummary />
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
                 <button class="general-button w3-margin-top w3-margin-bottom w-100" type="submit">Sign in</button>
                 <p class="mt-auto">
                     Not a member?
@@ -63,7 +64,6 @@
         </div>
     </div>
 </div>
-
 
 
 @code {
