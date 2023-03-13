@@ -8,23 +8,23 @@
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavManager
 
-<div id="page-content" class="card m-4 shadow-lg p-3 bg-white">
+<div id="page-content" class="card m-lg-4 m-1 shadow-lg p-lg-3 p-2 bg-white">
 
     <!-- ======= End Page Header ======= -->
     <div class="page-header d-flex align-items-center card-header">
         <div class="container position-relative">
 
-            <button class="w3-right w3-button w3-hover-shadow w3-round" @onclick="close">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6 text-center card-title">
+                    <h1>@_artwork.Title</h1>
+                </div>
+            <button class="w3-right w-25 w3-button w3-hover-shadow w3-round" @onclick="close">
                 <span class="material-symbols-outlined">
                     close
                 </span>
             </button>
 
 
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-6 text-center card-title">
-                    <h1>@_artwork.Title</h1>
-                </div>
             </div>
         </div>
     </div>
@@ -42,6 +42,8 @@
                 </div>
             </div>
 
+
+            <div class="row justify-content-between gy-4 mt-4">
             <div class="w3-center w3-margin-top">
                 <button class="general-button" @onclick="show_result"> Ask ChatGPT about this.
                     <span class="material-symbols-outlined">
@@ -50,8 +52,6 @@
                 </button>
             </div>
             
-
-            <div class="row justify-content-between gy-4 mt-4">
 
                 @if (_artwork.Description.Length > 0)
                 {

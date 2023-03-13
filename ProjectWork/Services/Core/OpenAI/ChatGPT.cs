@@ -15,7 +15,7 @@ namespace ProjectWork.Services.Core.OpenAI
         public static async Task gen()
         {
             string apiUrl = "https://api.openai.com/v1/chat/completions";
-            string apiKey = "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";
+            string apiKey = "";
 
             Request request = new Request();
             request.Messages = new RequestMessage[]

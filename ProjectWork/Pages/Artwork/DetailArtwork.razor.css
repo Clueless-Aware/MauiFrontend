@@ -44,7 +44,6 @@ h6 {
 # Page Header
 --------------------------------------------------------------*/
 .page-header {
-    min-height: 30vh;
     position: relative;
 }
 
@@ -194,8 +193,8 @@ h6 {
 
 .img-artwork {
     padding: .25rem;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
+    background-color: #daa520;
+    border: 4px solid #daa520;
     border-radius: .25rem;
     max-width: 100%;
     height: 100%;
