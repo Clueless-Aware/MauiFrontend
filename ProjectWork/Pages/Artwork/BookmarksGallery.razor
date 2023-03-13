@@ -1,9 +1,9 @@
 ﻿@page "/bookmarks-gallery"
-<h3>BookmarksGallery</h3>
+<h1 class="fw-light">BookmarksGallery</h1>
 
 @if (App.Authentication.UserSession is null || App.Authentication.UserSession.User is null)
 {
-    <h1></h1>
+    <h1>How did you get here? Anyhow you need to be logged in to have any bookmarks...</h1>
 }
 else
 {
@@ -16,6 +16,9 @@ else
         <div class="album py-5 bg-light">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    @foreach (var bookmarkedArtwork in App.Authentication.UserSession.User.BookmarkedArtworks)
+                    {
+                    }
                     <div class="col">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
