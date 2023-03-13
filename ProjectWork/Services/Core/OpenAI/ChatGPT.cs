@@ -9,22 +9,26 @@ namespace ProjectWork.Services.Core.OpenAI
 {
     internal class ChatGpt
     {
-        public string reply = "";
+        public static string output = "";
+        public static string input = "";
 
-        public ChatGpt() { }
-
-        public async Task generateDescription(string prompt)
+        public static async Task gen()
         {
             string apiUrl = "https://api.openai.com/v1/chat/completions";
-            string apiKey = "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";
+            string apiKey = "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";
 
             Request request = new Request();
             request.Messages = new RequestMessage[]
             {
                 new RequestMessage()
                 {
+                     Role = "system",
+                     Content = "You are a helpful assistant."
+                },
+                new RequestMessage()
+                {
                      Role = "user",
-                     Content = prompt
+                     Content = input
 
                 }
             };
@@ -41,12 +45,14 @@ namespace ProjectWork.Services.Core.OpenAI
                 {
                     string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
                     Response response = System.Text.Json.JsonSerializer.Deserialize<Response>(responseString);
-                    reply = response.Choices[0].Message.Content;
+                    output = response.Choices[0].Message.Content;
                 }
                 else
                 {
-                    reply = $"Error: {httpResponseMessage.StatusCode} - {httpResponseMessage.ReasonPhrase}";
+                    output = "Error: {httpResponseMessage.StatusCode} - {httpResponseMessage.ReasonPhrase}";
                 }
+
+                
             }
         }
 

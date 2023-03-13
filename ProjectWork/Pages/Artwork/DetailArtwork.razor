@@ -42,6 +42,15 @@
                 </div>
             </div>
 
+            <div class="w3-center w3-margin-top">
+                <button class="general-button" @onclick="show_result"> Ask ChatGPT about this.
+                    <span class="material-symbols-outlined">
+                        temp_preferences_custom
+                    </span>
+                </button>
+            </div>
+            
+
             <div class="row justify-content-between gy-4 mt-4">
 
                 @if (_artwork.Description.Length > 0)
@@ -54,20 +63,17 @@
                             </p>
                         </div>
                     </div>
-                } else
+                }
+                else
                 {
-                    <button class="general-button w-25" @onclick="askChatGPT"> Ask ChatGPT about this.</button>
-                    @if(description.Length > 0)
-                    {
-                        <div class="col-lg-8">
-                            <div class="portfolio-description">
-                                <h2>Description</h2>
-                                <p>
-                                    @description
-                                </p>
-                            </div>
+                    <div class="col-lg-8">
+                        <div class="portfolio-description">
+                            <h2>Description</h2>
+                            <p>
+                                @description
+                            </p>
                         </div>
-                    }
+                    </div>
                 }
 
                 <div class="col-lg-3">
@@ -124,6 +130,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        askChatGPT();
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
@@ -151,20 +158,24 @@
 
     private async void askChatGPT()
     {
-        string author = _artwork.Author.Replace(',',' ');
+        string author = _artwork.Author.Replace(',', ' ');
         author.Reverse();
         author.ToLower();
 
         string title = _artwork.Title;
         string date = _artwork.Date;
 
-
-        ChatGpt ai = new ChatGpt();
-
-        string prompt = "Write me a description of the artwork of " +  author + " named " + title + "made in " + date;
+        string prompt = "Write me a description of the artwork of " + author + " named " + title + "made in " + date;
         description = "wait...";
-        await ai.generateDescription(prompt);
-        description = ai.reply.ReplaceLineEndings("<br>");
+
+        ChatGpt.input = prompt;
+
+        await ChatGpt.gen();
+    }
+
+    private void show_result()
+    {
+        description = ChatGpt.output;
     }
 
 }
