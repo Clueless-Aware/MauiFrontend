@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
+using System.Diagnostics;
+using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
 using ProjectWork.Models.Core;
 using ProjectWork.Models.Core.Authentication;
-using ProjectWork.Resources.Static;
+using ProjectWork.Models.Core.User;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
@@ -25,7 +26,6 @@ public class DRFAuthentication : AuthenticationBase
             var userBasicInfo = JsonSerializer.Serialize(result);
             await SecureStorage.SetAsync(nameof(LoginResponse), userBasicInfo);
             return (true, "Login success");
-
         }
         catch (Exception e)
         {
@@ -39,7 +39,9 @@ public class DRFAuthentication : AuthenticationBase
         Service.Uri.Path = Endpoints.GetRegisterPath();
         try
         {
-            var result = await Service.AddItemAsMultipartAsync<RegistrationModel, LoginResponse>(registrationModel, registrationModel.ProfilePicture);
+            var result =
+                await Service.AddItemAsMultipartAsync<RegistrationModel, LoginResponse>(registrationModel,
+                    registrationModel.ProfilePicture);
             UserSession = result ?? throw new Exception("None Result");
             if (!SaveSession) return (true, "Registration Successfully");
             var userBasicInfo = JsonSerializer.Serialize(result);
@@ -52,17 +54,15 @@ public class DRFAuthentication : AuthenticationBase
             return (false, e.Message);
         }
     }
+
     public async Task<(bool status, string message)> UpdateUserAccount(UserEditModel userEdit, IBrowserFile file)
     {
         Service.Uri.Path = Endpoints.GetUserPath();
         try
         {
-            var result = await Service.UpdateAsMultipartAsync<UserEditModel,User>(userEdit, file);
+            var result = await Service.UpdateAsMultipartAsync<UserEditModel, UserModel>(userEdit, file);
             UserSession.User = result ?? throw new Exception("None Result");
-            if (result is null)
-            {
-                throw new Exception("Update error");
-            }
+            if (result is null) throw new Exception("Update error");
             return (true, "Updated Account Successfully");
         }
         catch (Exception e)
@@ -91,19 +91,74 @@ public class DRFAuthentication : AuthenticationBase
         try
         {
             var result = await Service.PostItemAsJsonAsync<T, T>(element);
-            if (result is null)
-            {
-                throw new Exception("Request message error");
-            }
+            if (result is null) throw new Exception("Request message error");
             return (true, "Request Success");
-
         }
         catch (Exception e)
         {
-            return (false,e.Message);
+            return (false, e.Message);
         }
-
     }
 
-    
+    public async Task<(bool status, string messge)> AddBookMark(int artworkId)
+    {
+        Service.Uri.Path = Endpoints.GetBookmarkEndpoint();
+        try
+        {
+            if (App.Authentication.UserSession.User == null)
+                throw new Exception("Couldn't find user details please make sure to be logged in");
+            var result = await Service.PostItemAsJsonAsync<FavoriteModel, FavoriteResultModel>(new FavoriteModel
+            {
+                UserId = App.Authentication.UserSession.User.Id,
+                ArtworkId = artworkId
+            });
+            if (result is null) throw new Exception("Error during the post request");
+
+            return (true, "Request successful");
+        }
+        catch (Exception exception)
+        {
+            return (false, exception.Message);
+        }
+    }
+
+    public async Task<(bool status, string message)> RemoveBookmark(int bookmarkId)
+    {
+        Service.Uri.Path = Endpoints.GetBookmarkEndpoint() + bookmarkId + '/';
+        try
+        {
+            await Service.DeleteItemAsyncAiuola(bookmarkId);
+
+            return (true, "Deletion successful");
+        }
+        catch (Exception exception)
+        {
+            return (false, exception.Message);
+        }
+    }
+
+    public async Task<bool> IsAFavorite(int artworkId)
+    {
+        Service.Uri.Path = Endpoints.GetBookmarkEndpoint();
+
+        if (UserSession.User == null)
+            throw new Exception("Couldn't find user details please make sure to be logged in");
+
+        var parameters = new Dictionary<string, string>
+        {
+            { "artwork", artworkId.ToString() },
+            { "user", UserSession.User.Id.ToString() }
+        };
+        try
+        {
+            //?artwork=2&user=23
+            var genericData = await Service.GetDataWithParamAsync<GenericData<FavoriteResultModel>>(parameters);
+            return genericData.Count == 0;
+        }
+        catch (Exception exception)
+        {
+            Debug.WriteLine($"Exception thrown in Is a favorite method: {exception.Message}");
+            throw;
+        }
+    }
 }

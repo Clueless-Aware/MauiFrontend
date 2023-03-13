@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using ProjectWork.Models.Artwork;
 using ProjectWork.Models.Core;
-using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
@@ -92,7 +91,7 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
         try
         {
             //save the original path
-            var tempPath = _artworkService.Uri.Path; 
+            var tempPath = _artworkService.Uri.Path;
             _artworkService.Uri.Path = Endpoints.GetArtworkPath() + artwork.Id + '/';
             var newItem =
                 await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork,

@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using ProjectWork.Models.Artwork;
 using ProjectWork.Models.Core;
-using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
