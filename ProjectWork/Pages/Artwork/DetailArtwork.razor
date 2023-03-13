@@ -1,19 +1,29 @@
 ﻿@page "/detail-artwork/{Id:int}"
 @using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Artwork
+@using ProjectWork.Services.Core.OpenAI
 @using ProjectWork.Utilities
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
+@inject NavigationManager NavManager
 
-<div id="page-content" class="card m-4 shadow-lg p-3 bg-white">
+<div id="page-content" class="card m-lg-4 m-1 shadow-lg p-lg-3 p-2 bg-white">
 
     <!-- ======= End Page Header ======= -->
     <div class="page-header d-flex align-items-center card-header">
         <div class="container position-relative">
+
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-6 text-center card-title">
                     <h1>@_artwork.Title</h1>
                 </div>
+                <button class="w3-right w-25 w3-button w3-hover-shadow w3-round" @onclick="close">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
+
+
             </div>
         </div>
     </div>
@@ -31,7 +41,17 @@
                 </div>
             </div>
 
+
             <div class="row justify-content-between gy-4 mt-4">
+                <div class="w3-center w3-margin-top">
+                    <button class="general-button" @onclick="show_result">
+                        Ask ChatGPT about this.
+                        <span class="material-symbols-outlined">
+                            temp_preferences_custom
+                        </span>
+                    </button>
+                </div>
+
 
                 @if (_artwork.Description.Length > 0)
                 {
@@ -41,21 +61,17 @@
                             <p>
                                 @_artwork.Description
                             </p>
-
-                            @*Chat bot gp         <div class="testimonial-item">
-                        <p>
-                        <i class="bi bi-quote quote-icon-left"></i>
-                        Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                        <i class="bi bi-quote quote-icon-right"></i>
-                        </p>
-                        <div>
-                        <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                        <h3>Sara Wilsson</h3>
-                        <h4>Designer</h4>
                         </div>
-                        </div>
-                        *@
-
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-8">
+                        <div class="portfolio-description">
+                            <h2>Description</h2>
+                            <p>
+                                @description
+                            </p>
                         </div>
                     </div>
                 }
@@ -122,32 +138,6 @@
             </div>
         </div>
     </section>
-    @*<section id="gallery" class="gallery">
-    <div class="container-fluid">
-    @if (_otherArtworks is not null)
-    {
-    @foreach (var other in _otherArtworks)
-    {
-    <div class="row gy-4 justify-content-center">
-    <!-- Start Gallery Item -->
-    <div class="col-xl-3 col-lg-4 col-md-6">
-    <div class="gallery-item h-100">
-    <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="">
-    <div class="gallery-links d-flex align-items-center justify-content-center">
-    <a href="assets/img/gallery/gallery-1.jpg" title="Gallery 1" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-    <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-    <p>
-    @other.Title
-    </p>
-    </div>
-    </div>
-    </div><!-- End Gallery Item -->
-    </div>
-    }
-    }
-    </div>
-    </section>*@
-    <!-- End Gallery Section -->
 </div>
 
 
@@ -155,6 +145,8 @@
 
     [Parameter]
     public int Id { get; set; }
+
+    public string description = "";
 
     private BaseArtwork _artwork;
     private IList<BaseArtwork> _otherArtworks;
@@ -166,12 +158,12 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+    //askChatGPT();
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
     private async Task DriveToMuseum()
     {
-    //var geoData = _artwork.Location.Split(',');
         var placeMark = new Placemark
         {
             CountryName = _artwork.Location
@@ -185,6 +177,33 @@
         {
     // No map application available to open or place mark can not be located
         }
+    }
+
+    private void close()
+    {
+        NavManager.NavigateTo("/Home");
+    }
+
+    private async void askChatGPT()
+    {
+        var author = _artwork.Author.Replace(',', ' ');
+        author.Reverse();
+        author.ToLower();
+
+        var title = _artwork.Title;
+        var date = _artwork.Date;
+
+        var prompt = "Write me a description of the artwork of " + author + " named " + title + "made in " + date;
+        description = "wait...";
+
+        ChatGpt.input = prompt;
+
+        await ChatGpt.gen();
+    }
+
+    private void show_result()
+    {
+        description = ChatGpt.output;
     }
 
 }

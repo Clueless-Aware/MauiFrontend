@@ -30,12 +30,6 @@
 <div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24">
     <p class="w3-xxlarge">
         @artwork.Title
-        <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
-            <span class="material-symbols-outlined">
-                bookmark
-            </span>
-        </button>
-
     </p>
 
     <div class="w3-row">
@@ -66,8 +60,6 @@
 
     @if (showEdit)
     {
-        <hr/>
-        <hr/>
         <EditForm Model="@artwork" OnValidSubmit="async () => await Artwork.UpdateItemAsync(artwork)">
             <table>
                 <tr>
@@ -194,7 +186,7 @@
             <ValidationSummary/>
 
             @*TODO: disable if Artwork.IsBusy*@
-            <button type="submit" class="general-button">Update</button>
+            <button type="submit" class="general-button w3-center">Update</button>
         </EditForm>
     }
 </div>

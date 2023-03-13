@@ -5,7 +5,7 @@
 @implements IDisposable
 @layout AdminLayout
 
-<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+
     <style>
 
         #search {
@@ -32,7 +32,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #f44336;
+            background-color: #cc0000;
             -webkit-transition: .4s;
             transition: .4s;
         }
@@ -50,7 +50,7 @@
             }
 
         input:checked + .slider {
-            background-color: #f44336;
+            background-color: #cc0000;
         }
 
         input:focus + .slider {
@@ -121,7 +121,7 @@
             </div>
         }
     </div>
-</Animate>
+
 
 @code {
     private string SearchField { get; set; }

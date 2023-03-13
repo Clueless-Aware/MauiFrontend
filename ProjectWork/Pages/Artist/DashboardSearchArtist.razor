@@ -5,7 +5,7 @@
 @implements IDisposable
 @layout AdminLayout
 
-<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
+
     <style>
 
         #search {
@@ -32,7 +32,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #f44336;
+            background-color: #cc0000;
             -webkit-transition: .4s;
             transition: .4s;
         }
@@ -50,7 +50,7 @@
             }
 
         input:checked + .slider {
-            background-color: #f44336;
+            background-color: #cc0000;
         }
 
         input:focus + .slider {
@@ -94,14 +94,14 @@
                 low_priority
             </span>
 
-            <button id="search" class="btn w3-button w3-red w3-round-large" @onclick="async () => await DirectorArtistAdmin.GetGenericDataFromPageAsync()">
+            <button id="search" class="general-button" @onclick="async () => await DirectorArtistAdmin.GetGenericDataFromPageAsync()">
                 <span class="material-symbols-outlined">search</span>
             </button>
         </span>
 
         <hr/>
     </div>
-</Animate>
+
 
 @*TODO: if null show message*@
 @if (DirectorArtistAdmin.GenericData != null)
@@ -138,6 +138,13 @@
         var b = (bool)e.Value;
 
         DirectorArtistAdmin.Parameters.SetOrdering(b ? "title" : "-title");
+        doSearch();
+
+    }
+
+    async void doSearch()
+    {
+        await DirectorArtistAdmin.GetGenericDataFromPageAsync();
     }
 
 }
