@@ -4,9 +4,6 @@
 @inject SearchArtistVM ArtistDirector
 @inject IJSRuntime JsRuntime
 
-
-<Animate Animation="Animations.SlideLeft" Duration="TimeSpan.FromSeconds(0.2)">
-
     <section id="hero" class="hero d-flex flex-column justify-content-center align-items-center">
         <div class="container">
             <div class="row justify-content-center">
@@ -33,7 +30,7 @@
                         low_priority
                     </span>
 
-                    <button id="search" class="btn w3-button middle w3-red w3-round-xlarge" @onclick="async () => await ArtistDirector.GetGenericDataFromPageAsync()">
+                    <button id="search" class="general-button" @onclick="async () => await ArtistDirector.GetGenericDataFromPageAsync()">
                         <span class="material-symbols-outlined">search</span>
                     </button>
                 </span>
@@ -118,7 +115,6 @@
             }
         </div>
     </div>
-</Animate>
 
 @code {
     private string SearchField { get; set; }
@@ -143,6 +139,7 @@
             StateHasChanged();
         });
     }
+
     public void Dispose()
     {
         ArtistDirector.PropertyChanged -= OnPropertyChangedHandler;
@@ -154,7 +151,7 @@
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
-    private async Task CheckboxChanged(ChangeEventArgs e)
+    private void CheckboxChanged(ChangeEventArgs e)
     {
         bool b = (bool)e.Value;
 
@@ -165,6 +162,14 @@
         else
         {
             ArtistDirector.Parameters.SetOrdering("-title");
+
         }
+
+        doSearch();
+    }
+
+    async void doSearch()
+    {
+        await ArtistDirector.GetGenericDataFromPageAsync();
     }
 }

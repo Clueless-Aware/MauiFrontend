@@ -16,9 +16,8 @@
     }
 
 </style>
-
-<Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(0.2)" class="text-center" style="height: 100%; width: 100%; display: flex !important; align-items: center; justify-content: center; padding-top: 40px; padding-bottom: 40px;">
-    <div id="login-card" class="card w3-card-4 w3-round-xlarge w3-white w3-padding-large">
+<div class="d-flex align-items-center justify-content-center">
+    <div id="login-card" class="card w3-card-4 w3-round-xlarge w3-white w3-padding-large w3-center w3-centered ">
         <div class="form-signin">
             <EditForm Model="@_loginModel" OnValidSubmit="async () => await AttemptLogin(_loginModel)">
                 <div id="hideLogo">
@@ -45,8 +44,8 @@
                         <input class="w3-check w3-margin-top w3-margin-bottom" type="checkbox" value="remember-me" @onclick="() => App.Authentication.SaveSession = !App.Authentication.SaveSession"> Remember me
                     </label>
                 </div>
-                <DataAnnotationsValidator/>
-                <ValidationSummary/>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
                 <button class="general-button w3-margin-top w3-margin-bottom w-100" type="submit">Sign in</button>
                 <p class="mt-auto">
                     Not a member?
@@ -63,7 +62,9 @@
             </EditForm>
         </div>
     </div>
-</Animate>
+</div>
+
+
 
 @code {
     readonly LoginModel _loginModel = new();

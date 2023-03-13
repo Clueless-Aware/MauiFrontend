@@ -4,7 +4,7 @@
 @using ProjectWork.Models.Artist
 @inject SearchArtistVM ArtistDirector
 @inject IJSRuntime JsRuntime
-<main id="main" class="card m-4 shadow-lg p-3 bg-white">
+<div id="main" class="card m-4 shadow-lg p-3 bg-white">
 
     <!-- ======= End Page Header ======= -->
     <div class="page-header d-flex align-items-center card-header">
@@ -55,7 +55,8 @@
             </p>
         </div>
     </section><!-- End About Section -->
-</main>
+</div>
+
 @*<section id="gallery" class="gallery">
     <div class="container-fluid">
     @if (_otherArtworks is not null)
