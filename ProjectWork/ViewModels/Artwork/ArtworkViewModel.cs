@@ -88,7 +88,7 @@ public class ArtworkViewModel : BaseViewModel<BaseArtwork>
         IsBusy = true;
         try
         {
-            _artworkService.Uri.Path = Endpoints.GetArtworkPath() + artist.Id;
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + artist.Id;
             var newItem =
                 await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artist,
                     artist.File);

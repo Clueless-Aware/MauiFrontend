@@ -19,7 +19,7 @@ public class ServiceAPI : IServiceAPI
         _headersBuilder = new HeadersBuilder(new HttpClient(handler));
         _headersDirector.Builder = _headersBuilder;
         this.url = url;
-        Uri = new UriBuilder(url);
+        UriBuilder = new UriBuilder(url);
     }
 
     public ServiceAPI(string url, ImageOptions imageOptions)
@@ -29,10 +29,10 @@ public class ServiceAPI : IServiceAPI
         _headersDirector.Builder = _headersBuilder;
         this.url = url;
         _imageOptions = imageOptions;
-        Uri = new UriBuilder(url);
+        UriBuilder = new UriBuilder(url);
     }
 
-    public UriBuilder Uri { get; set; }
+    public UriBuilder UriBuilder { get; set; }
 
     public async Task<K> GetDataWithPageAsync<K>(int currentPage)
     {
@@ -45,13 +45,13 @@ public class ServiceAPI : IServiceAPI
     {
         BuildUri(parameters);
         await _headersDirector.AuthenticatedHeader();
-        return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>(Uri.Uri));
+        return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>(UriBuilder.Uri));
     }
 
-    public async Task<K> GetDetailObject<K>(int id)
+    public async Task<K> GetDetailObject<K>()
     {
-        _headersDirector.BuildGenericGetHeader();
-        return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>($"{url}{id}/"));
+        await _headersDirector.AuthenticatedHeader();
+        return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>(UriBuilder.Uri));
     }
 
     public async Task<HttpStatusCode> DeleteItemAsync(int page)
@@ -64,14 +64,14 @@ public class ServiceAPI : IServiceAPI
     public async Task<HttpStatusCode> DeleteItemAsyncAiuola(int id)
     {
         await _headersDirector.AuthenticatedHeader();
-        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().DeleteAsync(Uri.Uri));
+        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().DeleteAsync(UriBuilder.Uri));
         return await HandleResponse.Responded(tempMessage);
     }
 
     public async Task<TR> PostItemAsJsonAsync<TS, TR>(TS item)
     {
         await _headersDirector.AuthenticatedHeader();
-        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsJsonAsync(Uri.Uri, item));
+        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsJsonAsync(UriBuilder.Uri, item));
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 
@@ -79,7 +79,7 @@ public class ServiceAPI : IServiceAPI
     {
         await _headersDirector.AuthenticatedHeader();
         var content = await HandleMultipart.Build(item, file, _imageOptions);
-        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(Uri.Uri, content));
+        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(UriBuilder.Uri, content));
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 
@@ -103,9 +103,9 @@ public class ServiceAPI : IServiceAPI
 
     private void BuildUri(Dictionary<string, string> parameters)
     {
-        Uri.Query = "";
-        var query = HttpUtility.ParseQueryString(Uri.Query);
+        UriBuilder.Query = "";
+        var query = HttpUtility.ParseQueryString(UriBuilder.Query);
         foreach (var item in parameters) query[item.Key] = item.Value;
-        Uri.Query = query.ToString() ?? string.Empty;
+        UriBuilder.Query = query.ToString() ?? string.Empty;
     }
 }

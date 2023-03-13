@@ -17,7 +17,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public override async Task<(bool status, string message)> AuthenticateUser(LoginModel loginModel)
     {
-        Service.Uri.Path = Endpoints.GetLoginPath();
+        Service.UriBuilder.Path = Endpoints.GetLoginPath();
         try
         {
             var result = await Service.PostItemAsJsonAsync<LoginModel, LoginResponse>(loginModel);
@@ -36,7 +36,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public override async Task<(bool status, string message)> RegistrationUser(RegistrationModel registrationModel)
     {
-        Service.Uri.Path = Endpoints.GetRegisterPath();
+        Service.UriBuilder.Path = Endpoints.GetRegisterPath();
         try
         {
             var result =
@@ -57,7 +57,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string message)> UpdateUserAccount(UserEditModel userEdit, IBrowserFile file)
     {
-        Service.Uri.Path = Endpoints.GetUserPath();
+        Service.UriBuilder.Path = Endpoints.GetUserPath();
         try
         {
             var result = await Service.UpdateAsMultipartAsync<UserEditModel, UserModel>(userEdit, file);
@@ -87,7 +87,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public override async Task<(bool status, string message)> SendRequest<T>(T element, string toPath)
     {
-        Service.Uri.Path = toPath;
+        Service.UriBuilder.Path = toPath;
         try
         {
             var result = await Service.PostItemAsJsonAsync<T, T>(element);
@@ -102,7 +102,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string messge)> AddBookMark(int artworkId)
     {
-        Service.Uri.Path = Endpoints.GetBookmarkEndpoint();
+        Service.UriBuilder.Path = Endpoints.GetBookmarkEndpoint();
         try
         {
             if (App.Authentication.UserSession.User == null)
@@ -113,7 +113,7 @@ public class DRFAuthentication : AuthenticationBase
                 ArtworkId = artworkId
             });
             if (result is null) throw new Exception("Error during the post request");
-
+            await RefreshUserState();
             return (true, "Request successful");
         }
         catch (Exception exception)
@@ -124,11 +124,11 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string message)> RemoveBookmark(int bookmarkId)
     {
-        Service.Uri.Path = Endpoints.GetBookmarkEndpoint() + bookmarkId + '/';
+        Service.UriBuilder.Path = Endpoints.GetBookmarkEndpoint() + bookmarkId + '/';
         try
         {
             await Service.DeleteItemAsyncAiuola(bookmarkId);
-
+            await RefreshUserState();
             return (true, "Deletion successful");
         }
         catch (Exception exception)
@@ -137,28 +137,20 @@ public class DRFAuthentication : AuthenticationBase
         }
     }
 
-    public async Task<bool> IsAFavorite(int artworkId)
+    public async Task<(bool state, string message)> RefreshUserState()
     {
-        Service.Uri.Path = Endpoints.GetBookmarkEndpoint();
-
-        if (UserSession.User == null)
-            throw new Exception("Couldn't find user details please make sure to be logged in");
-
-        var parameters = new Dictionary<string, string>
-        {
-            { "artwork", artworkId.ToString() },
-            { "user", UserSession.User.Id.ToString() }
-        };
+        Service.UriBuilder.Path = Endpoints.GetUserPath();
         try
         {
-            //?artwork=2&user=23
-            var genericData = await Service.GetDataWithParamAsync<GenericData<FavoriteResultModel>>(parameters);
-            return genericData.Count == 0;
+            var refreshedUser = await Service.GetDetailObject<UserModel>();
+            if (refreshedUser is null) throw new Exception("Error during user refresh");
+            UserSession.User = refreshedUser;
+            return (true, string.Empty);
         }
-        catch (Exception exception)
+        catch (Exception e)
         {
-            Debug.WriteLine($"Exception thrown in Is a favorite method: {exception.Message}");
-            throw;
+            return (false, e.Message);
         }
     }
 }
+

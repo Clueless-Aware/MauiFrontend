@@ -91,12 +91,12 @@ public class DashboardAdminArtistVM : BaseViewModel<BaseArtist>
         IsBusy = true;
         try
         {
-            var tempPath = _artistService.Uri.Path;
-            _artistService.Uri.Path = Endpoints.GetArtistPath() + artist.Id + '/';
+            var tempPath = _artistService.UriBuilder.Path;
+            _artistService.UriBuilder.Path = Endpoints.GetArtistPath() + artist.Id + '/';
             var newItem = await _artistService.UpdateAsMultipartAsync<BaseArtist, BaseArtist>(artist, artist.File);
             await UtilityToolkit.CreateToast($"Updated element: {newItem.Id} {newItem.Name} ");
             IsBusy = false;
-            _artistService.Uri.Path = tempPath;
+            _artistService.UriBuilder.Path = tempPath;
             return (true, "Updated success");
         }
         catch (Exception e)
