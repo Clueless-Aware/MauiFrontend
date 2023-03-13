@@ -2,7 +2,6 @@
 @using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Artwork
 @using ProjectWork.Utilities
-@using CommunityToolkit.Maui.Core
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
 
@@ -93,7 +92,7 @@
                         if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
                         {
                             <button type="button" class="btn btn-outline-default waves-effect"
-                                    @onclick="() => RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
+                                    @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
                                 <span class="material-symbols-outlined">
                                     bookmark_remove
                                 </span>
@@ -103,7 +102,7 @@
                         else
                         {
                             <button type="button" class="btn btn-outline-default waves-effect"
-                                    @onclick="() => AddToBookmarks(_artwork.Id, _artwork.Title)">
+                                    @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
                                 <span class="material-symbols-outlined">
                                     bookmark_add
                                 </span>
@@ -160,16 +159,9 @@
     private BaseArtwork _artwork;
     private IList<BaseArtwork> _otherArtworks;
 
-    protected override async void OnParametersSet()
+    protected override void OnInitialized()
     {
-        _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
-        var baseArtwork = _artwork;
-    //var paremeteN = new Parameters();
-    //paremeteN.SetSpecific(new BaseArtwork() { AuthorId = baseArtwork.AuthorId });
-    //if (baseArtwork != null) ArtworkDirector.Parameters = paremeteN;
-    //var result = await ArtworkDirector.GetGenericDataFromPageAsync();
-    //_otherArtworks = ArtworkDirector.GenericData.Data;
-    //this.StateHasChanged();
+        _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(artwork => artwork.Id == Id);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -193,41 +185,6 @@
         {
     // No map application available to open or place mark can not be located
         }
-    }
-
-    private static async Task AddToBookmarks(int artworkId, string artworkTitle)
-    {
-        var result = await App.Authentication.AddBookMark(artworkId);
-        if (!result.status || App.Authentication.UserSession.User is null)
-        {
-            await UtilityToolkit.CreateToast(
-                $"There was an error in adding artwork {artworkTitle} to your account bookmarks... Please try again later",
-                ToastDuration.Long);
-            return;
-        }
-
-        await UtilityToolkit.CreateToast(
-            $"Added {artworkTitle} as a bookmarked artwork in {App.Authentication.UserSession.User.Username} list",
-            ToastDuration.Long);
-    }
-
-    private static async Task RemoveFromBookmarks(int artworkId, string artworkTitle)
-    {
-        var bookmarkId = (int)App.Authentication.UserSession.User.BookmarksIds
-            [App.Authentication.UserSession.User.BookmarkedArtworks
-                .FindIndex(artwork => artwork.Id == artworkId)];
-        var result = await App.Authentication.RemoveBookmark(bookmarkId);
-        if (!result.status || App.Authentication.UserSession.User is null)
-        {
-            await UtilityToolkit.CreateToast(
-                $"There was an error in removing artwork {artworkTitle} to your account bookmarks... Please try again later",
-                ToastDuration.Long);
-            return;
-        }
-
-        await UtilityToolkit.CreateToast(
-            $"Removed {artworkTitle} as a bookmarked artwork from {App.Authentication.UserSession.User.Username} list",
-            ToastDuration.Long);
     }
 
 }
