@@ -101,7 +101,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string messge)> AddBookMark(int artworkId)
     {
-        Service.UriBuilder.Path = Endpoints.GetBookmarkPath();
+        Service.UriBuilder.Path = Endpoints.GetBookmarksPath();
         try
         {
             if (App.Authentication.UserSession.User == null)
@@ -123,7 +123,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string message)> RemoveBookmark(int bookmarkId)
     {
-        Service.UriBuilder.Path = Endpoints.GetBookmarkPath() + bookmarkId + '/';
+        Service.UriBuilder.Path = Endpoints.GetBookmarksPath() + bookmarkId + '/';
         try
         {
             await Service.DeleteItemAsync(bookmarkId);

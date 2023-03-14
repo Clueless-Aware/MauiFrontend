@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿#nullable enable
+using System.Net;
 using System.Net.Http.Json;
 using System.Web;
 using Microsoft.AspNetCore.Components.Forms;
@@ -28,7 +29,7 @@ public class ServiceAPI : IServiceAPI
         _headersBuilder = new HeadersBuilder(new HttpClient(handler));
         _headersDirector.Builder = _headersBuilder;
         this.url = url;
-        _imageOptions = imageOptions;
+
         UriBuilder = new UriBuilder(url);
     }
 

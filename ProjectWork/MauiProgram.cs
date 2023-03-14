@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
+using ProjectWork.ViewModels.Admin;
 using ProjectWork.ViewModels.Artist;
 using ProjectWork.ViewModels.Artwork;
 using ProjectWork.ViewModels.Core;
@@ -22,7 +23,8 @@ public static class MauiProgram
             .ConfigureFonts(fonts => { fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"); });
 
         //To disable the default conversion to https
-        Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--unsafely-treat-insecure-origin-as-secure=http://51.103.212.24:80");
+        Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
+            "--unsafely-treat-insecure-origin-as-secure=http://51.103.212.24:80");
 
 
         builder.Services.AddMauiBlazorWebView();
@@ -37,6 +39,7 @@ public static class MauiProgram
                 FileName = "profile_picture"
             })));
 
+        builder.Services.AddScoped<RequestsVirtualMachine>();
 
         builder.Services.AddScoped<SearchArtworkVM>();
         builder.Services.AddScoped<DashboardAdminArtworkVM>();
