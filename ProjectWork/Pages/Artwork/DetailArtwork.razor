@@ -44,7 +44,7 @@
 
             <div class="row justify-content-between gy-4 mt-4">
                 <div class="w3-center w3-margin-top">
-                    <button class="general-button" @onclick="show_result">
+                    <button class="general-button" @onclick="async() => await AskChatGpt()">
                         Ask ChatGPT about this.
                         <span class="material-symbols-outlined">
                             temp_preferences_custom
@@ -188,7 +188,7 @@
         NavManager.NavigateTo("/Home");
     }
 
-    private async void askChatGPT()
+    private async Task AskChatGpt()
     {
         var author = _artwork.Author.Replace(',', ' ');
         author.Reverse();
@@ -203,11 +203,9 @@
         ChatGpt.input = prompt;
 
         await ChatGpt.gen();
+        description = ChatGpt.output;
+
     }
 
-    private void show_result()
-    {
-        description = ChatGpt.output;
-    }
 
 }
