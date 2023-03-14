@@ -1,5 +1,5 @@
 ﻿@page "/accountDetails"
-@using ProjectWork.Models.Core.Authentication
+@using ProjectWork.Models.Core.User
 @inject NavigationManager NavManager
 
 <style>
@@ -11,7 +11,7 @@
     <div class="w3-card-4 w3-padding w3-margin-left w3-round-xlarge">
         <h3 class="w3-margin-left">User Profile</h3>
 
-        <hr />
+        <hr/>
 
         <ul>
             <li>
@@ -73,18 +73,18 @@
             </li>
             <li>
                 <span class="w3-bold w3-large">Type of access: </span>
-                    @if (user.IsStaff)
-                    {
+                @if (user.IsStaff)
+                {
                     <span class="w3-text-green">Staff</span>
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     <span class="w3-text-orange">Basic</span>
-                    }
+                }
             </li>
         </ul>
 
-        <hr />
+        <hr/>
 
         <span>
             <button onclick="@edit_Account" class="general-button">
@@ -95,12 +95,18 @@
     </div>
 
 @code {
-    private void edit_Account() => NavManager.NavigateTo("/AccountEdit");
-    private User user = new();
+
+    private void edit_Account()
+    {
+        NavManager.NavigateTo("/AccountEdit");
+    }
+
+    private UserModel user = new();
+
     protected override async Task OnInitializedAsync()
     {
         user = App.Authentication.UserSession.User;
         await base.OnInitializedAsync();
     }
-}
 
+}

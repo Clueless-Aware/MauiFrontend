@@ -1,21 +1,14 @@
 ﻿#nullable enable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using ProjectWork.Models.Core.User;
 
-namespace ProjectWork.Models.Core.Authentication
+namespace ProjectWork.Models.Core.Authentication;
+
+public class LoginResponse
 {
-    public class LoginResponse
-    {
-        [JsonPropertyName("access_token")]
-        public string? AccessToken { get; set; }
-        [JsonPropertyName("refresh_token")]
-        public string? RefreshToken { get; set; }
-        [JsonPropertyName("user")]
-        public User? User { get; set; }
-    }
+    [JsonPropertyName("access_token")] public string? AccessToken { get; set; }
 
+    [JsonPropertyName("refresh_token")] public string? RefreshToken { get; set; }
+
+    [JsonPropertyName("user")] public UserModel? User { get; set; }
 }

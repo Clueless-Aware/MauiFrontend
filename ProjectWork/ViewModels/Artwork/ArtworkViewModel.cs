@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using ProjectWork.Models.Artwork;
 using ProjectWork.Models.Core;
-using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
@@ -89,7 +88,7 @@ public class ArtworkViewModel : BaseViewModel<BaseArtwork>
         IsBusy = true;
         try
         {
-            _artworkService.Uri.Path = Endpoints.GetArtworkPath() + artist.Id;
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + artist.Id;
             var newItem =
                 await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artist,
                     artist.File);
@@ -102,6 +101,21 @@ public class ArtworkViewModel : BaseViewModel<BaseArtwork>
             await UtilityToolkit.CreateToast(e.Message);
             IsBusy = false;
             return (true, e.Message);
+        }
+    }
+
+    public override async Task<BaseArtwork> GetItemAsync(int id)
+    {
+        try
+        {
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + id + '/';
+            var artwork = await _artworkService.GetDetailObject<BaseArtwork>();
+            return artwork;
+        }
+        catch (Exception exception)
+        {
+            await UtilityToolkit.CreateToast("There was an error in navigating to artwork: " + exception.Message);
+            return null;
         }
     }
 }

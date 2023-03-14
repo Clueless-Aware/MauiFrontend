@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using ProjectWork.Models.Artwork;
 using ProjectWork.Models.Core;
-using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
@@ -92,15 +91,15 @@ public class DashboardAdminArtworkVM : BaseViewModel<BaseArtwork>
         try
         {
             //save the original path
-            var tempPath = _artworkService.Uri.Path; 
-            _artworkService.Uri.Path = Endpoints.GetArtworkPath() + artwork.Id + '/';
+            var tempPath = _artworkService.UriBuilder.Path;
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + artwork.Id + '/';
             var newItem =
                 await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork,
                     artwork.File);
             await UtilityToolkit.CreateToast($"Updated element: {newItem.Id} {newItem.Title} ");
             IsBusy = false;
             //reset to the original path
-            _artworkService.Uri.Path = tempPath;
+            _artworkService.UriBuilder.Path = tempPath;
             return (true, "Updated success");
         }
         catch (Exception e)
@@ -109,5 +108,10 @@ public class DashboardAdminArtworkVM : BaseViewModel<BaseArtwork>
             IsBusy = false;
             return (true, e.Message);
         }
+    }
+
+    public override Task<BaseArtwork> GetItemAsync(int id)
+    {
+        throw new NotImplementedException();
     }
 }

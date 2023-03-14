@@ -1,0 +1,9 @@
+﻿.card-image {
+    margin-left: auto;
+    display: block;
+    padding-top: 5px;
+    width: 95%;
+    margin-right: auto;
+    height: 400px;
+    object-fit: cover;
+}

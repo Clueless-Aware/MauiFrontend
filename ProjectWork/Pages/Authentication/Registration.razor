@@ -1,7 +1,6 @@
 ﻿@page "/registration"
 @using ProjectWork.Models.Core.Authentication
 @using ProjectWork.Utilities
-@using Microsoft.Maui.Controls.Xaml.Diagnostics
 @layout MainLayout
 @inject NavigationManager NavManager
 
@@ -53,29 +52,29 @@
                         <input type="password" class="form-control w3-round w3-margin-bottom" id="floatingPassword2" @bind-value="registrationModel.Password2" placeholder="Repeat Password">
                         <label for="floatingPassword2">Repeat password *</label>
                     </div>
-                    <br />
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
+                    <br/>
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
                     <button class="w-100 btn btn-lg btn-primary general-button" type="submit">Next </button>
                 </EditForm>
             }
             else
             {
-                <EditForm Model="@registrationModel" OnValidSubmit="async ()=> await AttemptRegistration(registrationModel)">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
+                <EditForm Model="@registrationModel" OnValidSubmit="async () => await AttemptRegistration(registrationModel)">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
 
                     <div class="form-floating">
-                        <InputTextArea id="idBio" name="message" class="form-control" placeholder="Write your biography here." rows="6" @bind-Value="registrationModel.Biography" />
+                        <InputTextArea id="idBio" name="message" class="form-control" placeholder="Write your biography here." rows="6" @bind-Value="registrationModel.Biography"/>
                         <label for="idBio">Biography</label>
                     </div>
-
+                    <br/>
                     <div class="form-floating w-100">
                         <div class="w3-margin-bottom w3-padding-large">
                             <label class="w3-padding w3-margin-top" for="idProfilePicture">Profile Picture</label>
                             <div class="form-control w-100">
-                                <InputFile class="w3-padding-16 w-100" id="idProfilePicture" OnChange="(e)=> registrationModel.ProfilePicture = e.File" />
-                            </div>    
+                                <InputFile class="w3-padding-16 w-100" id="idProfilePicture" OnChange="e => registrationModel.ProfilePicture = e.File"/>
+                            </div>
                         </div>
                     </div>
 
@@ -97,6 +96,8 @@
 @code {
     readonly RegistrationModel registrationModel = new();
     bool state = true;
+
+
     private async Task AttemptRegistration(RegistrationModel registrationModel)
     {
         if (registrationModel.Password1 != registrationModel.Password2)
@@ -107,16 +108,19 @@
         var attempt = await App.Authentication.RegistrationUser(registrationModel);
         if (attempt.status)
         {
-            NavManager.NavigateTo("/login");
+            NavManager.NavigateTo("Home");
         }
         else
         {
             await UtilityToolkit.CreateToast(attempt.message);
         }
-
     }
+
+
     private void NextSlide()
     {
         state = !state;
     }
+
+
 }

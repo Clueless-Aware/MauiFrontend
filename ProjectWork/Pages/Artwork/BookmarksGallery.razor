@@ -1,0 +1,60 @@
+﻿@page "/bookmarks-gallery"
+@using ProjectWork.Utilities
+<h1 class="fw-light">BookmarksGallery</h1>
+
+@if (App.Authentication.UserSession is null || App.Authentication.UserSession.User is null)
+{
+    <h1>How did you get here? Anyhow you need to be logged in to have any bookmarks...</h1>
+}
+else
+{
+    @if (App.Authentication.UserSession.User.BookmarkedArtworks.Count == 0)
+    {
+        <h1>You don't have any bookmarks yet, while browsing our gallery please press the 'Add to bookmarks' button to add the selected artwork to your bookmarks.</h1>
+    }
+    else
+    {
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    @foreach (var bookmarkedArtwork in App.Authentication.UserSession.User.BookmarkedArtworks)
+                    {
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <div>
+                                    <title>@bookmarkedArtwork.Title</title>
+                                    <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title"/>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">@bookmarkedArtwork.Id - @bookmarkedArtwork.Author - @bookmarkedArtwork.Title</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-outline-primary details-link"
+                                               href="/detail-artwork/@bookmarkedArtwork.Id">
+                                                Go to page
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                    @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }">
+                                                <!--TODO: Call modal instead of this-->
+                                                Remove from bookmarks
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <ProjectWork.Shared.Components.Modal Artwork="bookmarkedArtwork" @ref="Modal"></ProjectWork.Shared.Components.Modal>
+                    }
+                </div>
+                <h2>In total you have @App.Authentication.UserSession.User.BookmarkedArtworks.Count bookmarked artworks</h2>
+            </div>
+        </div>
+    }
+}
+
+@code {
+
+    private Modal Modal { get; set; }
+
+}
