@@ -12,7 +12,7 @@ public class ServiceAPI : IServiceAPI
     private readonly HeadersDirector _headersDirector = new();
     private readonly ImageOptions _imageOptions = new();
     private readonly string url;
-    private UriBuilder _uriBuilder;
+    public UriBuilder UriBuilder { get; set; }
 
     public ServiceAPI(string url)
     {
@@ -32,8 +32,6 @@ public class ServiceAPI : IServiceAPI
 
         UriBuilder = new UriBuilder(url);
     }
-
-    public UriBuilder UriBuilder { get; set; }
 
     public async Task<K> GetDataWithPageAsync<K>(int currentPage)
     {
@@ -83,7 +81,7 @@ public class ServiceAPI : IServiceAPI
     {
         await _headersDirector.AuthenticatedHeader();
         var tempMessage =
-            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PutAsJsonAsync(_uriBuilder.Uri, item));
+            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PutAsJsonAsync(UriBuilder.Uri, item));
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 
@@ -93,7 +91,7 @@ public class ServiceAPI : IServiceAPI
         await _headersDirector.AuthenticatedHeader();
         var content = await HandleMultipart.Build(item, file, _imageOptions);
         var tempMessage =
-            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PatchAsync(_uriBuilder.Uri, content));
+            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PatchAsync(UriBuilder.Uri, content));
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 
