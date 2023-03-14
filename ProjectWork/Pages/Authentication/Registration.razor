@@ -69,15 +69,19 @@
                         <InputTextArea id="idBio" name="message" class="form-control" placeholder="Write your biography here." rows="6" @bind-Value="registrationModel.Biography" />
                         <label for="idBio">Biography</label>
                     </div>
-                    <br/>
-                    <div class="form-floating">
-                        <InputFile id="idProfilePicture" class="form-control" OnChange="(e)=> registrationModel.ProfilePicture = e.File" />
-                        <label for="idProfilePicture">Profile Picture</label>
+
+                    <div class="form-floating w-100">
+                        <div class="w3-margin-bottom w3-padding-large">
+                            <label class="w3-padding w3-margin-top" for="idProfilePicture">Profile Picture</label>
+                            <div class="form-control w-100">
+                                <InputFile class="w3-padding-16 w-100" id="idProfilePicture" OnChange="(e)=> registrationModel.ProfilePicture = e.File" />
+                            </div>    
+                        </div>
                     </div>
-                    <br/>
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-                    <br/>
-                    <input type="button" class="w-100 btn btn-lg btn-outline-warning" @onclick="NextSlide" value="Back">
+
+                    <button class="w-100 general-button w3-margin-top w3-margin-bottom" type="submit">Sign up</button>
+
+                    <input type="button" class="w-100 general-button w3-margin-top w3-margin-bottom" @onclick="NextSlide" value="Back">
                 </EditForm>
             }
             <p class="text-center text-muted mt-5 mb-0">

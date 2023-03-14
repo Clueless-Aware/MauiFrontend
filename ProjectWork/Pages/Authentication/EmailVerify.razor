@@ -3,14 +3,16 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Text.Json.Serialization
 @using ProjectWork.Resources.Static
+
 @inject NavigationManager NavManager
 @layout MainLayout
+
 <div class="d-flex align-items-center justify-content-center">
     <div id="password-card" class="card">
         <div class="card-header">
             <h2 class="text-center">Verify your email</h2>
         </div>
-        <main class="form-signin">
+        <div class="form-signin">
 
             <EditForm Model="_keyVerify" id="register-form" role="form" autocomplete="off" class="form" OnValidSubmit="async ()=>await SendEmail(_keyVerify)">
                 <div class="form-group">
@@ -20,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                         <input id="forgetEmail" name="forgetEmail" placeholder="Email" class="form-control" @bind-value="_keyVerify.Key" type="text">
                     </div>
                 </div>
@@ -28,10 +30,10 @@
                 <ValidationSummary />
                 <br />
                 <div class="form-group">
-                    <input name="btnForget" class="btn btn-lg btn-primary btn-block btnForget" value="Verify your email" type="submit">
+                    <input name="btnForget" class="general-button" value="Verify your email" type="submit">
                 </div>
             </EditForm>
-        </main>
+        </div>
     </div>
 </div>
 
@@ -46,7 +48,7 @@
         if (attempt.status)
         {
             await UtilityToolkit.CreateToast("Email Sent");
-            NavManager.NavigateTo("/accountDetails");
+            NavManager.NavigateTo("/");
         }
         else
         {
