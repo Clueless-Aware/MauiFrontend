@@ -127,4 +127,19 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
     //        return (false, e.Message);
     //    }
     //}
+    public async Task<GenericData<BaseArtwork>> GetGenericDataFromParam(Dictionary<string, string> relatedParametersDictionary)
+    {
+        IsBusy = true;
+        try
+        {
+            var toReturn = await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(relatedParametersDictionary);
+            IsBusy = false;
+            return toReturn;
+        }
+        catch (Exception e)
+        {
+            IsBusy = false;
+            throw;
+        }
+    }
 }

@@ -2,7 +2,9 @@
 
 @using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Artwork
+@using ProjectWork.Models.Core
 @using ProjectWork.Services.Core.OpenAI
+@using ProjectWork.Utilities
 
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
@@ -18,11 +20,11 @@
                 <div class="col-lg-6 text-center card-title">
                     <h1>@_artwork.Title</h1>
                 </div>
-            <button class="w3-right w-25 w3-button w3-hover-shadow w3-round" @onclick="close">
-                <span class="material-symbols-outlined">
-                    close
-                </span>
-            </button>
+                <button class="w3-right w-25 w3-button w3-hover-shadow w3-round" @onclick="close">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
 
 
             </div>
@@ -44,14 +46,15 @@
 
 
             <div class="row justify-content-between gy-4 mt-4">
-            <div class="w3-center w3-margin-top">
-                <button class="general-button" @onclick="show_result"> Ask ChatGPT about this.
-                    <span class="material-symbols-outlined">
-                        temp_preferences_custom
-                    </span>
-                </button>
-            </div>
-            
+                <div class="w3-center w3-margin-top">
+                    <button class="general-button" @onclick="show_result">
+                        Ask ChatGPT about this.
+                        <span class="material-symbols-outlined">
+                            temp_preferences_custom
+                        </span>
+                    </button>
+                </div>
+
 
                 @if (_artwork.Description.Length > 0)
                 {
@@ -108,7 +111,50 @@
             </div>
         </div>
     </section>
-</div>
+    @if (RelatedArtworks.Data.Any())
+    {
+        <div>
+            <PaginatorComponent Paginator="RelatedPaginator"></PaginatorComponent>
+        </div>
+        <!-- End Search Section -->
+        <!-- ======= Gallery Section ======= -->
+        <section id="gallery" class="gallery">
+            <div class="container-fluid">
+
+                <div class="row gy-4 justify-content-center">
+                    @foreach (var artwork in RelatedArtworks.Data)
+                    {
+                        <!-- Start Gallery Item -->
+                        <div class="col-xl-4 col-lg-6 col-md-9" style="height: 400px">
+                            <div class="gallery-item h-100">
+                                <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover;">
+                                <div class="gallery-links d-flex align-items-center justify-content-center">
+                                    <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
+                                        <span class="material-symbols-outlined">
+                                            zoom_out_map
+                                        </span>
+                                    </a>
+                                    <a href="/detail-artwork/@artwork.Id" class="details-link">
+                                        <span class="material-symbols-outlined">
+                                            info
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Gallery Item --->
+                    }
+                </div>
+            </div>
+        </section>
+    }
+    else
+    {
+        <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+            <p class="middle">Could not connect to the Database, try again later.</p>
+        </div>
+    }
+   </div>
 
 
 @code {
@@ -116,22 +162,45 @@
     [Parameter]
     public int Id { get; set; }
 
+    public Parameters RelatedParameters { get; set; } = new();
+    public GenericData<BaseArtwork> RelatedArtworks { get; set; } = new();
+    public Paginator RelatedPaginator { get; set; } = new();
+
     public string description = "";
 
     private BaseArtwork _artwork;
-    private IList<BaseArtwork> _otherArtworks;
 
     protected override async void OnParametersSet()
     {
-        _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
-        var baseArtwork = _artwork;
+        _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id) ?? RelatedArtworks.Data.SingleOrDefault(a => a.Id == Id);
+        //TODO: if null call detail view
+        if (_artwork != null) RelatedParameters.SetSpecific(new BaseArtwork() { AuthorId = _artwork.AuthorId });
+        await GetRelatedData();
+    }
 
+    private async Task GetRelatedData()
+    {
+        try
+        {
+            RelatedArtworks = await ArtworkDirector.GetGenericDataFromParam(RelatedParameters.Dictionary);
+            RelatedPaginator.SetActualState(RelatedParameters, GetRelatedData, RelatedArtworks.Count);
+            this.StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            await UtilityToolkit.CreateToast("ok");
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         askChatGPT();
         await JsRuntime.InvokeVoidAsync("Main.start");
+    }
+
+    private async Task GetDetailGenericData()
+    {
+
     }
 
     private async Task DriveToMuseum()
