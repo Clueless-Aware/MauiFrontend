@@ -6,9 +6,6 @@ public static class Endpoints
     //public const string SiteUrl = "http://localhost:80";
     public const string SiteUrl = "http://51.103.212.24:80";
 
-    //public const string SiteUrl = "http://192.168.30.184:80";
-    //public const string SiteUrl = "http://192.168.1.182:80";
-
     public static string GetArtworkEndpoint()
     {
         return SiteUrl + "/api/artworks/";
@@ -17,6 +14,11 @@ public static class Endpoints
     public static string GetArtworkPath()
     {
         return "/api/artworks/";
+    }
+
+    public static string GetArtworkUrl()
+    {
+        return SiteUrl + "/api/artworks/";
     }
 
     public static string GetRequestsEndpoint()

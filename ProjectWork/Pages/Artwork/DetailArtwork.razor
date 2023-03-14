@@ -12,7 +12,6 @@
     <!-- ======= End Page Header ======= -->
     <div class="page-header d-flex align-items-center card-header">
         <div class="container position-relative">
-
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-6 text-center card-title">
                     <h1>@_artwork.Title</h1>
@@ -22,8 +21,6 @@
                         close
                     </span>
                 </button>
-
-
             </div>
         </div>
     </div>
@@ -44,7 +41,7 @@
 
             <div class="row justify-content-between gy-4 mt-4">
                 <div class="w3-center w3-margin-top">
-                    <button class="general-button" @onclick="async() => await AskChatGpt()">
+                    <button class="general-button" @onclick="async () => await AskChatGpt()">
                         Ask ChatGPT about this.
                         <span class="material-symbols-outlined">
                             temp_preferences_custom
@@ -151,13 +148,15 @@
     private BaseArtwork _artwork;
     private IList<BaseArtwork> _otherArtworks;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(artwork => artwork.Id == Id);
 
         if (_artwork is not null) return;
-    //TODO: Implement :)
-        throw new NotImplementedException("Make an http request to the backend for the artwork not in the director");
+
+        _artwork = await App.Authentication.GetItemAsync(Id);
+
+        if (_artwork is null) throw new Exception("Aware");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -204,7 +203,6 @@
 
         await ChatGpt.gen();
         description = ChatGpt.output;
-
     }
 
 

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
+using ProjectWork.Models.Artwork;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Models.Core.User;
 using ProjectWork.Services.Core;
@@ -149,6 +150,20 @@ public class DRFAuthentication : AuthenticationBase
         catch (Exception e)
         {
             return (false, e.Message);
+        }
+    }
+
+    public async Task<BaseArtwork> GetItemAsync(int artworkId)
+    {
+        try
+        {
+            Service.UriBuilder.Path = Endpoints.GetArtworkUrl() + artworkId + '/';
+            var artwork = await Service.GetDetailObject<BaseArtwork>();
+            return artwork;
+        }
+        catch (Exception)
+        {
+            return null;
         }
     }
 }

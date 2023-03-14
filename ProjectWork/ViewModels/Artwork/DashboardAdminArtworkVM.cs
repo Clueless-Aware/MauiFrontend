@@ -109,4 +109,9 @@ public class DashboardAdminArtworkVM : BaseViewModel<BaseArtwork>
             return (true, e.Message);
         }
     }
+
+    public override Task<BaseArtwork> GetItemAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

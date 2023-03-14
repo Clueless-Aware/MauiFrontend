@@ -83,7 +83,7 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
     /// <summary>
     ///     Update artist from artist input
     /// </summary>
-    /// <param name="artist"></param>
+    /// <param name="artwork"></param>
     /// <returns></returns>
     public override async Task<(bool status, string message)> UpdateItemAsync(BaseArtwork artwork)
     {
@@ -107,6 +107,20 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
             await UtilityToolkit.CreateToast(e.Message);
             IsBusy = false;
             return (true, e.Message);
+        }
+    }
+
+    public override async Task<BaseArtwork> GetItemAsync(int artworkId)
+    {
+        try
+        {
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + artworkId + '/';
+            var artwork = await _artworkService.GetDetailObject<BaseArtwork>();
+            return artwork;
+        }
+        catch (Exception)
+        {
+            return null;
         }
     }
 

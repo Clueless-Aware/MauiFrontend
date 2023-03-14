@@ -106,6 +106,11 @@ public class DashboardAdminArtistVM : BaseViewModel<BaseArtist>
             return (true, e.Message);
         }
     }
+
+    public override Task<BaseArtist> GetItemAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
     //public async Task<(bool status, string message)> GetGenericDataFromParam(Parameters parameters)
     //{
     //    IsBusy = true;

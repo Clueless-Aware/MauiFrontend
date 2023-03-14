@@ -103,4 +103,9 @@ public class ArtworkViewModel : BaseViewModel<BaseArtwork>
             return (true, e.Message);
         }
     }
+
+    public override Task<BaseArtwork> GetItemAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
