@@ -15,52 +15,72 @@
         </div>
     </div>
 
-    <div class="@NavMenuCssClass" @onclick="ToggleNavMenuDiv">
-        <div class="nav nav-pills flex-column mb-auto">
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="/Home">
-                    <span class="material-symbols-outlined w3-margin-right">undo</span> Back
-                </NavLink>
+    <div class="@NavMenuCssClass " @onclick="ToggleNavMenuDiv">
+        <div class="d-flex flex-column h-100">
+
+            <div class="nav nav-pills flex-column mb-auto">
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link w3-padding-16" href="/Home">
+                        <span class="material-symbols-outlined w3-margin-right">undo</span> Back
+                    </NavLink>
+                </div>
+
+                <div class="nav-item px-3 w3-margin-top">
+                    <NavLink class="nav-link w3-padding-16" href="/dashboard">
+                        <span class="material-symbols-outlined w3-margin-right">
+                            breaking_news_alt_1
+                        </span>Notifications
+                    </NavLink>
+                </div>
+
+                <div class="nav-item px-3 w3-margin-top">
+                    <NavLink class="nav-link w3-padding-16" href="/search_and_edit_artwork">
+                        <span class="material-symbols-outlined w3-margin-right" gr>edit_square</span> Edit Artworks
+                    </NavLink>
+                </div>
+
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link w3-padding-16" href="/search_and_edit_artist">
+                        <span class="material-symbols-outlined w3-margin-right" gr>edit_note</span> Edit Artists
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3 w3-margin-top">
+                    <NavLink class="nav-link w3-padding-16" href="add-artwork">
+                        <span class="material-symbols-outlined w3-margin-right">
+                            add_to_photos
+                        </span> Add Artwork
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link w3-padding-16" href="add-artist">
+                        <span class="material-symbols-outlined w3-margin-right">
+                            person_add
+                        </span> Add Artist
+                    </NavLink>
+                </div>
+
             </div>
 
-            <div class="nav-item px-3 w3-margin-top">
-                <NavLink class="nav-link w3-padding-16" href="/dashboard">
-                    <span class="material-symbols-outlined w3-margin-right">
-                        breaking_news_alt_1
-                    </span>Notifications
-                </NavLink>
-            </div>
 
-            <div class="nav-item px-3 w3-margin-top">
-                <NavLink class="nav-link w3-padding-16" href="/search_and_edit_artwork">
-                    <span class="material-symbols-outlined w3-margin-right" gr>edit_square</span> Edit Artworks
-                </NavLink>
-            </div>
+            @*Account/admin*@
+            <div class="mt-auto">
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                        <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <strong>
+                            @App.Authentication.UserSession.User!.Username
+                        </strong>
+                    </NavLink>
+                </div>
 
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="/search_and_edit_artist">
-                    <span class="material-symbols-outlined w3-margin-right" gr>edit_note</span> Edit Artists
-                </NavLink>
-            </div>
-            <div class="nav-item px-3 w3-margin-top">
-                <NavLink class="nav-link w3-padding-16" href="add-artwork">
-                    <span class="material-symbols-outlined w3-margin-right">
-                        add_to_photos
-                    </span> Add Artwork
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link w3-padding-16" href="add-artist">
-                    <span class="material-symbols-outlined w3-margin-right">
-                        person_add
-                    </span> Add Artist
-                </NavLink>
-            </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
+                        <span class="material-symbols-outlined w3-margin-right">logout</span> Logout
+                    </NavLink>
+                </div>
 
+            </div>
         </div>
-
-        @*Account/admin*@
-
     </div>
 </div>
 
