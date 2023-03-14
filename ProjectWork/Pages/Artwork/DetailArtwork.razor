@@ -7,146 +7,151 @@
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavManager
 
-<div id="page-content" class="card m-lg-4 m-1 shadow-lg p-lg-3 p-2 bg-white">
+@if (_artwork != null)
+{
+    <div id="page-content" class="card m-lg-4 m-1 shadow-lg p-lg-3 p-2 bg-white">
 
-    <!-- ======= End Page Header ======= -->
-    <div class="page-header d-flex align-items-center card-header">
-        <div class="container position-relative">
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-6 text-center card-title">
-                    <h1>@_artwork.Title</h1>
-                </div>
-                <button class="w3-right w-25 w3-button w3-hover-shadow w3-round" @onclick="close">
-                    <span class="material-symbols-outlined">
-                        close
-                    </span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <!-- End Page Header -->
-
-
-    <section id="gallery-single" class="gallery-single card-body">
-        <div class="container">
-
-            <div class="position-relative d-flex justify-content-center img-container">
-                <div class="h-100">
-                    <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
-                        <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title"/>
-                    </a>
-                </div>
-            </div>
-
-
-            <div class="row justify-content-between gy-4 mt-4">
-                <div class="w3-center w3-margin-top">
-                    <button class="general-button" @onclick="async () => await AskChatGpt()">
-                        Ask ChatGPT about this.
+        <!-- ======= End Page Header ======= -->
+        <div class="page-header d-flex align-items-center card-header">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center card-title">
+                        <h1>@_artwork.Title</h1>
+                    </div>
+                    <button class="w3-right w-25 w3-button w3-hover-shadow w3-round" @onclick="Close">
                         <span class="material-symbols-outlined">
-                            temp_preferences_custom
+                            close
                         </span>
                     </button>
                 </div>
+            </div>
+        </div>
+        <!-- End Page Header -->
 
 
-                @if (_artwork.Description.Length > 0)
-                {
-                    <div class="col-lg-8">
-                        <div class="portfolio-description">
-                            <h2>Description</h2>
-                            <p>
-                                @_artwork.Description
-                            </p>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="col-lg-8">
-                        <div class="portfolio-description">
-                            <h2>Description</h2>
-                            <p>
-                                @description
-                            </p>
-                        </div>
-                    </div>
-                }
+        <section id="gallery-single" class="gallery-single card-body">
+            <div class="container">
 
-                <div class="col-lg-4">
-                    <div class="portfolio-info">
-                        <h3>Artwork information</h3>
-                        <ul>
-                            <li>
-                                <strong>Author</strong> <span>@_artwork.Author</span>
-                            </li>
-                            <li>
-                                <strong>Date</strong> <span>@_artwork.Date</span>
-                            </li>
-                            <li>
-                                <strong>Technique</strong> <span>@_artwork.Technique</span>
-                            </li>
-                            <li @onclick="DriveToMuseum">
-                                <strong>Location</strong> <span>@_artwork.Location</span>
-                            </li>
-                            <li>
-                                <strong>Form of art</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Form)</span>
-                            </li>
-                            <li>
-                                <strong>Type</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Type)</span>
-                            </li>
-                            <li>
-                                <strong>Time Frame</strong> <span>@_artwork.TimeFrame</span>
-                            </li>
-                        </ul>
+                <div class="position-relative d-flex justify-content-center img-container">
+                    <div class="h-100">
+                        <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
+                            <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title"/>
+                        </a>
                     </div>
-                    @if (App.Authentication.UserSession is not null)
+                </div>
+
+
+                <div class="row justify-content-between gy-4 mt-4">
+                    <div class="w3-center w3-margin-top">
+                        <button class="general-button" @onclick="async () => await AskChatGpt()">
+                            Ask ChatGPT about this.
+                            <span class="material-symbols-outlined">
+                                temp_preferences_custom
+                            </span>
+                        </button>
+                    </div>
+
+
+                    @if (_artwork.Description.Length > 0)
                     {
-                        if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
-                        {
-                            <button type="button" class="btn btn-outline-default waves-effect"
-                                    @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
-                                <span class="material-symbols-outlined">
-                                    bookmark_remove
-                                </span>
-                                Remove from bookmarks
-                            </button>
-                        }
-                        else
-                        {
-                            <button type="button" class="btn btn-outline-default waves-effect"
-                                    @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
-                                <span class="material-symbols-outlined">
-                                    bookmark_add
-                                </span>
-                                Add to bookmarks
-                            </button>
-                        }
+                        <div class="col-lg-8">
+                            <div class="portfolio-description">
+                                <h2>Description</h2>
+                                <p>
+                                    @_artwork.Description
+                                </p>
+                            </div>
+                        </div>
                     }
                     else
                     {
-                        <h5>
-                            Would you like to bookmark <b>this artwork</b>?<br/>
-                            Then please <a href="registration">create an account</a><br/>
-                            Or <a href="login">sign in</a> to an existing one
-                        </h5>
+                        <div class="col-lg-8">
+                            <div class="portfolio-description">
+                                <h2>Description</h2>
+                                <p>
+                                    @_description
+                                </p>
+                            </div>
+                        </div>
                     }
+
+                    <div class="col-lg-4">
+                        <div class="portfolio-info">
+                            <h3>Artwork information</h3>
+                            <ul>
+                                <li>
+                                    <strong>Author</strong> <span>@_artwork.Author</span>
+                                </li>
+                                <li>
+                                    <strong>Date</strong> <span>@_artwork.Date</span>
+                                </li>
+                                <li>
+                                    <strong>Technique</strong> <span>@_artwork.Technique</span>
+                                </li>
+                                <li @onclick="DriveToMuseum">
+                                    <strong>Location</strong> <span>@_artwork.Location</span>
+                                </li>
+                                <li>
+                                    <strong>Form of art</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Form)</span>
+                                </li>
+                                <li>
+                                    <strong>Type</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Type)</span>
+                                </li>
+                                <li>
+                                    <strong>Time Frame</strong> <span>@_artwork.TimeFrame</span>
+                                </li>
+                            </ul>
+                        </div>
+                        @if (App.Authentication.UserSession is not null)
+                        {
+                            if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
+                            {
+                                <button type="button" class="btn btn-outline-default waves-effect"
+                                        @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
+                                    <span class="material-symbols-outlined">
+                                        bookmark_remove
+                                    </span>
+                                    Remove from bookmarks
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-outline-default waves-effect"
+                                        @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
+                                    <span class="material-symbols-outlined">
+                                        bookmark_add
+                                    </span>
+                                    Add to bookmarks
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            <h5>
+                                Would you like to bookmark <b>this artwork</b>?<br/>
+                                Then please <a href="registration">create an account</a><br/>
+                                Or <a href="login">sign in</a> to an existing one
+                            </h5>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
-
+        </section>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
 
 @code {
 
     [Parameter]
     public int Id { get; set; }
 
-    public string description = "";
+    private string _description = "";
 
     private BaseArtwork _artwork;
-    private IList<BaseArtwork> _otherArtworks;
 
     protected override async Task OnInitializedAsync()
     {
@@ -154,14 +159,13 @@
 
         if (_artwork is not null) return;
 
-        _artwork = await App.Authentication.GetItemAsync(Id);
+        _artwork = await ArtworkDirector.GetItemAsync(Id);
 
-        if (_artwork is null) throw new Exception("Aware");
+        StateHasChanged();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-    //askChatGPT();
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
@@ -182,28 +186,25 @@
         }
     }
 
-    private void close()
+    private void Close()
     {
         NavManager.NavigateTo("/Home");
     }
 
     private async Task AskChatGpt()
     {
-        var author = _artwork.Author.Replace(',', ' ');
-        author.Reverse();
-        author.ToLower();
+        var author = _artwork.Author.Replace(',', ' ').ToLower();
 
         var title = _artwork.Title;
         var date = _artwork.Date;
 
         var prompt = "Write me a description of the artwork of " + author + " named " + title + "made in " + date;
-        description = "wait...";
+        _description = "wait...";
 
         ChatGpt.input = prompt;
 
         await ChatGpt.gen();
-        description = ChatGpt.output;
+        _description = ChatGpt.output;
     }
-
 
 }

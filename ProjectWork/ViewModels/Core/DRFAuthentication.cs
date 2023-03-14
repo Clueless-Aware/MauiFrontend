@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
-using ProjectWork.Models.Artwork;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Models.Core.User;
 using ProjectWork.Services.Core;
@@ -62,7 +61,7 @@ public class DRFAuthentication : AuthenticationBase
         {
             var result = await Service.UpdateAsMultipartAsync<UserEditModel, UserModel>(userEdit, file);
             UserSession.User = result ?? throw new Exception("None Result");
-            if (result is null) throw new Exception("Update error");
+            if (result is null) throw new Exception("Update error got no answer from server");
             return (true, "Updated Account Successfully");
         }
         catch (Exception e)
@@ -102,7 +101,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string messge)> AddBookMark(int artworkId)
     {
-        Service.UriBuilder.Path = Endpoints.GetBookmarkEndpoint();
+        Service.UriBuilder.Path = Endpoints.GetBookmarkPath();
         try
         {
             if (App.Authentication.UserSession.User == null)
@@ -124,10 +123,10 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string message)> RemoveBookmark(int bookmarkId)
     {
-        Service.UriBuilder.Path = Endpoints.GetBookmarkEndpoint() + bookmarkId + '/';
+        Service.UriBuilder.Path = Endpoints.GetBookmarkPath() + bookmarkId + '/';
         try
         {
-            await Service.DeleteItemAsyncAiuola(bookmarkId);
+            await Service.DeleteItemAsync(bookmarkId);
             await RefreshUserState();
             return (true, "Deletion successful");
         }
@@ -150,20 +149,6 @@ public class DRFAuthentication : AuthenticationBase
         catch (Exception e)
         {
             return (false, e.Message);
-        }
-    }
-
-    public async Task<BaseArtwork> GetItemAsync(int artworkId)
-    {
-        try
-        {
-            Service.UriBuilder.Path = Endpoints.GetArtworkUrl() + artworkId + '/';
-            var artwork = await Service.GetDetailObject<BaseArtwork>();
-            return artwork;
-        }
-        catch (Exception)
-        {
-            return null;
         }
     }
 }

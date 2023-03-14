@@ -16,12 +16,7 @@ public static class Endpoints
         return "/api/artworks/";
     }
 
-    public static string GetArtworkUrl()
-    {
-        return SiteUrl + "/api/artworks/";
-    }
-
-    public static string GetRequestsEndpoint()
+    public static string GetRequestsPath()
     {
         return "/api/requests/";
     }
@@ -36,12 +31,12 @@ public static class Endpoints
         return SiteUrl + "/api/auth/token/refresh/";
     }
 
-    public static string GetResetPasswordConfirm()
+    public static string GetResetPasswordConfirmPath()
     {
         return "api/auth/password/reset/confirm/";
     }
 
-    public static string GetBookmarkEndpoint()
+    public static string GetBookmarkPath()
     {
         return "/api/bookmarks/";
     }

@@ -54,14 +54,7 @@ public class ServiceAPI : IServiceAPI
         return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>(UriBuilder.Uri));
     }
 
-    public async Task<HttpStatusCode> DeleteItemAsync(int page)
-    {
-        await _headersDirector.AuthenticatedHeader();
-        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().DeleteAsync($"{url}{page}/"));
-        return await HandleResponse.Responded(tempMessage);
-    }
-
-    public async Task<HttpStatusCode> DeleteItemAsyncAiuola(int id)
+    public async Task<HttpStatusCode> DeleteItemAsync(int id)
     {
         await _headersDirector.AuthenticatedHeader();
         var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().DeleteAsync(UriBuilder.Uri));
@@ -71,7 +64,8 @@ public class ServiceAPI : IServiceAPI
     public async Task<TR> PostItemAsJsonAsync<TS, TR>(TS item)
     {
         await _headersDirector.AuthenticatedHeader();
-        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsJsonAsync(UriBuilder.Uri, item));
+        var tempMessage =
+            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsJsonAsync(UriBuilder.Uri, item));
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 
@@ -79,7 +73,8 @@ public class ServiceAPI : IServiceAPI
     {
         await _headersDirector.AuthenticatedHeader();
         var content = await HandleMultipart.Build(item, file, _imageOptions);
-        var tempMessage = await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(UriBuilder.Uri, content));
+        var tempMessage =
+            await HandleRequest.Requested(_headersBuilder.GetHttpClient().PostAsync(UriBuilder.Uri, content));
         return await HandleResponse.Responded<TR>(tempMessage);
     }
 

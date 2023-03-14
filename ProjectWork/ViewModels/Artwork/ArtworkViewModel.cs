@@ -104,8 +104,18 @@ public class ArtworkViewModel : BaseViewModel<BaseArtwork>
         }
     }
 
-    public override Task<BaseArtwork> GetItemAsync(int id)
+    public override async Task<BaseArtwork> GetItemAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + id + '/';
+            var artwork = await _artworkService.GetDetailObject<BaseArtwork>();
+            return artwork;
+        }
+        catch (Exception exception)
+        {
+            await UtilityToolkit.CreateToast("There was an error in navigating to artwork: " + exception.Message);
+            return null;
+        }
     }
 }

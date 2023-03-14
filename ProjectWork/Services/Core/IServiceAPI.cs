@@ -9,8 +9,7 @@ public interface IServiceAPI
     Task<TR> PostItemAsJsonAsync<TS, TR>(TS item);
     Task<TR> AddItemAsMultipartAsync<TS, TR>(TS item, IBrowserFile file);
     Task<TR> UpdateAsMultipartAsync<TS, TR>(TS item, IBrowserFile file);
-    Task<HttpStatusCode> DeleteItemAsync(int page);
-    Task<HttpStatusCode> DeleteItemAsyncAiuola(int id);
+    Task<HttpStatusCode> DeleteItemAsync(int id);
     Task<K> GetDataWithPageAsync<K>(int currentPage);
     Task<K> GetDataWithParamAsync<K>(Dictionary<string, string> parameters);
     Task<K> GetDetailObject<K>();
