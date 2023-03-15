@@ -68,7 +68,12 @@
                             <h3>Artwork information</h3>
                             <ul>
                                 <li>
-                                    <strong>Author</strong> <span>@_artwork.Author</span>
+                                    <strong>
+                                        Author
+                                    </strong>
+                                    <a href="/detail-artist/@_artwork.AuthorId" he>
+                                        <span>@_artwork.Author</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <strong>Date</strong> <span>@_artwork.Date</span>
@@ -127,7 +132,7 @@
             </div>
         </section>
 
-        @if (RelatedArtworks.Data.Any())
+        @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
         {
             <!-- ======= Search Section ======= -->
             <div>
@@ -168,7 +173,7 @@
         else
         {
             <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
-                <p class="middle">There are no related artworks we could find</p>
+                <p class="middle">@ErrorMessage</p>
             </div>
         }
         <Navigator></Navigator>
@@ -185,6 +190,8 @@ else
     [Parameter]
     public int Id { get; set; }
 
+    private string ErrorMessage { get; set; } = "There are no related artworks we could find";
+
     private string _description = "";
 
 
@@ -200,8 +207,15 @@ else
 
         if (_artwork != null)
         {
-            RelatedParameters.SetSpecific(new BaseArtwork { AuthorId = _artwork.AuthorId });
-            await GetRelatedData();
+            if (_artwork.AuthorId == 1) //NPC detected
+            {
+                ErrorMessage = "Since this artist is anonymus/not in our database we couldn't find any related artworks";
+            }
+            else
+            {
+                RelatedParameters.SetSpecific(new BaseArtwork { AuthorId = _artwork.AuthorId });
+                await GetRelatedData();
+            }
         }
         else
         {
