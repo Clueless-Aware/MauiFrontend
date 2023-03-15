@@ -92,7 +92,7 @@ public class DRFAuthentication : AuthenticationBase
         {
             var result = await Service.PostItemAsJsonAsync<T, T>(element);
             if (result is null) throw new Exception("Request message error");
-            return (true, "Request Success");
+            return (true, "Request Successful");
         }
         catch (Exception e)
         {

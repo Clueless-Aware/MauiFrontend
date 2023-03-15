@@ -6,8 +6,9 @@
 
 <h2>User requests</h2>
 <div class="table-responsive">
-    <input type="checkbox" id="checkup"/>
-    <label for="checkup" @onchange="() => ShowReviewed = !ShowReviewed">Show viewed request</label>
+    <input type="checkbox" id="checkup"
+           @onchange="() => ShowReviewed = !ShowReviewed" checked="@ShowReviewed"/>
+    <label for="checkup">Show viewed requests</label>
     <table class="table table-sm table-group-divider table-hover">
         <thead>
         <tr>
@@ -22,7 +23,7 @@
         <tbody>
         @foreach (var request in RequestsVirtualMachine.GenericData.Data)
         {
-            @if (request.IsSeen != true || ShowReviewed)
+            @if (request.IsSeen != true)
             {
                 <tr class="@GetRowStyle(request)">
                     <th scope="row">@request.Id</th>
@@ -36,11 +37,17 @@
                     </td>
                 </tr>
             }
-            else
+            else if (ShowReviewed)
             {
                 <tr class="table-success">
-                    <td colspan="4">
-                        Request @request.Id is marked as completed
+                    <td colspan="5">
+                        <bold>
+                            Request @request.Id is marked as seen
+                        </bold>
+                    </td>
+                    <td>
+                        <input type="checkbox" checked="@request.IsSeen"
+                               @onchange="async () => await UpdateRequest(request)"/>
                     </td>
                 </tr>
             }

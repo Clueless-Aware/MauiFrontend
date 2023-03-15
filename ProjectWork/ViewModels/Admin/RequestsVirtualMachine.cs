@@ -30,9 +30,23 @@ public class RequestsVirtualMachine : BaseViewModel<RequestModel>
         throw new NotImplementedException();
     }
 
-    public override Task<(bool status, string message)> UpdateItemAsync(RequestModel request)
+    public override async Task<(bool status, string message)> UpdateItemAsync(RequestModel request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var originalPath = _requestsService.UriBuilder.Path;
+            _requestsService.UriBuilder.Path = Endpoints.GetRequestsPath() + request.Id + '/';
+
+            var newRequest = await _requestsService.UpdateItemAsJsonAsync<RequestModel, RequestModel>(request);
+
+            _requestsService.UriBuilder.Path = originalPath;
+            return (true, "Updated successfully");
+        }
+        catch (Exception e)
+        {
+            await UtilityToolkit.CreateToast("Error in request update: " + e.Message);
+            return (false, e.Message);
+        }
     }
 
     public override Task<RequestModel> GetItemAsync(int id)
