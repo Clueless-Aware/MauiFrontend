@@ -1,6 +1,7 @@
 ﻿@page "/bookmarks-gallery"
 @using ProjectWork.Utilities
-<h1 class="fw-light">BookmarksGallery</h1>
+<h1 class="fw-light">My Bookmarks</h1>
+<hr />
 
 @if (App.Authentication.UserSession is null || App.Authentication.UserSession.User is null)
 {
@@ -20,25 +21,36 @@ else
                     @foreach (var bookmarkedArtwork in App.Authentication.UserSession.User.BookmarkedArtworks)
                     {
                         <div class="col">
-                            <div class="card shadow-sm">
-                                <div>
-                                    <title>@bookmarkedArtwork.Title</title>
-                                    <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title"/>
+                            <div class="card shadow-sm w3-round-large h-100">
+                                <div class="card-header">
+                                    <h1 class="w3-margin-left w3-bold w3-large w3-padding-16">@bookmarkedArtwork.Title</h1>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text">@bookmarkedArtwork.Id - @bookmarkedArtwork.Author - @bookmarkedArtwork.Title</p>
+
+                                <div class="card-body h-75">
+                                    <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title" />
+                                    <p class="card-text">@bookmarkedArtwork.Id - @bookmarkedArtwork.Author</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <a class="btn btn-sm btn-outline-primary details-link"
-                                               href="/detail-artwork/@bookmarkedArtwork.Id">
-                                                Go to page
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary"
-                                                    @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }">
-                                                <!--TODO: Call modal instead of this-->
-                                                Remove from bookmarks
-                                            </button>
-                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="btn-group">
+                                        <a class="general-button w3-margin-right"
+                                           href="/detail-artwork/@bookmarkedArtwork.Id">
+                                            <span class="material-symbols-outlined w-100">
+                                                auto_stories
+                                            </span>
+                                            Go to page
+                                        </a>
+                                        <button type="button" class="general-button"
+                                    @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }">
+                                            <!--TODO: Call modal instead of this-->
+                                            <span class="material-symbols-outlined w-100">
+                                                close
+                                            </span>
+                                            Remove from bookmarks
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +59,9 @@ else
                         <ProjectWork.Shared.Components.Modal Artwork="bookmarkedArtwork" @ref="Modal"></ProjectWork.Shared.Components.Modal>
                     }
                 </div>
-                <h2>In total you have @App.Authentication.UserSession.User.BookmarkedArtworks.Count bookmarked artworks</h2>
+
+                <hr>
+                <p class="w3-opacity">You have @App.Authentication.UserSession.User.BookmarkedArtworks.Count bookmarks</p>
             </div>
         </div>
     }
