@@ -1,5 +1,18 @@
-﻿@page "/OngoingRequests"
+﻿@page "/OutgoingRequests"
+
 <h3>OngoingRequests</h3>
+
+@if (!App.Authentication.UserSession.User.Requests.Any())
+{
+    <p>You have not sent any requests on this account</p>
+}
+else
+{
+    @foreach (var request in App.Authentication.UserSession.User.Requests)
+    {
+        <p>@request</p>
+    }
+}
 
 @code {
 

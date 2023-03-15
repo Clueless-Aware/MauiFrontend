@@ -27,7 +27,7 @@
             {
                 <tr class="@GetRowStyle(request)">
                     <th scope="row">@request.Id</th>
-                    <td>@request.UserId</td>
+                    <td>@request.UserEmail</td>
                     <td>@request.Subject</td>
                     <td>@request.Content</td>
                     <td>@request.Date</td>
@@ -42,7 +42,7 @@
                 <tr class="table-success">
                     <td colspan="5">
                         <bold>
-                            Request @request.Id is marked as seen
+                            Request n° @request.Id is marked as seen
                         </bold>
                     </td>
                     <td>

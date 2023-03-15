@@ -12,8 +12,9 @@ public class RequestModel
 
     [JsonPropertyName("from_user")] public int UserId { get; set; }
 
+    [JsonPropertyName("email")] public string UserEmail { get; set; }
+
     [JsonPropertyName("id")] public int Id { get; set; }
-    //[JsonPropertyName("user_details")] private int UserModel { get; set; }
 
     public override string ToString()
     {
