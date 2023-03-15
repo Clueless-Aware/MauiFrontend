@@ -107,8 +107,18 @@ public class SearchArtistVM : BaseViewModel<BaseArtist>
         }
     }
 
-    public override Task<BaseArtist> GetItemAsync(int id)
+    public override async Task<BaseArtist> GetItemAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _artistService.UriBuilder.Path = Endpoints.GetArtistPath() + id + '/';
+            var artist = await _artistService.GetDetailObject<BaseArtist>();
+            return artist;
+        }
+        catch (Exception exception)
+        {
+            await UtilityToolkit.CreateToast("There was an error in navigating to artist: " + exception.Message);
+            return null;
+        }
     }
 }

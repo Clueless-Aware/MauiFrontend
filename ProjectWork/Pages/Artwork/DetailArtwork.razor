@@ -1,37 +1,30 @@
 ﻿@page "/detail-artwork/{Id:int}"
 @using ProjectWork.ViewModels.Artwork
-@using ProjectWork.Models.Artwork
+@using ProjectWork.Models.Core
 @using ProjectWork.Services.Core.OpenAI
 @using ProjectWork.Utilities
+@using ProjectWork.Models.Artwork
 @inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
-@inject NavigationManager NavManager
 
 @if (_artwork != null)
 {
     <div id="page-content" class="card m-lg-4 m-1 shadow-lg p-lg-3 p-2 bg-white">
 
-        <!-- ======= End Page Header ======= -->
+        <!-- ======= Page Header ======= -->
         <div class="page-header d-flex align-items-center card-header">
             <div class="container position-relative">
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6 text-center card-title">
                         <h1>@_artwork.Title</h1>
                     </div>
-                    <button class="w3-right w-25 w3-button w3-hover-shadow w3-round" @onclick="Close">
-                        <span class="material-symbols-outlined">
-                            close
-                        </span>
-                    </button>
                 </div>
             </div>
         </div>
         <!-- End Page Header -->
 
-
         <section id="gallery-single" class="gallery-single card-body">
             <div class="container">
-
                 <div class="position-relative d-flex justify-content-center img-container">
                     <div class="h-100">
                         <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
@@ -39,8 +32,6 @@
                         </a>
                     </div>
                 </div>
-
-
                 <div class="row justify-content-between gy-4 mt-4">
                     <div class="w3-center w3-margin-top">
                         <button class="general-button" @onclick="async () => await AskChatGpt()">
@@ -50,8 +41,6 @@
                             </span>
                         </button>
                     </div>
-
-
                     @if (_artwork.Description.Length > 0)
                     {
                         <div class="col-lg-8">
@@ -74,13 +63,17 @@
                             </div>
                         </div>
                     }
-
                     <div class="col-lg-4">
                         <div class="portfolio-info">
                             <h3>Artwork information</h3>
                             <ul>
                                 <li>
-                                    <strong>Author</strong> <span>@_artwork.Author</span>
+                                    <strong>
+                                        Author
+                                    </strong>
+                                    <a href="/detail-artist/@_artwork.AuthorId" he>
+                                        <span>@_artwork.Author</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <strong>Date</strong> <span>@_artwork.Date</span>
@@ -102,6 +95,7 @@
                                 </li>
                             </ul>
                         </div>
+
                         @if (App.Authentication.UserSession is not null)
                         {
                             if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
@@ -137,6 +131,53 @@
                 </div>
             </div>
         </section>
+
+        @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
+        {
+            <!-- ======= Search Section ======= -->
+            <div>
+                <PaginatorComponent Paginator="RelatedPaginator"></PaginatorComponent>
+            </div>
+            <!-- End Search Section -->
+            <!-- ======= Gallery Section ======= -->
+            <section id="gallery" class="gallery">
+                <div class="container-fluid">
+
+                    <div class="row gy-4 justify-content-center">
+                        @foreach (var artwork in RelatedArtworks.Data)
+                        {
+                            <!-- Start Gallery Item -->
+                            <div class="col-xl-4 col-lg-6 col-md-9" style="height: 400px">
+                                <div class="gallery-item h-100">
+                                    <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover;">
+                                    <div class="gallery-links d-flex align-items-center justify-content-center">
+                                        <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
+                                            <span class="material-symbols-outlined">
+                                                zoom_out_map
+                                            </span>
+                                        </a>
+                                        <a href="/detail-artwork/@artwork.Id" class="details-link">
+                                            <span class="material-symbols-outlined">
+                                                info
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Gallery Item --->
+                        }
+                    </div>
+                </div>
+            </section>
+        }
+        else
+        {
+            <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+                <p class="middle">@ErrorMessage</p>
+            </div>
+        }
+        <Navigator></Navigator>
+
     </div>
 }
 else
@@ -149,18 +190,48 @@ else
     [Parameter]
     public int Id { get; set; }
 
+    private string ErrorMessage { get; set; } = "There are no related artworks we could find";
+
     private string _description = "";
 
+
+    private Parameters RelatedParameters { get; } = new();
+    private GenericData<BaseArtwork> RelatedArtworks { get; set; } = new();
+    private Paginator RelatedPaginator { get; } = new();
     private BaseArtwork _artwork;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(artwork => artwork.Id == Id);
+        _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(artwork => artwork.Id == Id)
+                   ?? await ArtworkDirector.GetItemAsync(Id);
 
-        if (_artwork is not null) return;
+        if (_artwork != null)
+        {
+            if (_artwork.AuthorId == 1) //NPC detected
+            {
+                ErrorMessage = "Since this artist is anonymus/not in our database we couldn't find any related artworks";
+            }
+            else
+            {
+                RelatedParameters.SetSpecific(new BaseArtwork { AuthorId = _artwork.AuthorId });
+                await GetRelatedData();
+            }
+        }
+        else
+        {
+            await UtilityToolkit.CreateToast("Sorry we couldn't load this artwork please try again later");
+        }
 
-        _artwork = await ArtworkDirector.GetItemAsync(Id);
+        StateHasChanged();
+    }
 
+    private async Task GetRelatedData()
+    {
+        var relatedArtworks = await ArtworkDirector.GetGenericDataFromParam(RelatedParameters.Dictionary);
+        relatedArtworks.Data = relatedArtworks.Data.Where(artwork => artwork.Id != Id);
+        relatedArtworks.Count = relatedArtworks.Data.Count();
+        RelatedArtworks = relatedArtworks;
+        RelatedPaginator.SetActualState(RelatedParameters, GetRelatedData, RelatedArtworks.Count);
         StateHasChanged();
     }
 
@@ -176,19 +247,7 @@ else
             CountryName = _artwork.Location
         };
         var options = new MapLaunchOptions { Name = "Microsoft Building 25" };
-        try
-        {
-            await Map.Default.OpenAsync(placeMark, options);
-        }
-        catch (Exception ex)
-        {
-    // No map application available to open or place mark can not be located
-        }
-    }
-
-    private void Close()
-    {
-        NavManager.NavigateTo("/Home");
+        await Map.Default.OpenAsync(placeMark, options);
     }
 
     private async Task AskChatGpt()

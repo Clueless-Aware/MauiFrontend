@@ -58,5 +58,7 @@
     .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;
+        height: 100%;
+        flex-direction: column;
     }
 }

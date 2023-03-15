@@ -1,0 +1,19 @@
+﻿@inject IJSRuntime JsRuntime
+<button @onclick="GoTop" id="top-Button" class="navigation-button" title="Go to top"><span class="material-symbols-outlined">
+    arrow_upward
+</span></button>
+<button @onclick="GoBack" id="back-Button" class="navigation-button" title="Go to Back"><span class="material-symbols-outlined">
+    arrow_back
+</span></button>
+@code {
+    private async void GoBack()
+    {
+        await JsRuntime.InvokeVoidAsync("Main.goBack");
+    }
+
+    private async void GoTop()
+    {
+        await JsRuntime.InvokeVoidAsync("Main.goTop");
+    }
+
+}
