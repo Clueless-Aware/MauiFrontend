@@ -40,4 +40,5 @@ public abstract class BaseViewModel<T> : ObservableRecipient, IViewModel<T>
 
     public abstract Task<(bool status, string message)> AddItemAsync(T artist);
     public abstract Task<(bool status, string message)> UpdateItemAsync(T artist);
+    public abstract Task<T> GetItemAsync(int id);
 }

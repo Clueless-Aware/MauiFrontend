@@ -1,16 +1,14 @@
-﻿namespace ProjectWork.Resources.Static;
+﻿namespace ProjectWork.Utilities;
 
 public static class Endpoints
 {
     //Set the ip of your local host
-    //private static readonly string _url = "http://localhost:80";
-    //private static readonly string _url = "http://192.168.30.138:80";
-    //private static readonly string _url = "http://192.168.30.184:80";
-    private static readonly string _url = "http://51.103.212.24:80";
+    //public const string SiteUrl = "http://localhost:80";
+    public const string SiteUrl = "http://51.103.212.24:80";
 
     public static string GetArtworkEndpoint()
     {
-        return _url + "/api/artworks/";
+        return SiteUrl + "/api/artworks/";
     }
 
     public static string GetArtworkPath()
@@ -18,7 +16,7 @@ public static class Endpoints
         return "/api/artworks/";
     }
 
-    public static string GetRequestsEndpoint()
+    public static string GetRequestsPath()
     {
         return "/api/requests/";
     }
@@ -30,17 +28,22 @@ public static class Endpoints
 
     public static string GetRefreshTokenEndpoint()
     {
-        return _url + "/api/auth/token/refresh/";
+        return SiteUrl + "/api/auth/token/refresh/";
     }
 
-    public static string GetResetPasswordConfirm()
+    public static string GetResetPasswordConfirmPath()
     {
         return "api/auth/password/reset/confirm/";
     }
 
+    public static string GetBookmarkPath()
+    {
+        return "/api/bookmarks/";
+    }
+
     public static string GetArtistEndpoint()
     {
-        return _url + "/api/artists/";
+        return SiteUrl + "/api/artists/";
     }
 
     public static string GetArtistPath()

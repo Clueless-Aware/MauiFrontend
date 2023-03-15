@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using ProjectWork.Models.Artist;
 using ProjectWork.Models.Core;
-using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
@@ -92,12 +91,12 @@ public class SearchArtistVM : BaseViewModel<BaseArtist>
         IsBusy = true;
         try
         {
-            var tempPath = _artistService.Uri.Path;
-            _artistService.Uri.Path = Endpoints.GetArtistPath() + artist.Id + '/';
+            var tempPath = _artistService.UriBuilder.Path;
+            _artistService.UriBuilder.Path = Endpoints.GetArtistPath() + artist.Id + '/';
             var newItem = await _artistService.UpdateAsMultipartAsync<BaseArtist, BaseArtist>(artist, artist.File);
             await UtilityToolkit.CreateToast($"Updated element: {newItem.Id} {newItem.Name} ");
             IsBusy = false;
-            _artistService.Uri.Path = tempPath;
+            _artistService.UriBuilder.Path = tempPath;
             return (true, "Updated success");
         }
         catch (Exception e)
@@ -107,21 +106,9 @@ public class SearchArtistVM : BaseViewModel<BaseArtist>
             return (true, e.Message);
         }
     }
-    //public async Task<(bool status, string message)> GetGenericDataFromParam(Parameters parameters)
-    //{
-    //    IsBusy = true;
-    //    try
-    //    {
-    //        GenericData = await _artistService.GetDataWithParamAsync<GenericData<BaseArtwork>>(parameters.Dictionary);
-    //        Paginator.SetActualState(Parameters, this.GetGenericDataFromParam(parameters), GenericData.Count);
-    //        IsBusy = false;
-    //        return (true, "Success fetch");
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        await UtilityToolkit.CreateToast(e.Message);
-    //        IsBusy = false;
-    //        return (false, e.Message);
-    //    }
-    //}
+
+    public override Task<BaseArtist> GetItemAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -1,19 +1,18 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
+using ProjectWork.Utilities;
 using ProjectWork.ViewModels.Artist;
 using ProjectWork.ViewModels.Artwork;
 using ProjectWork.ViewModels.Core;
 #if WINDOWS
 using Microsoft.Maui.LifecycleEvents;
 #endif
+
 namespace ProjectWork;
 
 public static class MauiProgram
 {
-
-
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
@@ -33,13 +32,11 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-
-
-        builder.Services.AddSingleton<DRFAuthentication>(x => new DRFAuthentication(new ServiceAPI(
-            Endpoints.GetArtworkEndpoint(), new ImageOptions()
-        {
+        builder.Services.AddSingleton(x => new DRFAuthentication(new ServiceAPI(
+            Endpoints.SiteUrl, new ImageOptions
+            {
                 FileName = "profile_picture"
-        })));
+            })));
 
 
         builder.Services.AddScoped<SearchArtworkVM>();

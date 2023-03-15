@@ -97,7 +97,6 @@
 @code {
     private string SearchField { get; set; }
 
-
     protected override async Task OnInitializedAsync()
     {
         DirectorArtworkSearch.PropertyChanged += async (sender, e) => { await InvokeAsync(() => { StateHasChanged(); }); };

@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using ProjectWork.Models.Artwork;
 using ProjectWork.Models.Core;
-using ProjectWork.Resources.Static;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
 
@@ -84,7 +83,7 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
     /// <summary>
     ///     Update artist from artist input
     /// </summary>
-    /// <param name="artist"></param>
+    /// <param name="artwork"></param>
     /// <returns></returns>
     public override async Task<(bool status, string message)> UpdateItemAsync(BaseArtwork artwork)
     {
@@ -92,15 +91,15 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
         try
         {
             //save the original path
-            var tempPath = _artworkService.Uri.Path; 
-            _artworkService.Uri.Path = Endpoints.GetArtworkPath() + artwork.Id + '/';
+            var tempPath = _artworkService.UriBuilder.Path;
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + artwork.Id + '/';
             var newItem =
                 await _artworkService.UpdateAsMultipartAsync<BaseArtwork, BaseArtwork>(artwork,
                     artwork.File);
             await UtilityToolkit.CreateToast($"Updated element: {newItem.Id} {newItem.Title} ");
             IsBusy = false;
             //reset to the original path
-            _artworkService.Uri.Path = tempPath;
+            _artworkService.UriBuilder.Path = tempPath;
             return (true, "Updated success");
         }
         catch (Exception e)
@@ -110,30 +109,32 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
             return (true, e.Message);
         }
     }
-    //public async Task<(bool status, string message)> GetGenericDataFromParam(Parameters parameters)
-    //{
-    //    IsBusy = true;
-    //    try
-    //    {
-    //        GenericData = await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(parameters.Dictionary);
-    //        Paginator.SetActualState(Parameters, this.GetGenericDataFromParam(parameters), GenericData.Count);
-    //        IsBusy = false;
-    //        return (true, "Success fetch");
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        await UtilityToolkit.CreateToast(e.Message);
-    //        IsBusy = false;
-    //        return (false, e.Message);
-    //    }
-    //}
-    public async Task<GenericData<BaseArtwork>> GetGenericDataFromParam(Dictionary<string, string> relatedParametersDictionary)
+
+    public override async Task<BaseArtwork> GetItemAsync(int artworkId)
+    {
+        try
+        {
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + artworkId + '/';
+            var artwork = await _artworkService.GetDetailObject<BaseArtwork>();
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath();
+            return artwork;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    public async Task<GenericData<BaseArtwork>> GetGenericDataFromParam(
+        Dictionary<string, string> relatedParametersDictionary)
     {
         IsBusy = true;
         try
         {
-            var toReturn = await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(relatedParametersDictionary);
+            var toReturn =
+                await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(relatedParametersDictionary);
             IsBusy = false;
+            _artworkService.UriBuilder.Query = "";
             return toReturn;
         }
         catch (Exception e)
