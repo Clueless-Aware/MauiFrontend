@@ -1,0 +1,89 @@
+﻿@using ProjectWork.ViewModels.Artwork
+@using ProjectWork.Models.Artwork
+@using ProjectWork.Utilities
+@inject SearchArtworkVM DirectorArtworkSearch
+
+
+<div class="w3-bar w3-padding">
+    <form @onsubmit="DoSearch">
+        <span>
+
+            <input id="searchBar" type="search"
+                   class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
+                   value="@SearchField" @onchange="async e =>{ DirectorArtworkSearch.Parameters.SetPage(1);SearchField = (string)e.Value; DirectorArtworkSearch.Parameters.SetSearch(SearchField);}" />
+
+            <span class="material-symbols-outlined middle w3-xxlarge">
+                low_priority
+            </span>
+            <label class="switch middle w3-margin-left w3-margin-right">
+                <input type="checkbox" checked @onchange="CheckboxChanged">
+                <span class="slider round"></span>
+            </label>
+            <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
+                low_priority
+            </span>
+            <button type="submit" id="search" class="general-button">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </span>
+        @*TODO: CSS TO THIS *@
+        <input type="button" @onclick="()=>{ ShowAdvanced=!ShowAdvanced; }" value="Show Advanced Search">
+        <input type="button" @onclick="async() => await Reset()" value="Reset">
+        @if (ShowAdvanced)
+        {
+
+
+            <div class="input-group d-flex">
+                <InputSelect class="form-control p-2" @bind-Value="BaseArtwork.Form">
+                    <option value="">Any Forms</option>
+                    @foreach (var form in ArtworkFilters.UniqueForms.Order())
+                    {
+                        <option value="@form">@form</option>
+                    }
+                </InputSelect>
+                <InputSelect class="form-control p-2"  @bind-Value="BaseArtwork.Type">
+                    <option value="" selected>Any Type</option>
+                    @foreach (var type in ArtworkFilters.UniqueTypes.Order())
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </InputSelect>
+                <InputSelect class="form-control p-2"  @bind-Value="BaseArtwork.TimeFrame">
+                    <option value="" selected>Any Time frame</option>
+                    @foreach (var frame in ArtworkFilters.UniqueTimeFrames.Order())
+                    {
+                        <option value="@frame">@frame</option>
+                    }
+                </InputSelect>
+            </div>
+        }
+    </form>
+
+
+    <hr />
+</div>
+
+@code {
+    private string SearchField { get; set; }
+    private bool ShowAdvanced { get; set; } = false;
+    private BaseArtwork BaseArtwork { get; set; } = new();
+    async Task DoSearch()
+    {
+        DirectorArtworkSearch.Parameters.SetSpecific(BaseArtwork);
+        await DirectorArtworkSearch.GetGenericDataFromPageAsync();
+    }
+    private async Task CheckboxChanged(ChangeEventArgs e)
+    {
+        var b = (bool)e.Value;
+        DirectorArtworkSearch.Parameters.SetOrdering(b ? "title" : "-title");
+        await DoSearch();
+    }
+
+    private async Task Reset()
+    {
+        BaseArtwork = new BaseArtwork();
+        DirectorArtworkSearch.Parameters.ResetParameters();
+        await DirectorArtworkSearch.GetGenericDataFromPageAsync();
+    }
+
+}
