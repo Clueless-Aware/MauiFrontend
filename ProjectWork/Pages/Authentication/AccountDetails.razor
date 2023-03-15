@@ -8,91 +8,85 @@
         list-style-type: none;
     }
 </style>
-    <div class="w3-card-4 w3-padding w3-margin-left w3-round-xlarge">
-        <h3 class="w3-margin-left">User Profile</h3>
-
-        <hr/>
-
-        <ul>
-            <li>
-                <p class="w3-bold">Username:</p>
-            </li>
-            <li>
-                <p>
-                    @user.Username
-                </p>
-            </li>
-            <li>
-                <p class="w3-bold">E-mail:</p>
-            </li>
-            <li>
-                <p>
-                    @user.Email
-                </p>
-            </li>
-            <li>
-                <p class="w3-bold">Bio:</p>
-            </li>
-            <li>
-                <p>
-                    @user.Biography
-                </p>
-            </li>
-            <li>
-                <p class="w3-bold">First Name:</p>
-            </li>
-
-            <li>
-                <p>
-                    @user.FirstName
-                </p>
-            </li>
-            <li>
-                <p class="w3-bold">Last Name:</p>
-            </li>
-            <li>
-                <p>
-                    @user.LastName
-                </p>
-            </li>
-            <li>
-                <p class="w3-bold">Joined:</p>
-            </li>
-            <li>
-                <p>
-                    @user.DateJoined
-                </p>
-            </li>
-            <li>
-                <p class="w3-bold">Photo:</p>
-            </li>
-            <li>
-                <p>
-                    <img src="@user.ProfilePicture"/>
-                </p>
-            </li>
-            <li>
-                <span class="w3-bold w3-large">Type of access: </span>
-                @if (user.IsStaff)
-                {
-                    <span class="w3-text-green">Staff</span>
-                }
-                else
-                {
-                    <span class="w3-text-orange">Basic</span>
-                }
-            </li>
-        </ul>
-
-        <hr/>
-
-        <span>
-            <button onclick="@edit_Account" class="general-button">
-                Edit
-            </button>
-        </span>
-
-    </div>
+<div class="w3-card-4 w3-padding w3-margin-left w3-round-xlarge">
+    <h3 class="w3-margin-left">User Profile</h3>
+    <hr/>
+    <ul>
+        <li>
+            <p class="w3-bold">Username:</p>
+        </li>
+        <li>
+            <p>
+                @_user.Username
+            </p>
+        </li>
+        <li>
+            <p class="w3-bold">E-mail:</p>
+        </li>
+        <li>
+            <p>
+                @_user.Email
+            </p>
+        </li>
+        <li>
+            <p class="w3-bold">Bio:</p>
+        </li>
+        <li>
+            <p>
+                @_user.Biography
+            </p>
+        </li>
+        <li>
+            <p class="w3-bold">First Name:</p>
+        </li>
+        <li>
+            <p>
+                @_user.FirstName
+            </p>
+        </li>
+        <li>
+            <p class="w3-bold">Last Name:</p>
+        </li>
+        <li>
+            <p>
+                @_user.LastName
+            </p>
+        </li>
+        <li>
+            <p class="w3-bold">Joined:</p>
+        </li>
+        <li>
+            <p>
+                @_user.DateJoined
+            </p>
+        </li>
+        <li>
+            <p class="w3-bold">Photo:</p>
+        </li>
+        <li>
+            <p>
+                <img src="@_user.ProfilePicture" alt="Profile Picture"/>
+            </p>
+        </li>
+        <li>
+            <span class="w3-bold w3-large">Type of access: </span>
+            @if (_user.IsStaff)
+            {
+                <span class="w3-text-green">Staff</span>
+            }
+            else
+            {
+                <span class="w3-text-orange">Basic</span>
+            }
+        </li>
+    </ul>
+    <hr/>
+    <span>
+        <button onclick="@edit_Account" class="general-button">
+            Edit
+        </button>
+    </span>
+</div>
 
 @code {
 
@@ -101,11 +95,11 @@
         NavManager.NavigateTo("/AccountEdit");
     }
 
-    private UserModel user = new();
+    private UserModel _user = new();
 
     protected override async Task OnInitializedAsync()
     {
-        user = App.Authentication.UserSession.User;
+        _user = App.Authentication.UserSession.User;
         await base.OnInitializedAsync();
     }
 
