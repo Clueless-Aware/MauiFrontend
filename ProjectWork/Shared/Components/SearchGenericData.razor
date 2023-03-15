@@ -1,0 +1,53 @@
+﻿<div class="w3-bar w3-padding">
+    <span>
+
+        <input id="searchBar" type="search"
+               class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
+               value="@SearchField" @onchange="async e =>{ DirectorArtworkSearch.Parameters.SetPage(1);SearchField = (string)e.Value; DirectorArtworkSearch.Parameters.SetSearch(SearchField);}"/>
+
+        <span class="material-symbols-outlined middle w3-xxlarge">
+            low_priority
+        </span>
+        <label class="switch middle w3-margin-left w3-margin-right">
+            <input type="checkbox" checked @onchange="CheckboxChanged">
+            <span class="slider round"></span>
+        </label>
+        <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
+            low_priority
+        </span>
+        <button type="submit" id="search" class="general-button" @onclick="doSearch">
+            <span class="material-symbols-outlined">search</span>
+        </button>
+    </span>
+
+
+    <hr/>
+</div>
+<div class="search-group">
+    <form>
+        <div class="input-group d-flex">
+            <select class="form-control p-2" aria-label="Default select example">
+                <option selected>Any Forms</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            <select class="form-control p-2" aria-label="Default select example">
+                <option selected>Any Types</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            <select class="form-control p-2" aria-label="Default select example">
+                <option selected>Any Time frames</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+    </form>
+
+</div>
+@code {
+
+}

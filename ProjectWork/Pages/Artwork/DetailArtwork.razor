@@ -160,7 +160,6 @@ else
         if (_artwork is not null) return;
 
         _artwork = await ArtworkDirector.GetItemAsync(Id);
-
         StateHasChanged();
     }
 
