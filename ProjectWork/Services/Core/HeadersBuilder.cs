@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.IdentityModel.Tokens;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Utilities;
 
@@ -20,7 +21,7 @@ public class HeadersBuilder : IHeadersBuilder
     public async Task AddAuthenticationToken()
     {
         //SecureStorage.Default.RemoveAll();
-        var loginResponse = new LoginResponse();
+        LoginResponse loginResponse;
         var inMemory = false;
         if (App.Authentication.UserSession is not null)
         {
@@ -29,14 +30,16 @@ public class HeadersBuilder : IHeadersBuilder
         else
         {
             var stringStorage = await SecureStorage.GetAsync(nameof(LoginResponse));
-            if (stringStorage is null) return;
+            if (stringStorage.IsNullOrEmpty()) return;
+
             loginResponse = JsonSerializer.Deserialize<LoginResponse>(stringStorage);
+            //await App.Authentication.RefreshUserState();
             inMemory = true;
         }
 
         if (await CheckRefreshToken(loginResponse))
             await UpdateNewToken(loginResponse, inMemory);
-        else //se risposta negativa non aggiorna
+        else
             throw new Exception("Session timeout - reburn(out) it");
     }
 
