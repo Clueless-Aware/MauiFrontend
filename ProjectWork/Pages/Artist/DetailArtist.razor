@@ -2,7 +2,11 @@
 @using ProjectWork.Models.Artwork
 @using ProjectWork.ViewModels.Artist
 @using ProjectWork.Models.Artist
+@using ProjectWork.Models.Core
+@using ProjectWork.Utilities
+@using ProjectWork.ViewModels.Artwork
 @inject SearchArtistVM ArtistDirector
+@inject SearchArtworkVM ArtworkDirector
 @inject IJSRuntime JsRuntime
 <div id="main" class="card m-4 shadow-lg p-3 bg-white">
 
@@ -55,50 +59,88 @@
             </p>
         </div>
     </section><!-- End About Section -->
+    @if (RelatedArtworks.Data.Any())
+    {
+        <div>
+            <PaginatorComponent Paginator="RelatedPaginator"></PaginatorComponent>
+        </div>
+        <!-- End Search Section -->
+        <!-- ======= Gallery Section ======= -->
+
+
+
+        <section id="gallery" class="gallery">
+            <div class="container-fluid">
+
+                <div class="row gy-4 justify-content-center">
+                    @foreach (var artwork in RelatedArtworks.Data)
+                    {
+                        <!-- Start Gallery Item -->
+                        <div class="col-xl-4 col-lg-6 col-md-9" style="height: 350px">
+                            <div class="gallery-item h-100">
+                                <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover;">
+                                <div class="gallery-links d-flex align-items-center justify-content-center">
+                                    <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
+                                        <span class="material-symbols-outlined">
+                                            zoom_out_map
+                                        </span>
+                                    </a>
+                                    <a href="/detail-artwork/@artwork.Id" class="details-link">
+                                        <span class="material-symbols-outlined">
+                                            info
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Gallery Item --->
+                    }
+                </div>
+            </div>
+        </section>
+    }
+    else
+    {
+        <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+            <p class="middle">Could not connect to the Database, try again later.</p>
+        </div>
+    }
+    <Navigator></Navigator>
+
+
 </div>
 
-@*<section id="gallery" class="gallery">
-    <div class="container-fluid">
-    @if (_otherArtworks is not null)
-    {
-    @foreach (var other in _otherArtworks)
-    {
-    <div class="row gy-4 justify-content-center">
-    <!-- Start Gallery Item -->
-    <div class="col-xl-3 col-lg-4 col-md-6">
-    <div class="gallery-item h-100">
-    <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="">
-    <div class="gallery-links d-flex align-items-center justify-content-center">
-    <a href="assets/img/gallery/gallery-1.jpg" title="Gallery 1" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-    <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-    <p>
-    @other.Title
-    </p>
-    </div>
-    </div>
-    </div><!-- End Gallery Item -->
-    </div>
-    }
-    }
-    </div>
-    </section>*@
-<!-- End Gallery Section -->
 @code {
     [Parameter]
     public int Id { get; set; }
     private BaseArtist _artist;
-    private IList<BaseArtist> _otherArtists;
+
+    public Parameters RelatedParameters { get; set; } = new();
+    public GenericData<BaseArtwork> RelatedArtworks { get; set; } = new();
+    public Paginator RelatedPaginator { get; set; } = new();
+
     protected override async void OnParametersSet()
     {
-        this._artist = ArtistDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
-        var baseArtwork = this._artist;
-        //var paremeteN = new Parameters();
-        //paremeteN.SetSpecific(new BaseArtwork() { AuthorId = baseArtwork.AuthorId });
-        //if (baseArtwork != null) ArtistDirector.Parameters = paremeteN;
-        //var result = await ArtistDirector.GetGenericDataFromPageAsync();
-        //_otherArtworks = ArtistDirector.GenericData.Data;
-        //this.StateHasChanged();
+        _artist = ArtistDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id);
+    //TODO: if null call detail view
+        if (_artist != null) RelatedParameters.SetSpecific(new BaseArtwork() { AuthorId = _artist.Id });
+        await GetRelatedData();
     }
+
+    private async Task GetRelatedData()
+    {
+        try
+        {
+            RelatedArtworks = await ArtworkDirector.GetGenericDataFromParam(RelatedParameters.Dictionary);
+            RelatedPaginator.SetActualState(RelatedParameters, GetRelatedData, RelatedArtworks.Count);
+            this.StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            await UtilityToolkit.CreateToast("ok");
+        }
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JsRuntime.InvokeVoidAsync("Main.start");

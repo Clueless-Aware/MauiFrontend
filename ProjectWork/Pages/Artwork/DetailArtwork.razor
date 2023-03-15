@@ -157,18 +157,19 @@
     [Parameter]
     public int Id { get; set; }
 
+    public string description = "";
+
+
     public Parameters RelatedParameters { get; set; } = new();
     public GenericData<BaseArtwork> RelatedArtworks { get; set; } = new();
     public Paginator RelatedPaginator { get; set; } = new();
-
-    public string description = "";
-
     private BaseArtwork _artwork;
 
     protected override async void OnParametersSet()
     {
+        // check the director or the last data
         _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(a => a.Id == Id) ?? RelatedArtworks.Data.SingleOrDefault(a => a.Id == Id);
-        //TODO: if null call detail view
+        //TODO: if null call detail view and don't show the first because is the same :) 
         if (_artwork != null) RelatedParameters.SetSpecific(new BaseArtwork() { AuthorId = _artwork.AuthorId });
         await GetRelatedData();
     }
