@@ -12,32 +12,7 @@
                     <p>Here you can search for any artist you are interested in.</p>
                 </div>
             </div>
-            <div class="w3-bar w3-margin-bottom w3-padding">
-                <span>
-
-                    <input id="searchBar" type="search"
-                           class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                           value="@SearchField" @onchange="async(e ) =>{ ArtistDirector.Parameters.SetPage(1) ;SearchField=(string)e.Value; ArtistDirector.Parameters.SetSearch(SearchField);}" />
-
-                    <span class="material-symbols-outlined middle w3-xxlarge">
-                        low_priority
-                    </span>
-                    <label class="switch middle w3-margin-left w3-margin-right">
-                        <input type="checkbox" checked @onchange="CheckboxChanged">
-                        <span class="slider round"></span>
-                    </label>
-                    <span class="material-symbols-outlined reverse middle w3-xxlarge">
-                        low_priority
-                    </span>
-
-                    <button id="search" class="general-button" @onclick="async () => await ArtistDirector.GetGenericDataFromPageAsync()">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                </span>
-
-
-                <hr />
-            </div>
+            <SearchArtist></SearchArtist>
         </div>
     </section><!-- End Hero Section -->
     <div>
@@ -117,7 +92,6 @@
     </div>
 
 @code {
-    private string SearchField { get; set; }
 
 
     protected override async Task OnInitializedAsync()
@@ -150,26 +124,4 @@
     {
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
-
-    private void CheckboxChanged(ChangeEventArgs e)
-    {
-        bool b = (bool)e.Value;
-
-        if (b)
-        {
-            ArtistDirector.Parameters.SetOrdering("title");
-        }
-        else
-        {
-            ArtistDirector.Parameters.SetOrdering("-title");
-
-        }
-
-        doSearch();
     }
-
-    async void doSearch()
-    {
-        await ArtistDirector.GetGenericDataFromPageAsync();
-    }
-}
