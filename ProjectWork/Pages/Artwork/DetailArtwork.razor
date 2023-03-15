@@ -20,12 +20,7 @@
                 <div class="col-lg-6 text-center card-title">
                     <h1>@_artwork.Title</h1>
                 </div>
-                <button class="w3-right w-25 w3-button w3-hover-shadow w3-round" @onclick="close">
-                    <span class="material-symbols-outlined">
-                        close
-                    </span>
-                </button>
-
+                
 
             </div>
         </div>
@@ -154,8 +149,8 @@
             <p class="middle">Could not connect to the Database, try again later.</p>
         </div>
     }
+    <Navigator></Navigator>
    </div>
-
 
 @code {
 
@@ -198,11 +193,6 @@
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
-    private async Task GetDetailGenericData()
-    {
-
-    }
-
     private async Task DriveToMuseum()
     {
         var placeMark = new Placemark
@@ -220,11 +210,7 @@
         }
     }
 
-    private void close()
-    {
-        NavManager.NavigateTo("/Home");
-    }
-
+   
     private async void askChatGPT()
     {
         string author = _artwork.Author.Replace(',', ' ');

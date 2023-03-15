@@ -33,6 +33,8 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
+
+
         builder.Services.AddSingleton<DRFAuthentication>(x => new DRFAuthentication(new ServiceAPI(
             Endpoints.GetArtworkEndpoint(), new ImageOptions()
         {
