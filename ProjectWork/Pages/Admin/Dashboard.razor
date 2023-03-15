@@ -1,148 +1,73 @@
 ﻿@page "/dashboard"
 @using ProjectWork.ViewModels.Admin
+@using ProjectWork.Models.Requests
 @inject RequestsVirtualMachine RequestsVirtualMachine
 @layout AdminLayout
 
 <h2>User requests</h2>
 <div class="table-responsive">
-    <table class="table table-striped table-sm">
+    <input type="checkbox" id="checkup"/>
+    <label for="checkup" @onchange="() => ShowReviewed = !ShowReviewed">Show viewed request</label>
+    <table class="table table-sm table-group-divider table-hover">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Header</th>
-            <th scope="col">Header</th>
-            <th scope="col">Header</th>
-            <th scope="col">Header</th>
+            <th scope="col">From User (ID)</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Content</th>
+            <th scope="col">Date</th>
+            <th scope="col">Seen</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>1,001</td>
-            <td>random</td>
-            <td>data</td>
-            <td>placeholder</td>
-            <td>text</td>
-        </tr>
-        <tr>
-            <td>1,002</td>
-            <td>placeholder</td>
-            <td>irrelevant</td>
-            <td>visual</td>
-            <td>layout</td>
-        </tr>
-        <tr>
-            <td>1,003</td>
-            <td>data</td>
-            <td>rich</td>
-            <td>dashboard</td>
-            <td>tabular</td>
-        </tr>
-        <tr>
-            <td>1,003</td>
-            <td>information</td>
-            <td>placeholder</td>
-            <td>illustrative</td>
-            <td>data</td>
-        </tr>
-        <tr>
-            <td>1,004</td>
-            <td>text</td>
-            <td>random</td>
-            <td>layout</td>
-            <td>dashboard</td>
-        </tr>
-        <tr>
-            <td>1,005</td>
-            <td>dashboard</td>
-            <td>irrelevant</td>
-            <td>text</td>
-            <td>placeholder</td>
-        </tr>
-        <tr>
-            <td>1,006</td>
-            <td>dashboard</td>
-            <td>illustrative</td>
-            <td>rich</td>
-            <td>data</td>
-        </tr>
-        <tr>
-            <td>1,007</td>
-            <td>placeholder</td>
-            <td>tabular</td>
-            <td>information</td>
-            <td>irrelevant</td>
-        </tr>
-        <tr>
-            <td>1,008</td>
-            <td>random</td>
-            <td>data</td>
-            <td>placeholder</td>
-            <td>text</td>
-        </tr>
-        <tr>
-            <td>1,009</td>
-            <td>placeholder</td>
-            <td>irrelevant</td>
-            <td>visual</td>
-            <td>layout</td>
-        </tr>
-        <tr>
-            <td>1,010</td>
-            <td>data</td>
-            <td>rich</td>
-            <td>dashboard</td>
-            <td>tabular</td>
-        </tr>
-        <tr>
-            <td>1,011</td>
-            <td>information</td>
-            <td>placeholder</td>
-            <td>illustrative</td>
-            <td>data</td>
-        </tr>
-        <tr>
-            <td>1,012</td>
-            <td>text</td>
-            <td>placeholder</td>
-            <td>layout</td>
-            <td>dashboard</td>
-        </tr>
-        <tr>
-            <td>1,013</td>
-            <td>dashboard</td>
-            <td>irrelevant</td>
-            <td>text</td>
-            <td>visual</td>
-        </tr>
-        <tr>
-            <td>1,014</td>
-            <td>dashboard</td>
-            <td>illustrative</td>
-            <td>rich</td>
-            <td>data</td>
-        </tr>
-        <tr>
-            <td>1,015</td>
-            <td>random</td>
-            <td>tabular</td>
-            <td>information</td>
-            <td>text</td>
-        </tr>
+        @foreach (var request in RequestsVirtualMachine.GenericData.Data)
+        {
+            @if (request.IsSeen != true || ShowReviewed)
+            {
+                <tr class="@GetRowStyle(request)">
+                    <th scope="row">@request.Id</th>
+                    <td>@request.UserId</td>
+                    <td>@request.Subject</td>
+                    <td>@request.Content</td>
+                    <td>@request.Date</td>
+                    <td>
+                        <input type="checkbox" checked="@request.IsSeen"
+                               @onchange="async () => await UpdateRequest(request)"/>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr class="table-success">
+                    <td colspan="4">
+                        Request @request.Id is marked as completed
+                    </td>
+                </tr>
+            }
+        }
         </tbody>
     </table>
 </div>
 
-@foreach (var request in RequestsVirtualMachine.GenericData.Data)
-{
-    <p>@request</p>
-}
 
 @code{
+    private bool ShowReviewed { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await RequestsVirtualMachine.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
+    }
+
+    private static string GetRowStyle(RequestModel request)
+    {
+        return request.IsCritical ? "table-danger" : "table-info";
+    }
+
+    private async Task UpdateRequest(RequestModel request)
+    {
+        request.IsSeen = !request.IsSeen;
+        await RequestsVirtualMachine.UpdateItemAsync(request);
     }
 
 }

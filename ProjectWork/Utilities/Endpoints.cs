@@ -25,7 +25,7 @@ public static class Endpoints
 
     public static string GetRequestsEndpoint()
     {
-        return "api/requests/";
+        return SiteUrl + "/api/requests/";
     }
 
     public static string GetRefreshTokenEndpoint()
