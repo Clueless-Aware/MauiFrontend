@@ -116,6 +116,7 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
         {
             _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + artworkId + '/';
             var artwork = await _artworkService.GetDetailObject<BaseArtwork>();
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath();
             return artwork;
         }
         catch (Exception)
@@ -124,22 +125,22 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
         }
     }
 
-
-    //public async Task<(bool status, string message)> GetGenericDataFromParam(Parameters parameters)
-    //{
-    //    IsBusy = true;
-    //    try
-    //    {
-    //        GenericData = await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(parameters.Dictionary);
-    //        Paginator.SetActualState(Parameters, this.GetGenericDataFromParam(parameters), GenericData.Count);
-    //        IsBusy = false;
-    //        return (true, "Success fetch");
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        await UtilityToolkit.CreateToast(e.Message);
-    //        IsBusy = false;
-    //        return (false, e.Message);
-    //    }
-    //}
+    public async Task<GenericData<BaseArtwork>> GetGenericDataFromParam(
+        Dictionary<string, string> relatedParametersDictionary)
+    {
+        IsBusy = true;
+        try
+        {
+            var toReturn =
+                await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(relatedParametersDictionary);
+            IsBusy = false;
+            _artworkService.UriBuilder.Query = "";
+            return toReturn;
+        }
+        catch (Exception e)
+        {
+            IsBusy = false;
+            throw;
+        }
+    }
 }

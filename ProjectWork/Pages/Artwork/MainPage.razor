@@ -30,40 +30,43 @@
         <section id="gallery" class="gallery">
             <div class="container-fluid">
 
-                <div class="row gy-4 justify-content-center">
-                    @foreach (var artwork in DirectorArtworkSearch.GenericData.Data)
-                    {
-                        <!-- Start Gallery Item -->
-                        <div class="col-xl-4 col-lg-6 col-md-9" style="height: 600px">
-                            <div class="gallery-item h-100">
-                                <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover;">
-                                <div class="gallery-links d-flex align-items-center justify-content-center">
-                                    <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
-                                        <span class="material-symbols-outlined">
-                                            zoom_out_map
-                                        </span>
-                                    </a>
-                                    <a href="/detail-artwork/@artwork.Id" class="details-link">
-                                        <span class="material-symbols-outlined">
-                                            info
-                                        </span>
-                                    </a>
+                    <div class="row gy-4 justify-content-center">
+                        @foreach (var artwork in DirectorArtworkSearch.GenericData.Data)
+                        {
+                            <!-- Start Gallery Item -->
+                            <div class="col-xl-4 col-lg-6 col-md-9" style="height: 600px">
+                                <div class="gallery-item h-100">
+                                    <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover; border-radius: 15px;">
+                                    <div class="gallery-links d-flex align-items-center justify-content-center">
+                                        <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
+                                            <span class="material-symbols-outlined">
+                                                zoom_out_map
+                                            </span>
+                                        </a>
+                                        <a href="/detail-artwork/@artwork.Id" class="details-link">
+                                            <span class="material-symbols-outlined">
+                                                info
+                                            </span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- End Gallery Item --->
-                    }
+                            <!-- End Gallery Item --->
+                        }
+                    </div>
                 </div>
+            </section>
+            <div>
+                <PaginatorComponent Paginator="DirectorArtworkSearch.Paginator"></PaginatorComponent>
             </div>
-        </section>
-    }
-    else
-    {
-        <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
-            <p class="middle">Could not connect to the Database, try again later.</p>
-        </div>
-    }
-</div>
+        }
+        else
+        {
+            <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+                <p class="middle">Could not connect to the Database, try again later.</p>
+            </div>
+        }
+    </div>
 
 
 

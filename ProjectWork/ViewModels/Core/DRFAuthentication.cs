@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.IdentityModel.Tokens;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Models.Core.User;
 using ProjectWork.Services.Core;
@@ -136,7 +137,7 @@ public class DRFAuthentication : AuthenticationBase
         }
     }
 
-    private async Task<(bool state, string message)> RefreshUserState()
+    public async Task<(bool state, string message)> RefreshUserState()
     {
         Service.UriBuilder.Path = Endpoints.GetUserPath();
         try
@@ -144,6 +145,16 @@ public class DRFAuthentication : AuthenticationBase
             var refreshedUser = await Service.GetDetailObject<UserModel>();
             if (refreshedUser is null) throw new Exception("Error during user refresh");
             UserSession.User = refreshedUser;
+
+            var stringStorage = await SecureStorage.GetAsync(nameof(LoginResponse));
+            if (stringStorage.IsNullOrEmpty()) return (true, string.Empty);
+
+            var loginResponse = JsonSerializer.Deserialize<LoginResponse>(stringStorage);
+            loginResponse.User = refreshedUser;
+            var userInfo = JsonSerializer.Serialize(loginResponse);
+
+            await SecureStorage.SetAsync(nameof(loginResponse), userInfo);
+
             return (true, string.Empty);
         }
         catch (Exception e)

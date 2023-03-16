@@ -27,4 +27,10 @@ window.Main = {
 
         });
     },
+    goBack: () => {
+        window.history.back();
+    },
+    goTop: () => {
+        document.documentElement.scrollTop = 0;
+    }
 }
