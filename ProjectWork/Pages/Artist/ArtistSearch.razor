@@ -25,30 +25,19 @@
 
                 @foreach (var artist in ArtistDirector.GenericData.Data)
                 {
-                    <div class="w3-card-4 w3-animate-right w3-round-large w3-white m-sm-2 m-lg-5 p-lg-3 p-sm-2">
-                        <h1>
-                            @artist.Name <button class="w3-round-large w3-center button-padding w3-text-black w3-hover-text-red w3-button">
-                                <span class="material-symbols-outlined">
-                                    bookmark
-                                </span>
-                            </button>
-                        </h1>
+                    <div class="w3-card-4 w3-margin-bottom w3-animate-right w3-round-large w3-white m-sm-2 m-lg-5 p-lg-3 p-sm-2">
+                    <a class="w3-xlarge w3-text-black" href="/detail-artist/@artist.Id">@artist.Name</a>
                         <div class="d-flex flex-column flex-xl-row flex-lg-row flex-md-column flex-sm-column">
                             <div class="w3-col m6 w3-center w3-padding">
                                 <a href="@artist.Portrait" data-fancybox="gallery" data-caption="@artist.Name">
                                     <img class="w3-round w3-image w3-margin-bottom img-thumbnail" src="@artist.Portrait" alt="@artist.Name" />
                                 </a>
-                                <p>
-                                    <span class="material-symbols-outlined">
-                                        history_edu
-                                    </span> <a href="/detail-artist/@artist.Id">About @artist.Name</a>
-                                </p>
                             </div>
 
-                            <div class="portfolio-info w-100">
+                            <div class="portfolio-info w-100 w3-margin-left w3-margin-right">
                                 <h3>Artist information</h3>
                                 <table class="w-100 w3-margin-top px-lg-5 px-4">
-                                    <tr>
+                                <tr class="w3-hide-small">
                                         <td>
                                             <span class="material-symbols-outlined">
                                                 palette
@@ -65,17 +54,37 @@
                                             </span>
                                         </td>
                                     </tr>
-                                    <tr>
+                                <tr class="w3-hide-large w3-hide-medium">
+                                    <td>
+                                        <span class="material-symbols-outlined">
+                                            palette
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="material-symbols-outlined">
+                                            location_city
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="w3-hide-large w3-hide-medium">
                                         <td>
                                             @artist.Profession
-                                        </td>
-                                        <td>
-                                            @artist.BirthData
                                         </td>
                                         <td>
                                             @artist.School
                                         </td>
                                     </tr>
+                                <tr class="w3-hide-small">
+                                    <td>
+                                        @artist.Profession
+                                    </td>
+                                    <td>
+                                        @artist.BirthData
+                                    </td>
+                                    <td>
+                                        @artist.School
+                                    </td>
+                                </tr>
                                 </table>
                             </div>
                         </div>
