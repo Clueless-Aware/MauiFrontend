@@ -29,7 +29,7 @@ public class UserModel
     [JsonPropertyName("biography")] public string? Biography { get; set; }
 
     [JsonPropertyName("bookmarked_artworks")]
-    public List<BaseArtwork?> BookmarkedArtworks { get; set; }
+    public List<BaseArtwork> BookmarkedArtworks { get; set; }
 
-    [JsonPropertyName("user_bookmarks")] public List<int?> BookmarksIds { get; set; }
+    [JsonPropertyName("user_bookmarks")] public List<int> BookmarksIds { get; set; }
 }
