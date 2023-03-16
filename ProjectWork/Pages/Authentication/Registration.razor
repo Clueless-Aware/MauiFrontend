@@ -105,7 +105,7 @@
             await UtilityToolkit.CreateToast("The two password fields didn't match.");
             return;
         }
-        var attempt = await App.Authentication.RegistrationUser(registrationModel);
+        var attempt = await App.Authentication.UserRegistration(registrationModel);
         if (attempt.status)
         {
             NavManager.NavigateTo("Home");
