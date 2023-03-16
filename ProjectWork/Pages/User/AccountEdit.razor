@@ -10,7 +10,7 @@
     }
 </style>
 
-<div class="w3-card-4 w3-padding w3-margin-left w3-round-xlarge w3-margin-bottom w3-margin-top">
+<div class="w3-card-4 w3-padding w3-round-xlarge w3-margin-bottom w3-margin-top">
     <h3 class="w3-margin-left">User Profile</h3>
 
     <hr/>
@@ -35,7 +35,7 @@
                 <p class="w3-bold">Bio:</p>
             </li>
             <li>
-                <InputTextArea id="w3review" name="w3review" rows="4" cols="50" @bind-Value="_editUser.Biography"/>
+                <InputTextArea id="w3review" name="w3review" class="w-100" row="6" @bind-Value="_editUser.Biography"/>
             </li>
 
             <li>
@@ -43,7 +43,7 @@
             </li>
             <li>
                 <input @bind-value="_editUser.FirstName" placeholder="@App.Authentication.UserSession.User.FirstName"
-                       class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
+                       class="w3-round w3-margin-right w-75 w3-margin-bottom" type="text" id="mail">
             </li>
 
             <li>
@@ -51,15 +51,17 @@
             </li>
             <li>
                 <input @bind-value="_editUser.LastName" placeholder="@App.Authentication.UserSession.User.LastName"
-                       class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
+                       class="w3-round w3-margin-right w-75 w3-margin-bottom" type="text" id="mail">
             </li>
 
             <li>
                 <p class="w3-bold">Profile Picture:</p>
             </li>
             <li>
-                <img src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture" height="200px" width="350px"/>
-                <InputFile id="idProfilePicture" class="form-control" OnChange="e => _editUser.ProfilePicture = e.File"/>
+                <img  class="w-100" src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture"/>
+            </li>
+            <li class="w3-margin-top">
+                <InputFile id="idProfilePicture" class="form-control" OnChange="e => _editUser.ProfilePicture = e.File" />
             </li>
 
         </ul>

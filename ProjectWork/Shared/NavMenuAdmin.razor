@@ -68,7 +68,7 @@
                     <NavLink class="nav-link w3-padding-16" href="accountDetails">
                         <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong>
-                            @App.Authentication.UserSession.User!.Username
+                            @App.Authentication.UserSession.User.Username
                         </strong>
                     </NavLink>
                 </div>
@@ -105,6 +105,7 @@
     private void LogOut()
     {
         App.Authentication.LogOut();
+        NavManager.NavigateTo("/");
     }
 
 }
