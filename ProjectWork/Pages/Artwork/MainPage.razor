@@ -5,7 +5,6 @@
 @inject IJSRuntime JsRuntime
 
 
-
 <div class="hero d-flex flex-column justify-content-center align-items-center">
     <div class="container">
         <div class="row justify-content-center">
@@ -30,58 +29,57 @@
         <section id="gallery" class="gallery">
             <div class="container-fluid">
 
-                    <div class="row gy-4 justify-content-center">
-                        @foreach (var artwork in DirectorArtworkSearch.GenericData.Data)
-                        {
-                            <!-- Start Gallery Item -->
-                            <div class="col-xl-4 col-lg-6 col-md-9" style="height: 600px">
-                                <div class="gallery-item h-100">
-                                    <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover; border-radius: 15px;">
-                                    <div class="gallery-links d-flex align-items-center justify-content-center">
-                                        <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
-                                            <span class="material-symbols-outlined">
-                                                zoom_out_map
-                                            </span>
-                                        </a>
-                                        <a href="/detail-artwork/@artwork.Id" class="details-link">
-                                            <span class="material-symbols-outlined">
-                                                info
-                                            </span>
-                                        </a>
-                                    </div>
+                <div class="row gy-4 justify-content-center">
+                    @foreach (var artwork in DirectorArtworkSearch.GenericData.Data)
+                    {
+                        <!-- Start Gallery Item -->
+                        <div class="col-xl-4 col-lg-6 col-md-9" style="height: 600px">
+                            <div class="gallery-item h-100">
+                                <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover; border-radius: 15px;">
+                                <div class="gallery-links d-flex align-items-center justify-content-center">
+                                    <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
+                                        <span class="material-symbols-outlined">
+                                            zoom_out_map
+                                        </span>
+                                    </a>
+                                    <a href="/detail-artwork/@artwork.Id" class="details-link">
+                                        <span class="material-symbols-outlined">
+                                            info
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
-                            <!-- End Gallery Item --->
-                        }
-                    </div>
+                        </div>
+                        <!-- End Gallery Item --->
+                    }
                 </div>
-            </section>
-            <div>
-                <PaginatorComponent Paginator="DirectorArtworkSearch.Paginator"></PaginatorComponent>
             </div>
-        }
-        else
-        {
-            <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
-                <p class="middle">Could not connect to the Database, try again later.</p>
-            </div>
-        }
-    </div>
-
+        </section>
+        <div>
+            <PaginatorComponent Paginator="DirectorArtworkSearch.Paginator"></PaginatorComponent>
+        </div>
+    }
+    else
+    {
+        <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+            <p class="middle">Could not connect to the Database, try again later.</p>
+        </div>
+    }
+</div>
 
 
 @code {
 
     protected override async Task OnInitializedAsync()
     {
-        DirectorArtworkSearch.PropertyChanged += async (sender, e) => { await InvokeAsync(() => { StateHasChanged(); }); };
+        DirectorArtworkSearch.PropertyChanged += async (sender, e) => { await InvokeAsync(StateHasChanged); };
         await DirectorArtworkSearch.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
 
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() => { StateHasChanged(); });
+        await InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()
@@ -95,5 +93,5 @@
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
-   
+
 }

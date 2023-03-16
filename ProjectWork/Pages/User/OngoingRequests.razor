@@ -19,4 +19,10 @@ else
 
 @code {
 
+    protected override async Task OnInitializedAsync()
+    {
+        await App.Authentication.RefreshUserState();
+        await base.OnInitializedAsync();
+    }
+
 }

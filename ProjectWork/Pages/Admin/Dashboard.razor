@@ -38,7 +38,7 @@
                                @oninput="async () => await UpdateRequestToSeen(request)"/>
                     </td>
                     <td>
-                        <input type="button" id="toArchive" value="Completed"
+                        <input type="button" value="Completed"
                                @onclick="async () => await UpdateRequestToCompleted(request)"/>
                     </td>
                 </tr>
@@ -48,10 +48,10 @@
     </table>
     @if (RequestsVirtualMachine.GenericData.Data.Any(request => request.IsCompleted))
     {
-        @foreach (var request in RequestsVirtualMachine.GenericData.Data.Where(request => request.IsCompleted))
-        {
-            <h2>Archived requests</h2>
-            <table class="table table-sm table-group-divider table-hover">
+        <h2>Archived requests</h2>
+        <table class="table table-sm table-group-divider table-hover">
+            @foreach (var request in RequestsVirtualMachine.GenericData.Data.Where(request => request.IsCompleted))
+            {
                 <thead>
                 </thead>
                 <tbody>
@@ -60,9 +60,13 @@
                         Request n° @request.Id is marked as seen
                     </bold>
                 </td>
+                <td>
+                    <input type="button" value="Reopen request"
+                           @onclick="async () => await UpdateRequestToCompleted(request)"/>
+                </td>
                 </tbody>
-            </table>
-        }
+            }
+        </table>
     }
 
 </div>
@@ -97,6 +101,7 @@
                                              " completed a request that has not been set as seen");
             return;
         }
+        if (request.IsCompleted) request.IsSeen = false;
         request.IsCompleted = !request.IsCompleted;
 
         await RequestsVirtualMachine.UpdateItemAsync(request);
