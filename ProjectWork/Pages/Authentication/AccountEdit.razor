@@ -22,20 +22,20 @@
             </li>
             <li>
                 <input @bind-value="_editUser.UserName" placeholder="@App.Authentication.UserSession.User.Username"
-                       class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="username">
+                       class="w3-round w3-margin-right w-75 w3-margin-bottom" type="text" id="username">
             </li>
             <li>
                 <p class="w3-bold">E-mail:</p>
             </li>
             <li>
                 <input @bind-value="_editUser.Email" placeholder="@App.Authentication.UserSession.User.Email"
-                       class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
+                       class="w3-round w3-margin-right w-75 w3-margin-bottom" type="text" id="mail">
             </li>
             <li>
                 <p class="w3-bold">Bio:</p>
             </li>
             <li>
-                <InputTextArea id="w3review" name="w3review" rows="4" cols="50" @bind-Value="_editUser.Biography"/>
+                <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="_editUser.Biography"/>
             </li>
 
             <li>
@@ -43,7 +43,7 @@
             </li>
             <li>
                 <input @bind-value="_editUser.FirstName" placeholder="@App.Authentication.UserSession.User.FirstName"
-                       class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
+                       class="w3-round w3-margin-right w-75 w3-margin-bottom" type="text" id="mail">
             </li>
 
             <li>
@@ -51,7 +51,7 @@
             </li>
             <li>
                 <input @bind-value="_editUser.LastName" placeholder="@App.Authentication.UserSession.User.LastName"
-                       class="w3-round w3-margin-right w-50 w3-margin-bottom" type="text" id="mail">
+                       class="w3-round w3-margin-right w-75 w3-margin-bottom" type="text" id="mail">
             </li>
 
             <li>

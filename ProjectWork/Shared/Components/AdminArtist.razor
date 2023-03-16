@@ -18,7 +18,7 @@
     tr:nth-child(even) {
         background-color: #dddddd;
     }
-    
+
     .imageResult {
         display: block;
         max-width: 560px;
@@ -59,95 +59,96 @@
 
         <button class="general-button" @onclick="Toggle">Edit</button>
     </div>
-    
+
 
     @if (_showEdit)
     {
         <EditForm Model="@Artist" OnValidSubmit="async () => await ArtistDirector.UpdateItemAsync(Artist)">
-            <table>
-                <tr>
-                    <th>Field</th>
-                    <th>Data</th>
-                </tr>
-                <!---------------------------------------------------->
-                <tr>
-                    <td class="w3-padding-16">
-                        <p class="w3-w3-bold">
-                            Full name
-                        </p>
-                    </td>
-                    <td>
-                        <input class="w3-round w-50" type="text"
-                               @bind-value="Artist.Name"
-                               placeholder="@Artist.Name">
-                    </td>
-                </tr>
-                <!---------------------------------------------------->
-                <tr>
-                    <td class="w3-padding-16">
-                        <p class="w3-w3-bold">
-                            Profession
-                        </p>
-                    </td>
-                    <td>
-                        <input class="w3-round w-50" type="text"
-                               @bind-value="Artist.Profession"
+            <div class="container">
+                <div class="row">
+                    <div class="col w3-margin-top">
+                        <span class="material-symbols-outlined">
+                            history_edu
+                        </span>
+                        <label class="w3-bold">
+                            Title
+                        </label>
+                        <input class="w3-round w-100" type="text"
+                           @bind-value="Artist.Name"
+                               placeholder="Enter Title">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col w3-margin-top">
+                        <span class="material-symbols-outlined">
+                            work
+                        </span>
+                        <label class="w3-bold">
+                            Artist's specailty
+                        </label>
+                        <input class="w3-round w-100" type="text"
+                           @bind-value="Artist.Profession"
                                placeholder="@Artist.Profession">
-                    </td>
-                </tr>
-                <!---------------------------------------------------->
-                <tr>
-                    <td class="w3-padding-16">
-                        <p class="w3-w3-bold">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col w3-margin-top">
+                        <span class="material-symbols-outlined">
+                            brush
+                        </span>
+                        <label class="w3-bold">
                             School
-                        </p>
-                    </td>
-                    <td>
-                        <input class="w3-round w-50" type="text"
-                               @bind-value="Artist.School"
-                               placeholder="@Artist.School">
-                    </td>
-                </tr>
-                <!---------------------------------------------------->
-                <tr>
-                    <td class="w3-padding-16">
-                        <p class="w3-w3-bold">
+                        </label>
+                        <input class="w3-round w-100" type="text"
+                           @bind-value="Artist.School"
+                               placeholder="Enter Title">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col w3-margin-top">
+                        <span class="material-symbols-outlined">
+                            view_timeline
+                        </span>
+                        <label class="w3-bold">
                             Biography
-                        </p>
-                    </td>
-                    <td>
-                        <input class="w3-round w-50" type="text"
-                               @bind-value="Artist.Biography"
-                               placeholder="@Artist.Biography">
-                    </td>
-                </tr>
-                <!---------------------------------------------------->
-                <tr>
-                    <td class="w3-padding-16">
-                        <p class="w3-w3-bold">
-                            Birth data
-                        </p>
-                    </td>
-                    <td>
-                        <input class="w3-round w-50" type="text"
-                               @bind-value="Artist.BirthData"
-                               placeholder="@Artist.BirthData">
-                    </td>
-                </tr>
-                <!---------------------------------------------------->
-                <tr>
-                    <td>
-                        Portarit
-                    </td>
-                    <td>
-                        <InputFile OnChange="e => Artist.File = e.File"/>
-                    </td>
-                </tr>
-            </table>
+                        </label>
+                        <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="Artist.Biography" />
+                    </div>
+                </div>
 
 
-            <DataAnnotationsValidator/>
-            <ValidationSummary/>
+                <div class="row">
+                    <div class="col w3-margin-top">
+                        <span class="material-symbols-outlined">
+                            hourglass_full
+                        </span>
+                        <label class="w3-bold">
+                            Date of Birth and Death
+                        </label>
+                        <input class="w3-round w-100" type="text"
+                           @bind-value="Artist.BirthData"
+                               placeholder="Enter Title">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col w3-margin-top">
+                        <span class="material-symbols-outlined">
+                            attach_file_add
+                        </span>
+                        <label class="w3-bold">
+                            Portrait or Photo
+                        </label>
+                        <InputFile OnChange="e => Artist.File = e.File" />
+                    </div>
+                </div>
+            </div>
+
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
             <button type="submit" class="general-button w3-center">Update</button>
         </EditForm>
