@@ -16,6 +16,8 @@ public class RequestModel
 
     [JsonPropertyName("id")] public int Id { get; set; }
 
+    [JsonPropertyName("completed")] public bool IsCompleted { get; set; }
+
     public override string ToString()
     {
         return $"{Content} - {Subject} - {Date}";

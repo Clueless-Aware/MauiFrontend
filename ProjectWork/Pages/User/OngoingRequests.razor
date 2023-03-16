@@ -4,7 +4,10 @@
 
 @if (!App.Authentication.UserSession.User.Requests.Any())
 {
-    <p>You have not sent any requests on this account</p>
+    <p>
+        You have not sent any requests on this account,
+        if you have any questions or find any other issues make sure to <a href="send-request">write the staff</a>
+    </p>
 }
 else
 {
