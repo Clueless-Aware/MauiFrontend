@@ -4,6 +4,44 @@
 @using ProjectWork.ViewModels.Artist
 @inject SearchArtistVM DirectorArtistSearch
 
+<style>
+    .b {
+        border-radius: 8px;
+        border: 0px;
+        background-color: #cc0000 !important;
+        color: white;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .b:hover {
+            padding-top: 4px;
+            padding-bottom: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+            border-radius: 8px;
+            border: 0px;
+            opacity: 0.60;
+            background-color: #cc0000 !important;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+    .button-icon {
+        vertical-align: middle;
+    }
+</style>
 
 <div class="w3-bar w3-padding">
     <form @onsubmit="DoSearch">
@@ -16,20 +54,30 @@
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
             </span>
+
             <label class="switch middle w3-margin-left w3-margin-right">
                 <input type="checkbox" checked @onchange="CheckboxChanged">
                 <span class="slider round"></span>
             </label>
+
             <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
                 low_priority
             </span>
-            <button type="submit" id="search" class="general-button">
-                <span class="material-symbols-outlined">search</span>
+
+            <button type="submit" class="b">
+                <span class="material-symbols-outlined button-icon">search</span>
+                Search
+            </button>
+            <button type="submit" class="b" @onclick="()=>{ ShowAdvanced=!ShowAdvanced; }">
+                <span class="material-symbols-outlined button-icon">frame_inspect</span>
+                Advanced options
+            </button>
+            <button type="submit" class="b" @onclick="async() => await Reset()">
+                <span class="material-symbols-outlined button-icon">layers_clear</span>
+                Clear fields
             </button>
         </span>
-        @*TODO: CSS TO THIS *@
-        <input type="button" @onclick="()=>{ ShowAdvanced=!ShowAdvanced; }" value="Show Advanced Search">
-        <input type="button" @onclick="async() => await Reset()" value="Reset">
+     
         @if (ShowAdvanced)
         {
 
