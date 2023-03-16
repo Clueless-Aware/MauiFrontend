@@ -42,5 +42,13 @@ namespace ProjectWork.Models.Core
                 Dictionary[specific.Key] = specific.Value.ToString();
             }
         }
+
+        public void ResetParameters()
+        {
+            Dictionary = new Dictionary<string, string>()
+            {
+                ["page"] = "1"
+            };
+        }
     }
 }
