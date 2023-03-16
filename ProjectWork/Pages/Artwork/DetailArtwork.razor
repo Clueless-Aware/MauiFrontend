@@ -33,36 +33,92 @@
                     </div>
                 </div>
                 <div class="row justify-content-between gy-4 mt-4">
-                    <div class="w3-center w3-margin-top">
-                        <button class="general-button" @onclick="async () => await AskChatGpt()">
-                            Ask ChatGPT about this.
-                            <span class="material-symbols-outlined">
-                                temp_preferences_custom
-                            </span>
-                        </button>
+                    <div class="col-lg-8">
+
+                        <div class="portfolio-description">
+                            <h2>
+                                Description
+                            </h2>
+                            @if (App.Authentication.UserSession is not null)
+                            {
+                                if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
+                                {
+                                    <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
+                                @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
+                                        <span class="material-symbols-outlined">
+                                            bookmark_remove
+                                        </span>
+                                        Remove from bookmarks
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
+                                @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
+                                        <span class="material-symbols-outlined">
+                                            bookmark_add
+                                        </span>
+                                        Add to bookmarks
+                                    </button>
+                                }
+                            }
+                            else
+                            {
+                                <div class="w3-center">
+                                    <p class="w3-text w3-card w3-padding-large w3-round w-50">
+                                        Would you like to bookmark this artwork?<br />
+                                        Then please <a href="registration w3-text-red">create an account</a><br />
+                                        Or <a href="login w3-text-red">sign in</a> to an existing one
+                                    </p>
+                                </div>
+                            }
+
+                            <hr>
+
+                            @if (_artwork.Description.Length > 0)
+                            {
+                                <div class="col-lg-8">
+                                    <div class="portfolio-description">
+                                        <h2>Description</h2>
+                                        <p>
+                                            @_artwork.Description
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                @if (!hideButton)
+                                {
+                                    <div class="w3-center w3-margin-top">
+                                        @if (isLoading)
+                                        {
+                                            <div class="w3-center">
+                                                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <button class="general-button" @onclick="async () => await AskChatGpt()">
+                                                Ask ChatGPT about this.
+                                                <span class="material-symbols-outlined">
+                                                    temp_preferences_custom
+                                                </span>
+                                            </button>
+                                        }
+
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <p class="w3-text">@_description</p>
+                                }
+                            }
+
+                        </div>
                     </div>
-                    @if (_artwork.Description.Length > 0)
-                    {
-                        <div class="col-lg-8">
-                            <div class="portfolio-description">
-                                <h2>Description</h2>
-                                <p>
-                                    @_artwork.Description
-                                </p>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-lg-8">
-                            <div class="portfolio-description">
-                                <h2>Description</h2>
-                                <p>
-                                    @_description
-                                </p>
-                            </div>
-                        </div>
-                    }
+
                     <div class="col-lg-4">
                         <div class="portfolio-info">
                             <h3>Artwork information</h3>
@@ -95,38 +151,6 @@
                                 </li>
                             </ul>
                         </div>
-
-                        @if (App.Authentication.UserSession is not null)
-                        {
-                            if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
-                            {
-                                <button type="button" class="btn btn-outline-default waves-effect"
-                                        @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
-                                    <span class="material-symbols-outlined">
-                                        bookmark_remove
-                                    </span>
-                                    Remove from bookmarks
-                                </button>
-                            }
-                            else
-                            {
-                                <button type="button" class="btn btn-outline-default waves-effect"
-                                        @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
-                                    <span class="material-symbols-outlined">
-                                        bookmark_add
-                                    </span>
-                                    Add to bookmarks
-                                </button>
-                            }
-                        }
-                        else
-                        {
-                            <h5>
-                                Would you like to bookmark <b>this artwork</b>?<br/>
-                                Then please <a href="registration">create an account</a><br/>
-                                Or <a href="login">sign in</a> to an existing one
-                            </h5>
-                        }
                     </div>
                 </div>
             </div>
@@ -192,6 +216,9 @@ else
 
     private string ErrorMessage { get; set; } = "There are no related artworks we could find";
 
+    public bool hideButton = false;
+    public bool isLoading = false;
+
     private string _description = "";
 
 
@@ -205,7 +232,7 @@ else
         _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(artwork => artwork.Id == Id)
                    ?? await ArtworkDirector.GetItemAsync(Id);
 
-        if (_artwork != null)
+        if (_artwork is not null)
         {
             if (_artwork.AuthorId == 1) //NPC detected
             {
@@ -243,27 +270,30 @@ else
     private async Task DriveToMuseum()
     {
         var placeMark = new Placemark
-        {
-            CountryName = _artwork.Location
-        };
+            {
+                CountryName = _artwork.Location
+            };
         var options = new MapLaunchOptions { Name = "Microsoft Building 25" };
         await Map.Default.OpenAsync(placeMark, options);
     }
 
     private async Task AskChatGpt()
     {
+        isLoading = true;
+
         var author = _artwork.Author.Replace(',', ' ').ToLower();
 
         var title = _artwork.Title;
         var date = _artwork.Date;
 
         var prompt = "Write me a description of the artwork of " + author + " named " + title + "made in " + date;
-        _description = "wait...";
+        _description = "wait...\n It can take from 15 to 30 seconds to generate the content. Plase be patient.";
 
         ChatGpt.input = prompt;
 
         await ChatGpt.gen();
         _description = ChatGpt.output;
+        isLoading = false;
+        hideButton = true;
     }
-
 }
