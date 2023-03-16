@@ -229,7 +229,7 @@ else
     {
         var relatedArtworks = await ArtworkDirector.GetGenericDataFromParam(RelatedParameters.Dictionary);
         relatedArtworks.Data = relatedArtworks.Data.Where(artwork => artwork.Id != Id);
-        relatedArtworks.Count = relatedArtworks.Data.Count();
+        relatedArtworks.Count --;
         RelatedArtworks = relatedArtworks;
         RelatedPaginator.SetActualState(RelatedParameters, GetRelatedData, RelatedArtworks.Count);
         StateHasChanged();
