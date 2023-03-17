@@ -30,26 +30,26 @@
         </figure>
         <div class="form-signin">
 
-            @if (state)
+            @if (_state)
             {
-                <EditForm Model="@registrationModel" OnValidSubmit="NextSlide">
+                <EditForm Model="@_registrationModel" OnValidSubmit="NextSlide">
                     <div id="hideLogo">
                     </div>
 
                     <div class="form-floating">
-                        <input type="text" class="form-control w3-round w3-margin-bottom" id="floatingInput" @bind-value="registrationModel.Username" placeholder="Username">
+                        <input type="text" class="form-control w3-round w3-margin-bottom" id="floatingInput" @bind-value="_registrationModel.Username" placeholder="Username">
                         <label for="floatingInput">Username *</label>
                     </div>
                     <div class="form-floating">
-                        <input type="email" class="form-control w3-round w3-margin-bottom" id="floatingInput" @bind-value="registrationModel.Email" placeholder="Username">
+                        <input type="email" class="form-control w3-round w3-margin-bottom" id="floatingInput" @bind-value="_registrationModel.Email" placeholder="Username">
                         <label for="floatingInput">Email *</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control w3-round w3-margin-bottom" id="floatingPassword1" @bind-value="registrationModel.Password1" placeholder="Password">
+                        <input type="password" class="form-control w3-round w3-margin-bottom" id="floatingPassword1" @bind-value="_registrationModel.Password1" placeholder="Password">
                         <label for="floatingPassword1">Password *</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control w3-round w3-margin-bottom" id="floatingPassword2" @bind-value="registrationModel.Password2" placeholder="Repeat Password">
+                        <input type="password" class="form-control w3-round w3-margin-bottom" id="floatingPassword2" @bind-value="_registrationModel.Password2" placeholder="Repeat Password">
                         <label for="floatingPassword2">Repeat password *</label>
                     </div>
                     <br/>
@@ -60,12 +60,12 @@
             }
             else
             {
-                <EditForm Model="@registrationModel" OnValidSubmit="async () => await AttemptRegistration(registrationModel)">
+                <EditForm Model="@_registrationModel" OnValidSubmit="async () => await AttemptRegistration(_registrationModel)">
                     <DataAnnotationsValidator/>
                     <ValidationSummary/>
 
                     <div class="form-floating">
-                        <InputTextArea id="idBio" name="message" class="form-control" placeholder="Write your biography here." rows="6" @bind-Value="registrationModel.Biography"/>
+                        <InputTextArea id="idBio" name="message" class="form-control" placeholder="Write your biography here." rows="6" @bind-Value="_registrationModel.Biography"/>
                         <label for="idBio">Biography</label>
                     </div>
                     <br/>
@@ -73,7 +73,7 @@
                         <div class="w3-margin-bottom w3-padding-large">
                             <label class="w3-padding w3-margin-top" for="idProfilePicture">Profile Picture</label>
                             <div class="form-control w-100">
-                                <InputFile class="w3-padding-16 w-100" id="idProfilePicture" OnChange="e => registrationModel.ProfilePicture = e.File"/>
+                                <InputFile class="w3-padding-16 w-100" id="idProfilePicture" OnChange="e => _registrationModel.ProfilePicture = e.File"/>
                             </div>
                         </div>
                     </div>
@@ -94,8 +94,8 @@
 </div>
 
 @code {
-    readonly RegistrationModel registrationModel = new();
-    bool state = true;
+    readonly RegistrationModel _registrationModel = new();
+    bool _state = true;
 
 
     private async Task AttemptRegistration(RegistrationModel registrationModel)
@@ -109,17 +109,18 @@
         if (attempt.status)
         {
             NavManager.NavigateTo("Home");
+            await UtilityToolkit.CreateToast($"Successfully registered new user: {_registrationModel.Username}");
         }
         else
         {
-            await UtilityToolkit.CreateToast(attempt.message);
+            await UtilityToolkit.CreateToast("Error during registration: " + attempt.message);
         }
     }
 
 
     private void NextSlide()
     {
-        state = !state;
+        _state = !_state;
     }
 
 
