@@ -1,7 +1,7 @@
 ﻿@page "/bookmarks-gallery"
 @using ProjectWork.Utilities
 <h1 class="fw-light">My Bookmarks</h1>
-<hr />
+<hr/>
 
 @if (App.Authentication.UserSession is null || App.Authentication.UserSession.User is null)
 {
@@ -9,7 +9,7 @@
 }
 else
 {
-    @if (App.Authentication.UserSession.User.BookmarkedArtworks.Count == 0)
+    @if (!App.Authentication.UserSession.User.BookmarkedArtworks.Any())
     {
         <h1>You don't have any bookmarks yet, while browsing our gallery please press the 'Add to bookmarks' button to add the selected artwork to your bookmarks.</h1>
     }
@@ -25,15 +25,13 @@ else
                                 <div class="card-header">
                                     <h1 class="w3-margin-left w3-bold w3-large w3-padding-16">@bookmarkedArtwork.Title</h1>
                                 </div>
-
                                 <div class="card-body h-75">
-                                    <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title" />
+                                    <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title"/>
                                     <p class="card-text">@bookmarkedArtwork.Id - @bookmarkedArtwork.Author</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        
+
                                     </div>
                                 </div>
-
                                 <div class="card-footer">
                                     <div class="btn-group">
                                         <a class="general-button w3-margin-right"
@@ -44,7 +42,7 @@ else
                                             Go to page
                                         </a>
                                         <button type="button" class="general-button"
-                                    @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }">
+                                                @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }">
                                             <!--TODO: Call modal instead of this-->
                                             <span class="material-symbols-outlined w-100">
                                                 close
