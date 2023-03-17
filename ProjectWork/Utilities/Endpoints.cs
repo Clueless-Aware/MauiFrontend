@@ -33,6 +33,11 @@ public static class Endpoints
         return SiteUrl + "/api/auth/token/refresh/";
     }
 
+    public static string GetUserEndpoint()
+    {
+        return SiteUrl + "/api/auth/user/";
+    }
+
     #endregion
 
 

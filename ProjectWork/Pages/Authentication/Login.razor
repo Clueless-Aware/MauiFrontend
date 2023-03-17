@@ -74,6 +74,7 @@
         if (attempt.status)
         {
             NavManager.NavigateTo("Home");
+            await UtilityToolkit.CreateToast($"Successfully logged in as {loginModel.UserName}");
         }
         else
         {

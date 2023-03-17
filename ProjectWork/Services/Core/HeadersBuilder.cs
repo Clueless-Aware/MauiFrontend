@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 using ProjectWork.Models.Core.Authentication;
+using ProjectWork.Models.Core.User;
 using ProjectWork.Utilities;
 
 namespace ProjectWork.Services.Core;
@@ -20,27 +21,29 @@ public class HeadersBuilder : IHeadersBuilder
 
     public async Task AddAuthenticationToken()
     {
-        //SecureStorage.Default.RemoveAll();
-        LoginResponse loginResponse;
+        AuthTokens tokenResponse;
         var inMemory = false;
         if (App.Authentication.UserSession is not null)
         {
-            loginResponse = App.Authentication.UserSession;
+            tokenResponse = new AuthTokens
+            {
+                AccessToken = App.Authentication.UserSession.AccessToken,
+                RefreshToken = App.Authentication.UserSession.RefreshToken
+            };
         }
         else
         {
-            var stringStorage = await SecureStorage.GetAsync(nameof(LoginResponse));
+            var stringStorage = await SecureStorage.GetAsync(nameof(AuthTokens));
             if (stringStorage.IsNullOrEmpty()) return;
 
-            loginResponse = JsonSerializer.Deserialize<LoginResponse>(stringStorage);
-            //await App.Authentication.RefreshUserState();
+            tokenResponse = JsonSerializer.Deserialize<AuthTokens>(stringStorage);
             inMemory = true;
         }
 
-        if (await CheckRefreshToken(loginResponse))
-            await UpdateNewToken(loginResponse, inMemory);
+        if (await CheckRefreshToken(tokenResponse))
+            await UpdateNewToken(tokenResponse, inMemory);
         else
-            throw new Exception("Session timeout - return(out) it ");
+            throw new Exception("Session timeout - return(out) it");
     }
 
     public void AddMediaTypeJson()
@@ -53,30 +56,36 @@ public class HeadersBuilder : IHeadersBuilder
         _httpClient.DefaultRequestHeaders.Clear();
     }
 
-    private static async Task UpdateNewToken(LoginResponse loginResponse, bool inMemory)
+    private async Task UpdateNewToken(AuthTokens tokens, bool inMemory)
     {
-        if (inMemory) await SecureStorage.SetAsync(nameof(LoginResponse), JsonSerializer.Serialize(loginResponse));
-        App.Authentication.UserSession = loginResponse;
+        if (inMemory) await SecureStorage.SetAsync(nameof(AuthTokens), JsonSerializer.Serialize(tokens));
+        var user = await _httpClient.GetFromJsonAsync<UserModel>(Endpoints.GetUserEndpoint());
+        App.Authentication.UserSession = new LoginResponse
+        {
+            AccessToken = tokens.AccessToken,
+            RefreshToken = tokens.RefreshToken,
+            User = user
+        };
     }
 
-    private async Task<bool> CheckRefreshToken(LoginResponse loginResponse)
+    private async Task<bool> CheckRefreshToken(AuthTokens tokens)
     {
-        if (IsValid(loginResponse.AccessToken))
+        if (IsValid(tokens.AccessToken))
         {
             _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", loginResponse.AccessToken);
+                new AuthenticationHeaderValue("Bearer", tokens.AccessToken);
             return true;
         }
 
         var response = await _httpClient.PostAsJsonAsync(Endpoints.GetRefreshTokenEndpoint(),
-            new { refresh = loginResponse.RefreshToken });
+            new { refresh = tokens.RefreshToken });
         var refreshResult = await response.Content.ReadFromJsonAsync<RefreshResponse>();
         if (refreshResult.AccessToken is null) return false;
         ClearRequestHeaders();
         AddMediaTypeJson();
         _httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", refreshResult.AccessToken);
-        loginResponse.AccessToken = refreshResult.AccessToken;
+        tokens.AccessToken = refreshResult.AccessToken;
         return true;
     }
 
