@@ -65,4 +65,9 @@ public static class Endpoints
     {
         return "api/auth/user/";
     }
+
+    public static string GetUserEndpoint()
+    {
+        return SiteUrl + "/api/auth/user/";
+    }
 }

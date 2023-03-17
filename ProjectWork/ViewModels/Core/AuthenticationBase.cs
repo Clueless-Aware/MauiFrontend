@@ -21,18 +21,17 @@ public abstract class AuthenticationBase : ObservableRecipient, IAuthenticationA
         get => _userSession;
         set => SetProperty(ref _userSession, value);
     }
+
     public bool SaveSession
     {
         get => _saveSession;
         set => SetProperty(ref _saveSession, value);
     }
 
-    public abstract Task<(bool status,string message)> AuthenticateUser(LoginModel loginModel);
+    public abstract Task<(bool status, string message)> AuthenticateUser(LoginModel loginModel);
 
     public abstract void LogOut();
 
-    public abstract Task CheckIsLogged();
-
-    public abstract Task<(bool status, string message)> RegistrationUser(RegistrationModel registrationModel);
+    public abstract Task<(bool status, string message)> UserRegistration(RegistrationModel registrationModel);
     public abstract Task<(bool status, string message)> SendRequest<T>(T element, string toPath);
 }
