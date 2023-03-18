@@ -32,49 +32,44 @@
                         </a>
                     </div>
                 </div>
-                <div class="row justify-content-between gy-4 mt-4">
-                    @*<div class="col-lg-8">
-
-                <div class="portfolio-description">
-                <h2>
-                Description
-                </h2>
-                @if (App.Authentication.UserSession is not null)
-                {
-                if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
-                {
-                <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
-                @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
-                <span class="material-symbols-outlined">
-                bookmark_remove
-                </span>
-                Remove from bookmarks
-                </button>
-                }
-                else
-                {
-                <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
-                @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
-                <span class="material-symbols-outlined">
-                bookmark_add
-                </span>
-                Add to bookmarks
-                </button>
-                }
-                }
-                else
-                {
-                <div class="w3-center">
-                <p class="w3-text w3-card w3-padding-large w3-round w-50">
-                Would you like to bookmark this artwork?<br />
-                Then please <a class="w3-text-red" href="registration">create an account</a><br />
-                Or <a href="login" class="w3-text-red">sign in</a> to an existing one
-                </p>
+                <!-- start aiuola bookmarks -->
+                <div class="row justify-content-between gy-4 mt-2">
+                    @if (App.Authentication.UserSession is not null)
+                    {
+                        if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
+                        {
+                            <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
+                        @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
+                                <span class="material-symbols-outlined">
+                                    bookmark_remove
+                                </span>
+                                Remove from bookmarks
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
+                        @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
+                                <span class="material-symbols-outlined">
+                                    bookmark_add
+                                </span>
+                                Add to bookmarks
+                            </button>
+                        }
+                    }
+                    else
+                    {
+                        <div class="w3-center">
+                            <p class="w3-text w3-card w3-padding-large w3-round">
+                                Would you like to bookmark this artwork?<br />
+                                Then please <a class="w3-text-red" href="registration">create an account</a><br />
+                                Or <a href="login" class="w3-text-red">sign in</a> to an existing one
+                            </p>
+                        </div>
+                    }
                 </div>
-                }
-
-                <hr>
-                *@
+                <!-- start aiuola bookmarks -->
+                <div class="row justify-content-between gy-4 mt-4">
                     @if (_artwork.Description.Length > 0)
                     {
                         <div class="col-lg-8">
@@ -119,9 +114,6 @@
                             <p class="w3-text">@_description</p>
                         }
                     }
-                    @*
-                </div>
-                </div>*@
 
                     <div class="col-lg-4">
                         <div class="portfolio-info">
