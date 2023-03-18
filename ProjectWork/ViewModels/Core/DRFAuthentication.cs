@@ -95,7 +95,7 @@ public class DRFAuthentication : AuthenticationBase
         {
             var result = await Service.PostItemAsJsonAsync<T, T>(element);
             if (result is null) throw new Exception("Request message error");
-            return (true, "Request Success");
+            return (true, "Request Successful");
         }
         catch (Exception e)
         {
@@ -105,7 +105,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string messge)> AddBookMark(int artworkId)
     {
-        Service.UriBuilder.Path = Endpoints.GetBookmarkPath();
+        Service.UriBuilder.Path = Endpoints.GetBookmarksPath();
         try
         {
             if (App.Authentication.UserSession.User == null)
@@ -127,7 +127,7 @@ public class DRFAuthentication : AuthenticationBase
 
     public async Task<(bool status, string message)> RemoveBookmark(int bookmarkId)
     {
-        Service.UriBuilder.Path = Endpoints.GetBookmarkPath() + bookmarkId + '/';
+        Service.UriBuilder.Path = Endpoints.GetBookmarksPath() + bookmarkId + '/';
         try
         {
             await Service.DeleteItemAsync(bookmarkId);

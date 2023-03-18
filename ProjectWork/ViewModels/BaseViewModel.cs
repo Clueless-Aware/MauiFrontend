@@ -6,15 +6,15 @@ namespace ProjectWork.ViewModels;
 public abstract class BaseViewModel<T> : ObservableRecipient, IViewModel<T>
 {
     private GenericData<T> _genericData = new();
+
+    private bool _isBusy;
     private Paginator _paginator = new();
     private Parameters _parameters = new();
 
-    private bool isBusy;
-
     public bool IsBusy
     {
-        get => isBusy;
-        set => SetProperty(ref isBusy, value);
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
     }
 
     public Parameters Parameters
