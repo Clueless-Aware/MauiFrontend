@@ -6,9 +6,67 @@ public static class Endpoints
     //public const string SiteUrl = "http://localhost:80";
     public const string SiteUrl = "http://51.103.212.24:80";
 
+    #region Endpoints
+
     public static string GetArtworkEndpoint()
     {
         return SiteUrl + "/api/artworks/";
+    }
+
+    public static string GetArtistEndpoint()
+    {
+        return SiteUrl + "/api/artists/";
+    }
+
+    public static string GetPasswordResetEndpoint()
+    {
+        return "api/auth/password/reset/";
+    }
+
+    public static string GetRequestsEndpoint()
+    {
+        return SiteUrl + "/api/requests/";
+    }
+
+    public static string GetRefreshTokenEndpoint()
+    {
+        return SiteUrl + "/api/auth/token/refresh/";
+    }
+
+    public static string GetUserEndpoint()
+    {
+        return SiteUrl + "/api/auth/user/";
+    }
+
+    #endregion
+
+
+    #region Paths
+
+    public static string GetBookmarksPath()
+    {
+        return "/api/bookmarks/";
+    }
+
+    public static string GetResetPasswordConfirmPath()
+    {
+        return "api/auth/password/reset/confirm/";
+    }
+
+    public static string GetArtistPath()
+    {
+        return "api/artists/";
+    }
+
+
+    public static string GetLoginPath()
+    {
+        return "api/auth/login/";
+    }
+
+    public static string GetRegisterPath()
+    {
+        return "api/auth/registration/";
     }
 
     public static string GetArtworkPath()
@@ -21,53 +79,10 @@ public static class Endpoints
         return "/api/requests/";
     }
 
-    public static string GetPasswordResetEndpoint()
-    {
-        return "api/auth/password/reset/";
-    }
-
-    public static string GetRefreshTokenEndpoint()
-    {
-        return SiteUrl + "/api/auth/token/refresh/";
-    }
-
-    public static string GetResetPasswordConfirmPath()
-    {
-        return "api/auth/password/reset/confirm/";
-    }
-
-    public static string GetBookmarkPath()
-    {
-        return "/api/bookmarks/";
-    }
-
-    public static string GetArtistEndpoint()
-    {
-        return SiteUrl + "/api/artists/";
-    }
-
-    public static string GetArtistPath()
-    {
-        return "api/artists/";
-    }
-
-    public static string GetLoginPath()
-    {
-        return "api/auth/login/";
-    }
-
-    public static string GetRegisterPath()
-    {
-        return "api/auth/registration/";
-    }
-
     public static string GetUserPath()
     {
         return "api/auth/user/";
     }
 
-    public static string GetUserEndpoint()
-    {
-        return SiteUrl + "/api/auth/user/";
-    }
+    #endregion
 }

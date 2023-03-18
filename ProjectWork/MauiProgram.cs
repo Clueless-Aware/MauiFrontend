@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ProjectWork.Services.Core;
 using ProjectWork.Utilities;
+using ProjectWork.ViewModels.Admin;
 using ProjectWork.ViewModels.Artist;
 using ProjectWork.ViewModels.Artwork;
 using ProjectWork.ViewModels.Core;
@@ -38,6 +39,7 @@ public static class MauiProgram
                 FileName = "profile_picture"
             })));
 
+        builder.Services.AddScoped<RequestsVirtualMachine>();
 
         builder.Services.AddScoped<SearchArtworkVM>();
         builder.Services.AddScoped<DashboardAdminArtworkVM>();

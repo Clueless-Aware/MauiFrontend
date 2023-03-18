@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System.Text.Json.Serialization;
 using ProjectWork.Models.Artwork;
+using ProjectWork.Models.Requests;
 
 namespace ProjectWork.Models.Core.User;
 
@@ -32,4 +33,6 @@ public class UserModel
     public List<SlimArtworkModel> BookmarkedArtworks { get; set; }
 
     [JsonPropertyName("user_bookmarks")] public List<int> BookmarksIds { get; set; }
+
+    [JsonPropertyName("user_email_info")] public List<RequestModel> Requests { get; set; }
 }
