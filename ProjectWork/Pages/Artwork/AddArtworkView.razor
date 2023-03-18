@@ -28,16 +28,18 @@
 
 
 
-    <h3>Add Artwork</h3>
-    <hr />
+<h3>Add Artwork</h3>
+<hr />
 
-    <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+<EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
         <table>
             <tr>
                 <th>Field</th>
                 <th>Data</th>
+                <th>Format</th>
             </tr>
             <!---------------------------------------------------->
             <tr>
@@ -50,6 +52,18 @@
                     <input class="w3-round w-50" type="text"
                            @bind-value="artwork.Author"
                            placeholder="Enter Author">
+                </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Author name
+                        <NavLink href="/search_and_edit_artist">
+                            Search and get the name
+                        </NavLink> or 
+                        <NavLink href="/add-artist">
+                            New artist?
+                        </NavLink>
+
+                    </p>
                 </td>
             </tr>
             <!---------------------------------------------------->
@@ -64,6 +78,18 @@
                            @bind-value="artwork.AuthorId"
                            placeholder="Enter Author id">
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Author id
+                        <NavLink href="/search_and_edit_artist">
+                            Search and get the name
+                        </NavLink> or 
+                        <NavLink href="/add-artist">
+                            New artist?
+                        </NavLink>
+
+                    </p>
+                </td>
             </tr>
             <!---------------------------------------------------->
             <tr>
@@ -76,6 +102,11 @@
                     <input class="w3-round w-50" type="text"
                            @bind-value="artwork.Title"
                            placeholder="Enter Title">
+                </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Title of artwork
+                    </p>
                 </td>
             </tr>
             <!---------------------------------------------------->
@@ -90,6 +121,11 @@
                            @bind-value="artwork.Date"
                            placeholder="Enter Date">
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        YEAR
+                    </p>
+                </td>
             </tr>
             <!---------------------------------------------------->
             <tr>
@@ -102,6 +138,11 @@
                     <input class="w3-round w-50" type="text"
                            @bind-value="artwork.Technique"
                            placeholder="Enter Technique">
+                </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Technique, dim X dim cm
+                    </p>
                 </td>
             </tr>
             <!---------------------------------------------------->
@@ -116,6 +157,11 @@
                            @bind-value="artwork.Location"
                            placeholder="Enter Location">
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Museum, Country
+                    </p>
+                </td>
             </tr>
             <!---------------------------------------------------->
             <tr>
@@ -128,6 +174,11 @@
                     <input class="w3-round w-50" type="text"
                            @bind-value="artwork.Form"
                            placeholder="Enter Form">
+                </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        A form of artwork
+                    </p>
                 </td>
             </tr>
             <!---------------------------------------------------->
@@ -142,6 +193,11 @@
                            @bind-value="artwork.Type"
                            placeholder="Enter Type">
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        A type what represents the artwork
+                    </p>
+                </td>
             </tr>
             <!---------------------------------------------------->
             <tr>
@@ -154,6 +210,11 @@
                     <input class="w3-round w-50" type="text"
                            @bind-value="artwork.Description"
                            placeholder="Enter Description">
+                </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Description of artwork
+                    </p>
                 </td>
             </tr>
             <!---------------------------------------------------->
@@ -168,22 +229,34 @@
                            @bind-value="artwork.TimeFrame"
                            placeholder="Enter Time Frame">
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        YEAR-YEAR
+                    </p>
+                </td>
             </tr>
             <!---------------------------------------------------->
             <tr>
-                <td>
-                    Image
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Image
+                    </p>
                 </td>
                 <td>
                     <InputFile class="w3-button w3-round" OnChange="(e)=> artwork.File = e.File" />
+                </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Image of artwork
+                    </p>
                 </td>
             </tr>
         </table>
 
 
-        @*TODO: disable if Artwork.IsBusy*@
-        <button type="submit" class="general-button">Add</button>
-    </EditForm>
+    @*TODO: disable if Artwork.IsBusy*@
+    <button type="submit" class="general-button">Add</button>
+</EditForm>
 
 
 @code {

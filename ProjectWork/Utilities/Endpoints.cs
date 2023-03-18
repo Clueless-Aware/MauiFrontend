@@ -4,7 +4,13 @@ public static class Endpoints
 {
     //Set the ip of your local host
     //public const string SiteUrl = "http://localhost:80";
-    public const string SiteUrl = "http://51.103.212.24:80";
+    //public const string SiteUrl = "http://51.103.212.24:80";
+    public const string SiteUrl = "https://bacchus.switzerlandnorth.cloudapp.azure.com";
+
+    /// <summary>
+    ///     Endpoints return the full absolute URL
+    /// </summary>
+    /// <returns></returns>
 
     #region Endpoints
 
@@ -40,6 +46,10 @@ public static class Endpoints
 
     #endregion
 
+    /// <summary>
+    ///     Path always return just the last path of the url
+    /// </summary>
+    /// <returns></returns>
 
     #region Paths
 

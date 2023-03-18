@@ -33,11 +33,13 @@
     <EditForm Model="@artist" OnValidSubmit="async ()=>await DirectorArtistAdmin.AddItemAsync(artist)">
         <DataAnnotationsValidator />
         <ValidationSummary />
+        <div class="table-responsive">
 
         <table>
             <tr>
                 <th>Field</th>
                 <th>Data</th>
+                <th>Format</th>
             </tr>
             <!---------------------------------------------------->
             <tr>
@@ -50,6 +52,11 @@
                     <input class="w3-round w-50" type="text"
                            @bind-value="artist.Name"
                            placeholder="Enter Name">
+                </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Surname,Firstname
+                    </p>
                 </td>
             </tr>
             <!---------------------------------------------------->
@@ -64,6 +71,11 @@
                            @bind-value="artist.BirthData"
                            placeholder="Enter Birth Data">
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Born YEAR, WHERE, Died YEAR, WHERE
+                    </p>
+                </td>
             </tr>
             <!---------------------------------------------------->
             <tr>
@@ -76,6 +88,11 @@
                     <input class="w3-round w-50" type="text"
                            @bind-value="artist.Profession"
                            placeholder="Enter Profession">
+                </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Profession of artist
+                    </p>
                 </td>
             </tr>
             <!---------------------------------------------------->
@@ -90,6 +107,11 @@
                            @bind-value="artist.School"
                            placeholder="Enter School">
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        School of artist
+                    </p>
+                </td>
             </tr>
             <!---------------------------------------------------->
             <tr>
@@ -103,17 +125,30 @@
                            @bind-value="artist.Biography"
                            placeholder="Enter Biography">
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Biography of artist
+                    </p>
+                </td>
             </tr>
             <!---------------------------------------------------->
 <tr>
                 <td>
-                    Image
+                    <p class="w3-w3-bold">
+                        Artist image
+                    </p>
                 </td>
                 <td>
                     <InputFile class="w3-button w3-round" OnChange="(e)=> artist.File = e.File" />
                 </td>
+                <td class="w3-padding-16">
+                    <p class="w3-w3-bold">
+                        Artist image
+                    </p>
+                </td>
             </tr>
         </table>
+        </div>
 
 
         @*TODO: disable if DirectorArtistAdmin.IsBusy*@
