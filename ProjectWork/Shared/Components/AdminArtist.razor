@@ -1,5 +1,6 @@
 ﻿@using ProjectWork.ViewModels.Artist
 @using ProjectWork.Models.Artist
+@using ProjectWork.Utilities
 @inject DashboardAdminArtistVM ArtistDirector
 
 <style>
@@ -63,7 +64,7 @@
 
     @if (_showEdit)
     {
-        <EditForm Model="@Artist" OnValidSubmit="async () => await ArtistDirector.UpdateItemAsync(Artist)">
+        <EditForm Model="@Artist" OnValidSubmit="async ()=> await UpdateArtist(Artist)">
             <div class="container">
                 <div class="row">
                     <div class="col w3-margin-top">
@@ -166,6 +167,20 @@
     private void Toggle()
     {
         _showEdit = !_showEdit;
+    }
+
+    private async Task UpdateArtist(BaseArtist @artist)
+    {
+        var update = await ArtistDirector.UpdateItemAsync(Artist);
+        if (update.status)
+        {
+            await UtilityToolkit.CreateToast("Artist Updated");
+        }
+        else
+        {
+            await UtilityToolkit.CreateToast("Something goes wrong: "+ update.message);
+        }
+        StateHasChanged();
     }
 
 }
