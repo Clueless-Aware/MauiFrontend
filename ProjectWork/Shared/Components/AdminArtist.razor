@@ -3,22 +3,6 @@
 @inject DashboardAdminArtistVM ArtistDirector
 
 <style>
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-
     .imageResult {
         display: block;
         max-width: 560px;
@@ -27,18 +11,18 @@
     }
 </style>
 
-<div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom w3-padding-top-24 w3-center">
-    <div class="w3-margin-left w3-center">
-        <p class="w3-xxlarge">
+<div class="card w3-animate-right w3-round-large w3-white w3-margin-bottom w3-center ">
+    <div class="w3-center">
+        <p class="w3-xxlarge w3-margin-top">
             @Artist.Name
         </p>
 
         <div class="w3-row">
             <div class="w3-col m6 w3-center w3-padding-large">
                 <p>
-                    <b><i class="fa fa-user w3-margin-right"></i>Photo</b>
+                    <b><i class="w3-margin-right"></i>Photo</b>
                 </p><br>
-                <img src="@Artist.Portrait" class="imageResult" alt="@Artist.Name" />
+                <img src="@Artist.Portrait" class="imageResult w3-margin-right" alt="@Artist.Name" />
             </div>
 
             <div class="w3-col m6 w3-padding-large w3-left-align">
@@ -57,7 +41,7 @@
             </div>
         </div>
 
-        <button class="general-button" @onclick="Toggle">Edit</button>
+        <button class="general-button w-75" @onclick="Toggle">Edit</button>
     </div>
 
 
@@ -115,7 +99,7 @@
                         <label class="w3-bold">
                             Biography
                         </label>
-                        <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="Artist.Biography" />
+                        <InputTextArea class="w-100 w3-round" rows="8" @bind-Value="Artist.Biography" />
                     </div>
                 </div>
 

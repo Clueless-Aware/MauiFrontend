@@ -11,7 +11,7 @@
     }
 </style>
 
-<div class="w3-card-4 w3-animate-right w3-round-large w3-white w3-margin-bottom">
+<div class="card w3-animate-right w3-round-large w3-white w3-margin-top w3-margin-bottom ">
     <p class="w3-xxlarge">
         @artwork.Title
     </p>
@@ -19,7 +19,7 @@
     <div class="w3-row">
         <div class="w3-col w3-margin-top m6 w3-center w3-padding-large">
             <p>
-                <b><i class="fa fa-user w3-margin-right"></i>Photo</b>
+                <b><i></i>Photo</b>
             </p><br>
             <img src="@artwork.ImageUrl" class="imageResult w-100" alt="@artwork.Title"/>
         </div>
@@ -40,7 +40,10 @@
         </div>
     </div>
 
-    <button class="general-button" @onclick="toggle">Edit</button>
+    <div class="w3-center">
+        <button class="general-button w-75" @onclick="toggle">Edit</button>
+    </div>
+
 
     @if (showEdit)
     {
@@ -145,7 +148,7 @@
                             </span>
                             Description
                         </label>
-                        <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="artwork.Description" />
+                        <InputTextArea class="w-100 w3-round" rows="8" @bind-Value="artwork.Description" />
                     </div>
                 </div>
                 <div class="row">
