@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-between gy-4 mt-4">
-                    <div class="col-lg-8">
+                    @*<div class="col-lg-8">
 
                         <div class="portfolio-description">
                             <h2>
@@ -74,15 +74,19 @@
                             }
 
                             <hr>
-
+*@
                             @if (_artwork.Description.Length > 0)
                             {
                                 <div class="col-lg-8">
                                     <div class="portfolio-description">
                                         <h2>Description</h2>
-                                        <p>
-                                            @_artwork.Description
-                                        </p>
+                                        <div style="text-align: justify; text-justify: inter-word">
+                                            @foreach (var paragraph in _artwork.Description.Split('\n'))
+                                            {
+                                                @paragraph
+                                                <br/>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -115,9 +119,9 @@
                                     <p class="w3-text">@_description</p>
                                 }
                             }
-
+@*
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="col-lg-4">
                         <div class="portfolio-info">
