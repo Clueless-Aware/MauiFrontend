@@ -17,17 +17,15 @@
             <div class="container position-relative">
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6 text-center card-title">
-                        <h1>@_artist.Name</h1>
+                        <h1>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artist.Name)</h1>
                     </div>
                 </div>
             </div>
         </div>
         <!-- End Page Header -->
-
         <!-- ======= About Section ======= -->
         <section id="about" class="about card-body">
             <div class="container">
-
                 <div class="row gy-4 justify-content-center">
                     <div class="col-lg-4">
                         <img src="@_artist.Portrait" class="img-thumbnail" alt="@_artist.Name">
@@ -40,7 +38,7 @@
                                         <span class="material-symbols-outlined">
                                             palette
                                         </span>
-                                        <strong>Profession:</strong> <span>@_artist.Profession</span>
+                                        <strong>Profession:</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artist.Profession)</span>
                                     </li>
                                     <li>
                                         <span class="material-symbols-outlined">
@@ -50,7 +48,7 @@
                                     <li>
                                         <span class="material-symbols-outlined">
                                             location_city
-                                        </span><strong>School:</strong> <span>@_artist.School</span>
+                                        </span><strong>School:</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artist.School)</span>
                                     </li>
                                 </ul>
                             </div>
@@ -59,11 +57,11 @@
                 </div>
 
                 <div class="py-3" style="text-align: justify; text-justify: inter-word">
-                        @foreach (var paragraph in _artist.Biography.Split('\n'))
-                        {
-                            @paragraph
-                            <br/>
-                        }
+                    @foreach (var paragraph in _artist.Biography.Split('\n'))
+                    {
+                        @paragraph
+                        <br/>
+                    }
                 </div>
             </div>
         </section>
@@ -82,7 +80,7 @@
                 <div class="container-fluid">
 
                     <div class="row gy-4 justify-content-center">
-                        @foreach (var artwork in RelatedArtworks.Data.OrderBy(x=> _rnd.Next()).Take(6))
+                        @foreach (var artwork in RelatedArtworks.Data)
                         {
                             <!-- Start Gallery Item -->
                             <div class="col-xl-4 col-lg-6 col-md-9" style="height: 350px">

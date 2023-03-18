@@ -28,18 +28,19 @@
                 <div class="position-relative d-flex justify-content-center img-container">
                     <div class="h-100">
                         <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
-                            <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title" />
+                            <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title"/>
                         </a>
                     </div>
                 </div>
-                <!-- start aiuola bookmarks -->
+                <!-- Start bookmark section -->
                 <div class="row justify-content-between gy-4 mt-2">
                     @if (App.Authentication.UserSession is not null)
                     {
-                        if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
+                        if (App.Authentication.UserSession.User.BookmarkedArtworks
+                            .Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
                         {
                             <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
-                        @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
+                                    @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
                                 <span class="material-symbols-outlined">
                                     bookmark_remove
                                 </span>
@@ -49,7 +50,7 @@
                         else
                         {
                             <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
-                        @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
+                                    @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
                                 <span class="material-symbols-outlined">
                                     bookmark_add
                                 </span>
@@ -61,14 +62,14 @@
                     {
                         <div class="w3-center">
                             <p class="w3-text w3-card w3-padding-large w3-round">
-                                Would you like to bookmark this artwork?<br />
-                                Then please <a class="w3-text-red" href="registration">create an account</a><br />
+                                Would you like to bookmark this artwork?<br/>
+                                Then please <a class="w3-text-red" href="registration">create an account</a><br/>
                                 Or <a href="login" class="w3-text-red">sign in</a> to an existing one
                             </p>
                         </div>
                     }
                 </div>
-                <!-- start aiuola bookmarks -->
+                <!-- End Bookmark section -->
                 <div class="row justify-content-between gy-4 mt-4">
                     @if (_artwork.Description.Length > 0)
                     {
@@ -79,7 +80,7 @@
                                     @foreach (var paragraph in _artwork.Description.Split('\n'))
                                     {
                                         @paragraph
-                                        <br />
+                                        <br/>
                                     }
                                 </div>
                             </div>
@@ -87,13 +88,18 @@
                     }
                     else
                     {
-                        @if (!hideButton)
+                        @if (!_hideButton)
                         {
                             <div class="w3-center w3-margin-top">
-                                @if (isLoading)
+                                @if (_isLoading)
                                 {
                                     <div class="w3-center">
-                                        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                                        <div class="lds-ring">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                        </div>
                                     </div>
                                 }
                                 else
@@ -105,16 +111,13 @@
                                         </span>
                                     </button>
                                 }
-
                             </div>
-
                         }
                         else
                         {
                             <p class="w3-text">@_description</p>
                         }
                     }
-
                     <div class="col-lg-4">
                         <div class="portfolio-info">
                             <h3>Artwork information</h3>
@@ -124,7 +127,7 @@
                                         Author
                                     </strong>
                                     <a href="/detail-artist/@_artwork.AuthorId" he>
-                                        <span>@_artwork.Author</span>
+                                        <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Author)</span>
                                     </a>
                                 </li>
                                 <li>
@@ -154,17 +157,12 @@
 
         @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
         {
-            <!-- ======= Search Section ======= -->
-            <div>
-                <PaginatorComponent Paginator="RelatedPaginator"></PaginatorComponent>
-            </div>
-            <!-- End Search Section -->
+            <h1 class="display-5">Related artworks</h1>
             <!-- ======= Gallery Section ======= -->
             <section id="gallery" class="gallery">
                 <div class="container-fluid">
-
                     <div class="row gy-4 justify-content-center">
-                        <!-- List of 3 random arts without the element-->
+                        <!-- List of 3 random artworks without the element-->
                         @foreach (var artwork in RelatedArtworks.Data.Where(artwork => artwork.Id != Id).OrderBy(x => _rnd.Next()).Take(3))
                         {
                             <!-- Start Gallery Item -->
@@ -187,6 +185,7 @@
                             </div>
                             <!-- End Gallery Item --->
                         }
+                        <!-- End list of artworks --->
                     </div>
                 </div>
             </section>
@@ -198,7 +197,6 @@
             </div>
         }
         <Navigator></Navigator>
-
     </div>
 }
 else
@@ -213,8 +211,8 @@ else
 
     private string ErrorMessage { get; set; } = "There are no related artworks we could find";
 
-    public bool hideButton = false;
-    public bool isLoading = false;
+    private bool _hideButton;
+    private bool _isLoading;
 
     private string _description = "";
     private readonly Random _rnd = new();
@@ -222,7 +220,6 @@ else
 
     private Parameters RelatedParameters { get; } = new();
     private GenericData<BaseArtwork> RelatedArtworks { get; set; } = new();
-    private Paginator RelatedPaginator { get; } = new();
     private BaseArtwork _artwork;
 
     protected override async Task OnParametersSetAsync()
@@ -248,13 +245,11 @@ else
             if (_artwork is not null) return;
             await UtilityToolkit.CreateToast("Sorry we couldn't load this artwork please try again later");
         }
-
     }
 
     private async Task GetRelatedData()
     {
         RelatedArtworks = await ArtworkDirector.GetGenericDataFromParam(RelatedParameters.Dictionary);
-        RelatedPaginator.SetActualState(RelatedParameters, GetRelatedData, RelatedArtworks.Count);
         StateHasChanged();
     }
 
@@ -266,16 +261,16 @@ else
     private async Task DriveToMuseum()
     {
         var placeMark = new Placemark
-            {
-                CountryName = _artwork.Location
-            };
+        {
+            CountryName = _artwork.Location
+        };
         var options = new MapLaunchOptions { Name = "Microsoft Building 25" };
         await Map.Default.OpenAsync(placeMark, options);
     }
 
     private async Task AskChatGpt()
     {
-        isLoading = true;
+        _isLoading = true;
 
         var author = _artwork.Author.Replace(',', ' ').ToLower();
 
@@ -283,13 +278,14 @@ else
         var date = _artwork.Date;
 
         var prompt = "Write me a description of the artwork of " + author + " named " + title + "made in " + date;
-        _description = "wait...\n It can take from 15 to 30 seconds to generate the content. Plase be patient.";
+        _description = "wait...\n It can take from 15 to 30 seconds to generate the content. Please be patient.";
 
         ChatGpt.input = prompt;
 
         await ChatGpt.gen();
         _description = ChatGpt.output;
-        isLoading = false;
-        hideButton = true;
+        _isLoading = false;
+        _hideButton = true;
     }
+
 }

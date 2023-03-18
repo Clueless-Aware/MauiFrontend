@@ -27,7 +27,7 @@ else
                                 </div>
                                 <div class="card-body h-75">
                                     <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title"/>
-                                    <p class="card-text">@bookmarkedArtwork.Id - @bookmarkedArtwork.Author</p>
+                                    <p class="card-text">@bookmarkedArtwork.Title by @bookmarkedArtwork.Author</p>
                                     <div class="d-flex justify-content-between align-items-center">
 
                                     </div>
@@ -57,7 +57,6 @@ else
                         <ProjectWork.Shared.Components.Modal Artwork="bookmarkedArtwork" @ref="Modal"></ProjectWork.Shared.Components.Modal>
                     }
                 </div>
-
                 <hr>
                 <p class="w3-opacity">You have @App.Authentication.UserSession.User.BookmarkedArtworks.Count bookmarks</p>
             </div>
