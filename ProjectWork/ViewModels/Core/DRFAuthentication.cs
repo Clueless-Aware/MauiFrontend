@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.IdentityModel.Tokens;
 using ProjectWork.Models.Core.Authentication;
 using ProjectWork.Models.Core.User;
 using ProjectWork.Services.Core;
@@ -22,19 +21,24 @@ public class DRFAuthentication : AuthenticationBase
             var result = await Service.PostItemAsJsonAsync<LoginModel, LoginResponse>(loginModel);
             UserSession = result ?? throw new Exception("None result");
             if (!SaveSession) return (true, "Login successful");
+            SaveSession = false;
 
-            var userBasicInfo = JsonSerializer.Serialize(result);
-            await SecureStorage.SetAsync(nameof(LoginResponse), userBasicInfo);
+            var tokens = new AuthTokens
+            {
+                AccessToken = result.AccessToken,
+                RefreshToken = result.RefreshToken
+            };
+            await SecureStorage.SetAsync(nameof(AuthTokens), JsonSerializer.Serialize(tokens));
             return (true, "Login successful");
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return (false, e.Message + "We apologize for the inconvenience");
+            return (false, "Error during login: " + e.Message + " We apologize for the inconvenience");
         }
     }
 
-    public override async Task<(bool status, string message)> RegistrationUser(RegistrationModel registrationModel)
+    public override async Task<(bool status, string message)> UserRegistration(RegistrationModel registrationModel)
     {
         Service.UriBuilder.Path = Endpoints.GetRegisterPath();
         try
@@ -42,10 +46,17 @@ public class DRFAuthentication : AuthenticationBase
             var result =
                 await Service.AddItemAsMultipartAsync<RegistrationModel, LoginResponse>(registrationModel,
                     registrationModel.ProfilePicture);
+
             UserSession = result ?? throw new Exception("None Result");
             if (!SaveSession) return (true, "Registration Successfully");
-            var userBasicInfo = JsonSerializer.Serialize(result);
-            await SecureStorage.SetAsync(nameof(LoginResponse), userBasicInfo);
+            SaveSession = false;
+
+            var tokens = new AuthTokens
+            {
+                AccessToken = result.AccessToken,
+                RefreshToken = result.RefreshToken
+            };
+            await SecureStorage.SetAsync(nameof(AuthTokens), JsonSerializer.Serialize(tokens));
             return (true, "Registration Successfully");
         }
         catch (Exception e)
@@ -75,14 +86,6 @@ public class DRFAuthentication : AuthenticationBase
     {
         SecureStorage.Default.RemoveAll();
         UserSession = null;
-    }
-
-    public override async Task CheckIsLogged()
-    {
-        //Todo
-        var userStored = await SecureStorage.GetAsync(nameof(LoginResponse));
-        if (userStored is null) return;
-        var loginResponse = JsonSerializer.Deserialize<LoginResponse>(userStored);
     }
 
     public override async Task<(bool status, string message)> SendRequest<T>(T element, string toPath)
@@ -146,14 +149,14 @@ public class DRFAuthentication : AuthenticationBase
             if (refreshedUser is null) throw new Exception("Error during user refresh");
             UserSession.User = refreshedUser;
 
-            var stringStorage = await SecureStorage.GetAsync(nameof(LoginResponse));
-            if (stringStorage.IsNullOrEmpty()) return (true, string.Empty);
+            //var stringStorage = await SecureStorage.GetAsync(nameof(LoginResponse));
+            //if (stringStorage.IsNullOrEmpty()) return (true, string.Empty);
 
-            var loginResponse = JsonSerializer.Deserialize<LoginResponse>(stringStorage);
-            loginResponse.User = refreshedUser;
-            var userInfo = JsonSerializer.Serialize(loginResponse);
+            //var loginResponse = JsonSerializer.Deserialize<LoginResponse>(stringStorage);
+            //loginResponse.User = refreshedUser;
+            //var userInfo = JsonSerializer.Serialize(loginResponse);
 
-            await SecureStorage.SetAsync(nameof(loginResponse), userInfo);
+            //await SecureStorage.SetAsync(nameof(loginResponse), userInfo);
 
             return (true, string.Empty);
         }

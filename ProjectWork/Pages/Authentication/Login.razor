@@ -7,7 +7,7 @@
 <style>
 
     main {
-        background-image: url("bg-3.jpg");
+        background-image: url("bg-1.jpg");
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -17,7 +17,7 @@
 
 </style>
 <div class="d-flex align-items-center justify-content-center">
-    <div id="login-card" class="card w3-card-4 w3-round-xlarge w3-white w3-padding-large w3-center w3-centered ">
+    <div id="login-card" class="w3-margin-top card w3-card-4 w3-round-xlarge w3-white w3-padding-large w3-center w3-centered ">
         <div class="form-signin">
             <EditForm Model="@_loginModel" OnValidSubmit="async () => await AttemptLogin(_loginModel)">
                 <div id="hideLogo">
@@ -74,6 +74,7 @@
         if (attempt.status)
         {
             NavManager.NavigateTo("Home");
+            await UtilityToolkit.CreateToast($"Successfully logged in as {loginModel.UserName}");
         }
         else
         {
