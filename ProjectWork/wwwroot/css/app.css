@@ -1,11 +1,19 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+ span {
+    vertical-align: middle;
+}
+
 .w3-bold {
     font-weight: bold;
 }
 
 .middle {
     vertical-align: middle;
+}
+
+div.card {
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19)  
 }
 
 @font-face {
