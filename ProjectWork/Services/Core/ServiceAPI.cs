@@ -29,7 +29,7 @@ public class ServiceAPI : IServiceAPI
         _headersBuilder = new HeadersBuilder(new HttpClient(handler));
         _headersDirector.Builder = _headersBuilder;
         this.url = url;
-
+        _imageOptions = imageOptions;
         UriBuilder = new UriBuilder(url);
     }
 
