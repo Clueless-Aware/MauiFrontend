@@ -138,7 +138,7 @@
                                 <li>
                                     <strong>Location</strong>
                                     <span>
-                                        <a href="" @onclick="DriveToMuseum" @onclick:preventDefault>@_artwork.Location</a>
+                                        <a href="" @onclick="OpenLocationInMaps" @onclick:preventDefault>@_artwork.Location</a>
                                     </span>
                                 </li>
                                 <li>
@@ -266,14 +266,13 @@ else
         await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
-    private async Task DriveToMuseum()
+    private async Task OpenLocationInMaps()
     {
         var placeMark = new Placemark
         {
             CountryName = _artwork.Location
         };
-        var options = new MapLaunchOptions { Name = "Microsoft Building 25" };
-        await Map.Default.OpenAsync(placeMark, options);
+        await Map.Default.OpenAsync(placeMark);
     }
 
     private async Task AskChatGpt()

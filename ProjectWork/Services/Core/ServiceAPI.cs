@@ -44,7 +44,18 @@ public class ServiceAPI : IServiceAPI
     {
         BuildUri(parameters);
         await _headersDirector.AuthenticatedHeader();
-        return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>(UriBuilder.Uri));
+        try
+        {
+            return await HandleRequest.Requested(_headersBuilder.GetHttpClient().GetFromJsonAsync<K>(UriBuilder.Uri));
+        }
+        catch (Exception e)
+        {
+            if (e is HttpRequestException)
+            {
+                throw new Exception("CANT CONNECT WITH CHAD BACKEND");
+            }
+            throw;
+        }
     }
 
     public async Task<K> GetDetailObject<K>()

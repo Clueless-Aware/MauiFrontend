@@ -15,6 +15,10 @@ public partial class App : Application
 
 		Authentication = authentication;
 
+#if ANDROID
         App.Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+
+#endif
+        
     }
 }
