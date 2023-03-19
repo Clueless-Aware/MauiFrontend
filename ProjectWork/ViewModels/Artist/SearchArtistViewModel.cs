@@ -112,6 +112,7 @@ public class SearchArtistViewModel : BaseViewModel<BaseArtist>
     {
         try
         {
+            _artistService.UriBuilder.Query = "";
             _artistService.UriBuilder.Path = Endpoints.GetArtistPath() + id + '/';
             var artist = await _artistService.GetDetailObject<BaseArtist>();
             return artist;
