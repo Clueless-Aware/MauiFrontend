@@ -77,7 +77,7 @@
 
         @if (ShowAdvanced)
         {
-            <div class="input-group d-flex">
+            <div class="input-group d-flex mt-4">
                 <InputSelect class="form-control p-2" @bind-Value="BaseArtwork.Form">
                     <option value="">Any Forms</option>
                     @foreach (var form in ArtworkFilters.UniqueForms.Order())
