@@ -111,6 +111,7 @@
     private BaseArtist BaseArtist { get; set; } = new();
     async Task DoSearch()
     {
+        DirectorArtistSearch.Parameters.SetPage(1);
         DirectorArtistSearch.Parameters.SetSpecific(BaseArtist);
         await DirectorArtistSearch.GetGenericDataFromPageAsync();
     }

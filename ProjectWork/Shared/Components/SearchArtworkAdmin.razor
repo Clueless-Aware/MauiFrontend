@@ -113,6 +113,7 @@
     private BaseArtwork BaseArtwork { get; set; } = new();
     async Task DoSearch()
     {
+        DirectorArtworkSearch.Parameters.SetPage(1);
         DirectorArtworkSearch.Parameters.SetSpecific(BaseArtwork);
         await DirectorArtworkSearch.GetGenericDataFromPageAsync();
     }
