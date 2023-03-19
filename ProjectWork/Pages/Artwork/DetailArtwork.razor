@@ -154,10 +154,9 @@
                 </div>
             </div>
         </section>
-
         @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
         {
-            <h1 class="display-5">Related artworks</h1>
+            <h1 class="display-5 text-white-50">Related artworks</h1>
             <!-- ======= Gallery Section ======= -->
             <section id="gallery" class="gallery">
                 <div class="container-fluid">
@@ -187,6 +186,7 @@
                         }
                         <!-- End list of artworks --->
                     </div>
+                    <p class="lead">Want more from @_artwork.Author then go to <a href="/detail-artist/@_artwork.AuthorId">their artist page</a></p>
                 </div>
             </section>
         }

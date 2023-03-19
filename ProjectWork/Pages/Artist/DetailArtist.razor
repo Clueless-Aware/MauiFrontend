@@ -11,13 +11,12 @@
 @if (_artist is not null)
 {
     <div id="main" class="card m-4 shadow-lg p-3 bg-white">
-
         <!-- ======= Page Header Section ======= -->
         <div class="page-header d-flex align-items-center card-header">
             <div class="container position-relative">
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6 text-center card-title">
-                        <h1>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artist.Name)</h1>
+                        <h1>@_artist.Name</h1>
                     </div>
                 </div>
             </div>
@@ -55,7 +54,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="py-3" style="text-align: justify; text-justify: inter-word">
                     @foreach (var paragraph in _artist.Biography.Split('\n'))
                     {
@@ -66,7 +64,6 @@
             </div>
         </section>
         <!-- End About Section -->
-
         @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
         {
             <!-- ======= Search Section ======= -->
@@ -74,11 +71,9 @@
                 <PaginatorComponent Paginator="RelatedPaginator"></PaginatorComponent>
             </div>
             <!-- End Search Section -->
-
             <!-- ======= Gallery Section ======= -->
             <section id="gallery" class="gallery">
                 <div class="container-fluid">
-
                     <div class="row gy-4 justify-content-center">
                         @foreach (var artwork in RelatedArtworks.Data)
                         {
