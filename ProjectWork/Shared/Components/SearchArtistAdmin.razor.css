@@ -1,10 +1,15 @@
-﻿
-#search {
-    padding: 10px 20px 5px;
+﻿#search {
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    padding-left: 20px;
 }
 
 .button-padding {
-    padding: 0 16px;
+    padding-top: 0px;
+    padding-right: 16px;
+    padding-bottom: 0px;
+    padding-left: 16px;
 }
 
 .switch {
@@ -63,65 +68,4 @@ input:checked + .slider:before {
     -webkit-transform: rotate(180deg);
     -ms-transform: rotate(180deg);
     transform: rotate(180deg);
-}
-
-img {
-    display: block;
-    max-width: 560px;
-    width: auto;
-    height: auto;
-}
-
-a:link, a:visited {
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-}
-
-a:hover, a:active {
-    color: red;
-}
-
-/*Hero*/
-
-.hero {
-    width: 100%;
-    position: relative;
-}
-
-.hero h2 {
-    margin: 0 0 10px 0;
-    font-size: 38px;
-    font-weight: 700;
-}
-
-.hero h2 span {
-    position: relative;
-    z-index: 1;
-    padding: 0 5px;
-    display: inline-block;
-}
-
-.hero h2 span:before {
-    content: "";
-    position: absolute;
-    height: 50%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-}
-
-.hero p {
-    color: rgba(0, 0, 0, 0.5);
-    margin-bottom: 30px;
-    font-size: 18px;
-}
-
-
-@media (max-width: 768px) {
-    .hero h2 {
-        font-size: 32px;
-    }
 }

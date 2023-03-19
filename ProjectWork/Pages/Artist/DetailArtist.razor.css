@@ -10,11 +10,16 @@
     position: relative;
 }
 
-    .page-header h1 {
-        font-size: 56px;
-        font-weight: 500;
-        color: #79021c;
-    }
+br {
+    display: block;
+    margin: 10px 0;
+}
+
+.page-header h1 {
+    font-size: 56px;
+    font-weight: 500;
+    color: #79021c;
+}
 
 @media (max-width: 768px) {
     .page-header h1 {
@@ -64,8 +69,6 @@
     margin-right: 5px;
     line-height: 0;
 }
-
-
 
 
 /*Gallery*/

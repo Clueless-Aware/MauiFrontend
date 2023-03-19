@@ -1,7 +1,7 @@
 ﻿@page "/bookmarks-gallery"
 @using ProjectWork.Utilities
 <h1 class="fw-light">My Bookmarks</h1>
-<hr />
+<hr/>
 
 @if (App.Authentication.UserSession is null || App.Authentication.UserSession.User is null)
 {
@@ -22,16 +22,16 @@ else
                     {
                         <div class="col">
                             <div class="card w3-round-large h-100">
-                                <div class="">
+                                <div>
                                     <h1 class="w3-margin-left w3-bold w3-large w3-padding-16">@bookmarkedArtwork.Title</h1>
                                 </div>
                                 <div class="card-body w3-center h-75">
-                                    <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title" />
+                                    <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title"/>
                                     <p class="card-text w3-margin-top">
                                         <span class="material-symbols-outlined">
                                             info
                                         </span>
-                                        @bookmarkedArtwork.Id - @bookmarkedArtwork.Author
+                                        @bookmarkedArtwork.Title by @bookmarkedArtwork.Author
                                     </p>
 
                                     <div class="btn-group">
@@ -42,24 +42,21 @@ else
                                             </span>
                                         </a>
                                         <button type="button" class="general-button"
-                                    @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }"
+                                                @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }"
                                                 style="display: inline-block;">
                                             <!--TODO: Call modal instead of this-->
                                             <span class="material-symbols-outlined w-100">
                                                 close
                                             </span>
-
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <!-- Modal -->
-                        <ProjectWork.Shared.Components.Modal Artwork="bookmarkedArtwork" @ref="Modal"></ProjectWork.Shared.Components.Modal>
+                        <Modal Artwork="bookmarkedArtwork" @ref="Modal"></Modal>
                     }
                 </div>
-
                 <hr>
                 <p class="w3-opacity">You have @App.Authentication.UserSession.User.BookmarkedArtworks.Count bookmarks</p>
             </div>

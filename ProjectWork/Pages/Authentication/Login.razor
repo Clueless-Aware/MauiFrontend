@@ -3,7 +3,8 @@
 @using ProjectWork.Utilities
 @layout MainLayout
 
-@inject NavigationManager NavManager
+@inject IJSRuntime JsRuntime
+
 <style>
 
     main {
@@ -17,19 +18,15 @@
 
 </style>
 <div class="d-flex align-items-center justify-content-center">
-    <div id="login-card" class="w3-margin-top card card w3-round-xlarge w3-white w3-padding-large w3-center">
+    <div id="login-card" class="w3-margin-top card w3-round-xlarge w3-white w3-padding-large w3-center">
         <div class="form-signin">
             <EditForm Model="@_loginModel" OnValidSubmit="async () => await AttemptLogin(_loginModel)">
                 <div id="">
-
                     <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
-
                     <h1 class="card w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom">
                         ART SCOUT
                     </h1>
                 </div>
-
-
                 <div class="form-floating w3-margin-top">
                     <input type="text" class="form-control w3-round w3-margin-bottom" id="floatingInput" @bind-value="_loginModel.UserName" placeholder="Username">
                     <label for="floatingInput">Username</label>
@@ -38,10 +35,10 @@
                     <input type="password" class="form-control w3-round w3-margin-top" id="floatingPassword" @bind-value="_loginModel.Password" placeholder="Password">
                     <label for="floatingPassword">Password</label>
                 </div>
-
                 <div class="checkbox mb-3">
                     <label>
-                        <input class="w3-check w3-margin-top w3-margin-bottom" type="checkbox" value="remember-me" @onclick="() => App.Authentication.SaveSession = !App.Authentication.SaveSession"> Remember me
+                        <input class="w3-check w3-margin-top w3-margin-bottom" type="checkbox" value="remember-me"
+                               @onclick="() => App.Authentication.SaveSession = !App.Authentication.SaveSession"> Remember me
                     </label>
                 </div>
                 <DataAnnotationsValidator/>
@@ -58,7 +55,6 @@
                         <a class="w3-text-red">Forgot password?</a>
                     </NavLink>
                 </p>
-
             </EditForm>
         </div>
     </div>
@@ -73,7 +69,7 @@
         var attempt = await App.Authentication.AuthenticateUser(loginModel);
         if (attempt.status)
         {
-            NavManager.NavigateTo("Home");
+            await JsRuntime.InvokeVoidAsync("Main.goBack");
             await UtilityToolkit.CreateToast($"Successfully logged in as {loginModel.UserName}");
         }
         else

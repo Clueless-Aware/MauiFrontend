@@ -15,7 +15,7 @@
 <div class="card w3-padding w-75 w3-margin-bottom w3-margin-top w3-hide-small">
     <h3 class="w3-margin-left">Send a request</h3>
 
-    <hr/>
+    <hr />
 
     <EditForm class="w3-margin-bottom w3-round" Model="_emailRequest" id="contact-form" role="form" OnValidSubmit="async () => await SendEmail(_emailRequest)">
         <ul>
@@ -33,7 +33,7 @@
             <li>
                 <p class="w3-bold">
                     Mark as important:
-                    <InputCheckbox class="w3-check" style="background-color:#cc0000" id="form_critical" @bind-Value="_emailRequest.Critical"/>
+                    <InputCheckbox class="w3-check" style="background-color:#cc0000" id="form_critical" @bind-Value="_emailRequest.Critical" />
                 </p>
             </li>
             <li>
@@ -42,12 +42,15 @@
             <li class="w3-margin-bottom ">
                 <InputTextArea id="form_message" name="message" class="form-control"
                                placeholder="Write your message here."
-                               rows="4" @bind-Value="_emailRequest.Content"/>
+                               rows="4" @bind-Value="_emailRequest.Content" />
             </li>
             <li class="w3-margin-top">
                 <input type="submit" class="general-button" value="Send Message">
             </li>
         </ul>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
     </EditForm>
 </div>
 
@@ -90,12 +93,12 @@
     private async Task SendEmail(EmailInput emailRequest)
     {
         var attempt = await App.Authentication.SendRequest(new EmailRequest
-        {
-            Content = emailRequest.Content,
-            Critical = emailRequest.Critical,
-            FromUser = App.Authentication.UserSession.User.Id,
-            Subject = emailRequest.Subject
-        }, Endpoints.GetRequestsPath()
+            {
+                Content = emailRequest.Content,
+                Critical = emailRequest.Critical,
+                FromUser = App.Authentication.UserSession.User.Id,
+                Subject = emailRequest.Subject
+            }, Endpoints.GetRequestsPath()
             );
         if (attempt.status)
         {

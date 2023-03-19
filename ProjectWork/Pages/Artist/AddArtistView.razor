@@ -1,19 +1,17 @@
 ﻿@page "/add-artist"
 @inject DashboardAdminArtistVM DirectorArtistAdmin
-@using Microsoft.AspNetCore.Components
-@using System.ComponentModel
-@using ProjectWork.Models.Artist
 @using ProjectWork.ViewModels.Artist
+@using ProjectWork.Models.Artist
+@using System.ComponentModel
 @implements IDisposable
 @layout AdminLayout
 
 
-
 <h3>Add Artist</h3>
-<hr />
-<EditForm Model="@artist" OnValidSubmit="async ()=>await DirectorArtistAdmin.AddItemAsync(artist)">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<hr/>
+<EditForm Model="@_artist" OnValidSubmit="async () => await DirectorArtistAdmin.AddItemAsync(_artist)">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
 
     <div class="container w3-hide-small">
         <div class="row">
@@ -34,7 +32,7 @@
             </div>
             <div class="col-6 w3-margin-top">
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.Name"
+                       @bind-value="_artist.Name"
                        placeholder="Enter Artist's name and surname">
             </div>
             <div class="col w3-margin-top ">
@@ -50,7 +48,7 @@
             </div>
             <div class="col-6 w3-margin-top">
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.Id"
+                       @bind-value="_artist.Id"
                        placeholder="Enter Author id">
             </div>
             <div class="col w3-margin-top ">
@@ -66,12 +64,12 @@
             </div>
             <div class="col-6 w3-margin-top">
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.BirthData"
+                       @bind-value="_artist.BirthData"
                        placeholder="Enter Title">
             </div>
             <div class="col w3-margin-top ">
                 <p class="w3-bold">
-                    [dd/mm/yyyy - dd/mm/yyyy] <br />
+                    [dd/mm/yyyy - dd/mm/yyyy] <br/>
                     [yyyy -yyyy]
                 </p>
             </div>
@@ -83,7 +81,7 @@
             </div>
             <div class="col-6 w3-margin-top">
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.Profession"
+                       @bind-value="_artist.Profession"
                        placeholder="Enter Year (YYYY)">
             </div>
             <div class="col"></div>
@@ -95,7 +93,7 @@
             </div>
             <div class="col-6 w3-margin-top">
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.School"
+                       @bind-value="_artist.School"
                        placeholder="Enter the School of the Artist">
             </div>
             <div class="col"></div>
@@ -106,7 +104,7 @@
                 Biography
             </div>
             <div class="col-6 w3-margin-top">
-                <InputTextArea class="w3-round w-100" rows="8" @bind-Value="artist.Biography" />
+                <InputTextArea class="w3-round w-100" rows="8" @bind-Value="_artist.Biography"/>
             </div>
             <div class="col"></div>
         </div>
@@ -116,7 +114,7 @@
                 Image
             </div>
             <div class="col-6 w3-margin-top">
-                <InputFile id="idProfilePicture" class="form-control" OnChange="e => artist.File = e.File" />
+                <InputFile id="idProfilePicture" class="form-control" OnChange="e => _artist.File = e.File"/>
             </div>
             <div class="col w3-margin-top ">
                 Format [.jpg,.png,.jpeg ...]
@@ -131,7 +129,7 @@
             <div class="col w3-margin-top">
                 <label class="w3-bold w3-margin-top">Name and Surname</label>
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.Name"
+                       @bind-value="_artist.Name"
                        placeholder="[Surname, Name]">
             </div>
         </div>
@@ -140,7 +138,7 @@
             <div class="col w3-margin-top">
                 <label class="w3-bold w3-margin-top">Artist's ID</label>
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.Id"
+                       @bind-value="_artist.Id"
                        placeholder="[yyyy -yyyy]">
             </div>
         </div>
@@ -149,7 +147,7 @@
             <div class="col w3-margin-top">
                 <label class="w3-bold w3-margin-top">Birth Data</label>
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.BirthData"
+                       @bind-value="_artist.BirthData"
                        placeholder="[yyyy -yyyy]">
             </div>
         </div>
@@ -158,7 +156,7 @@
             <div class="col w3-margin-top">
                 <label class="w3-bold w3-margin-top">Specialty</label>
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.Profession"
+                       @bind-value="_artist.Profession"
                        placeholder="Enter the Artist's specialty">
             </div>
         </div>
@@ -167,7 +165,7 @@
             <div class="col w3-margin-top">
                 <label class="w3-bold w3-margin-top">School</label>
                 <input class="w3-round w-100" type="text"
-                       @bind-value="artist.School"
+                       @bind-value="_artist.School"
                        placeholder="Enter the Artist's School">
             </div>
         </div>
@@ -175,19 +173,19 @@
         <div class="row">
             <div class="col w3-margin-top">
                 <label class="w3-bold w3-margin-top">Biography</label>
-                <InputTextArea class="w-100 w3-round w-100" rows="8" @bind-Value="artist.Biography" />
+                <InputTextArea class="w-100 w3-round w-100" rows="8" @bind-Value="_artist.Biography"/>
             </div>
         </div>
 
         <div class="row">
             <div class="col w3-margin-top">
                 <label class="w3-bold w3-margin-top">Image</label>
-                <InputFile id="idProfilePicture" class="form-control" OnChange="e => artist.File = e.File" />
+                <InputFile id="idProfilePicture" class="form-control" OnChange="e => _artist.File = e.File"/>
             </div>
         </div>
     </div>
 
-    <hr />
+    <hr/>
 
     @*TODO: disable if DirectorArtistAdmin.IsBusy*@
     <button type="submit" class="general-button">Add</button>
@@ -195,29 +193,23 @@
 
 
 @code {
-    BaseArtist artist = new();
+    readonly BaseArtist _artist = new();
+
     protected override async Task OnInitializedAsync()
     {
-        DirectorArtistAdmin.PropertyChanged += async (sender, e) =>
-        {
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
-        };
-        //TODO: CLEAR PARAMETERS
+        DirectorArtistAdmin.PropertyChanged += async (sender, e) => { await InvokeAsync(StateHasChanged); };
+    //TODO: CLEAR PARAMETERS
         await base.OnInitializedAsync();
     }
+
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() =>
-        {
-            StateHasChanged();
-        });
+        await InvokeAsync(StateHasChanged);
     }
+
     public void Dispose()
     {
         DirectorArtistAdmin.PropertyChanged -= OnPropertyChangedHandler;
     }
-}
 
+}

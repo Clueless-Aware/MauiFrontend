@@ -1,5 +1,6 @@
 @using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Artwork
+@using ProjectWork.Utilities
 @inject DashboardAdminArtworkVM Artwork
 
 <style>
@@ -47,7 +48,7 @@
 
     @if (showEdit)
     {
-        <EditForm Model="@artwork" OnValidSubmit="async () => await Artwork.UpdateItemAsync(artwork)">
+        <EditForm Model="@artwork" OnValidSubmit="async () => await UpdateArtwork(artwork)">
             <div class="container">
                 <div class="row">
                     <div class="col w3-margin-top">
@@ -182,6 +183,19 @@
     private void toggle()
     {
         showEdit = !showEdit;
+    }
+    private async Task UpdateArtwork(BaseArtwork artwork)
+    {
+        var update = await Artwork.UpdateItemAsync(artwork);
+        if (update.status)
+        {
+            await UtilityToolkit.CreateToast("Artwork Updated");
+        }
+        else
+        {
+            await UtilityToolkit.CreateToast("Something goes wrong: " + update.message);
+        }
+        StateHasChanged();
     }
 
 }

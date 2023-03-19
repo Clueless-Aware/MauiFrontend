@@ -6,7 +6,7 @@
 @layout AdminLayout
 
 
-    <style>
+<style>
 
         #search {
             padding: 10px 20px 5px;
@@ -71,56 +71,32 @@
         }
     </style>
 
-    <h1>Search</h1>
+<h1>Search</h1>
 
-    <p>Here you can search for any art pieces you need to edit.</p>
+<p>Here you can search for any art pieces you need to edit.</p>
 
-    <div class="w3-bar w3-margin-bottom w3-padding">
-        <span>
-            <input id="searchBar" type="search"
-                   class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange=
-                                        "e =>{ Artwork.Parameters.SetPage(1);SearchField = (string)e.Value; Artwork.Parameters.SetSearch(SearchField);}"/>
+<SearchArtworkAdmin></SearchArtworkAdmin>
 
-            <span class="material-symbols-outlined middle w3-xxlarge">
-                low_priority
-            </span>
-            <label class="switch middle w3-margin-left w3-margin-right">
-                <input type="checkbox" checked @onchange="e => { CheckboxChanged(e); }">
-                <span class="slider round"></span>
-            </label>
-            <span class="material-symbols-outlined reverse middle w3-xxlarge">
-                low_priority
-            </span>
-
-            <button id="search" class="general-button" @onclick="doSearch">
-                <span class="material-symbols-outlined">search</span>
-            </button>
-        </span>
-
-        <hr/>
-    </div>
-
-    <div>
-        <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
-    </div>
+<div>
+    <PaginatorComponent Paginator="Artwork.Paginator"></PaginatorComponent>
+</div>
 
 
-    <div class="w3-center">
-        @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
+<div class="w3-center">
+    @if (Artwork.GenericData != null && Artwork.GenericData.Data != null)
+    {
+        @foreach (var result in Artwork.GenericData.Data)
         {
-            @foreach (var result in Artwork.GenericData.Data)
-            {
-                <AdminArtwork artwork="result"></AdminArtwork>
-            }
+            <AdminArtwork artwork="result"></AdminArtwork>
         }
-        else
-        {
-            <div class="w3-padding-24 w3-opacity w3-margin-top">
-                <p class="middle">Could not connect to the Database, try again later.</p>
-            </div>
-        }
-    </div>
+    }
+    else
+    {
+        <div class="w3-padding-24 w3-opacity w3-margin-top">
+            <p class="middle">Sorry but your search yielded no results</p>
+        </div>
+    }
+</div>
 
 
 @code {
@@ -128,14 +104,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Artwork.PropertyChanged += async (sender, e) => { await InvokeAsync(() => { StateHasChanged(); }); };
+        Artwork.PropertyChanged += async (sender, e) => { await InvokeAsync(StateHasChanged); };
         await Artwork.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
 
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() => { StateHasChanged(); });
+        await InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()
@@ -143,7 +119,7 @@
         Artwork.PropertyChanged -= OnPropertyChangedHandler;
     }
 
-    async void doSearch()
+    async void DoSearch()
     {
         await Artwork.GetGenericDataFromPageAsync();
     }
@@ -155,12 +131,12 @@
         if (b)
         {
             Artwork.Parameters.SetOrdering("title");
-            doSearch();
+            DoSearch();
         }
         else
         {
             Artwork.Parameters.SetOrdering("-title");
-            doSearch();
+            DoSearch();
         }
     }
 

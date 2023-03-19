@@ -75,33 +75,7 @@
 
     <p>Here you can search for any art pieces you are interested in.</p>
 
-    <div class="w3-bar w3-margin-bottom w3-padding">
-        <span>
-
-            <input id="searchBar" type="search"
-                   class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange=
-                                        "e =>{ DirectorArtistAdmin.Parameters.SetPage(1);SearchField = (string)e.Value; DirectorArtistAdmin.Parameters.SetSearch(SearchField);}"/>
-
-            <span class="material-symbols-outlined middle w3-xxlarge">
-                low_priority
-            </span>
-            <label class="switch middle w3-margin-left w3-margin-right">
-                <input type="checkbox" checked @onchange="e => { CheckboxChanged(e); }">
-                <span class="slider round"></span>
-            </label>
-            <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
-                low_priority
-            </span>
-
-            <button id="search" class="general-button" @onclick="async () => await DirectorArtistAdmin.GetGenericDataFromPageAsync()">
-                <span class="material-symbols-outlined">search</span>
-            </button>
-        </span>
-
-        <hr/>
-    </div>
-
+    <SearchArtistAdmin></SearchArtistAdmin>
 
 @*TODO: if null show message*@
 @if (DirectorArtistAdmin.GenericData != null)

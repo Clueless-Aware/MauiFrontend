@@ -1,6 +1,7 @@
 ﻿@using System.ComponentModel
 @using ProjectWork.Utilities
 @inject NavigationManager NavManager
+@inject IJSRuntime JsRuntime
 
 <div class="d-flex flex-column flex-shrink-0" style="height: 97%">
     <div class="top-row ps-3 navbar">
@@ -136,10 +137,10 @@
         }
     }
 
-    private void LogOut()
+    private async Task LogOut()
     {
         App.Authentication.LogOut();
-        UtilityToolkit.CreateToast("Log out successful");
+        await UtilityToolkit.CreateToast("Log out successful");
     }
 
     protected override async Task OnInitializedAsync()

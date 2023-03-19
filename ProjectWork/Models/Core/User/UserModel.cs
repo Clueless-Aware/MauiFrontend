@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ProjectWork.Models.Artwork;
 using ProjectWork.Models.Requests;
@@ -15,12 +16,14 @@ public class UserModel
 
     [JsonPropertyName("last_login")] public DateTime LastLogin { get; set; }
 
+    [Required]
     [JsonPropertyName("username")] public string Username { get; set; }
 
     [JsonPropertyName("first_name")] public string? FirstName { get; set; }
 
     [JsonPropertyName("last_name")] public string? LastName { get; set; }
 
+    [Required]
     [JsonPropertyName("email")] public string Email { get; set; }
 
     [JsonPropertyName("is_staff")] public bool IsStaff { get; set; }
