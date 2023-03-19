@@ -41,10 +41,10 @@ public static class MauiProgram
 
         builder.Services.AddScoped<RequestsVirtualMachine>();
 
-        builder.Services.AddScoped<SearchArtworkVM>();
+        builder.Services.AddScoped<SearchArtworkViewModel>();
         builder.Services.AddScoped<DashboardAdminArtworkVM>();
 
-        builder.Services.AddScoped<SearchArtistVM>();
+        builder.Services.AddScoped<SearchArtistViewModel>();
         builder.Services.AddScoped<DashboardAdminArtistVM>();
 
 #if WINDOWS

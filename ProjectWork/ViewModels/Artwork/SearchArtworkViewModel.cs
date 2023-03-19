@@ -6,7 +6,7 @@ using ProjectWork.Utilities;
 
 namespace ProjectWork.ViewModels.Artwork;
 
-public class SearchArtworkVM : BaseViewModel<BaseArtwork>
+public class SearchArtworkViewModel : BaseViewModel<BaseArtwork>
 {
     //Declare a Service pass the url end point
     private readonly ServiceAPI _artworkService = new(Endpoints.GetArtworkEndpoint());
@@ -20,6 +20,7 @@ public class SearchArtworkVM : BaseViewModel<BaseArtwork>
         IsBusy = true;
         try
         {
+            _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath();
             GenericData = await _artworkService.GetDataWithParamAsync<GenericData<BaseArtwork>>(Parameters.Dictionary);
             Paginator.SetActualState(Parameters, GetGenericDataFromPageAsync, GenericData.Count);
             IsBusy = false;

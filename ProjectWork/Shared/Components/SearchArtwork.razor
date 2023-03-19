@@ -1,7 +1,7 @@
 ﻿@using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Artwork
 @using ProjectWork.Utilities
-@inject SearchArtworkVM DirectorArtworkSearch
+@inject SearchArtworkViewModel DirectorArtworkSearch
 
 <style>
     .b {
@@ -9,10 +9,7 @@
         border: 0px;
         background-color: #cc0000 !important;
         color: white;
-        padding-top: 6px;
-        padding-bottom: 6px;
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 6px 10px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -20,22 +17,19 @@
         cursor: pointer;
     }
 
-        .b:hover {
-            padding-top: 4px;
-            padding-bottom: 4px;
-            padding-left: 8px;
-            padding-right: 8px;
-            border-radius: 8px;
-            border: 0px;
-            opacity: 0.60;
-            background-color: #cc0000 !important;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    .b:hover {
+        padding: 4px 8px;
+        border-radius: 8px;
+        border: 0px;
+        opacity: 0.60;
+        background-color: #cc0000 !important;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
     .button-icon {
         vertical-align: middle;
@@ -47,8 +41,8 @@
         <span>
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
-                   value="@SearchField" @onchange="async e =>{ DirectorArtworkSearch.Parameters.SetPage(1);SearchField = (string)e.Value; DirectorArtworkSearch.Parameters.SetSearch(SearchField);}" />
-
+                   value="@SearchField"
+                   @onchange="async e =>{ DirectorArtworkSearch.Parameters.SetPage(1); SearchField = (string)e.Value; DirectorArtworkSearch.Parameters.SetSearch(SearchField);}"/>
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
             </span>
@@ -59,22 +53,19 @@
             <span class="material-symbols-outlined reverse middle w3-xxlarge w3-margin-right">
                 low_priority
             </span>
-
             <button type="submit" class="b w3-margin-top">
                 <span class="material-symbols-outlined button-icon">search</span>
                 Search
             </button>
-            <button type="submit" class="b w3-margin-top" @onclick="()=>{ ShowAdvanced=!ShowAdvanced; }">
+            <button type="submit" class="b w3-margin-top" @onclick="() => { ShowAdvanced = !ShowAdvanced; }">
                 <span class="material-symbols-outlined button-icon">frame_inspect</span>
                 Advanced options
             </button>
-            <button type="submit" class="b w3-margin-top" @onclick="async() => await Reset()">
+            <button type="submit" class="b w3-margin-top" @onclick="async () => await Reset()">
                 <span class="material-symbols-outlined button-icon">layers_clear</span>
                 Clear fields
             </button>
         </span>
-
-
         @if (ShowAdvanced)
         {
             <div class="input-group d-flex mt-4">
@@ -82,14 +73,14 @@
                     <option value="">Any Forms</option>
                     @foreach (var form in ArtworkFilters.UniqueForms.Order())
                     {
-                        <option value="@form">@form</option>
+                        <option value="@form">@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(form)</option>
                     }
                 </InputSelect>
                 <InputSelect class="form-control p-2" @bind-Value="BaseArtwork.Type">
                     <option value="" selected>Any Type</option>
                     @foreach (var type in ArtworkFilters.UniqueTypes.Order())
                     {
-                        <option value="@type">@type</option>
+                        <option value="@type">@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(type)</option>
                     }
                 </InputSelect>
                 <InputSelect class="form-control p-2" @bind-Value="BaseArtwork.TimeFrame">
@@ -102,25 +93,25 @@
             </div>
         }
     </form>
-
-
-    <hr />
+    <hr/>
 </div>
 
 @code {
     private string SearchField { get; set; }
     private bool ShowAdvanced { get; set; } = false;
     private BaseArtwork BaseArtwork { get; set; } = new();
+
     async Task DoSearch()
     {
         DirectorArtworkSearch.Parameters.SetPage(1);
         DirectorArtworkSearch.Parameters.SetSpecific(BaseArtwork);
         await DirectorArtworkSearch.GetGenericDataFromPageAsync();
     }
+
     private async Task CheckboxChanged(ChangeEventArgs e)
     {
         var b = (bool)e.Value;
-        DirectorArtworkSearch.Parameters.SetOrdering(b ? "title" : "-title");
+        DirectorArtworkSearch.Parameters.SetOrdering(b ? "id" : "-id");
         await DoSearch();
     }
 
@@ -131,4 +122,5 @@
         DirectorArtworkSearch.Parameters.ResetParameters();
         await DirectorArtworkSearch.GetGenericDataFromPageAsync();
     }
+
 }

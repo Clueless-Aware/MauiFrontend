@@ -2,7 +2,7 @@
 @using ProjectWork.ViewModels.Artwork
 @using System.ComponentModel
 
-@inject SearchArtworkVM DirectorArtworkSearch
+@inject SearchArtworkViewModel DirectorArtworkSearch
 @inject IJSRuntime JsRuntime
 
 
@@ -14,7 +14,6 @@
                 <p>Here you can search for any art pieces you are interested in.</p>
             </div>
         </div>
-
         <SearchArtwork></SearchArtwork>
     </div>
 </div>
@@ -63,7 +62,7 @@
     else
     {
         <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
-            <p class="middle">Could not connect to the Database, try again later.</p>
+            <p class="middle">Sorry but your search yielded no results</p>
         </div>
     }
 </div>

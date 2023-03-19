@@ -4,8 +4,9 @@
 @using ProjectWork.Models.Artist
 @using ProjectWork.Models.Artwork
 @using ProjectWork.Models.Core
-@inject SearchArtistVM ArtistDirector
-@inject SearchArtworkVM ArtworkDirector
+
+@inject SearchArtistViewModel ArtistDirector
+@inject SearchArtworkViewModel ArtworkDirector
 @inject IJSRuntime JsRuntime
 
 @if (_artist is not null)

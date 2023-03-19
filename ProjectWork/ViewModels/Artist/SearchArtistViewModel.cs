@@ -6,7 +6,7 @@ using ProjectWork.Utilities;
 
 namespace ProjectWork.ViewModels.Artist;
 
-public class SearchArtistVM : BaseViewModel<BaseArtist>
+public class SearchArtistViewModel : BaseViewModel<BaseArtist>
 {
     //Declare a Service pass the url end point
     private readonly ServiceAPI _artistService =
@@ -21,10 +21,11 @@ public class SearchArtistVM : BaseViewModel<BaseArtist>
         IsBusy = true;
         try
         {
+            _artistService.UriBuilder.Path = Endpoints.GetArtistPath();
             GenericData = await _artistService.GetDataWithParamAsync<GenericData<BaseArtist>>(Parameters.Dictionary);
             Paginator.SetActualState(Parameters, GetGenericDataFromPageAsync, GenericData.Count);
             IsBusy = false;
-            return (true, "Success fetch");
+            return (true, "Successful fetch");
         }
         catch (Exception e)
         {
