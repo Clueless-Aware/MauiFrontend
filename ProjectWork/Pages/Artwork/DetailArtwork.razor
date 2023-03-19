@@ -11,206 +11,202 @@
 {
     <div id="page-content" class="card m-lg-4 m-1 shadow-lg p-lg-3 p-2 bg-white">
 
-    <!-- ======= Page Header ======= -->
-    <div class="  d-flex align-items-center">
-        <div class="container position-relative">
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-6 text-center card-title">
-                    <h1 class="w3-margin-top w3-bold">@_artwork.Title</h1>
+        <!-- ======= Page Header ======= -->
+        <div class="  d-flex align-items-center">
+            <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-6 text-center card-title">
+                        <h1 class="w3-margin-top w3-bold">@_artwork.Title</h1>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End Page Header -->
+        <!-- End Page Header -->
 
-    <section id="gallery-single" class="gallery-single card-body">
-        <div class="container">
-            <div class="position-relative d-flex justify-content-center img-container">
-                <div class="h-100">
-                    <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
-                        <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title"/>
-                    </a>
+        <section id="gallery-single" class="gallery-single card-body">
+            <div class="container">
+                <div class="position-relative d-flex justify-content-center img-container">
+                    <div class="h-100">
+                        <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
+                            <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title"/>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="row justify-content-between gy-4 mt-4">
-                <div class="col-lg-8">
-
-                    <div class="portfolio-description">
-                        <h2>
-                            Description
-                        </h2>
-                        <!-- Start of Bookmark section -->
-                        @if (App.Authentication.UserSession is not null)
-                        {
-                            if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
+                <div class="row justify-content-between gy-4 mt-4">
+                    <div class="col-lg-8">
+                        <div class="portfolio-description">
+                            <!-- Start of Bookmark section -->
+                            @if (App.Authentication.UserSession is not null)
                             {
-                                <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
-                                        @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
-                                    <span class="material-symbols-outlined">
-                                        bookmark_remove
-                                    </span>
-                                    Remove from bookmarks
-                                </button>
+                                if (App.Authentication.UserSession.User.BookmarkedArtworks.Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
+                                {
+                                    <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
+                                            @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
+                                        <span class="material-symbols-outlined">
+                                            bookmark_remove
+                                        </span>
+                                        Remove from bookmarks
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
+                                            @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
+                                        <span class="material-symbols-outlined">
+                                            bookmark_add
+                                        </span>
+                                        Add to bookmarks
+                                    </button>
+                                }
                             }
                             else
                             {
-                                <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
-                                        @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
-                                    <span class="material-symbols-outlined">
-                                        bookmark_add
-                                    </span>
-                                    Add to bookmarks
-                                </button>
+                                <div class="w3-center">
+                                    <p class="card w3-text w3-padding-large">
+                                        Would you like to bookmark this artwork?<br/>
+                                        Then please <a class="w3-text-red" href="registration">create an account</a><br/>
+                                        Or <a href="login" class="w3-text-red">sign in</a> to an existing one
+                                    </p>
+                                </div>
                             }
-                        }
-                        else
-                        {
-                            <div class="w3-center">
-                                <p class="card w3-text w3-padding-large">
-                                    Would you like to bookmark this artwork?<br/>
-                                    Then please <a class="w3-text-red" href="registration">create an account</a><br/>
-                                    Or <a href="login" class="w3-text-red">sign in</a> to an existing one
-                                </p>
-                            </div>
-                        }
-                        <!-- End of bookmark section --->
+                            <!-- End of bookmark section --->
 
-                        <hr>
+                            <hr>
 
-                        @if (_artwork.Description.Length > 0)
-                        {
-                            <div class="col-lg-8">
-                                <div class="portfolio-description">
-                                    <h2>Description</h2>
-                                    <div style="text-align: justify; text-justify: inter-word">
-                                        @foreach (var paragraph in _artwork.Description.Split('\n'))
-                                        {
-                                            @paragraph
-                                            <br/>
-                                        }
+                            @if (_artwork.Description.Length > 0)
+                            {
+                                <div class="col-lg-8">
+                                    <div class="portfolio-description">
+                                        <h2>Description</h2>
+                                        <div style="text-align: justify; text-justify: inter-word">
+                                            @foreach (var paragraph in _artwork.Description.Split('\n'))
+                                            {
+                                                @paragraph
+                                                <br/>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
-                        else
-                        {
-                            @if (!hideButton)
-                            {
-                                <div class="w3-center w3-margin-top">
-                                    @if (isLoading)
-                                    {
-                                        <div class="w3-center">
-                                            <div class="lds-ring">
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <button class="general-button" @onclick="async () => await AskChatGpt()">
-                                            Ask ChatGPT about this.
-                                            <span class="material-symbols-outlined">
-                                                temp_preferences_custom
-                                            </span>
-                                        </button>
-                                    }
-
-                                </div>
                             }
                             else
                             {
-                                <p class="w3-text">@_description</p>
+                                @if (!hideButton)
+                                {
+                                    <div class="w3-center w3-margin-top">
+                                        @if (isLoading)
+                                        {
+                                            <div class="w3-center">
+                                                <div class="lds-ring">
+                                                    <div></div>
+                                                    <div></div>
+                                                    <div></div>
+                                                    <div></div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <button class="general-button" @onclick="async () => await AskChatGpt()">
+                                                Ask ChatGPT about this.
+                                                <span class="material-symbols-outlined">
+                                                    temp_preferences_custom
+                                                </span>
+                                            </button>
+                                        }
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p class="w3-text">@_description</p>
+                                }
                             }
-                        }
 
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="portfolio-info">
-                        <h3>Artwork information</h3>
-                        <ul>
-                            <li>
-                                <strong>
-                                    Author
-                                </strong>
-                                <a href="/detail-artist/@_artwork.AuthorId" he>
-                                    <span>@_artwork.Author</span>
-                                </a>
-                            </li>
-                            <li>
-                                <strong>Date</strong> <span>@_artwork.Date</span>
-                            </li>
-                            <li>
-                                <strong>Technique</strong> <span>@_artwork.Technique</span>
-                            </li>
-                            <li @onclick="DriveToMuseum">
-                                <strong>Location</strong> <span>@_artwork.Location</span>
-                            </li>
-                            <li>
-                                <strong>Form of art</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Form)</span>
-                            </li>
-                            <li>
-                                <strong>Type</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Type)</span>
-                            </li>
-                            <li>
-                                <strong>Time Frame</strong> <span>@_artwork.TimeFrame</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
-    {
-        <!-- ======= Search Section ======= -->
-        <div>
-            <PaginatorComponent Paginator="RelatedPaginator"></PaginatorComponent>
-        </div>
-        <!-- End Search Section -->
-        <!-- ======= Gallery Section ======= -->
-        <section id="gallery" class="gallery">
-            <div class="container-fluid">
-
-                <div class="row gy-4 justify-content-center">
-                    @foreach (var artwork in RelatedArtworks.Data)
-                    {
-                        <!-- Start Gallery Item -->
-                        <div class="col-xl-4 col-lg-6 col-md-9" style="height: 400px">
-                            <div class="gallery-item h-100">
-                                <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover;">
-                                <div class="gallery-links d-flex align-items-center justify-content-center">
-                                    <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
-                                        <span class="material-symbols-outlined">
-                                            zoom_out_map
-                                        </span>
-                                    </a>
-                                    <a href="/detail-artwork/@artwork.Id" class="details-link">
-                                        <span class="material-symbols-outlined">
-                                            info
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
                         </div>
-                        <!-- End Gallery Item --->
-                    }
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="portfolio-info">
+                            <h3>Artwork information</h3>
+                            <ul>
+                                <li>
+                                    <strong>
+                                        Author
+                                    </strong>
+                                    <a href="/detail-artist/@_artwork.AuthorId" he>
+                                        <span>@_artwork.Author</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <strong>Date</strong> <span>@_artwork.Date</span>
+                                </li>
+                                <li>
+                                    <strong>Technique</strong> <span>@_artwork.Technique</span>
+                                </li>
+                                <li @onclick="DriveToMuseum">
+                                    <strong>Location</strong> <span>@_artwork.Location</span>
+                                </li>
+                                <li>
+                                    <strong>Form of art</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Form)</span>
+                                </li>
+                                <li>
+                                    <strong>Type</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Type)</span>
+                                </li>
+                                <li>
+                                    <strong>Time Frame</strong> <span>@_artwork.TimeFrame</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-    }
-    else
-    {
-        <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
-            <p class="middle">@ErrorMessage</p>
-        </div>
-    }
-    <Navigator></Navigator>
+
+        @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
+        {
+            <!-- ======= Search Section ======= -->
+            <div>
+                <PaginatorComponent Paginator="RelatedPaginator"></PaginatorComponent>
+            </div>
+            <!-- End Search Section -->
+            <!-- ======= Gallery Section ======= -->
+            <section id="gallery" class="gallery">
+                <div class="container-fluid">
+
+                    <div class="row gy-4 justify-content-center">
+                        @foreach (var artwork in RelatedArtworks.Data)
+                        {
+                            <!-- Start Gallery Item -->
+                            <div class="col-xl-4 col-lg-6 col-md-9" style="height: 400px">
+                                <div class="gallery-item h-100">
+                                    <img class="img-artwork" src="@artwork.ImageUrl" alt="@artwork.Title" style="height: 100%; width: 100%;object-fit: cover;">
+                                    <div class="gallery-links d-flex align-items-center justify-content-center">
+                                        <a href="@artwork.ImageUrl" data-fancybox="gallery" data-caption="@artwork.Title" class="preview-link">
+                                            <span class="material-symbols-outlined">
+                                                zoom_out_map
+                                            </span>
+                                        </a>
+                                        <a href="/detail-artwork/@artwork.Id" class="details-link">
+                                            <span class="material-symbols-outlined">
+                                                info
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Gallery Item --->
+                        }
+                    </div>
+                </div>
+            </section>
+        }
+        else
+        {
+            <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
+                <p class="middle">@ErrorMessage</p>
+            </div>
+        }
+        <Navigator></Navigator>
 
     </div>
 }
