@@ -13,7 +13,7 @@
 <div class="w3-card-4 w3-padding w3-round-xlarge w3-margin-bottom w3-margin-top">
     <h3 class="w3-margin-left">User Profile</h3>
 
-    <hr/>
+    <hr />
     <EditForm Model="_editUser" OnValidSubmit="async () => await AttemptEdit(_editUser)">
 
         <ul>
@@ -35,7 +35,7 @@
                 <p class="w3-bold">Bio:</p>
             </li>
             <li>
-                <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="_editUser.Biography"/>
+                <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="_editUser.Biography" />
             </li>
 
             <li>
@@ -58,7 +58,7 @@
                 <p class="w3-bold">Profile Picture:</p>
             </li>
             <li>
-                <img  class="w-100" src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture"/>
+                <img class="w-100" src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture" />
             </li>
             <li class="w3-margin-top">
                 <InputFile id="idProfilePicture" class="form-control" OnChange="e => _editUser.ProfilePicture = e.File" />
@@ -66,13 +66,16 @@
 
         </ul>
 
-        <hr/>
+        <hr />
 
         <span>
             <button type="submit" class="w3-large w3-margin-bottom w3-padding-16 btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-left w3-margin-right">
                 Change
             </button>
         </span>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
     </EditForm>
 
 </div>

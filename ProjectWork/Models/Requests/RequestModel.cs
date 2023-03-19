@@ -1,13 +1,17 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ProjectWork.Models.Requests;
 
 public class RequestModel
 {
+    [Required]
     [JsonPropertyName("content")] public string Content { get; set; }
+    [Required]
     [JsonPropertyName("date")] public DateOnly Date { get; set; }
     [JsonPropertyName("critical")] public bool IsCritical { get; set; }
     [JsonPropertyName("seen")] public bool IsSeen { get; set; }
+    [Required]
     [JsonPropertyName("subject")] public string Subject { get; set; }
 
     [JsonPropertyName("from_user")] public int UserId { get; set; }
