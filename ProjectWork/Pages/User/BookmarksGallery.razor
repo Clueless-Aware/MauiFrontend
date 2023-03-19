@@ -15,46 +15,46 @@ else
     }
     else
     {
-        <div class="album py-5 bg-light">
+        <div class="album py-5">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     @foreach (var bookmarkedArtwork in App.Authentication.UserSession.User.BookmarkedArtworks)
                     {
                         <div class="col">
-                            <div class="card shadow-sm w3-round-large h-100">
-                                <div class="card-header">
+                            <div class="card w3-round-large h-100">
+                                <div>
                                     <h1 class="w3-margin-left w3-bold w3-large w3-padding-16">@bookmarkedArtwork.Title</h1>
                                 </div>
-                                <div class="card-body h-75">
+                                <div class="card-body w3-center h-75">
                                     <img src="@bookmarkedArtwork.ImageUrl" class="card-image" alt="@bookmarkedArtwork.Title"/>
-                                    <p class="card-text">@bookmarkedArtwork.Title by @bookmarkedArtwork.Author</p>
-                                    <div class="d-flex justify-content-between align-items-center">
+                                    <p class="card-text w3-margin-top">
+                                        <span class="material-symbols-outlined">
+                                            info
+                                        </span>
+                                        @bookmarkedArtwork.Title by @bookmarkedArtwork.Author
+                                    </p>
 
-                                    </div>
-                                </div>
-                                <div class="card-footer">
                                     <div class="btn-group">
                                         <a class="general-button w3-margin-right"
-                                           href="/detail-artwork/@bookmarkedArtwork.Id">
+                                           href="/detail-artwork/@bookmarkedArtwork.Id" style="display: inline-block;">
                                             <span class="material-symbols-outlined w-100">
                                                 auto_stories
                                             </span>
-                                            Go to page
                                         </a>
                                         <button type="button" class="general-button"
-                                                @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }">
+                                                @onclick="async () => { await Bookmarks.RemoveFromBookmarks(bookmarkedArtwork.Id, bookmarkedArtwork.Title); }"
+                                                style="display: inline-block;">
                                             <!--TODO: Call modal instead of this-->
                                             <span class="material-symbols-outlined w-100">
                                                 close
                                             </span>
-                                            Remove from bookmarks
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- Modal -->
-                        <ProjectWork.Shared.Components.Modal Artwork="bookmarkedArtwork" @ref="Modal"></ProjectWork.Shared.Components.Modal>
+                        <Modal Artwork="bookmarkedArtwork" @ref="Modal"></Modal>
                     }
                 </div>
                 <hr>

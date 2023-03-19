@@ -1,11 +1,20 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+ span {
+    vertical-align: middle;
+}
+
 .w3-bold {
     font-weight: bold;
 }
 
 .middle {
     vertical-align: middle;
+}
+
+div.card {
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 8px;
 }
 
 @font-face {
@@ -121,7 +130,7 @@ a, .btn-link {
     background-color: #cc0000 !important;
     color: white;
     padding: 15px 32px;
-    text-align: center;
+    text-align: center !important;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
@@ -212,7 +221,7 @@ a, .btn-link {
     background: -moz-linear-gradient(90deg, rgba(128, 0, 0, 1) 0%, rgba(220, 20, 60, 1) 100%) !important;
     background: -webkit-linear-gradient(90deg, rgba(128, 0, 0, 1) 0%, rgba(220, 20, 60, 1) 100%) !important;
     background: linear-gradient(90deg, rgba(128, 0, 0, 1) 0%, rgba(220, 20, 60, 1) 100%) !important;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#800000", endColorstr="#dc143c", GradientType=1) !important;
+    //filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#800000", endColorstr="#dc143c", GradientType=1) !important;
 }
 
 .material-symbols-outlined {

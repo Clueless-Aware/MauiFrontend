@@ -7,146 +7,185 @@
 @layout AdminLayout
 
 
-<style>
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-</style>
-
 <h3>Add Artist</h3>
 <hr/>
-<EditForm Model="@artist" OnValidSubmit="async () => await DirectorArtistAdmin.AddItemAsync(artist)">
+<EditForm Model="@_artist" OnValidSubmit="async () => await DirectorArtistAdmin.AddItemAsync(_artist)">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
-    <div class="table-responsive">
 
-        <table>
-            <tr>
-                <th>Field</th>
-                <th>Data</th>
-                <th>Format</th>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Name
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
-                           @bind-value="artist.Name"
-                           placeholder="Enter Name">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Surname,Firstname
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Birth Data
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
-                           @bind-value="artist.BirthData"
-                           placeholder="Enter Birth Data">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Born YEAR, WHERE, Died YEAR, WHERE
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Profession
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
-                           @bind-value="artist.Profession"
-                           placeholder="Enter Profession">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Profession of artist
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        School
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
-                           @bind-value="artist.School"
-                           placeholder="Enter School">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        School of artist
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Biography
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
-                           @bind-value="artist.Biography"
-                           placeholder="Enter Biography">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Biography of artist
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td>
-                    <p class="w3-w3-bold">
-                        Artist image
-                    </p>
-                </td>
-                <td>
-                    <InputFile class="w3-button w3-round" OnChange="e => artist.File = e.File"/>
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Artist image
-                    </p>
-                </td>
-            </tr>
-        </table>
+    <div class="container w3-hide-small">
+        <div class="row">
+            <div class="col w-20 w3-margin-top w3-bold">
+                Field
+            </div>
+            <div class="col-6 w3-margin-top w3-bold">
+                Data
+            </div>
+            <div class="col w3-margin-top w3-bold">
+                Format
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w-20 w3-margin-top w3-bold">
+                Name and Surname
+            </div>
+            <div class="col-6 w3-margin-top">
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.Name"
+                       placeholder="Enter Artist's name and surname">
+            </div>
+            <div class="col w3-margin-top ">
+                <p class="w3-bold">
+                    [Surname, Name]
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w-20 w3-margin-top w3-bold">
+                Artist's ID
+            </div>
+            <div class="col-6 w3-margin-top">
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.Id"
+                       placeholder="Enter Author id">
+            </div>
+            <div class="col w3-margin-top ">
+                <p class="w3-bold">
+                    [int]
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w-20 w3-margin-top w3-bold">
+                Birth Data
+            </div>
+            <div class="col-6 w3-margin-top">
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.BirthData"
+                       placeholder="Enter Title">
+            </div>
+            <div class="col w3-margin-top ">
+                <p class="w3-bold">
+                    [dd/mm/yyyy - dd/mm/yyyy] <br/>
+                    [yyyy -yyyy]
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w-20 w3-margin-top w3-bold">
+                Specialty
+            </div>
+            <div class="col-6 w3-margin-top">
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.Profession"
+                       placeholder="Enter Year (YYYY)">
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div class="row">
+            <div class="col w-20 w3-margin-top w3-bold">
+                School
+            </div>
+            <div class="col-6 w3-margin-top">
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.School"
+                       placeholder="Enter the School of the Artist">
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div class="row">
+            <div class="col w-20 w3-margin-top w3-bold">
+                Biography
+            </div>
+            <div class="col-6 w3-margin-top">
+                <InputTextArea class="w3-round w-100" rows="8" @bind-Value="_artist.Biography"/>
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div class="row">
+            <div class="col w-20 w3-margin-top w3-bold w3-bold">
+                Image
+            </div>
+            <div class="col-6 w3-margin-top">
+                <InputFile id="idProfilePicture" class="form-control" OnChange="e => _artist.File = e.File"/>
+            </div>
+            <div class="col w3-margin-top ">
+                Format [.jpg,.png,.jpeg ...]
+            </div>
+        </div>
     </div>
 
+    <!-------------------------------------------------------------------->
+
+    <div class="w3-hide-large w3-hide-medium">
+        <div class="row">
+            <div class="col w3-margin-top">
+                <label class="w3-bold w3-margin-top">Name and Surname</label>
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.Name"
+                       placeholder="[Surname, Name]">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w3-margin-top">
+                <label class="w3-bold w3-margin-top">Artist's ID</label>
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.Id"
+                       placeholder="[yyyy -yyyy]">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w3-margin-top">
+                <label class="w3-bold w3-margin-top">Birth Data</label>
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.BirthData"
+                       placeholder="[yyyy -yyyy]">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w3-margin-top">
+                <label class="w3-bold w3-margin-top">Specialty</label>
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.Profession"
+                       placeholder="Enter the Artist's specialty">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w3-margin-top">
+                <label class="w3-bold w3-margin-top">School</label>
+                <input class="w3-round w-100" type="text"
+                       @bind-value="_artist.School"
+                       placeholder="Enter the Artist's School">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w3-margin-top">
+                <label class="w3-bold w3-margin-top">Biography</label>
+                <InputTextArea class="w-100 w3-round w-100" rows="8" @bind-Value="_artist.Biography"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col w3-margin-top">
+                <label class="w3-bold w3-margin-top">Image</label>
+                <InputFile id="idProfilePicture" class="form-control" OnChange="e => _artist.File = e.File"/>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
 
     @*TODO: disable if DirectorArtistAdmin.IsBusy*@
     <button type="submit" class="general-button">Add</button>
@@ -154,7 +193,7 @@
 
 
 @code {
-    readonly BaseArtist artist = new();
+    readonly BaseArtist _artist = new();
 
     protected override async Task OnInitializedAsync()
     {

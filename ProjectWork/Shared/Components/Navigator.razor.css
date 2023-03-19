@@ -3,11 +3,15 @@
     z-index: 99; /* Make sure it does not overlap */
     border: none; /* Remove borders */
     outline: none; /* Remove outline */
-    background-color: #f50538; /* Set a background color */
+    background-color: #CC0000; /* Set a background color */
     color: white; /* Text color */
     cursor: pointer; /* Add a mouse pointer on hover */
-    padding: 15px; /* Some padding */
-    border-radius:45% ; /* Rounded corners */
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    border-radius: 8px; /* Rounded corners */
     font-size: 18px; /* Increase font size */
 }
     .navigation-button:hover {

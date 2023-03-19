@@ -12,11 +12,11 @@
 {
     <div id="page-content" class="card m-lg-4 m-1 shadow-lg p-lg-3 p-2 bg-white">
         <!-- ======= Page Header ======= -->
-        <div class="page-header d-flex align-items-center card-header">
+        <div class="d-flex align-items-center">
             <div class="container position-relative">
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6 text-center card-title">
-                        <h1>@_artwork.Title</h1>
+                        <h1 class="w3-margin-top w3-bold">@_artwork.Title</h1>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <!-- Start bookmark section -->
-                <div class="row justify-content-between gy-4 mt-2">
+                <div class="row justify-content-between gy-4 mt-4">
                     @if (App.Authentication.UserSession is not null)
                     {
                         if (App.Authentication.UserSession.User.BookmarkedArtworks
@@ -60,7 +60,7 @@
                     else
                     {
                         <div class="w3-center">
-                            <p class="w3-text w3-card w3-padding-large w3-round">
+                            <p class="w3-text card w3-padding-large">
                                 Would you like to bookmark this artwork?<br/>
                                 Then please <a href="registration">create an account</a><br/>
                                 Or <a href="login">sign in</a> to an existing one
@@ -69,7 +69,8 @@
                     }
                 </div>
                 <!-- End Bookmark section -->
-                <div class="row justify-content-between gy-4 mt-4">
+                <hr/>
+                
                     @if (_artwork.Description.Length > 0)
                     {
                         <div class="col-lg-8">
@@ -154,7 +155,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
         @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
         {
@@ -228,7 +228,7 @@ else
     protected override async Task OnParametersSetAsync()
     {
         _artwork = ArtworkDirector.GenericData.Data.SingleOrDefault(artwork => artwork.Id == Id)
-                   ?? RelatedArtworks.Data.SingleOrDefault(artwork => artwork.Id == Id);
+                   ?? await ArtworkDirector.GetItemAsync(Id);
 
         if (_artwork is not null)
         {

@@ -3,18 +3,22 @@
 @using ProjectWork.Utilities
 @inject NavigationManager NavManager
 
-<style>
-
-    ul {
-        list-style-type: none;
-    }
-</style>
-
-<div class="w3-card-4 w3-padding w3-round-xlarge w3-margin-bottom w3-margin-top">
+<div class="card w3-padding w3-margin-bottom w3-margin-top">
     <h3 class="w3-margin-left">User Profile</h3>
 
     <hr />
     <EditForm Model="_editUser" OnValidSubmit="async () => await AttemptEdit(_editUser)">
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+        </div>
 
         <ul>
             <li>
@@ -69,7 +73,7 @@
         <hr />
 
         <span>
-            <button type="submit" class="w3-large w3-margin-bottom w3-padding-16 btn w3-button w3-red w3-round w3-margin-bottom w3-margin-top w3-margin-left w3-margin-right">
+            <button type="submit" class="general-button">
                 Change
             </button>
         </span>
