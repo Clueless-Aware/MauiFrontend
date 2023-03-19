@@ -28,7 +28,7 @@
                 <div class="position-relative d-flex justify-content-center img-container">
                     <div class="h-100">
                         <a href="@_artwork.ImageUrl" data-fancybox="gallery" data-caption="@_artwork.Title">
-                            <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title"/>
+                            <img class="img-artwork" src="@_artwork.ImageUrl" alt="@_artwork.Title" />
                         </a>
                     </div>
                 </div>
@@ -37,10 +37,10 @@
                     @if (App.Authentication.UserSession is not null)
                     {
                         if (App.Authentication.UserSession.User.BookmarkedArtworks
-                            .Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
+                        .Any(bookmarkedArtwork => bookmarkedArtwork.Id == _artwork.Id))
                         {
                             <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
-                                    @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
+                        @onclick="() => Bookmarks.RemoveFromBookmarks(_artwork.Id, _artwork.Title)">
                                 <span class="material-symbols-outlined">
                                     bookmark_remove
                                 </span>
@@ -50,7 +50,7 @@
                         else
                         {
                             <button type="button" class="btn btn-outline-default waves-effect w3-hover-opacity"
-                                    @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
+                        @onclick="() => Bookmarks.AddToBookmarks(_artwork.Id, _artwork.Title)">
                                 <span class="material-symbols-outlined">
                                     bookmark_add
                                 </span>
@@ -62,8 +62,8 @@
                     {
                         <div class="w3-center">
                             <p class="w3-text w3-card w3-padding-large w3-round">
-                                Would you like to bookmark this artwork?<br/>
-                                Then please <a class="w3-text-red" href="registration">create an account</a><br/>
+                                Would you like to bookmark this artwork?<br />
+                                Then please <a class="w3-text-red" href="registration">create an account</a><br />
                                 Or <a href="login" class="w3-text-red">sign in</a> to an existing one
                             </p>
                         </div>
@@ -80,7 +80,7 @@
                                     @foreach (var paragraph in _artwork.Description.Split('\n'))
                                     {
                                         @paragraph
-                                        <br/>
+                                        <br />
                                     }
                                 </div>
                             </div>
@@ -186,6 +186,7 @@
                         }
                         <!-- End list of artworks --->
                     </div>
+                    <br />
                     <p class="lead">Want more from @_artwork.Author then go to <a href="/detail-artist/@_artwork.AuthorId">their artist page</a></p>
                 </div>
             </section>
@@ -242,7 +243,12 @@ else
         else
         {
             _artwork = await ArtworkDirector.GetItemAsync(Id);
-            if (_artwork is not null) return;
+            if (_artwork is not null)
+            {
+                RelatedParameters.SetSpecific(new BaseArtwork { AuthorId = _artwork.AuthorId });
+                await GetRelatedData();
+                return;
+            }
             await UtilityToolkit.CreateToast("Sorry we couldn't load this artwork please try again later");
         }
     }
@@ -261,9 +267,9 @@ else
     private async Task DriveToMuseum()
     {
         var placeMark = new Placemark
-        {
-            CountryName = _artwork.Location
-        };
+            {
+                CountryName = _artwork.Location
+            };
         var options = new MapLaunchOptions { Name = "Microsoft Building 25" };
         await Map.Default.OpenAsync(placeMark, options);
     }
