@@ -1,6 +1,7 @@
 ﻿@page "/Home"
 @using ProjectWork.ViewModels.Artwork
 @using System.ComponentModel
+
 @inject SearchArtworkVM DirectorArtworkSearch
 @inject IJSRuntime JsRuntime
 
@@ -90,7 +91,8 @@
     //Call my js
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JsRuntime.InvokeVoidAsync("Main.start");
+        if (firstRender)
+            await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
 

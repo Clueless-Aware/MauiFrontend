@@ -1,6 +1,7 @@
 ﻿@page "/artist-search"
 @using ProjectWork.ViewModels.Artist
 @using System.ComponentModel
+
 @inject SearchArtistVM ArtistDirector
 @inject IJSRuntime JsRuntime
 
@@ -64,7 +65,7 @@
                                 </tr>
                                 <tr class="w3-hide-large w3-hide-medium">
                                     <td>
-                                        @artist.Profession
+                                        @Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(artist.Profession)
                                     </td>
                                     <td>
                                         @artist.School
@@ -72,7 +73,7 @@
                                 </tr>
                                 <tr class="w3-hide-small">
                                     <td>
-                                        @artist.Profession
+                                        @Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(artist.Profession)
                                     </td>
                                     <td>
                                         @artist.BirthData
