@@ -12,7 +12,7 @@
     }
 </style>
 
-<div class="w3-card-4 w3-padding w3-round-xlarge w3-margin-bottom w3-margin-top">
+<div class="card w3-padding w-75 w3-margin-bottom w3-margin-top w3-hide-small">
     <h3 class="w3-margin-left">Send a request</h3>
 
     <hr/>
@@ -48,6 +48,38 @@
                 <input type="submit" class="general-button" value="Send Message">
             </li>
         </ul>
+    </EditForm>
+</div>
+
+<div class="card w3-padding w3-margin-bottom w3-margin-top w3-hide-medium w3-hide-large">
+    <h3 class="w3-margin-left">Send a request</h3>
+
+    <hr />
+
+    <EditForm class="w3-margin-bottom w3-round" Model="_emailRequest" id="contact-form" role="form" OnValidSubmit="async () => await SendEmail(_emailRequest)">
+       
+                <p class="w3-bold">Subject:</p>
+          
+                <InputSelect class="w3-margin-bottom w3-round w3-padding-16" id="form_need" @bind-Value="_emailRequest.Subject">
+                    <option class="w3-padding-32" selected="selected">Request a new artwork</option>
+                    <option class="w3-padding-32">Request a new artist</option>
+                    <option class="w3-padding-32">Request an admin priviledges</option>
+                    <option class="w3-padding-32">Miscellaneous</option>
+                </InputSelect>
+          
+                <p class="w3-bold">
+                    Mark as important:
+                    <InputCheckbox class="w3-check" style="background-color:#cc0000" id="form_critical" @bind-Value="_emailRequest.Critical" />
+                </p>
+            
+                <p class="w3-bold w3-margin-top">Message:</p>
+
+                <InputTextArea id="form_message" name="message" class="form-control"
+                               placeholder="Write your message here."
+                               rows="4" @bind-Value="_emailRequest.Content" />
+
+                <input type="submit" class="general-button" value="Send Message">
+
     </EditForm>
 </div>
 

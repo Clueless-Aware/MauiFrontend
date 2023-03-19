@@ -1,6 +1,31 @@
 ﻿@page "/OutgoingRequests"
 
-<h3>OngoingRequests</h3>
+<style>
+    div.scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
+        background-color: white;
+    }
+
+        div.scrollmenu table {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+        }
+
+        div.scrollmenu a:hover {
+            background-color: #777;
+        }
+
+        td{
+            color: black;
+        }
+</style>
+
+<h3>Ongoing Requests</h3>
+<hr />
 
 @if (!App.Authentication.UserSession.User.Requests.Any())
 {
@@ -11,35 +36,37 @@
 }
 else
 {
-    <table class="table table-hover">
-        <thead class="table-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Subject</th>
-            <th scope="col">Content</th>
-            <th scope="col">Date</th>
-            <th scope="col">Seen</th>
-            <th scope="col">Completed</th>
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-        @foreach (var request in App.Authentication.UserSession.User.Requests)
-        {
-            <tr>
-                <th scope="row">@request.Id</th>
-                <td>@request.Subject</td>
-                <td>@request.Content</td>
-                <td>@request.Date</td>
-                <td>
-                    <input type="checkbox" checked="@request.IsSeen" disabled="disabled"/>
-                </td>
-                <td>
-                    <input type="checkbox" checked="@request.IsCompleted" disabled="disabled"/>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="scrollmenu">
+        <table class="table table-hover">
+            <thead style="background-color: #cc0000">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Seen</th>
+                    <th scope="col">Completed</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                @foreach (var request in App.Authentication.UserSession.User.Requests)
+                {
+                    <tr>
+                        <td scope="row">@request.Id</td>
+                        <td>@request.Subject</td>
+                        <td>@request.Content</td>
+                        <td>@request.Date</td>
+                        <td>
+                            <input type="checkbox" checked="@request.IsSeen" disabled="disabled" />
+                        </td>
+                        <td>
+                            <input type="checkbox" checked="@request.IsCompleted" disabled="disabled" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 @code {

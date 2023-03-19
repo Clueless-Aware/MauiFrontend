@@ -7,256 +7,303 @@
 @implements IDisposable
 @layout AdminLayout
 
-
 <style>
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
+    .w-20 {
+        width: 20%;
+        max-width:20%;
+        min-width: 20%;
     }
 </style>
 
-
-
-<h3>Add Artwork</h3>
+<p class="w3-xxlarge w3-bold">Add Artwork</p>
 <hr />
 
-<EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<div class="w3-padding-32">
+    <EditForm Model="@artwork" OnValidSubmit="async ()=>await Artwork.AddItemAsync(artwork)">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-        <table>
-            <tr>
-                <th>Field</th>
-                <th>Data</th>
-                <th>Format</th>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Author
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+
+        <div class="container w3-hide-small">
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Field
+                </div>
+                <div class="col-6 w3-margin-top w3-bold">
+                    Data
+                </div>
+                <div class="col w3-margin-top w3-bold">
+                    Format
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Author
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.Author"
                            placeholder="Enter Author">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Author name
+                </div>
+                <div class="col w3-margin-top ">
+                    <p class="w3-bold">
                         <NavLink href="/search_and_edit_artist">
                             Search and get the name
-                        </NavLink> or 
+                        </NavLink> or
                         <NavLink href="/add-artist">
                             New artist?
                         </NavLink>
+                    </p>
+                </div>
+            </div>
 
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Author id
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Author ID
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.AuthorId"
                            placeholder="Enter Author id">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Author id
+                </div>
+                <div class="col w3-margin-top ">
+                    <p class="w3-bold">
                         <NavLink href="/search_and_edit_artist">
                             Search and get the name
-                        </NavLink> or 
+                        </NavLink> or
                         <NavLink href="/add-artist">
                             New artist?
                         </NavLink>
+                    </p>
+                </div>
+            </div>
 
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Title
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Title
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.Title"
                            placeholder="Enter Title">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Title of artwork
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Date
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+                </div>
+                <div class="col "></div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Year
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.Date"
-                           placeholder="Enter Date">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        YEAR
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Technique
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+                           placeholder="Enter Year (YYYY)">
+                </div>
+                <div class="col w3-margin-top ">
+                    Format [YYYY]
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Tecnique
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.Technique"
-                           placeholder="Enter Technique">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Technique, dim X dim cm
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Location
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+                           placeholder="Enter the Technique">
+                </div>
+                <div class="col w3-margin-top ">
+                    Format [Technique name, width x height cm]
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Location
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.Location"
-                           placeholder="Enter Location">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Museum, Country
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Form
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+                           placeholder="Enter the Location">
+                </div>
+                <div class="col w3-margin-top ">
+                    Format [Museum, Country]
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Media
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.Form"
-                           placeholder="Enter Form">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        A form of artwork
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Type
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+                           placeholder="Enter the media of the artwork">
+                </div>
+                <div class="col "></div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Theme
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.Type"
-                           placeholder="Enter Type">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        A type what represents the artwork
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Description
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
-                           @bind-value="artwork.Description"
-                           placeholder="Enter Description">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Description of artwork
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Time Frame
-                    </p>
-                </td>
-                <td>
-                    <input class="w3-round w-50" type="text"
+                           placeholder="Enter the general theme of the artwork">
+                </div>
+                <div class="col "></div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Time Period
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <input class="w3-round w-100" type="text"
                            @bind-value="artwork.TimeFrame"
                            placeholder="Enter Time Frame">
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        YEAR-YEAR
-                    </p>
-                </td>
-            </tr>
-            <!---------------------------------------------------->
-            <tr>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Image
-                    </p>
-                </td>
-                <td>
-                    <InputFile class="w3-button w3-round" OnChange="(e)=> artwork.File = e.File" />
-                </td>
-                <td class="w3-padding-16">
-                    <p class="w3-w3-bold">
-                        Image of artwork
-                    </p>
-                </td>
-            </tr>
-        </table>
+                </div>
+                <div class="col w3-margin-top ">
+                    Format [YYYY - YYYY]
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold">
+                    Description
+                </div>
+            </div>
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <InputTextArea class="w-100 w3-round w-100" rows="8" @bind-Value="artwork.Description" />
+                </div>
+                <div class="col"></div>
+            </div>
+
+            <div class="row">
+                <div class="col w-20 w3-margin-top w3-bold w3-bold">
+                    Image
+                </div>
+                <div class="col-6 w3-margin-top">
+                    <InputFile id="idProfilePicture" class="form-control" OnChange="e => artwork.File = e.File" />
+                </div>
+                <div class="col w3-margin-top ">
+                    Format [.jpg,.png,.jpeg ...]
+                </div>
+            </div>
+        </div>
+
+        <!-------------------------------------------------------------------------------------------------------------------->
+
+        <div class="w3-hide-large w3-hide-medium">
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Author</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.Author"
+                           placeholder="Enter Author">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Author ID</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.AuthorId"
+                           placeholder="Enter Author ID">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Title</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.Title"
+                           placeholder="Enter Author">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Year</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.Date"
+                           placeholder="Enter the Year">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Tecnique</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.Technique"
+                           placeholder="Enter the Tecnique">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Location</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.Location"
+                           placeholder="Enter the Location">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Media</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.Form"
+                           placeholder="Enter the Media of the artwork">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Theme</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.Type"
+                           placeholder="Enter the Theme of the artwork">
+                </div>
+            </div>
 
 
-    @*TODO: disable if Artwork.IsBusy*@
-    <button type="submit" class="general-button">Add</button>
-</EditForm>
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Description</label>
+                    <InputTextArea class="w-100 w3-round w-100" rows="8" @bind-Value="artwork.Description" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Time Period</label>
+                    <input class="w3-round w-100" type="text"
+                           @bind-value="artwork.TimeFrame"
+                           placeholder="Enter the Time Frame of the artwork">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col w3-margin-top">
+                    <label class="w3-bold w3-margin-top">Image</label>
+                    <InputFile id="idProfilePicture" class="form-control" OnChange="e => artwork.File = e.File" />
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        @*TODO: disable if Artwork.IsBusy*@
+        <button type="submit" class="general-button">Add</button>
+    </EditForm>
+</div>
+
 
 
 @code {

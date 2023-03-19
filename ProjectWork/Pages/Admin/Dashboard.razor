@@ -5,114 +5,146 @@
 @inject RequestsVirtualMachine RequestsVirtualMachine
 @layout AdminLayout
 
+<style>
+    div.scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
+        background-color: white;
+    }
+
+        div.scrollmenu table {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+        }
+
+        div.scrollmenu a:hover {
+            background-color: #777;
+        }
+
+    td {
+        color: black;
+    }
+
+    th {
+        color: white;
+    }
+</style>
+
+
 <h1>User requests</h1>
-<hr/>
+<hr />
 <h2>Active requests</h2>
-<div class="table-responsive">
 
 
-    <label for="checkup">Show viewed requests</label>
-    <label class="switch middle w3-margin-left w3-margin-right">
-        <input type="checkbox" id="checkup"
-               @oninput="() => ShowReviewed = !ShowReviewed" checked="@ShowReviewed" />
-        <span class="slider round"></span>
-    </label>
+<label for="checkup">Show viewed requests</label>
+<label class="switch middle w3-margin-left w3-margin-right">
+    <input type="checkbox" id="checkup"
+           @oninput="() => ShowReviewed = !ShowReviewed" checked="@ShowReviewed" />
+    <span class="slider round"></span>
+</label>
 
-
-    <div class="w3-card-4 w3-round w3-padding-16 w3-margin-top w3-margin-bottom">
-        @if (RequestsVirtualMachine.GenericData.Data.Any(request => !request.IsCompleted))
-        {
-            <table class="table table-sm table-group-divider table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">User email</th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Content</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Seen</th>
-                        <th scope="col">Completed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var request in RequestsVirtualMachine.GenericData.Data.Where(request => !request.IsCompleted))
+<div class="scrollmenu">
+    @if (RequestsVirtualMachine.GenericData.Data.Any(request => !request.IsCompleted))
+    {
+        <table class="table table-sm table-group-divider table-hover">
+            <thead style="background-color: #cc0000;">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User email</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Seen</th>
+                    <th scope="col">Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var request in RequestsVirtualMachine.GenericData.Data.Where(request => !request.IsCompleted))
+                {
+                    @if (request.IsSeen != true || ShowReviewed)
                     {
-                        @if (request.IsSeen != true || ShowReviewed)
-                        {
-                            <tr class="@GetRowStyle(request)">
-                                <th scope="row">@request.Id</th>
-                                <td>@request.UserEmail</td>
-                                <td>@request.Subject</td>
-                                <td>@request.Content</td>
-                                <td>@request.Date</td>
-                                <td>
-                                    <input type="checkbox" checked="@request.IsSeen"
-                               @oninput="async () => await UpdateRequestToSeen(request)" />
-                                </td>
-                                <td>
-                                    <input type="button" value="Completed"
-                               @onclick="async () => await UpdateRequestToCompleted(request)" />
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>There are no ongoing requests, good job!</p>
-        }
-
-        <hr />
-
-        <h2>Archived requests</h2>
-        <hr />
-        
-        @if (RequestsVirtualMachine.GenericData.Data.Any(request => request.IsCompleted))
-        {
-            <table id="fixed" class="table table-sm table-group-divider table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Subject</th>
-                        <th scope="col">Reopen</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var request in RequestsVirtualMachine.GenericData.Data.Where(request => request.IsCompleted))
-                    {
-                        <tr class="table-secondary">
-                            <th scope="row">@request.Id</th>
-                            <td>
-                                @request.Subject
-                            </td>
-                            <td>
-                                <input type="button" value="Reopen request"
-                               @onclick="async () => await UpdateRequestModelToOpen(request)" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Content</td>
-                            <td>
-                                <p>
+                        <tr class="@GetRowStyle(request) ">
+                            <td scope="row">@request.Id</td>
+                            <td>@request.UserEmail</td>
+                            <td>@request.Subject</td>
+                            <td style="">
                                     @request.Content
-                                </p>
+                            </td>
+                            <td>@request.Date</td>
+                            <td>
+                                <input type="checkbox" checked="@request.IsSeen"
+                           @oninput="async () => await UpdateRequestToSeen(request)" />
+                            </td>
+                            <td>
+                                <input type="button" value="Completed"
+                           @onclick="async () => await UpdateRequestToCompleted(request)" />
                             </td>
                         </tr>
                     }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>You do not have any archived requests</p>
-        }
-    </div>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>There are no ongoing requests, good job!</p>
+    }
+
 </div>
+<hr />
+
+<h2>Archived requests</h2>
+<hr />
+
+@if (RequestsVirtualMachine.GenericData.Data.Any(request => request.IsCompleted))
+{
+
+    <div class="scrollmenu w-100">
+        <table id="fixed" class="table table-sm table-group-divider table-hover">
+            <thead style="background-color: #cc0000;">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User email</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Seen</th>
+                    <th scope="col">Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var request in RequestsVirtualMachine.GenericData.Data.Where(request => request.IsCompleted))
+                {
+                    <tr class="table-secondary">
+                        <td scope="row">@request.Id</td>
+                        <td>@request.UserEmail</td>
+                        <td>@request.Subject</td>
+                        <td style="">@request.Content</td>
+                        <td>@request.Date</td>
+                        <td>
+                            <input type="checkbox" disabled="disabled" checked="@request.IsSeen"
+                           @oninput="async () => await UpdateRequestToSeen(request)" />
+                        </td>
+                        <td>
+                            <input type="button" value="Reopen request"
+                           @onclick="async () => await UpdateRequestModelToOpen(request)" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>You do not have any archived requests</p>
+}
 
 
-@code{
+@code {
     private bool ShowReviewed { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -156,4 +188,5 @@
         await RequestsVirtualMachine.UpdateItemAsync(request);
         StateHasChanged();
     }
+
 }

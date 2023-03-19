@@ -17,14 +17,14 @@
 
 </style>
 <div class="d-flex align-items-center justify-content-center">
-    <div id="login-card" class="w3-margin-top card w3-card-4 w3-round-xlarge w3-white w3-padding-large w3-center">
+    <div id="login-card" class="w3-margin-top card card w3-round-xlarge w3-white w3-padding-large w3-center">
         <div class="form-signin">
             <EditForm Model="@_loginModel" OnValidSubmit="async () => await AttemptLogin(_loginModel)">
                 <div id="">
 
                     <span class="material-symbols-outlined w3-text-white w3-margin-bottom w3-margin-top w3-xxxlarge w3-circle main-gradient" id="logo"> brush </span>
 
-                    <h1 class="w3-card-2 w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom" style="text-shadow: #FC0 1px 0 10px; font-weight: bolder;" tabindex="-1">
+                    <h1 class="card w3-red main-gradient w3-text-white w3-round-xlarge w3-xxlarge w3-margin-bottom">
                         ART SCOUT
                     </h1>
                 </div>

@@ -7,3 +7,6 @@
     height: 400px;
     object-fit: cover;
 }
+p span {
+    vertical-align: middle;
+}
