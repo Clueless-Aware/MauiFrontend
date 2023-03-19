@@ -125,6 +125,7 @@
     private async Task Reset()
     {
         BaseArtist = new();
+        SearchField = string.Empty;
         DirectorArtistSearch.Parameters.ResetParameters();
         await DirectorArtistSearch.GetGenericDataFromPageAsync();
     }

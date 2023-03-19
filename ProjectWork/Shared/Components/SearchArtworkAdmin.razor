@@ -127,6 +127,7 @@
     private async Task Reset()
     {
         BaseArtwork = new BaseArtwork();
+        SearchField = string.Empty;
         DirectorArtworkSearch.Parameters.ResetParameters();
         await DirectorArtworkSearch.GetGenericDataFromPageAsync();
     }
