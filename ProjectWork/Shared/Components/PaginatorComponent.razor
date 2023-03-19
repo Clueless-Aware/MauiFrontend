@@ -1,5 +1,8 @@
 ﻿@using ProjectWork.Models.Core;
 
+@if (Paginator.TotalPages > 1)
+{
+
 <div class="w3-center  ">
     <div >
         <button class="general-button-paginator" @onclick="async() => await Paginator.JumpTo(1)">
@@ -44,6 +47,7 @@
 
     <hr />
 </div>
+}
 
 
 
