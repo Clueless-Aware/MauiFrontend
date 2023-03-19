@@ -120,7 +120,6 @@ else
     [Parameter]
     public int Id { get; set; }
 
-    private readonly Random _rnd = new();
     private BaseArtist _artist;
 
     private Parameters RelatedParameters { get; } = new();
@@ -147,7 +146,8 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JsRuntime.InvokeVoidAsync("Main.start");
+        if (firstRender)
+            await JsRuntime.InvokeVoidAsync("Main.start");
     }
 
 }

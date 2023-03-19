@@ -7,21 +7,22 @@ namespace ProjectWork.Models.Core;
 /// </summary>
 public class Paginator
 {
-    private readonly int pageSize = 25;
+    private Func<Task> _getData;
+    private int _pageSize = 25;
     private Parameters _parametersP;
-
-    private Func<Task> GetData;
 
     public int TotalPages { get; private set; }
 
     public int PageIndex { get; set; } = 1;
 
-    internal void SetActualState(Parameters parameters, Func<Task> getGenericDataFromPageAsync, int totalObjects)
+    internal void SetActualState(Parameters parameters,
+        Func<Task> getGenericDataFromPageAsync, int totalObjects, int pageSize = 15)
     {
+        _pageSize = pageSize;
         _parametersP = parameters;
         PageIndex = Convert.ToInt32(parameters.Dictionary["page"]);
-        GetData = getGenericDataFromPageAsync;
-        var temp = (double)totalObjects / pageSize;
+        _getData = getGenericDataFromPageAsync;
+        var temp = (double)totalObjects / _pageSize;
         TotalPages = (int)Math.Ceiling(temp);
     }
 
@@ -31,7 +32,7 @@ public class Paginator
         {
             PageIndex++;
             _parametersP.Dictionary["page"] = PageIndex.ToString();
-            await GetData();
+            await _getData();
         }
     }
 
@@ -41,7 +42,7 @@ public class Paginator
         {
             PageIndex--;
             _parametersP.Dictionary["page"] = PageIndex.ToString();
-            await GetData();
+            await _getData();
         }
     }
 
@@ -50,7 +51,7 @@ public class Paginator
         if (page <= TotalPages && page > 0)
         {
             _parametersP.Dictionary["page"] = page.ToString();
-            await GetData();
+            await _getData();
         }
         else
         {
