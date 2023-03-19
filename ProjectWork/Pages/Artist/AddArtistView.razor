@@ -1,9 +1,8 @@
 ﻿@page "/add-artist"
 @inject DashboardAdminArtistVM DirectorArtistAdmin
-@using Microsoft.AspNetCore.Components
-@using System.ComponentModel
-@using ProjectWork.Models.Artist
 @using ProjectWork.ViewModels.Artist
+@using ProjectWork.Models.Artist
+@using System.ComponentModel
 @implements IDisposable
 @layout AdminLayout
 
@@ -26,14 +25,12 @@
     }
 </style>
 
-
-
-    <h3>Add Artist</h3>
-    <hr />
-    <EditForm Model="@artist" OnValidSubmit="async ()=>await DirectorArtistAdmin.AddItemAsync(artist)">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div class="table-responsive">
+<h3>Add Artist</h3>
+<hr/>
+<EditForm Model="@artist" OnValidSubmit="async () => await DirectorArtistAdmin.AddItemAsync(artist)">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <div class="table-responsive">
 
         <table>
             <tr>
@@ -132,14 +129,14 @@
                 </td>
             </tr>
             <!---------------------------------------------------->
-<tr>
+            <tr>
                 <td>
                     <p class="w3-w3-bold">
                         Artist image
                     </p>
                 </td>
                 <td>
-                    <InputFile class="w3-button w3-round" OnChange="(e)=> artist.File = e.File" />
+                    <InputFile class="w3-button w3-round" OnChange="e => artist.File = e.File"/>
                 </td>
                 <td class="w3-padding-16">
                     <p class="w3-w3-bold">
@@ -148,38 +145,32 @@
                 </td>
             </tr>
         </table>
-        </div>
+    </div>
 
 
-        @*TODO: disable if DirectorArtistAdmin.IsBusy*@
-        <button type="submit" class="general-button">Add</button>
-    </EditForm>
+    @*TODO: disable if DirectorArtistAdmin.IsBusy*@
+    <button type="submit" class="general-button">Add</button>
+</EditForm>
 
 
 @code {
-    BaseArtist artist = new();
+    readonly BaseArtist artist = new();
+
     protected override async Task OnInitializedAsync()
     {
-        DirectorArtistAdmin.PropertyChanged += async (sender, e) =>
-        {
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
-        };
-        //TODO: CLEAR PARAMETERS
+        DirectorArtistAdmin.PropertyChanged += async (sender, e) => { await InvokeAsync(StateHasChanged); };
+    //TODO: CLEAR PARAMETERS
         await base.OnInitializedAsync();
     }
+
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() =>
-        {
-            StateHasChanged();
-        });
+        await InvokeAsync(StateHasChanged);
     }
+
     public void Dispose()
     {
         DirectorArtistAdmin.PropertyChanged -= OnPropertyChangedHandler;
     }
-}
 
+}

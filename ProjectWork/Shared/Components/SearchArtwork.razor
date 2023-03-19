@@ -6,7 +6,7 @@
 <style>
     .b {
         border-radius: 8px;
-        border: 0px;
+        border: 0;
         background-color: #cc0000 !important;
         color: white;
         padding: 6px 10px;
@@ -20,7 +20,7 @@
     .b:hover {
         padding: 4px 8px;
         border-radius: 8px;
-        border: 0px;
+        border: 0;
         opacity: 0.60;
         background-color: #cc0000 !important;
         color: white;
@@ -42,7 +42,7 @@
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
                    value="@SearchField"
-                   @onchange="async e =>{ DirectorArtworkSearch.Parameters.SetPage(1); SearchField = (string)e.Value; DirectorArtworkSearch.Parameters.SetSearch(SearchField);}"/>
+                   @onchange="async e => await StringSearch((string)e.Value)"/>
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
             </span>
@@ -100,6 +100,13 @@
     private string SearchField { get; set; }
     private bool ShowAdvanced { get; set; } = false;
     private BaseArtwork BaseArtwork { get; set; } = new();
+
+    async Task StringSearch(string prompt)
+    {
+        DirectorArtworkSearch.Parameters.SetPage(1);
+        SearchField = prompt;
+        DirectorArtworkSearch.Parameters.SetSearch(SearchField);
+    }
 
     async Task DoSearch()
     {
