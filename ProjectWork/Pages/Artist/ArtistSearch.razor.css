@@ -1,16 +1,10 @@
 ﻿
 #search {
-    padding-top: 10px;
-    padding-right: 20px;
-    padding-bottom: 5px;
-    padding-left: 20px;
+    padding: 10px 20px 5px;
 }
 
 .button-padding {
-    padding-top: 0px;
-    padding-right: 16px;
-    padding-bottom: 0px;
-    padding-left: 16px;
+    padding: 0 16px;
 }
 
 .switch {
@@ -20,11 +14,11 @@
     height: 34px;
 }
 
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
 
 .slider {
     position: absolute;
@@ -38,17 +32,17 @@
     transition: .4s;
 }
 
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
 
 input:checked + .slider {
     background-color: #cc0000;
@@ -74,13 +68,11 @@ input:checked + .slider:before {
 img {
     display: block;
     max-width: 560px;
-    max-height: auto;
     width: auto;
     height: auto;
 }
 
 a:link, a:visited {
-    color: black;
     padding: 14px 25px;
     text-align: center;
     text-decoration: none;
@@ -90,16 +82,6 @@ a:link, a:visited {
 a:hover, a:active {
     color: red;
 }
-/*.. */
-/*td {
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-bottom: 8px;
-}
-
-p {
-    vertical-align: middle;
-}*/
 
 /*Hero*/
 

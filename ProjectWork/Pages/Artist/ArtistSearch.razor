@@ -1,6 +1,6 @@
 ﻿@page "/artist-search"
-@using System.ComponentModel
 @using ProjectWork.ViewModels.Artist
+@using System.ComponentModel
 @inject SearchArtistVM ArtistDirector
 @inject IJSRuntime JsRuntime
 
@@ -14,7 +14,7 @@
         </div>
         <SearchArtist></SearchArtist>
     </div>
-</section><!-- End Hero Section -->
+</section>
 <div>
     <PaginatorComponent Paginator="ArtistDirector.Paginator"></PaginatorComponent>
 </div>
@@ -22,16 +22,14 @@
     <div class="w3-center">
         @if (ArtistDirector.GenericData != null && ArtistDirector.GenericData.Data != null)
         {
-
             @foreach (var artist in ArtistDirector.GenericData.Data)
             {
                 <div class="w3-card-4 w3-margin-bottom w3-animate-right w3-round-large w3-white m-sm-2 m-lg-5 p-lg-3 p-sm-2">
-                    <a class="w3-xlarge w3-text-black" href="/detail-artist/@artist.Id">@artist.Name</a>
+                    <a class="w3-xlarge" href="/detail-artist/@artist.Id">@artist.Name</a>
                     <div class="d-flex flex-column flex-xl-row flex-lg-row flex-md-column flex-sm-column">
                         <div class="w3-col m6 w3-center w3-padding">
-                                <img class="w3-round w3-image w3-margin-bottom img-thumbnail" src="@artist.Portrait" alt="@artist.Name" />
+                            <img class="w3-round w3-image w3-margin-bottom img-thumbnail" src="@artist.Portrait" alt="@artist.Name"/>
                         </div>
-
                         <div class="portfolio-info w-100 w3-margin-left w3-margin-right">
                             <h3>Artist information</h3>
                             <table class="w-100 w3-margin-top px-lg-5 px-4">
@@ -92,7 +90,7 @@
         else
         {
             <div class="w3-padding-24 w3-round-large w3-opacity w3-margin-top">
-                <p class="middle">Could not connect to the Database, try again later.</p>
+                <p class="middle">No results were found from your search.</p>
             </div>
         }
     </div>
@@ -100,29 +98,21 @@
 
 @code {
 
-
     protected override async Task OnInitializedAsync()
     {
-        ArtistDirector.PropertyChanged += async (sender, e) =>
-        {
-            await InvokeAsync(() =>
-            {
-                StateHasChanged();
-            });
-        };
+        ArtistDirector.PropertyChanged += async (sender, e) => { await InvokeAsync(StateHasChanged); };
         await ArtistDirector.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
+
     async void OnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
     {
-        await InvokeAsync(() =>
-        {
-            StateHasChanged();
-        });
+        await InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()
     {
         ArtistDirector.PropertyChanged -= OnPropertyChangedHandler;
     }
+
 }
