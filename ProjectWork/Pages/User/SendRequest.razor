@@ -4,19 +4,16 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Text.Json.Serialization
 
-
 <style>
-
     ul {
         list-style-type: none;
     }
 </style>
 
+
 <div class="card w3-padding w-75 w3-margin-bottom w3-margin-top w3-hide-small">
     <h3 class="w3-margin-left">Send a request</h3>
-
-    <hr />
-
+    <hr/>
     <EditForm class="w3-margin-bottom w3-round" Model="_emailRequest" id="contact-form" role="form" OnValidSubmit="async () => await SendEmail(_emailRequest)">
         <ul>
             <li>
@@ -24,16 +21,18 @@
             </li>
             <li>
                 <InputSelect class="w3-margin-bottom w3-round w3-padding-16" id="form_need" @bind-Value="_emailRequest.Subject">
-                    <option class="w3-padding-32" selected="selected">Request a new artwork</option>
+                    <option class="w3-padding-32" selected="selected">...</option>
+                    <option class="w3-padding-32">Request a new artwork</option>
                     <option class="w3-padding-32">Request a new artist</option>
-                    <option class="w3-padding-32">Request an admin priviledges</option>
+                    <option class="w3-padding-32">Request admin priviledges</option>
+                    <option class="w3-padding-32">Report a bug</option>
                     <option class="w3-padding-32">Miscellaneous</option>
                 </InputSelect>
             </li>
             <li>
                 <p class="w3-bold">
                     Mark as important:
-                    <InputCheckbox class="w3-check" style="background-color:#cc0000" id="form_critical" @bind-Value="_emailRequest.Critical" />
+                    <InputCheckbox class="w3-check" style="background-color:#cc0000" id="form_critical" @bind-Value="_emailRequest.Critical"/>
                 </p>
             </li>
             <li>
@@ -42,47 +41,42 @@
             <li class="w3-margin-bottom ">
                 <InputTextArea id="form_message" name="message" class="form-control"
                                placeholder="Write your message here."
-                               rows="4" @bind-Value="_emailRequest.Content" />
+                               rows="4" @bind-Value="_emailRequest.Content"/>
             </li>
             <li class="w3-margin-top">
                 <input type="submit" class="general-button" value="Send Message">
             </li>
         </ul>
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
     </EditForm>
 </div>
+
 
 <div class="card w3-padding w3-margin-bottom w3-margin-top w3-hide-medium w3-hide-large">
     <h3 class="w3-margin-left">Send a request</h3>
 
-    <hr />
+    <hr/>
 
     <EditForm class="w3-margin-bottom w3-round" Model="_emailRequest" id="contact-form" role="form" OnValidSubmit="async () => await SendEmail(_emailRequest)">
-       
-                <p class="w3-bold">Subject:</p>
-          
-                <InputSelect class="w3-margin-bottom w3-round w3-padding-16" id="form_need" @bind-Value="_emailRequest.Subject">
-                    <option class="w3-padding-32" selected="selected">Request a new artwork</option>
-                    <option class="w3-padding-32">Request a new artist</option>
-                    <option class="w3-padding-32">Request an admin priviledges</option>
-                    <option class="w3-padding-32">Miscellaneous</option>
-                </InputSelect>
-          
-                <p class="w3-bold">
-                    Mark as important:
-                    <InputCheckbox class="w3-check" style="background-color:#cc0000" id="form_critical" @bind-Value="_emailRequest.Critical" />
-                </p>
-            
-                <p class="w3-bold w3-margin-top">Message:</p>
-
-                <InputTextArea id="form_message" name="message" class="form-control"
-                               placeholder="Write your message here."
-                               rows="4" @bind-Value="_emailRequest.Content" />
-
-                <input type="submit" class="general-button" value="Send Message">
-
+        <p class="w3-bold">Subject:</p>
+        <InputSelect class="w3-margin-bottom w3-round w3-padding-16" id="form_need" @bind-Value="_emailRequest.Subject">
+            <option class="w3-padding-32" selected="selected">...</option>
+            <option class="w3-padding-32">Request a new artwork</option>
+            <option class="w3-padding-32">Request a new artist</option>
+            <option class="w3-padding-32">Request admin priviledges</option>
+            <option class="w3-padding-32">Report a bug</option>
+            <option class="w3-padding-32">Miscellaneous</option>
+        </InputSelect>
+        <p class="w3-bold">
+            Mark as important:
+            <InputCheckbox class="w3-check" style="background-color:#cc0000" id="form_critical" @bind-Value="_emailRequest.Critical"/>
+        </p>
+        <p class="w3-bold w3-margin-top">Message:</p>
+        <InputTextArea id="form_message" name="message" class="form-control"
+                       placeholder="Write your message here."
+                       rows="4" @bind-Value="_emailRequest.Content"/>
+        <input type="submit" class="general-button" value="Send Message">
     </EditForm>
 </div>
 
@@ -90,23 +84,27 @@
 @code {
     readonly EmailInput _emailRequest = new();
 
-    private async Task SendEmail(EmailInput emailRequest)
+    private static async Task SendEmail(EmailInput emailRequest)
     {
-        var attempt = await App.Authentication.SendRequest(new EmailRequest
+        try
+        {
+            if (emailRequest.Subject == "...") throw new Exception("Please insert a valid subject");
+            var attempt = await App.Authentication.SendRequest(new EmailRequest
             {
                 Content = emailRequest.Content,
                 Critical = emailRequest.Critical,
                 FromUser = App.Authentication.UserSession.User.Id,
                 Subject = emailRequest.Subject
             }, Endpoints.GetRequestsPath()
-            );
-        if (attempt.status)
-        {
-            await UtilityToolkit.CreateToast("A email was sent");
+                );
+            if (attempt.status)
+            {
+                await UtilityToolkit.CreateToast("A email was sent");
+            }
         }
-        else
+        catch (Exception exception)
         {
-            await UtilityToolkit.CreateToast(attempt.message);
+            await UtilityToolkit.CreateToast("Error during sending an email: " + exception.Message);
         }
     }
 
