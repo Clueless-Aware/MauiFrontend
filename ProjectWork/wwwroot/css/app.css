@@ -4,27 +4,6 @@ ul {
     list-style: none;
 }
 
-a:link:not(nav-link){
-    color: #CC0000;
-}
-
-/* visited link */
-a:visited:not(nav-link) {
-    color: darkred;
-    font-style: italic;
-    text-decoration: underline;
-}
-
-/* mouse over link */
-a:hover:not(nav-link) {
-    color: red;
-}
-
-/* selected link */
-a:active:not(nav-link) {
-    color: #CC0000;
-}
-
  span {
     vertical-align: middle;
 }
