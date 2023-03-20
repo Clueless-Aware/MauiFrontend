@@ -67,12 +67,12 @@
             @*Account/admin*@
                 <div class="mt-auto">
                     <div class="nav-item px-3">
-                        <NavLink class="nav-link w3-padding-16" href="accountDetails">
+                        <a class="nav-link w3-padding-16">
                             <img src="@App.Authentication.UserSession.User?.ProfilePicture" alt="" width="32" height="32" class="rounded-circle me-2">
                             <strong>
                                 @App.Authentication.UserSession.User.Username
                             </strong>
-                        </NavLink>
+                        </a>
                     </div>
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="/" Match="NavLinkMatch.All" @onclick="LogOut">
