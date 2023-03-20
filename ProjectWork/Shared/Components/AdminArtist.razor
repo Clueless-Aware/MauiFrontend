@@ -12,18 +12,18 @@
     }
 </style>
 
-<div class="card w3-animate-right w3-round-large w3-white w3-margin-bottom w3-center ">
+<div class="card w3-animate-right w3-round-large w3-white w3-margin-bottom w3-center">
     <div class="w3-center">
         <p class="w3-xxlarge w3-margin-top">
             @Artist.Name
         </p>
 
         <div class="w3-row">
-            <div class="w3-col m6 w3-center w3-padding-large">
+            <div class="w3-col m6 w3-center w3-padding-16">
                 <p>
                     <b><i class="w3-margin-right"></i>Photo</b>
                 </p><br>
-                <img src="@Artist.Portrait" class="imageResult w3-margin-right" alt="@Artist.Name" />
+                <img style="display: inline-block;" src="@Artist.Portrait" class="imageResult" alt="@Artist.Name" />
             </div>
 
             <div class="w3-col m6 w3-padding-large w3-left-align">
@@ -42,7 +42,10 @@
             </div>
         </div>
     </div>
-    <button class="general-button w-25" @onclick="Toggle">Edit</button>
+
+    <div class="w3-center">
+        <button class="general-button" @onclick="Toggle">Edit</button>
+    </div>
 
 
     @if (_showEdit)
