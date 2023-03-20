@@ -2,13 +2,7 @@
 @using ProjectWork.Models.Core.User
 @inject NavigationManager NavManager
 
-<style>
-    ul {
-        list-style: none;
-    }
-</style>
-
-<div class="card w3-padding w-50">
+<div class="card w3-padding w-50 w3-hide-small">
     <h3 class="w3-margin-left">User Profile</h3>
     <hr />
 
@@ -102,6 +96,103 @@
         </button>
     </span>
 </div>
+
+<div class="card w3-padding w3-hide-large w3-hide-medium">
+    <h3 class="w3-margin-left">User Profile</h3>
+    <hr />
+
+    <div class="container">
+        <div class="row">
+            <!--left-->
+            <div class="col">
+                <ul class="w3-margin-top" style="line-height:200%">
+                    <li>
+                        <p>
+                            <span class="material-symbols-outlined">
+                                sell
+                            </span>
+                            Username: @_user.Username
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="material-symbols-outlined">
+                                mail
+                            </span>
+                            E-Mail: @_user.Email
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="material-symbols-outlined">
+                                badge
+                            </span>
+                            First Name: @_user.FirstName
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="material-symbols-outlined">
+                                badge
+                            </span>
+                            Last Name: @_user.LastName
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span class="material-symbols-outlined">
+                                calendar_month
+                            </span>
+                            Joined on: @_user.DateJoined
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            @if (_user.IsStaff)
+                            {
+                                <div>
+                                    <span class="material-symbols-outlined">
+                                        admin_panel_settings
+                                    </span>
+                                    Type of access: <span class="w3-text-red">Staff</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <span class="material-symbols-outlined">
+                                        admin_panel_settings
+                                    </span>
+                                    Type of access: <span class="w3-text-amber">Normal</span>
+                                </div>
+                            }
+                        </p>
+                    </li>
+
+                </ul>
+            </div>
+            <!--right-->
+            <div class="col">
+                <img class="w3-round-large w3-margin-bottom" src="@_user.ProfilePicture" alt="Profile Picture" style="width: 270px; height: auto;" />
+            </div>
+        </div>
+        <div class="row">
+            <p>
+                <span class="material-symbols-outlined">
+                    badge
+                </span>
+                Bio:<br /> @_user.Biography
+            </p>
+        </div>
+    </div>
+    <hr />
+    <span>
+        <button onclick="@edit_Account" class="general-button">
+            Edit
+        </button>
+    </span>
+</div>
+
 
 @code {
 

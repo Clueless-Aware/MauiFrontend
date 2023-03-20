@@ -23,9 +23,10 @@
         {
             @foreach (var artist in ArtistDirector.GenericData.Data)
             {
-                <div class="card w3-margin-bottom w3-animate-right w3-center w3-padding-32">
-                    <a class="w3-xlarge w3-text-black w3-hover-opacity" href="/detail-artist/@artist.Id">@artist.Name</a>
-                    <img class="w3-round w3-image w3-margin-bottom img-thumbnail" src="@artist.Portrait" alt="@artist.Name" style="display: inline-block; align-content:center;"/>
+                <div class="card w3-margin-bottom w3-bold w3-center w3-padding-32">
+                    <a class="w3-xxlarge w3-text-black w3-hover-opacity w3-center w-100" href="/detail-artist/@artist.Id">@artist.Name</a>
+                    <img class="w3-round w3-image w3-margin-bottom img-thumbnail" 
+                    src="@artist.Portrait" alt="@artist.Name" style="display: inline-block; align-content:center;"/>
                     <div class="portfolio-info w3-margin-left w3-margin-right">
                         <h3>Artist information</h3>
                         <table class="w-100 w3-margin-top px-lg-5 px-4">
