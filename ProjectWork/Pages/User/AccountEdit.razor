@@ -8,8 +8,15 @@
     <hr />
     <EditForm Model="_editUser" OnValidSubmit="async () => await AttemptEdit(_editUser)">
         <div class="container">
-            <div class="row">
-                <!--left-->
+            <div class="row ">
+                <div class="w3-center">
+                    <img class="w3-round-large"
+                         src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture"
+                         style="width: 270px; height: auto; display: inline-block;" />
+                    <InputFile id="idProfilePicture" class="form-control w3-margin-top" OnChange="e => _editUser.ProfilePicture = e.File" />
+                </div>
+                   
+                </div>
                 <div class="col">
                     <ul class="w3-margin-top" style="line-height:200%">
                         <li>
@@ -63,15 +70,6 @@
                     </ul>
                 </div>
                 <!--right-->
-                <div class="col">
-                    <div class="row">
-                        <img class ="w3-round-large"
-                            src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture" 
-                            style="width: 270px; height: auto;" />
-                        <InputFile id="idProfilePicture" class="form-control w3-margin-top" OnChange="e => _editUser.ProfilePicture = e.File" />
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <p>
                     <label>
