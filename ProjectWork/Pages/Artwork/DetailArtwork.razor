@@ -2,8 +2,8 @@
 @using ProjectWork.ViewModels.Artwork
 @using ProjectWork.Models.Core
 @using ProjectWork.Services.Core.OpenAI
-@using ProjectWork.Utilities
 @using ProjectWork.Models.Artwork
+@using ProjectWork.Utilities
 
 @inject SearchArtworkViewModel ArtworkDirector
 @inject IJSRuntime JsRuntime
@@ -70,96 +70,95 @@
                 </div>
                 <!-- End Bookmark section -->
                 <hr/>
-                
-                    @if (_artwork.Description.Length > 0)
-                    {
-                        <div class="col-lg-8">
-                            <div class="portfolio-description">
-                                <h2>Description</h2>
-                                <div style="text-align: justify; text-justify: inter-word">
-                                    @foreach (var paragraph in _artwork.Description.Split('\n'))
-                                    {
-                                        @paragraph
-                                        <br/>
-                                    }
-                                </div>
+                @if (_artwork.Description.Length > 0)
+                {
+                    <div class="col-lg-8">
+                        <div class="portfolio-description">
+                            <h2>Description</h2>
+                            <div style="text-align: justify; text-justify: inter-word">
+                                @foreach (var paragraph in _artwork.Description.Split('\n'))
+                                {
+                                    @paragraph
+                                    <br/>
+                                }
                             </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @if (!_hideButton)
+                    {
+                        <div class="w3-center w3-margin-top">
+                            @if (_isLoading)
+                            {
+                                <div class="w3-center">
+                                    <div class="lds-ring">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="w3-margin-bottom">
+                                    Descriptions is missing...
+                                </p>
+                                <button class="general-button" @onclick="async () => await AskChatGpt()">
+                                    Ask ChatGPT about this.
+                                    <span class="material-symbols-outlined">
+                                        temp_preferences_custom
+                                    </span>
+                                </button>
+                            }
                         </div>
                     }
                     else
                     {
-                        @if (!_hideButton)
-                        {
-                            <div class="w3-center w3-margin-top">
-                                @if (_isLoading)
-                                {
-                                    <div class="w3-center">
-                                        <div class="lds-ring">
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <p class="w3-margin-bottom">
-                                        Descriptions is missing...
-                                    </p>
-                                    <button class="general-button" @onclick="async () => await AskChatGpt()">
-                                        Ask ChatGPT about this.
-                                        <span class="material-symbols-outlined">
-                                            temp_preferences_custom
-                                        </span>
-                                    </button>
-                                }
-                            </div>
-                        }
-                        else
-                        {
-                            <p class="w3-text">@_description</p>
-                        }
+                        <p class="w3-text">@_description</p>
                     }
-                    <div class="col-lg-4">
-                        <div class="portfolio-info">
-                            <h3>Artwork information</h3>
-                            <ul>
-                                <li>
-                                    <strong>
-                                        Author
-                                    </strong>
-                                    <a href="/detail-artist/@_artwork.AuthorId">
-                                        <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Author)</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <strong>Date</strong> <span>@_artwork.Date</span>
-                                </li>
-                                <li>
-                                    <strong>Technique</strong> <span>@_artwork.Technique</span>
-                                </li>
-                                <li>
-                                    <strong>Location</strong>
-                                    <span>
-                                        <a href="" @onclick="OpenLocationInMaps" @onclick:preventDefault>@_artwork.Location</a>
-                                    </span>
-                                </li>
-                                <li>
-                                    <strong>Form of art</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Form)</span>
-                                </li>
-                                <li>
-                                    <strong>Type</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Type)</span>
-                                </li>
-                                <li>
-                                    <strong>Time Frame</strong> <span>@_artwork.TimeFrame</span>
-                                </li>
-                            </ul>
-                        </div>
+                }
+                <div class="col-lg-4">
+                    <div class="portfolio-info">
+                        <h3>Artwork information</h3>
+                        <ul>
+                            <li>
+                                <strong>
+                                    Author
+                                </strong>
+                                <a href="/detail-artist/@_artwork.AuthorId">
+                                    <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Author)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <strong>Date</strong> <span>@_artwork.Date</span>
+                            </li>
+                            <li>
+                                <strong>Technique</strong> <span>@_artwork.Technique</span>
+                            </li>
+                            <li>
+                                <strong>Location</strong>
+                                <span>
+                                    <a href="" @onclick="OpenLocationInMaps" @onclick:preventDefault>@_artwork.Location</a>
+                                </span>
+                            </li>
+                            <li>
+                                <strong>Form of art</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Form)</span>
+                            </li>
+                            <li>
+                                <strong>Type</strong> <span>@Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(_artwork.Type)</span>
+                            </li>
+                            <li>
+                                <strong>Time Frame</strong> <span>@_artwork.TimeFrame</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+            </div>
         </section>
-        @if (RelatedArtworks is not null && RelatedArtworks.Data.Any())
+        @if (RelatedArtworks is not null && RelatedArtworks.Data.Count() > 1)
         {
             <h1 class="display-5">Related artworks</h1>
             <!-- ======= Gallery Section ======= -->
