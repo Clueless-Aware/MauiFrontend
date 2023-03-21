@@ -5,7 +5,7 @@ using ProjectWork.Utilities;
 
 namespace ProjectWork.ViewModels.Admin;
 
-public class RequestsVirtualMachine : BaseViewModel<RequestModel>
+public class RequestsViewModel : BaseViewModel<RequestModel>
 {
     private readonly ServiceAPI _requestsService =
         new(Endpoints.GetRequestsEndpoint());

@@ -2,7 +2,7 @@
 @using ProjectWork.ViewModels.Admin
 @using ProjectWork.Models.Requests
 @using ProjectWork.Utilities
-@inject RequestsVirtualMachine RequestsVirtualMachine
+@inject RequestsViewModel RequestsViewModel
 @layout AdminLayout
 
 <style>
@@ -47,7 +47,7 @@
 </label>
 
 <div class="scrollmenu">
-    @if (RequestsVirtualMachine.GenericData.Data.Any(request => !request.IsCompleted))
+    @if (RequestsViewModel.GenericData.Data.Any(request => !request.IsCompleted))
     {
         <table class="table table-sm table-group-divider table-hover">
             <thead style="background-color: #cc0000;">
@@ -62,7 +62,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var request in RequestsVirtualMachine.GenericData.Data.Where(request => !request.IsCompleted))
+            @foreach (var request in RequestsViewModel.GenericData.Data.Where(request => !request.IsCompleted))
             {
                 @if (request.IsSeen != true || ShowReviewed)
                 {
@@ -100,7 +100,7 @@
 <h2>Archived requests</h2>
 <hr/>
 
-@if (RequestsVirtualMachine.GenericData.Data.Any(request => request.IsCompleted))
+@if (RequestsViewModel.GenericData.Data.Any(request => request.IsCompleted))
 {
     <div class="scrollmenu w-100">
         <table id="fixed" class="table table-sm table-group-divider table-hover">
@@ -116,7 +116,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var request in RequestsVirtualMachine.GenericData.Data.Where(request => request.IsCompleted))
+            @foreach (var request in RequestsViewModel.GenericData.Data.Where(request => request.IsCompleted))
             {
                 <tr class="table-secondary">
                     <td scope="row">@request.Id</td>
@@ -149,7 +149,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await RequestsVirtualMachine.GetGenericDataFromPageAsync();
+        await RequestsViewModel.GetGenericDataFromPageAsync();
         await base.OnInitializedAsync();
     }
 
@@ -162,7 +162,7 @@ else
     private async Task UpdateRequestToSeen(RequestModel request)
     {
         request.IsSeen = !request.IsSeen;
-        await RequestsVirtualMachine.UpdateItemAsync(request);
+        await RequestsViewModel.UpdateItemAsync(request);
         StateHasChanged();
     }
 
@@ -176,7 +176,7 @@ else
         }
         request.IsCompleted = true;
 
-        await RequestsVirtualMachine.UpdateItemAsync(request);
+        await RequestsViewModel.UpdateItemAsync(request);
         StateHasChanged();
     }
 
@@ -185,7 +185,7 @@ else
         request.IsCompleted = false;
         request.IsSeen = false;
 
-        await RequestsVirtualMachine.UpdateItemAsync(request);
+        await RequestsViewModel.UpdateItemAsync(request);
         StateHasChanged();
     }
 

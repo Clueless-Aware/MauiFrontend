@@ -39,7 +39,7 @@ public static class MauiProgram
                 FileName = "profile_picture"
             })));
 
-        builder.Services.AddScoped<RequestsVirtualMachine>();
+        builder.Services.AddScoped<RequestsViewModel>();
 
         builder.Services.AddScoped<SearchArtworkViewModel>();
         builder.Services.AddScoped<DashboardAdminArtworkVM>();
