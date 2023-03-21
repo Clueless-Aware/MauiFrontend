@@ -41,8 +41,12 @@ public interface IUploadArtwork : IArtWorkBase
     public IBrowserFile File { get; set; }
 }
 
-public class BaseArtwork : IArtWorkBase, IUploadArtwork, IDownloadArtwork
+public class BaseArtwork : IUploadArtwork, IDownloadArtwork
 {
+    [JsonPropertyName("id")] public int Id { get; set; }
+
+    [JsonPropertyName("image_url")] public string ImageUrl { get; set; }
+
     [JsonPropertyName("author")]
     [Required]
     public string Author { get; set; }
@@ -51,9 +55,9 @@ public class BaseArtwork : IArtWorkBase, IUploadArtwork, IDownloadArtwork
     [Required]
     public int AuthorId { get; set; }
 
-    [JsonPropertyName("title")][Required] public string Title { get; set; }
+    [JsonPropertyName("title")] [Required] public string Title { get; set; }
 
-    [JsonPropertyName("date")][Required] public string Date { get; set; }
+    [JsonPropertyName("date")] [Required] public string Date { get; set; }
 
     [JsonPropertyName("technique")]
     [Required]
@@ -63,20 +67,15 @@ public class BaseArtwork : IArtWorkBase, IUploadArtwork, IDownloadArtwork
     [Required]
     public string Location { get; set; }
 
-    [JsonPropertyName("form")][Required] public string Form { get; set; }
+    [JsonPropertyName("form")] [Required] public string Form { get; set; }
 
-    [JsonPropertyName("type")][Required] public string Type { get; set; }
+    [JsonPropertyName("type")] [Required] public string Type { get; set; }
 
     [Required]
-    [JsonPropertyName("timeframe")] public string TimeFrame { get; set; }
+    [JsonPropertyName("timeframe")]
+    public string TimeFrame { get; set; }
 
-    [JsonPropertyName("description")]
-    [Required]
-    public string Description { get; set; }
-
-    [JsonPropertyName("id")] public int Id { get; set; }
-
-    [JsonPropertyName("image_url")] public string ImageUrl { get; set; }
+    [JsonPropertyName("description")] public string Description { get; set; }
 
     [JsonPropertyName("file")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]

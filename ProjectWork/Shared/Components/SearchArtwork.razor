@@ -118,7 +118,7 @@
     private async Task CheckboxChanged(ChangeEventArgs e)
     {
         var b = (bool)e.Value;
-        DirectorArtworkSearch.Parameters.SetOrdering(b ? "id" : "-id");
+        DirectorArtworkSearch.Parameters.SetOrdering(b ? "author" : "-author");
         await DoSearch();
     }
 
