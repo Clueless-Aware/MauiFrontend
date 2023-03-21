@@ -115,6 +115,7 @@ public class SearchArtworkViewModel : BaseViewModel<BaseArtwork>
     {
         try
         {
+            _artworkService.UriBuilder.Query = "";
             _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath() + artworkId + '/';
             var artwork = await _artworkService.GetDetailObject<BaseArtwork>();
             _artworkService.UriBuilder.Path = Endpoints.GetArtworkPath();
