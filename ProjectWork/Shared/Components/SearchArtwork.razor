@@ -42,7 +42,7 @@
             <input id="searchBar" type="search"
                    class="w3-padding w3-round-large w3-margin-bottom w3-margin-right w-100" step="any"
                    value="@SearchField"
-                   @onchange="async e => await StringSearch((string)e.Value)"/>
+                   @onchange="e => StringSearch((string)e.Value)"/>
             <span class="material-symbols-outlined middle w3-xxlarge">
                 low_priority
             </span>
@@ -101,7 +101,7 @@
     private bool ShowAdvanced { get; set; } = false;
     private BaseArtwork BaseArtwork { get; set; } = new();
 
-    async Task StringSearch(string prompt)
+    void StringSearch(string prompt)
     {
         DirectorArtworkSearch.Parameters.SetPage(1);
         SearchField = prompt;
@@ -118,7 +118,7 @@
     private async Task CheckboxChanged(ChangeEventArgs e)
     {
         var b = (bool)e.Value;
-        DirectorArtworkSearch.Parameters.SetOrdering(b ? "author" : "-author");
+        DirectorArtworkSearch.Parameters.SetOrdering(b ? "title" : "-title");
         await DoSearch();
     }
 

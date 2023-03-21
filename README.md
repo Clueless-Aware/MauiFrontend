@@ -1,6 +1,11 @@
 
 # Maui FrontEnd
 
+This repo hosts our project that we completed in 2023.
+
+The app allows the user to freely browse a catalogue of more than 50thousands artworks
+from all over Europe. The backend for this app is modeled to work with these [APIs.](https://github.com/Clueless-Aware/BackendAPI)
+
 ## Project tree structure
 ```
 ProjectWork
@@ -11,7 +16,7 @@ ProjectWork
     ├───Pages # Blazor pages
     ├───Platforms # Maui code for specific platforms
     ├───Resources # Static files for icons
-    ├───Services # Services that handle the HTPP request to our apis
+    ├───Services # Services that handle the HTPP request to our APIs
     ├───Shared # Blazor components that we reuse multipel times
     ├───Utilities # Utilities for the entire project
     └───ViewModels # Classes for mofiying/gathering data for/from views
@@ -42,3 +47,11 @@ running but most likely it's down...
 
 Anyhow the url of the backend is already present so you
 don't need to change anything
+
+
+## Authors
+
+- [@RevenBot](https://github.com/RevenBot)
+- [@systemaW](https://github.com/systemaW)
+- [@Shinigami](https://github.com/Shinigami584)
+- [@Aiuola](https://github.com/Aiuola)

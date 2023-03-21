@@ -5,71 +5,70 @@
 
 <div class="card w3-padding w3-hide-large w3-hide-medium">
     <h3 class="w3-margin-left">Edit Profile</h3>
-    <hr />
+    <hr/>
     <EditForm Model="_editUser" OnValidSubmit="async () => await AttemptEdit(_editUser)">
         <div class="container">
             <div class="row ">
                 <div class="w3-center">
                     <img class="w3-round-large"
                          src="@App.Authentication.UserSession.User.ProfilePicture" alt="profile picture"
-                         style="width: 270px; height: auto; display: inline-block;" />
-                    <InputFile id="idProfilePicture" class="form-control w3-margin-top" OnChange="e => _editUser.ProfilePicture = e.File" />
+                         style="width: 270px; height: auto; display: inline-block;"/>
+                    <InputFile id="idProfilePicture" class="form-control w3-margin-top" OnChange="e => _editUser.ProfilePicture = e.File"/>
                 </div>
-                   
-                </div>
-                <div class="col">
-                    <ul class="w3-margin-top" style="line-height:200%">
-                        <li>
-                            <p>
-                                <label>
-                                    <span class="material-symbols-outlined">
-                                        sell
-                                    </span>
-                                    Username
-                                </label>
-                                <input @bind-value="_editUser.UserName" placeholder="@App.Authentication.UserSession.User.Username"
-                                       class="w3-round w3-margin-right w-100 w3-margin-bottom" type="text">
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <label>
-                                    <span class="material-symbols-outlined">
-                                        mail
-                                    </span>
-                                    E-Mail
-                                </label>
-                                <input @bind-value="_editUser.Email" placeholder="@App.Authentication.UserSession.User.Email"
-                                       class="w3-round w3-margin-right w-100 w3-margin-bottom" type="text">
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <label>
-                                    <span class="material-symbols-outlined">
-                                        badge
-                                    </span>
-                                    First Name (Optional)
-                                </label>
-                                <input @bind-value="_editUser.FirstName" placeholder="@App.Authentication.UserSession.User.FirstName"
-                                       class="w3-round w3-margin-right w-100 w3-margin-bottom" type="text">
-                            </p>
-                        </li>
-                        <li>
-                            <p>
-                                <label>
-                                    <span class="material-symbols-outlined">
-                                        badge
-                                    </span>
-                                    Last Name (Optional)
-                                </label>
-                                <input @bind-value="_editUser.LastName" placeholder="@App.Authentication.UserSession.User.LastName"
-                                       class="w3-round w3-margin-right w-100 w3-margin-bottom" type="text">
-                            </p>
-                        </li>
-                    </ul>
-                </div>
-                <!--right-->
+            </div>
+            <div class="col">
+                <ul class="w3-margin-top" style="line-height:200%">
+                    <li>
+                        <p>
+                            <label>
+                                <span class="material-symbols-outlined">
+                                    sell
+                                </span>
+                                Username
+                            </label>
+                            <input @bind-value="_editUser.UserName" placeholder="@App.Authentication.UserSession.User.Username"
+                                   class="w3-round w3-margin-right w-100 w3-margin-bottom" type="text">
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <label>
+                                <span class="material-symbols-outlined">
+                                    mail
+                                </span>
+                                E-Mail
+                            </label>
+                            <input @bind-value="_editUser.Email" placeholder="@App.Authentication.UserSession.User.Email"
+                                   class="w3-round w3-margin-right w-100 w3-margin-bottom" type="text">
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <label>
+                                <span class="material-symbols-outlined">
+                                    badge
+                                </span>
+                                First Name (Optional)
+                            </label>
+                            <input @bind-value="_editUser.FirstName" placeholder="@App.Authentication.UserSession.User.FirstName"
+                                   class="w3-round w3-margin-right w-100 w3-margin-bottom" type="text">
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <label>
+                                <span class="material-symbols-outlined">
+                                    badge
+                                </span>
+                                Last Name (Optional)
+                            </label>
+                            <input @bind-value="_editUser.LastName" placeholder="@App.Authentication.UserSession.User.LastName"
+                                   class="w3-round w3-margin-right w-100 w3-margin-bottom" type="text">
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <!--right-->
             <div class="row">
                 <p>
                     <label>
@@ -78,13 +77,12 @@
                         </span>
                         Bio
                     </label>
-                    <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="_editUser.Biography" />
+                    <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="_editUser.Biography"/>
                 </p>
             </div>
-
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <hr />
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <hr/>
             <button class="general-button" type="submit">Apply</button>
         </div>
     </EditForm>
@@ -92,7 +90,7 @@
 
 <div class="card w3-padding w-50 w3-hide-small">
     <h3 class="w3-margin-left">Edit Profile</h3>
-    <hr />
+    <hr/>
     <EditForm Model="_editUser" OnValidSubmit="async () => await AttemptEdit(_editUser)">
         <div class="container">
             <div class="row">
@@ -152,10 +150,10 @@
                 <!--right-->
                 <div class="col">
                     <div class="row">
-                        <img src="@App.Authentication.UserSession.User.ProfilePicture" 
-                        alt="profile picture" style="width: 270px; height: auto; border-radius: 8px !important;" 
-                        class="w3-round-large" />
-                        <InputFile id="idProfilePicture" class="form-control w3-margin-top" OnChange="e => _editUser.ProfilePicture = e.File" />
+                        <img src="@App.Authentication.UserSession.User.ProfilePicture"
+                             alt="profile picture" style="width: 270px; height: auto; border-radius: 8px !important;"
+                             class="w3-round-large"/>
+                        <InputFile id="idProfilePicture" class="form-control w3-margin-top" OnChange="e => _editUser.ProfilePicture = e.File"/>
                     </div>
                 </div>
             </div>
@@ -167,13 +165,12 @@
                         </span>
                         Bio
                     </label>
-                    <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="_editUser.Biography" />
+                    <InputTextArea class="w-100 w3-round" rows="4" @bind-Value="_editUser.Biography"/>
                 </p>
             </div>
-
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <hr />
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <hr/>
             <button class="general-button" type="submit">Apply</button>
         </div>
     </EditForm>
