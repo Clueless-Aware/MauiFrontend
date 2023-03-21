@@ -1,54 +1,44 @@
 
 # Maui FrontEnd
 
-
-## Roadmap
-
-- [Tree structure] (https://github.com/ProjectWorkITS2022/MauiFrontend#tree-structure)
-
-
-
-## Tree structure 
-
-```python
-ProjectWork
-    ├───bin
-    ├───Components #create here your shared components
-    ├───Data
-    │   ├───Services #create here your services for viewmodels
-    │   │      └─── YourService.cs # inheritance from Service<YourModel>
-    │   └───ViewModels #create here your model management
-    │          └─── YourViewModels.cs # inheritance from ObservableRecipient , IViewModel<YourModel>
-    ├───Models #create here your models
-    │      └─── YourModel.cs # Uses [JsonPropertyName("field")]
-    ├───obj
-    ├───Pages #create here your pages (routing)
-    ├───Properties
-    ├───Resources
-    ├───Shared #shared between the pages
-    ├───Utilities # Utilities for the entire project
-    └───wwwroot
+## Project tree structure
 ```
-## Deployment with backend
+ProjectWork
+    ├───Properties
+    ├───wwwroot # Here is were static files reside (css, backrounds...)
+    ├───Models # Classes that represent a DB entity
+    │      └─── YourModel.cs # Use [JsonPropertyName("field")]
+    ├───Pages # Blazor pages
+    ├───Platforms # Maui code for specific platforms
+    ├───Resources # Static files for icons
+    ├───Services # Services that handle the HTPP request to our apis
+    ├───Shared # Blazor components that we reuse multipel times
+    ├───Utilities # Utilities for the entire project
+    └───ViewModels # Classes for mofiying/gathering data for/from views
+```
+## Running with local backend
 
-#### Running in local network
+For running locally check out the backend repo at:
 - [Backend Docker](https://github.com/Clueless-Aware/BackendAPI)
 
-
-
-
-#### Usage
-
+Then you will have do modify a couple of files:
 - in wwwroot/index.html
-
 
 ```html
 <!--set the local ip of your host, to avoid the https conversion-->
 <meta http-equiv="Content-Security-Policy" content="img-src https: http://192.168.1.1:80/" />
 ```
 
-- in Resources/Static/Endpoints.cs
+- in Utilities/Endpoints.cs
 ```csharp
 //Set the ip of your local host
 private static readonly string _url = "http://192.168.1.1:80";
 ```
+
+## Running without local backend
+
+If you are lucky then our server might still be 
+running but most likely it's down...
+
+Anyhow the url of the backend is already present so you
+don't need to change anything

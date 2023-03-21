@@ -41,9 +41,14 @@ public class HeadersBuilder : IHeadersBuilder
         }
 
         if (await CheckRefreshToken(tokenResponse))
+        {
             await UpdateNewToken(tokenResponse, inMemory);
+        }
         else
-            throw new Exception("Session timeout - return(out) it");
+        {
+            return;
+            throw new Exception("Session timeout - reburn(out) it");
+        }
     }
 
     public void AddMediaTypeJson()
